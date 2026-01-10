@@ -3,48 +3,156 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  
+  --surface-app: hsl(210, 33%, 97%);
+  --foreground-app: hsl(220, 25%, 12%);
+  --color-foreground-hover: hsl(215, 16%, 47%);
+  --shadow-card: 8px 8px 20px rgba(0, 0, 0, 0.2);
+
+  --color-primary: hsl(229, 100%, 13%);
+  --color-secondary: hsl(208, 7%, 63%);
+  --color-success: hsl(145, 60%, 40%);
+  --color-warning: hsl(45, 90%, 50%);
+  --color-danger: hsl(0, 80%, 55%);
+  --color-info: hsl(200, 70%, 45%);
+
+
   --color-level-1: #2d469b;
   --color-level-2: #222859;
   --color-level-3: #181d49;
-  --color-blue: #3719ca;
-  --color-torquoise: #007ebb;
-  --color-heavy-blue: #000D44;
+  --color-level-4: #000D44;
+  --color-level-5: #4896b4;
+  --color-level-6: #ffbd59;
+  --color-level-7: #db4444;
+
+  /**
+   * Sidebar Button and Group Variables
+   * ----------------------------------
+   * These CSS variables control the colors, gradients, text, and icons for
+   * the sidebar buttons and groups, including hover and active states.
+   */
+  --sidebar-button-bg: linear-gradient(to right, hsl(222, 77%, 45%), hsl(248, 61%, 53%));
+  --sidebar-border: hsl(0, 0%, 92.2%);
+  --sidebar-button-bg-hover: hsl(210, 100%, 4%);
+  --sidebar-button-text: hsl(0, 0%, 100%);
+  --sidebar-button-hover-active: hsl(0, 0%, 100%);
+  --sidebar-button-icon: hsl(210, 19%, 66%);
+
+  --sidebar-group-bg: hsla(220, 90%, 61%, 0.2);
+  --sidebar-group-bg-h: hsl(210, 28%, 27%);
+  --sidebar-group-text: hsl(229, 100%, 13%);
+  --sidebar-group-text-active: hsl(210, 19%, 66%);
+  --sidebar-group-border: hsl(210, 95%, 64%);
+  --sidebar-group-hover: hsl(0, 0%, 100%);
+
+  --sidebar-group-icon-active: hsl(210, 19%, 66%);
+
+  --sidebar-dropdown-bg: #fff;
+
+  --loading-base:hsl(220, 14%, 90%);
+
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface-app: var(--surface-app);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-nunito-sans);
   --font-mono: var(--font-geist-mono);
   --font-montserrat: var(--font-montserrat);
-  
-  --color-level-1: #2d469b;
-  --color-level-2: #222859;
-  --color-level-3: #181d49;
-  --color-blue: #3719ca;
-  --color-torquoise: #007ebb;
-  --color-heavy-blue: #000D44;
-  --color-heavy-blue2: #0b1731;
-} 
+  --shadow-card: var(--shadow-card);
+
+  --color-primary: var(--color-primary);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-danger: var(--color-danger);
+  --color-info: var(--color-info);
+  --color-foreground-hover: var(--foreground-hover) --color-level-1: var(--color-level-1);
+  --color-level-2: var(--color-level-2);
+  --color-level-3: var(--color-level-3);
+  --color-level-4: var(--color-level-4);
+  --color-level-5: var(--color-level-5);
+  --color-level-6: var(--color-level-6);
+  --color-level-7: var(--color-level-7);
+  --color-level-8: var(--color-level-8);
+
+  /**
+   * Sidebar Button and Group Variables
+   * ----------------------------------
+   * These CSS variables control the colors, gradients, text, and icons for
+   * the sidebar buttons and groups, including hover and active states.
+   */
+  --color-sidebar-button-bg: var(--color-sidebar-button-bg);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-button-bg-hover: var(--sidebar-button-bg-hover);
+  --color-sidebar-button-text: var(--sidebar-button-text);
+  --color-sidebar-button-hover-active: var(--sidebar-button-hover-active);
+  --color-sidebar-button-icon: var(--sidebar-button-icon);
+
+  --color-sidebar-group-bg: var(--sidebar-group-bg);
+  --color-sidebar-group-bg-h: var(--sidebar-group-bg-h);
+  --color-sidebar-group-text: var(--sidebar-group-text);
+  --color-sidebar-group-text-active: var(--sidebar-group-text-active);
+  --color-sidebar-group-border: var(--sidebar-group-border);
+  --color-sidebar-group-hover: var(--sidebar-group-hover);
+  --color-sidebar-group-icon-active: var(--sidebar-group-icon-active);
+
+  --color-sidebar-dropdown-bg: var(--sidebar-dropdown-bg);
+  --color-loading-base: var(--loading-base);
+  --color-secondary:var(--color-secondary)
+}
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: linear-gradient(to bottom, #000D44, #000000);
-    --foreground: #000000;
+    --surface-app: linear-gradient(to bottom, #000D44, #000000);
+    --foreground: #ffffff;
+    --foreground-hover: hsl(215, 16%, 47%);
+    --shadow-card: '0 4px 6px rgba(45,70,155,0.2), 0 2px 4px rgba(45,70,155,0.1)';
+
+    --color-primary: hsl(225, 55%, 65%);
+    --color-secundary: hsl(229, 40%, 65%);
+    --color-success: hsl(145, 50%, 65%);
+    --color-warning: hsl(45, 80%, 65%);
+    --color-danger: hsl(0, 65%, 65%);
+    --color-info: hsl(200, 60%, 65%);
+
+    /**
+      * Sidebar Button and Group Variables
+      * ----------------------------------
+      * These CSS variables control the colors, gradients, text, and icons for
+      * the sidebar buttons and groups, including hover and active states.
+     */
+    --sidebar-button-bg: linear-gradient(to right, hsl(222, 77%, 45%), hsl(248, 61%, 53%));
+    --sidebar-border: hsl(210, 19%, 66%);
+
+    --sidebar-button-bg-hover: hsl(210, 28%, 27%);
+    --sidebar-button-text: hsl(0, 0%, 100%);
+    --sidebar-button-hover-active: hsl(0, 0%, 100%);
+    --sidebar-button-icon: hsl(210, 19%, 66%);
+
+    /*blue-500/20	*/
+    --sidebar-group-bg: hsla(220, 90%, 61%, 0.2);
+    /*blue-500/20	*/
+    --sidebar-group-bg-h: hsl(210, 28%, 27%);
+    /*blue-300	#93c5fd*/
+    --sidebar-group-text: hsl(210, 95%, 76%);
+    /*slate-400	#94a3b8*/
+    --sidebar-group-text-active: hsl(210, 19%, 66%);
+    /*blue-400	#60a5fa*/
+    --sidebar-group-border: hsl(210, 95%, 64%);
+    
+    --sidebar-group-hover: hsl(0, 0%, 100%);
+    
+    --sidebar-group-icon-active: hsl(0, 0%, 100%);
+
+    --sidebar-dropdown-bg: linear-gradient(to bottom, #000D44, #000000);
+    --loading-base: hsl(215, 19%, 35%); 
+
   }
 }
 
-.bg-gradient-level {
-  background: linear-gradient(to bottom, #181d49, #2d469b);
-}
-
-.bg-gradient-level-inverse {
-  background: linear-gradient(to bottom, #ffffff, #181d49);
-}
-
 body {
-  background:  var(--background);
+  background: var(--background);
   background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-nunito-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;

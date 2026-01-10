@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { Student, AttendanceRecord, ClassAttendanceResponse, AttendanceStats, MarkedDates, AttendanceStatus } from "@/lib/types/attendance";
-import { apiFetch, API_ENDPOINTS } from "@/lib/config/api";
+import apiClient, { API_ENDPOINTS } from "@/lib/config/api";
 import { globalToast } from "@/lib/toast/globalToast";
 
 interface UseAttendanceResult {
@@ -49,13 +49,11 @@ export function useAttendance(): UseAttendanceResult {
     setError(null);
 
     try {
-      const response = await apiFetch(API_ENDPOINTS.CLASS_STUDENTS(scheduleId, date));
+      const response = await apiClient.get<ClassAttendanceResponse>(
+        API_ENDPOINTS.CLASS_STUDENTS(scheduleId, date)
+      );
 
-      if (!response.ok) {
-        throw new Error(`Error ${response.status}: ${response.statusText}`);
-      }
-
-      const data: ClassAttendanceResponse = await response.json();
+      const data = response.data;
 
       if (data.success) {
         setStudents(data.students || []);
@@ -63,8 +61,8 @@ export function useAttendance(): UseAttendanceResult {
       } else {
         throw new Error("Error en la respuesta del servidor");
       }
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Error al cargar estudiantes";
+    } catch (err: any) {
+      const errorMessage = err?.response?.data?.message || err?.message || "Error al cargar estudiantes";
       setError(errorMessage);
       setStudents([]);
 
@@ -121,16 +119,7 @@ export function useAttendance(): UseAttendanceResult {
         date,
         status,
       };
-      const response = await apiFetch(API_ENDPOINTS.ATTENDANCE, {
-        method: "POST",
-        body: JSON.stringify(attendanceRecord),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error ${response.status}: ${response.statusText}`);
-      }
-
-      const result = await response.json();
+      await apiClient.post(API_ENDPOINTS.ATTENDANCE, attendanceRecord);
 
       const statusText = {
         'present': 'Presente',
@@ -140,7 +129,7 @@ export function useAttendance(): UseAttendanceResult {
       }[status] || status;
 
       globalToast.success("Asistencia guardada", `Estado actualizado a: ${statusText}`);
-    } catch (err) {
+    } catch (err: any) {
       setStudents(prev => prev.map(student =>
         student.student_id === studentId
           ? {
@@ -150,7 +139,7 @@ export function useAttendance(): UseAttendanceResult {
           : student
       ));
 
-      const errorMessage = err instanceof Error ? err.message : "Error al guardar asistencia";
+      const errorMessage = err?.response?.data?.message || err?.message || "Error al guardar asistencia";
       setError(errorMessage);
 
       globalToast.error("Error al guardar asistencia", errorMessage);

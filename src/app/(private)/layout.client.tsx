@@ -11,16 +11,15 @@ function LayoutContent({
 }: {
   children: React.ReactNode;
 }) {
-  const { isOpen, isCollapsed, isMobile } = useSidebar();
+  const {isCollapsed, isMobile } = useSidebar();
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen bg-surface-app">
       <ModernSidebar />
-      <div className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${isMobile ? 'ml-0' : isCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
-        <WelcomeHeader />
-
-        <main className="flex-1 overflow-y-auto">
-          <div className="min-h-full rounded-xl bg-gradient-to-br from-indigo-100 via-green-100 to-blue-50">{children}</div>
+      <div className={`flex-1 flex flex-col transition-all duration-400 ease-in-out rounded-l-2xl rounded-r-none my-4 shadow-card bg-gradient-to-br from-blue-100 to-indigo-100 ${isMobile ? 'ml-0' : isCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
+        <main className="flex-1 overflow-y-auto rounded-l-2xl">
+          <WelcomeHeader />
+          <div className="min-h-full">{children}</div>
         </main>
 
       </div>

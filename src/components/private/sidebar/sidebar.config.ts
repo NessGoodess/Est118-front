@@ -10,13 +10,12 @@ export const menuItems: MenuItem[] = [
     name: 'Asistencia',
     href: '/attendance',
     icon: 'check',
-    badge: 'QR',
   },
   {
     name: 'Asistencia General',
     href: '/asistencia-general',
-    icon: 'check',
-    badge: 'QR',
+    icon: 'listCheck',
+    badge: 'NFC',
   },
   {
     name: 'Gestion De Estudiantes',

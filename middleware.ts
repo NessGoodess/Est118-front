@@ -14,30 +14,37 @@ function isProtected(pathname: string) {
   return protectedRoutes.some(route => pathname.startsWith(route));
 }
 
-function isAuth(pathname: string) {
-  return authRoutes.includes(pathname);
+function isAuthRoute(pathname: string) {
+  return authRoutes.some(route => pathname.startsWith(route));
 }
 
-function hasAuthCookie(req: NextRequest) {
-  const session = req.cookies.get('est118_session');
-  const xsrf = req.cookies.get('XSRF-TOKEN');
-  return !!session;
+function isLoggedIn(req: NextRequest) {
+  // ✅ TU cookie REAL de sesión
+  return !!req.cookies.get('est118-session');
 }
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const isLoggedIn = hasAuthCookie(req);
+  const loggedIn = isLoggedIn(req);
 
-  if (isProtected(pathname) && !isLoggedIn) {
+  // 🔒 Rutas protegidas sin sesión
+  if (isProtected(pathname) && !loggedIn) {
     const loginUrl = new URL('/login', req.url);
     loginUrl.searchParams.set('redirect', pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  if (isAuth(pathname) && isLoggedIn) {
+  // 🔁 Usuario logueado intentando ir a /login
+  if (isAuthRoute(pathname) && loggedIn) {
     const redirectTo = req.nextUrl.searchParams.get('redirect');
+
     return NextResponse.redirect(
-      new URL(redirectTo && redirectTo !== '/login' ? redirectTo : '/dashboard', req.url)
+      new URL(
+        redirectTo && redirectTo !== '/login'
+          ? redirectTo
+          : '/dashboard',
+        req.url
+      )
     );
   }
 
@@ -46,6 +53,6 @@ export function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };

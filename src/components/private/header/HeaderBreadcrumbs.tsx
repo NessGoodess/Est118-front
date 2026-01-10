@@ -27,14 +27,6 @@ function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
   const breadcrumbs: BreadcrumbItem[] = [];
   const segments = pathname.split('/').filter(Boolean);
 
-  // Siempre agregar Dashboard como primer breadcrumb
-  breadcrumbs.push({ label: 'Dashboard', href: '/dashboard' });
-
-  // Si estamos en dashboard, no agregar más
-  if (pathname === '/dashboard') {
-    return breadcrumbs;
-  }
-
   // Construir breadcrumbs progresivamente
   let currentPath = '';
   for (let i = 0; i < segments.length; i++) {
@@ -69,8 +61,8 @@ export function HeaderBreadcrumbs() {
   const pathname = usePathname();
   const breadcrumbs = generateBreadcrumbs(pathname);
 
-  if (breadcrumbs.length <= 1) {
-    return null; // No mostrar breadcrumbs si solo hay Dashboard
+  if (breadcrumbs.length === 0) {
+    return null; // No mostrar breadcrumbs si no hay ninguno
   }
 
   return (

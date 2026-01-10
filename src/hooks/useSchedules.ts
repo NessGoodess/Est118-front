@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Schedule } from "@/lib/types/attendance";
-import { apiFetch, API_ENDPOINTS } from "@/lib/config/api";
+import apiClient, { API_ENDPOINTS } from "@/lib/config/api";
 
 interface UseSchedulesResult {
   schedules: Schedule[];
@@ -19,16 +19,11 @@ export function useSchedules(): UseSchedulesResult {
     setError(null);
 
     try {
-      const response = await apiFetch(API_ENDPOINTS.SCHEDULES);
-
-      if (!response.ok) {
-        throw new Error(`Error ${response.status}: ${response.statusText}`);
-      }
-
-      const data = await response.json();
+      const response = await apiClient.get(API_ENDPOINTS.SCHEDULES);
+      const data = response.data;
       setSchedules(data.schedules || []);
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Error al cargar horarios";
+    } catch (err: any) {
+      const errorMessage = err?.response?.data?.message || err?.message || "Error al cargar horarios";
       setError(errorMessage);
       console.error("Error loading schedules:", err);
       setSchedules([]);
