@@ -4,14 +4,14 @@ import { SidebarProvider, useSidebar } from "@/contexts/SidebarContext";
 import WelcomeHeader from "@/components/private/header/header";
 import { ToastProvider } from "@/contexts/ToastContext";
 import ModernSidebar from "@/components/private/sidebar/Sidebar";
-import { AuthProvider } from "@/contexts/AuthContext";
+import PrivateGuard from "@/components/guards/PrivateGuard";
 
 function LayoutContent({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const {isCollapsed, isMobile } = useSidebar();
+  const { isCollapsed, isMobile } = useSidebar();
 
   return (
     <div className="flex h-screen bg-surface-app">
@@ -33,13 +33,12 @@ export default function ClientLayout({
   children: React.ReactNode;
 }) {
   return (
-
-    <AuthProvider>
+    <PrivateGuard>
       <SidebarProvider>
         <ToastProvider>
           <LayoutContent >{children}</LayoutContent>
         </ToastProvider>
       </SidebarProvider>
-    </AuthProvider>
+    </PrivateGuard>
   );
 }

@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Nunito_Sans, Montserrat } from "next/font/google";
+'use client';
+
+import { Geist, Geist_Mono, Nunito_Sans, Montserrat, Merriweather } from "next/font/google";
 import "./globals.css";
 import { ScrollProvider } from "@/contexts/ScrollProvider";
-import { AuthProvider } from "@/contexts/AuthContext";
 import { ConfirmProviderWrapper } from "@/components/ui/confirm/ConfirmProviderWrapper";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,11 +27,14 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
 });
 
-export const metadata: Metadata = {
-  title: "Escuela Secundaria Técnica No. 118 | Oaxaca",
-  description:
-    "La Escuela Secundaria Técnica No. 118 es una institución pública de Oaxaca que ofrece educación secundaria con formación técnica, fomentando el aprendizaje, la disciplina y el desarrollo integral de los estudiantes.",
-};
+
+const merriweather = Merriweather({
+  subsets: ['latin'],
+  weight: ['300', '400', '700', '900'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+  variable: '--font-Merriweather',
+});
 
 export default function RootLayout({
   children,
@@ -47,6 +51,7 @@ export default function RootLayout({
           ${geistMono.variable} 
           ${nunito.variable} 
           ${montserrat.variable} 
+          ${merriweather.variable} 
           antialiased`}
       >
         <AuthProvider>

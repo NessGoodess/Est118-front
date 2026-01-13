@@ -50,6 +50,17 @@
 
   --loading-base:hsl(220, 14%, 90%);
 
+  /* Additional colors for light mode */
+  --color-gallery-bg: #fafafa;
+  --color-gallery-card: #ffffff;
+  --color-gallery-text: #1a1a1a;
+  --color-gallery-hover: rgba(45, 70, 155, 0.1);
+  --color-news-bg: #f8f9fa;
+  --color-event-bg: #f0f4f8;
+  --color-modal-overlay: rgba(0, 0, 0, 0.5);
+  --color-modal-bg: #ffffff;
+  --color-modal-text: #1a1a1a;
+
 }
 
 @theme inline {
@@ -59,6 +70,7 @@
   --font-sans: var(--font-nunito-sans);
   --font-mono: var(--font-geist-mono);
   --font-montserrat: var(--font-montserrat);
+  --font-merriweather: var(--font-merriweather);
   --shadow-card: var(--shadow-card);
 
   --color-primary: var(--color-primary);
@@ -66,7 +78,8 @@
   --color-warning: var(--color-warning);
   --color-danger: var(--color-danger);
   --color-info: var(--color-info);
-  --color-foreground-hover: var(--foreground-hover) --color-level-1: var(--color-level-1);
+  --color-foreground-hover: var(--foreground-hover);
+  --color-level-1: var(--color-level-1);
   --color-level-2: var(--color-level-2);
   --color-level-3: var(--color-level-3);
   --color-level-4: var(--color-level-4);
@@ -98,7 +111,18 @@
 
   --color-sidebar-dropdown-bg: var(--sidebar-dropdown-bg);
   --color-loading-base: var(--loading-base);
-  --color-secondary:var(--color-secondary)
+  --color-secondary: var(--color-secondary);
+
+  /* Additional theme colors for light mode */
+  --color-gallery-bg: var(--color-gallery-bg);
+  --color-gallery-card: var(--color-gallery-card);
+  --color-gallery-text: var(--color-gallery-text);
+  --color-gallery-hover: var(--color-gallery-hover);
+  --color-news-bg: var(--color-news-bg);
+  --color-event-bg: var(--color-event-bg);
+  --color-modal-overlay: var(--color-modal-overlay);
+  --color-modal-bg: var(--color-modal-bg);
+  --color-modal-text: var(--color-modal-text);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -146,7 +170,18 @@
     --sidebar-group-icon-active: hsl(0, 0%, 100%);
 
     --sidebar-dropdown-bg: linear-gradient(to bottom, #000D44, #000000);
-    --loading-base: hsl(215, 19%, 35%); 
+    --loading-base: hsl(215, 19%, 35%);
+
+    /* Additional colors for dark mode */
+    --color-gallery-bg: #0a0a0a;
+    --color-gallery-card: #1a1a1a;
+    --color-gallery-text: #f5f5f5;
+    --color-gallery-hover: rgba(255, 255, 255, 0.1);
+    --color-news-bg: #0f0f0f;
+    --color-event-bg: #141414;
+    --color-modal-overlay: rgba(0, 0, 0, 0.8);
+    --color-modal-bg: #1a1a1a;
+    --color-modal-text: #f5f5f5;
 
   }
 }

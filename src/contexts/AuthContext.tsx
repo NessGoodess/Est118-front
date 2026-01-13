@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { login, logout, getCurrentUser, formatAuthError } from "@/lib/auth";
 import { ApiError } from "@/lib/types/auth";
 import { User, LoginCredentials } from "@/lib/types/user";
@@ -39,7 +39,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [authenticated, setAuthenticated] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
-    const pathname = usePathname();
 
     /**
      * Load current User
@@ -53,7 +52,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             setAuthenticated(true);
         } catch (err) {
             const apiError = err as ApiError;
-            // Si es 401, el usuario no está autenticado (esto es normal)
+            //If is 401, the user is not authenticated 
             if (apiError.status === 401) {
                 setUser(null);
                 setAuthenticated(false);
@@ -73,14 +72,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             try {
                 setLoading(true);
                 setError(null);
-                const response = await login(credentials);
-                setUser(response.user || (response as unknown as User));
+                //const response = await login(credentials);
+                await login(credentials);
+                await loadUser();
+                //setUser(response.user || (response as unknown as User));
                 setAuthenticated(true);
 
-                // Pequeño delay para asegurar que las cookies se establezcan completamente
-                await new Promise(resolve => setTimeout(resolve, 100));
+                // Small delay to ensure cookies are set
+                //await new Promise(resolve => setTimeout(resolve, 100));
 
-                // Redirigir al dashboard después de login exitoso
+                // Redirect to dashboard after login
                 router.push('/dashboard');
                 router.refresh();
             } catch (err) {
@@ -108,68 +109,63 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             setUser(null);
             setAuthenticated(false);
             setLoading(false);
-            router.push('/login');
+
             router.refresh();
         }
     }, [router]);
 
     /**
-     * Actualizar información del usuario
+     * Refresh user
      */
     const refreshUser = useCallback(async () => {
         await loadUser();
     }, [loadUser]);
 
     /**
-     * Limpiar errores
+     * Clear error
      */
     const clearError = useCallback(() => {
         setError(null);
     }, []);
 
-    // Cargar usuario al montar el componente
+    // Load user at mount
     useEffect(() => {
-        // Solo verificar autenticación si no estamos en la página de login
-        if (pathname !== '/login') {
-            loadUser();
-        } else {
-            setLoading(false);
-        }
-    }, [pathname, loadUser]);
+        loadUser();
+    }, [loadUser]);
 
-    // Escuchar eventos de autenticación del Event Bus
+    // Listen the authentication events
     useEffect(() => {
         const onSessionExpired = () => {
             setUser(null);
             setAuthenticated(false);
-            router.push('/login');
+
         };
 
         const onForbidden = (payload?: unknown) => {
-            // Opcional: manejar errores 403 si es necesario
+            // Optional: handle 403 errors if needed
             console.warn('Forbidden access:', payload);
         };
 
         const onLogin = () => {
-            // Opcional: refrescar usuario cuando se emite evento de login
+            // Optional: refresh user when login event is emitted
             loadUser();
         };
 
         const onLogout = () => {
-            // Solo limpiar estado local (para sincronización entre tabs, etc.)
-            // No llamar handleLogout aquí para evitar loops
+            // Optional: clear state locally (for tab synchronization, etc.)
+            // Do not call handleLogout here to avoid loops
             setUser(null);
             setAuthenticated(false);
-            router.push('/login');
+
         };
 
-        // Registrar listeners
+        // Register listeners
         authEventBus.on(AuthEvent.SESSION_EXPIRED, onSessionExpired);
         authEventBus.on(AuthEvent.FORBIDDEN, onForbidden);
         authEventBus.on(AuthEvent.LOGIN, onLogin);
         authEventBus.on(AuthEvent.LOGOUT, onLogout);
 
-        // Cleanup: remover listeners al desmontar
+        // Cleanup: remove listeners on unmount
         return () => {
             authEventBus.off(AuthEvent.SESSION_EXPIRED, onSessionExpired);
             authEventBus.off(AuthEvent.FORBIDDEN, onForbidden);

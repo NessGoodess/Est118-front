@@ -1,6 +1,6 @@
 
 
-import ReaderStatus from "@/components/attendance/ReaderStatus";
+//import ReaderStatus from "@/components/attendance/ReaderStatus";
 
 export default function AsignarNFCPage() {
     return (
@@ -9,7 +9,6 @@ export default function AsignarNFCPage() {
                     <h1 className="text-2xl font-bold text-gray-900 mb-4">Gestión de Credenciales</h1>
                     <p className="text-gray-600">Aqui se escriben los datos al NFC por estudiante </p>
                 </div>
-                <ReaderStatus />
             </div>
     );
 }

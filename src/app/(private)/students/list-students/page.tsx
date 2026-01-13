@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import HeaderCurve from "@/components/ui/Curve";
+//import HeaderCurve from "@/components/ui/Curve";
 import { FormField, TextAreaField, SelectField } from "@/components/ui/form-field2";
 
 const THEME = {
@@ -484,7 +484,7 @@ export default function FormularioInscripcion() {
                   placeholder="Si aplica"
                 />
 
-                <Se lectField
+                <SelectField
                   label="Año de Ingreso"
                   name="anioIngreso"
                   value={anioIngreso.value}

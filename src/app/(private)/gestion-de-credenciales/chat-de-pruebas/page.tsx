@@ -1,4 +1,4 @@
-import ChatTest from '@/components/ChatTest';
+//import ChatTest from '@/components/ChatTest';
 
 export default function ChatDePruebasPage() {
     return (
@@ -11,7 +11,6 @@ export default function ChatDePruebasPage() {
                     Prueba de conexión WebSocket con Laravel Reverb para mensajería en tiempo real.
                 </p>
             </div>
-            <ChatTest />
         </div>
     );
 }
