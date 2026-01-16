@@ -3,6 +3,7 @@ import React, { useState, useCallback } from "react";
 import { useScroll } from "@/contexts/ScrollProvider";
 import Link from "next/link";
 import SearchBar from "./SearchBar";
+import Image from "next/image";
 
 const mapsUrl = "https://maps.app.goo.gl/K1ca1DwxrsoBiZLL6";
 
@@ -221,7 +222,7 @@ export default function Header() {
                     <div className="flex items-center gap-3 lg:gap-4 flex-shrink-0">
                         {!scrolled && (
                             <div className="w-16 h-16 lg:w-20 lg:h-20 relative flex-shrink-0">
-                                <img
+                                <Image
                                     src="/logo.PNG"
                                     alt="Logo Escuela Secundaria Técnica 118"
                                     className="w-full h-full object-contain drop-shadow-lg"

@@ -8,8 +8,7 @@
  * - Interceptores y manejo de errores
  */
 
-import { createAxiosInstance, setupRequestInterceptor, setupResponseInterceptor, handleAxiosError, formatError, DEFAULT_HEADERS, } from './axios.config';
-import { ApiError } from '../types/auth';
+import { createAxiosInstance, setupRequestInterceptor, setupResponseInterceptor, handleAxiosError, formatError } from './axios.config';
 
 // ============================================================================
 // CONFIGURACIÓN DE API
@@ -22,7 +21,7 @@ const DEFAULT_CONFIG = {
   TIMEOUT: 10000,
   APP_ENV: 'development',
   APP_NAME: 'Tecnica_118',
-} as const;
+} as const; 
 
 // Función para obtener la configuración desde variables de entorno
 export function getApiConfig() {
@@ -66,6 +65,8 @@ export const API_ENDPOINTS = {
   CLASS_STUDENTS: (scheduleId: number, date: string) => `/class/${scheduleId}/date/${date}`,
   STUDENTS: '/students',
   ALL_STUDENTS: '/all-students',
+
+  ADMISSION: '/pre-enrollment',
 } as const;
 
 // Re-exportar headers desde axios.config

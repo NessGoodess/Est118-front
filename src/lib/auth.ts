@@ -4,7 +4,7 @@
  */
 
 import apiClient, { baseAxiosClient, handleApiError, formatAuthError, API_ENDPOINTS } from './config/api';
-import { AuthResponse, ApiError } from './types/auth';
+import { AuthResponse } from './types/auth';
 import { User, LoginCredentials } from './types/user';
 
 /**
@@ -14,7 +14,7 @@ import { User, LoginCredentials } from './types/user';
 export async function getCsrfCookie(): Promise<void> {
   try {
     await baseAxiosClient.get(API_ENDPOINTS.AUTH.CSRF_COOKIE);
-  } catch (error) {
+  } catch {
     throw new Error('No se pudo obtener la cookie CSRF');
   }
 }
@@ -86,7 +86,7 @@ export async function checkAuth(): Promise<boolean> {
   try {
     await getCurrentUser();
     return true;
-  } catch (error) {
+  } catch {
     return false;
   }
 }

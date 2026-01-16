@@ -61,8 +61,8 @@ export function useAttendance(): UseAttendanceResult {
       } else {
         throw new Error("Error en la respuesta del servidor");
       }
-    } catch (err: any) {
-      const errorMessage = err?.response?.data?.message || err?.message || "Error al cargar estudiantes";
+    } catch (err: unknown) {
+      const errorMessage = (err && typeof err === 'object' && 'response' in err && err.response && typeof err.response === 'object' && 'data' in err.response && err.response.data && typeof err.response.data === 'object' && 'message' in err.response.data ? String(err.response.data.message) : null) || (err && typeof err === 'object' && 'message' in err ? String(err.message) : null) || "Error al cargar estudiantes";
       setError(errorMessage);
       setStudents([]);
 
@@ -129,7 +129,7 @@ export function useAttendance(): UseAttendanceResult {
       }[status] || status;
 
       globalToast.success("Asistencia guardada", `Estado actualizado a: ${statusText}`);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setStudents(prev => prev.map(student =>
         student.student_id === studentId
           ? {
@@ -139,7 +139,7 @@ export function useAttendance(): UseAttendanceResult {
           : student
       ));
 
-      const errorMessage = err?.response?.data?.message || err?.message || "Error al guardar asistencia";
+      const errorMessage = (err && typeof err === 'object' && 'response' in err && err.response && typeof err.response === 'object' && 'data' in err.response && err.response.data && typeof err.response.data === 'object' && 'message' in err.response.data ? String(err.response.data.message) : null) || (err && typeof err === 'object' && 'message' in err ? String(err.message) : null) || "Error al guardar asistencia";
       setError(errorMessage);
 
       globalToast.error("Error al guardar asistencia", errorMessage);

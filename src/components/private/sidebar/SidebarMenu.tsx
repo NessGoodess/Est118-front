@@ -9,7 +9,7 @@ import { SidebarGroup } from './SidebarGroup';
 import { useSidebar } from '@/contexts/SidebarContext';
 
 export function SidebarMenu() {
-  const { isCollapsed, toggleSidebar, isMobile } = useSidebar();
+  const { isCollapsed } = useSidebar();
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const pathname = usePathname();

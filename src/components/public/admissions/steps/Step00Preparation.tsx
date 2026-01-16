@@ -1,10 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
-import { FormData } from "@/lib/types/preregistration";
 
 interface Props {
-  formData: FormData;
-  updateFormData: (data: Partial<FormData>) => void;
   nextStep: () => void;
   prevStep: () => void;
   currentStep: number;
@@ -17,8 +14,8 @@ const documentos = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
     ),
-    nombre: "Acta de nacimiento del aspirante",
-    formato: "",
+    name: "Acta de nacimiento del aspirante",
+    type: "",
     require: true
   },
   {
@@ -27,8 +24,8 @@ const documentos = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
       </svg>
     ),
-    nombre: "CURP del aspirante",
-    formato: "",
+    name: "CURP del aspirante",
+    type: "",
     require: true
   },
   {
@@ -37,8 +34,8 @@ const documentos = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
       </svg>
     ),
-    nombre: "Comprobante de domicilio del aspirante",
-    formato: "no mayor a 3 meses",
+    name: "Comprobante de domicilio del aspirante",
+    type: "no mayor a 3 meses",
     require: true
   },
   {
@@ -47,8 +44,8 @@ const documentos = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
       </svg>
     ),
-    nombre: "Constancia de estudios de la escuela de procedencia",
-    formato: "Con promedio parcial",
+    name: "Constancia de estudios de la escuela de procedencia",
+    type: "Con promedio parcial",
     require: true
   },
   {
@@ -57,8 +54,8 @@ const documentos = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
     ),
-    nombre: "Número de folio para vales escolares",
-    formato: "Si aplica",
+    name: "Número de folio para vales escolares",
+    type: "Si aplica",
     require: false
   },
   {
@@ -67,8 +64,8 @@ const documentos = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
       </svg>
     ),
-    nombre: "CURP del tutor",
-    formato: "",
+    name: "CURP del tutor",
+    type: "",
     require: true
   },
   {
@@ -77,13 +74,13 @@ const documentos = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
       </svg>
     ),
-    nombre: "Fotografía tamaño infantil",
-    formato: "JPG o PNG",
+    name: "Fotografía tamaño infantil",
+    type: "JPG o PNG",
     require: true
   },
 ];
 
-export default function Paso0Preparacion({ nextStep }: Props) {
+export default function Preparation({ nextStep }: Props) {
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
       <motion.div
@@ -119,8 +116,8 @@ export default function Paso0Preparacion({ nextStep }: Props) {
                 {doc.icon}
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-gray-900 mb-1">{doc.nombre}</h3>
-                <p className="text-sm text-gray-600 mb-2">{doc.formato}</p>
+                <h3 className="font-semibold text-gray-900 mb-1">{doc.name}</h3>
+                <p className="text-sm text-gray-600 mb-2">{doc.type}</p>
                 {doc.require && (
                   <span className="inline-block bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full font-semibold">
                     Obligatorio
@@ -132,7 +129,6 @@ export default function Paso0Preparacion({ nextStep }: Props) {
         ))}
       </div>
 
-      {/* Notas importantes */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -165,7 +161,6 @@ export default function Paso0Preparacion({ nextStep }: Props) {
         </ul>
       </motion.div>
 
-      {/* Botón continuar */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -184,4 +179,3 @@ export default function Paso0Preparacion({ nextStep }: Props) {
     </div>
   );
 }
-

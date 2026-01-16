@@ -1,11 +1,10 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FormData } from "@/lib/types/preregistration";
+import { useAdmissionsForm } from "../context/AdmissionsFormContext";
+import { workshopSelectSchema } from "@/lib/validations/admissions/admissions.schema";
 
 interface Props {
-  formData: FormData;
-  updateFormData: (data: Partial<FormData>) => void;
   nextStep: () => void;
   prevStep: () => void;
   currentStep: number;
@@ -42,28 +41,55 @@ const talleres = [
   },
 ];
 
-export default function Paso6Taller({ formData, updateFormData, nextStep, prevStep }: Props) {
-  const [tallerFavorito, setTallerFavorito] = useState(formData.tallerFavorito);
-  const [segundaOpcion, setSegundaOpcion] = useState(formData.segundaOpcion);
+export default function WorkshopSelection({ nextStep, prevStep }: Props) {
+  const { formData, updateFormData } = useAdmissionsForm();
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleTallerSelect = (tallerId: string, tipo: 'favorito' | 'segunda') => {
     if (tipo === 'favorito') {
-      setTallerFavorito(tallerId);
-      updateFormData({ tallerFavorito: tallerId });
-      // Si el favorito es igual a la segunda opción, limpiar segunda opción
-      if (segundaOpcion === tallerId) {
-        setSegundaOpcion("");
-        updateFormData({ segundaOpcion: "" });
-      }
+      updateFormData({
+        workshopSelect: {
+          ...formData.workshopSelect,
+          workshopFirstChoice: tallerId,
+          // Si el favorito es igual a la segunda opción, limpiar segunda opción
+          workshopSecondChoice: formData.workshopSelect.workshopSecondChoice === tallerId ? '' : formData.workshopSelect.workshopSecondChoice,
+        },
+      });
     } else {
-      if (tallerId !== tallerFavorito) {
-        setSegundaOpcion(tallerId);
-        updateFormData({ segundaOpcion: tallerId });
+      if (tallerId !== formData.workshopSelect.workshopFirstChoice) {
+        updateFormData({
+          workshopSelect: {
+            ...formData.workshopSelect,
+            workshopSecondChoice: tallerId,
+          },
+        });
       }
+    }
+    
+    // Limpiar errores al cambiar
+    if (errors.workshopFirstChoice || errors.workshopSecondChoice) {
+      setErrors({});
     }
   };
 
-  const canContinue = tallerFavorito && segundaOpcion && tallerFavorito !== segundaOpcion;
+  const handleContinue = () => {
+    const result = workshopSelectSchema.safeParse(formData.workshopSelect);
+    if (result.success) {
+      setErrors({});
+      nextStep();
+    } else {
+      const fieldErrors: Record<string, string> = {};
+      result.error.issues.forEach((error) => {
+        if (error.path[0]) {
+          fieldErrors[error.path[0] as string] = error.message;
+        }
+      });
+      setErrors(fieldErrors);
+    }
+  };
+
+  const tallerFavorito = formData.workshopSelect.workshopFirstChoice;
+  const segundaOpcion = formData.workshopSelect.workshopSecondChoice;
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
@@ -82,7 +108,12 @@ export default function Paso6Taller({ formData, updateFormData, nextStep, prevSt
 
       {/* Taller Favorito */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Taller Favorito *</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">
+          Taller Favorito *
+          {errors.workshopFirstChoice && (
+            <span className="text-red-600 text-sm ml-2">{errors.workshopFirstChoice}</span>
+          )}
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {talleres.map((taller) => (
             <motion.button
@@ -94,6 +125,8 @@ export default function Paso6Taller({ formData, updateFormData, nextStep, prevSt
               className={`relative p-6 rounded-xl border-2 transition-all text-left ${
                 tallerFavorito === taller.id
                   ? "border-blue-600 bg-blue-50 shadow-lg"
+                  : errors.workshopFirstChoice
+                  ? "border-red-300 bg-red-50"
                   : "border-gray-200 bg-white hover:border-gray-300"
               }`}
             >
@@ -127,7 +160,12 @@ export default function Paso6Taller({ formData, updateFormData, nextStep, prevSt
           animate={{ opacity: 1, height: "auto" }}
           transition={{ duration: 0.3 }}
         >
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Segunda Opción *</h3>
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">
+            Segunda Opción *
+            {errors.workshopSecondChoice && (
+              <span className="text-red-600 text-sm ml-2">{errors.workshopSecondChoice}</span>
+            )}
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {talleres.filter(t => t.id !== tallerFavorito).map((taller) => (
               <motion.button
@@ -139,6 +177,8 @@ export default function Paso6Taller({ formData, updateFormData, nextStep, prevSt
                 className={`relative p-6 rounded-xl border-2 transition-all text-left ${
                   segundaOpcion === taller.id
                     ? "border-green-600 bg-green-50 shadow-lg"
+                    : errors.workshopSecondChoice
+                    ? "border-red-300 bg-red-50"
                     : "border-gray-200 bg-white hover:border-gray-300"
                 }`}
               >
@@ -166,7 +206,6 @@ export default function Paso6Taller({ formData, updateFormData, nextStep, prevSt
         </motion.div>
       )}
 
-      {/* Botones */}
       <div className="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
         <button
           onClick={prevStep}
@@ -175,15 +214,10 @@ export default function Paso6Taller({ formData, updateFormData, nextStep, prevSt
           ← Atrás
         </button>
         <motion.button
-          onClick={nextStep}
-          disabled={!canContinue}
-          whileHover={canContinue ? { scale: 1.02 } : {}}
-          whileTap={canContinue ? { scale: 0.98 } : {}}
-          className={`px-8 py-3 rounded-full font-bold text-lg transition-all ${
-            canContinue
-              ? "bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-          }`}
+          onClick={handleContinue}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="px-8 py-3 rounded-full font-bold text-lg transition-all bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl"
         >
           Continuar →
         </motion.button>
@@ -191,4 +225,3 @@ export default function Paso6Taller({ formData, updateFormData, nextStep, prevSt
     </div>
   );
 }
-

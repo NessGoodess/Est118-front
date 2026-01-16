@@ -1,11 +1,14 @@
 "use client";
+import { use } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { eventItems } from "@/lib/data/mockData";
+import Image from "next/image";
 
-export default function EventoModal({ params }: { params: { id: string } }) {
+export default function EventoModal({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
-  const item = eventItems.find(i => i.id === params.id);
+  const { id } = use(params);
+  const item = eventItems.find(i => i.id === id);
 
   if (!item) {
     router.push("/eventos");
@@ -31,10 +34,11 @@ export default function EventoModal({ params }: { params: { id: string } }) {
           {/* Header */}
           <div className="relative h-64 overflow-hidden rounded-t-2xl">
             {item.imagen ? (
-              <img
+              <Image
                 src={item.imagen}
                 alt={item.titulo}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
               />
             ) : (
               <div className="w-full h-full bg-gradient-to-br from-blue-600 to-blue-800" />

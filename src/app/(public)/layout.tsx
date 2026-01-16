@@ -1,5 +1,5 @@
 
-import Header from "@/components/public/header/header2";
+import Header from "@/components/public/header/header";
 import Footer from "@/components/public/footer/Footer";
 
 export default function PublicLayout({ 

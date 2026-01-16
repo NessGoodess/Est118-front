@@ -1,5 +1,6 @@
 "use client";
 import { useGeneralAttendanceContext } from "@/contexts/GeneralAttendanceContext";
+import Image from "next/image";
 
 export default function StudentAttendanceList() {
     const { students: data, loading, error } = useGeneralAttendanceContext();
@@ -61,10 +62,11 @@ export default function StudentAttendanceList() {
                         <div className="flex items-center space-x-3">
                             <div className="flex-shrink-0">
                                 {estudiante.photo_url ? (
-                                    <img
+                                    <Image
                                         className="h-10 w-10 rounded-full object-cover"
                                         src={estudiante.photo_url}
                                         alt={estudiante.name}
+                                        fill
                                     />
                                 ) : (
                                     <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">

@@ -14,7 +14,7 @@ interface CalendarProps {
     onDateClick?: (date: string) => void;
 }
 
-const MonthlyCalendar: FC<CalendarProps> = ({ events = [], markedDates, onDateClick }) => {
+const MonthlyCalendar: FC<CalendarProps> = ({ markedDates, onDateClick }) => {
     const today: Date = new Date();
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
 

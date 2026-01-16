@@ -2,4 +2,4 @@
 export { globalToast } from './globalToast';
 
 // Re-exportar tipos útiles
-export type { ToastProps } from '../../components/ui/Toast';
+export type { ToastProps } from '@/components/private/toast/Toast';

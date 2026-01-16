@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { galleryItems, GalleryItem } from "@/lib/data/mockData";
+import { galleryItems } from "@/lib/data/mockData";
+import Image from "next/image";
 
 const categories = ["Todos", ...Array.from(new Set(galleryItems.map(item => item.category)))];
 
@@ -84,10 +85,11 @@ export default function GaleriaPage() {
                             >
                                 <Link href={`/galeria/${item.id}`} scroll={false}>
                                     <div className="relative w-full h-full">
-                                        <img
+                                        <Image
                                             src={item.image}
                                             alt={item.title}
-                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                            fill
+                                            className="object-cover transition-transform duration-500 group-hover:scale-110"
                                         />
                                         
                                         {/* Overlay gradiente */}

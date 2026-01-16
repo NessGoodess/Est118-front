@@ -1,34 +1,73 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { FormData } from "@/lib/types/preregistration";
+import { useAdmissionsForm } from "../context/AdmissionsFormContext";
 import Link from "next/link";
 
 interface Props {
-  formData: FormData;
-  updateFormData: (data: Partial<FormData>) => void;
   nextStep: () => void;
   prevStep: () => void;
   currentStep: number;
 }
 
-export default function Paso10Confirmacion({ formData }: Props) {
-  const folio = formData.folioPreinscripcion || `2025-118-${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`;
+export default function Confirmation({}: Props) {
+  const { formData } = useAdmissionsForm();
+  
+  // Obtener folio desde sessionStorage (guardado en Step09Review)
+  const [folio] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('admissions_folio') || 'N/A';
+    }
+    return 'N/A';
+  });
+  const [pdf] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('pdf_link') || 'N/A';
+    }
+    return 'N/A';
+  });
 
   useEffect(() => {
     // Aquí se enviaría el correo con el folio
-    // Por ahora solo simulamos
-    console.log("Enviando correo a:", formData.email, "con folio:", folio);
-  }, [folio, formData.email]);
+    // El backend debería haberlo enviado automáticamente después del 201
+    if (folio !== 'N/A') {
+      console.log("Folio de preinscripción:", folio);
+      console.log("Correo registrado:", formData.email.contactEmail);
+    }
+    if(pdf!=='N/A'){
+      console.log(pdf)
+    }
+  }, [folio, formData.email.contactEmail, pdf]);
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="text-center"
-      >
+    <>
+      <style jsx global>{`
+        @media print {
+          body * {
+            visibility: hidden;
+          }
+          .print-content,
+          .print-content * {
+            visibility: visible;
+          }
+          .print-content {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+          }
+          .no-print {
+            display: none !important;
+          }
+        }
+      `}</style>
+      <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-center print-content"
+        >
         {/* Icono de éxito */}
         <motion.div
           initial={{ scale: 0 }}
@@ -70,32 +109,11 @@ export default function Paso10Confirmacion({ formData }: Props) {
             Próximos Pasos:
           </h3>
           <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700">
-            <li>Se ha enviado un correo electrónico a <strong>{formData.email}</strong> con su folio de preinscripción y las instrucciones completas.</li>
+            <li>Se ha enviado un correo electrónico a <strong>{formData.email.contactEmail}</strong> con su folio de preinscripción y las instrucciones completas.</li>
             <li>Asista al área de <strong>Contraloría</strong> en las instalaciones de la escuela con el folio impreso o en su dispositivo móvil.</li>
             <li><strong>Horario de atención:</strong> 7:15 a 9:30 y de 10:00 a 13:30 horas, de lunes a viernes.</li>
             <li>Presente el folio y cubra la cuota de preinscripción para completar el proceso.</li>
           </ol>
-        </motion.div>
-
-        {/* Información de contacto */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="bg-gray-50 rounded-lg p-6 mb-6 max-w-md mx-auto"
-        >
-          <h3 className="font-semibold text-gray-900 mb-3">Información de Contacto</h3>
-          <div className="text-sm text-gray-700 space-y-2">
-            <p><strong>Dirección:</strong> Río Tehuantepec 300, Fraccionamiento los Ríos, Oaxaca de Juárez, 68020</p>
-            <p><strong>Teléfono:</strong> 951 513 4204</p>
-            <p><strong>Correo:</strong> est188@est118.edu.mx</p>
-            <p className="mt-3">
-              <strong>Facebook oficial:</strong>{" "}
-              <a href="https://www.facebook.com/EscSecTecnica118" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
-                EscSecTecnica118
-              </a>
-            </p>
-          </div>
         </motion.div>
 
         {/* Nota de privacidad */}
@@ -113,7 +131,7 @@ export default function Paso10Confirmacion({ formData }: Props) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          className="flex flex-col sm:flex-row gap-4 justify-center no-print"
         >
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -132,11 +150,11 @@ export default function Paso10Confirmacion({ formData }: Props) {
               Volver al Inicio
             </motion.button>
           </Link>
+         <Link href={pdf}> ver pdf
+         </Link>
         </motion.div>
-      </motion.div>
-
-      
-    </div>
+        </motion.div>
+      </div>
+    </>
   );
 }
-

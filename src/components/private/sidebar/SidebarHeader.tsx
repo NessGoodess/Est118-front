@@ -1,6 +1,7 @@
 "use client";
 
 import { useSidebar } from '@/contexts/SidebarContext';
+import Image from 'next/image';
 
 export function SidebarHeader() {
   const { isCollapsed } = useSidebar();
@@ -13,10 +14,8 @@ export function SidebarHeader() {
           : ''}
       `}>
 
-        <div className="w-10 h-10  rounded-xl flex items-center justify-center shadow-lg">
-          <span className="text-foreground font-bold text-lg">
-            <img src="/logo.png" alt="Logo tecnica 118" className="drop-shadow-2xl" />
-          </span>
+        <div className="w-10 h-10  rounded-xl flex items-center justify-center shadow-lg relative">
+          <Image src="/logo.png" alt="Logo tecnica 118" width={40} height={40} className="drop-shadow-2xl" />
         </div>
 
 

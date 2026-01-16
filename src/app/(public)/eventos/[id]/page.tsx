@@ -1,11 +1,14 @@
 "use client";
+import { use } from "react";
 import { notFound } from "next/navigation";
 import { motion } from "framer-motion";
 import { eventItems } from "@/lib/data/mockData";
 import Link from "next/link";
+import Image from "next/image";
 
-export default function EventoPage({ params }: { params: { id: string } }) {
-  const item = eventItems.find(i => i.id === params.id);
+export default function EventoPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+  const item = eventItems.find(i => i.id === id);
 
   if (!item) {
     notFound();
@@ -52,10 +55,11 @@ export default function EventoPage({ params }: { params: { id: string } }) {
         >
           {item.imagen && (
             <div className="relative h-96 md:h-[500px]">
-              <img
+              <Image
                 src={item.imagen}
                 alt={item.titulo}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
               />
             </div>
           )}

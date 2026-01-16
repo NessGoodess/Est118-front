@@ -1,7 +1,6 @@
 "use client";
 
 import { useConfirmContext } from "./ConfirmProvider";
-import { ConfirmOptions } from "./confirm.types";
 
 /**
  * useConfirm

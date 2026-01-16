@@ -6,7 +6,7 @@ import { createEcho } from '@/lib/config/echo'
 export function useEcho(
   channelName: string,
   eventName: string,
-  onMessage: (data: any) => void
+  onMessage: (data: unknown) => void
 ) {
   const onMessageRef = useRef(onMessage)
 
@@ -19,7 +19,7 @@ export function useEcho(
     if (!echo) return
 
     const channel = echo.channel(channelName)
-    const handler = (data: any) => onMessageRef.current(data)
+    const handler = (data: unknown) => onMessageRef.current(data)
 
     channel.listen(eventName, handler)
 

@@ -24,15 +24,15 @@ export default function AttendanceTable({ students, onAttendanceChange }: Attend
       header: "ID",
       width: "80px",
       align: "center",
-      render: (value: Student["student_id"]) => (
-        <span className="text-gray-500 font-mono">{value}</span>
+      render: (value: unknown) => (
+        <span className="text-gray-500 font-mono">{value as Student["student_id"]}</span>
       ),
     },
 
     {
       key: "last_name",
       header: "Apellidos",
-      render: (value: Student["last_name"], row: Student) => (
+      render: (value: unknown, row: Student) => (
         <div>
           <div className="font-medium text-gray-900">{row.last_name}</div>
         </div>
@@ -41,7 +41,7 @@ export default function AttendanceTable({ students, onAttendanceChange }: Attend
     {
       key: "name",
       header: "Nombre",
-      render: (value: Student["name"], row: Student) => (
+      render: (value: unknown, row: Student) => (
         <div>
           <div className="font-medium text-gray-900">{row.name}</div>
         </div>
@@ -50,18 +50,21 @@ export default function AttendanceTable({ students, onAttendanceChange }: Attend
     {
       key: "current_attendance",
       header: "Asistencia Actual",
-      render: (value: Student["current_attendance"]) => (
-        <span className="text-blue-600 text-sm">
-          {value?.status ?? "Sin registrar"}
-        </span>
-      ),
+      render: (value: unknown) => {
+        const attendance = value as Student["current_attendance"];
+        return (
+          <span className="text-blue-600 text-sm">
+            {attendance?.status ?? "Sin registrar"}
+          </span>
+        );
+      },
     },
     {
       key: "attendance",
       header: "Asistencia",
       width: "300px",
       align: "center",
-      render: (_: any, row: Student) => (
+      render: (_: unknown, row: Student) => (
         <div className="flex justify-center gap-4">
           {
             attendanceOptions.map((item) => (

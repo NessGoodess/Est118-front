@@ -1,11 +1,14 @@
 "use client";
+import { use } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { newsItems } from "@/lib/data/mockData";
+import Image from "next/image";
 
-export default function NoticiaModal({ params }: { params: { id: string } }) {
+export default function NoticiaModal({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
-  const item = newsItems.find(i => i.id === params.id);
+  const { id } = use(params);
+  const item = newsItems.find(i => i.id === id);
 
   if (!item) {
     router.push("/noticias");
@@ -30,10 +33,11 @@ export default function NoticiaModal({ params }: { params: { id: string } }) {
         >
           {/* Header */}
           <div className="relative h-64 overflow-hidden rounded-t-2xl">
-            <img
+            <Image
               src={item.imagen}
               alt={item.titulo}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
             <button
               onClick={() => router.back()}

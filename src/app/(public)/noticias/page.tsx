@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { newsItems } from "@/lib/data/mockData";
+import Image from "next/image";
 
 export default function NoticiasPage() {
     return (
@@ -42,10 +43,11 @@ export default function NoticiasPage() {
                         >
                             <Link href={`/noticias/${noticia.id}`} scroll={false}>
                                 <div className="relative h-48 overflow-hidden">
-                                    <img
+                                    <Image
                                         src={noticia.imagen}
                                         alt={noticia.titulo}
-                                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                                        fill
+                                        className="object-cover transition-transform duration-300 hover:scale-110"
                                     />
                                     <div className="absolute top-4 left-4">
                                         <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">

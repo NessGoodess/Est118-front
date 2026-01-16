@@ -1,11 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
-import { useScroll } from "@/contexts/ScrollProvider";
+import Image from "next/image";
 
 export default function HeroWelcome() {
-    const { scrolled } = useScroll();
     return (
         <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden">
             {/* Background con gradiente */}
@@ -40,13 +38,13 @@ export default function HeroWelcome() {
                             className="flex items-center gap-3 mb-6"
                         >
                             <div className="w-20 h-20 md:w-24 md:h-24 relative">
-                                <img
+                                <Image
                                     src="/logo.PNG"
                                     alt="Logo Escuela Secundaria Técnica 118"
-                                    className="w-full h-full object-contain drop-shadow-2xl"
                                     width={96}
                                     height={96}
-                                    loading="eager"
+                                    className="w-full h-full object-contain drop-shadow-2xl"
+                                    priority
                                 />
                             </div>
                             <div className="border-l-4 border-yellow-400 pl-4">
@@ -137,10 +135,11 @@ export default function HeroWelcome() {
                         className="relative"
                     >
                         <div className="relative w-full h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl">
-                            <img
+                            <Image
                                 src="/background4.png"
                                 alt="Escuela Secundaria Técnica 118"
-                                className="w-full h-full object-cover"
+                                fill
+                                className="object-cover"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent" />
                         </div>

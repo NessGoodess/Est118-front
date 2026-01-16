@@ -22,8 +22,15 @@ export function useSchedules(): UseSchedulesResult {
       const response = await apiClient.get(API_ENDPOINTS.SCHEDULES);
       const data = response.data;
       setSchedules(data.schedules || []);
-    } catch (err: any) {
-      const errorMessage = err?.response?.data?.message || err?.message || "Error al cargar horarios";
+    } catch (err: unknown) {
+      let errorMessage = "Error al cargar horarios";
+      if (err && typeof err === 'object') {
+        if ('response' in err && err.response && typeof err.response === 'object' && 'data' in err.response && err.response.data && typeof err.response.data === 'object' && 'message' in err.response.data) {
+          errorMessage = String(err.response.data.message);
+        } else if ('message' in err) {
+          errorMessage = String(err.message);
+        }
+      }
       setError(errorMessage);
       console.error("Error loading schedules:", err);
       setSchedules([]);

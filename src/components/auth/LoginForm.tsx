@@ -26,8 +26,8 @@ export default function LoginForm() {
     try {
       await login(data);
       setState({ success: true, message: 'Inicio de sesión exitoso' });
-    } catch (err: any) {
-      setState({ success: false, message: err?.message || 'Error al iniciar sesión' });
+    } catch (err: unknown) {
+      setState({ success: false, message: err instanceof Error ? err.message : String(err) || 'Error al iniciar sesión' });
     }
   };
 

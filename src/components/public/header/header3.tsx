@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useScroll } from "@/contexts/ScrollProvider";
 import SearchBar from "./SearchBar";
 
-const mapsUrl = "https://maps.app.goo.gl/K1ca1DwxrsoBiZLL6";
 
 /* ──────────────────────────────
    Tipos

@@ -1,12 +1,14 @@
 "use client";
+import { use } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { galleryItems } from "@/lib/data/mockData";
 import Image from "next/image";
 
-export default function GaleriaModal({ params }: { params: { id: string } }) {
+export default function GaleriaModal({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
-  const item = galleryItems.find(i => i.id === params.id);
+  const { id } = use(params);
+  const item = galleryItems.find(i => i.id === id);
 
   if (!item) {
     router.push("/galeria");
@@ -31,10 +33,11 @@ export default function GaleriaModal({ params }: { params: { id: string } }) {
         >
           {/* Header */}
           <div className="relative h-96 overflow-hidden rounded-t-2xl">
-            <img
+            <Image
               src={item.image}
               alt={item.title}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
             <button
               onClick={() => router.back()}

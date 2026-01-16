@@ -1,13 +1,13 @@
-// Validación y extracción de datos de CURP
+// CURP validation and data extraction
 export interface CURPData {
-  fechaNacimiento: string; // formato YYYY-MM-DD
-  edad: number;
-  genero: string; // 'M' o 'F'
-  lugarNacimiento: string;
+  birthDate: string; // format YYYY-MM-DD
+  age: number;
+  gender: string; // 'MASCULINO' or 'FEMENINO'
+  placeOfBirth: string;
 }
 
 export function validateCURP(curp: string): boolean {
-  // Formato básico de CURP: 18 caracteres alfanuméricos
+  // Basic CURP format: 18 alphanumeric characters
   const curpRegex = /^[A-Z]{4}[0-9]{6}[HM][A-Z]{5}[0-9A-Z][0-9]$/;
   return curpRegex.test(curp.toUpperCase());
 }
@@ -19,50 +19,70 @@ export function extractDataFromCURP(curp: string): CURPData | null {
 
   const curpUpper = curp.toUpperCase();
   
-  // Extraer año (posición 4-5)
+  // Extract year (positions 4-5)
   const year = curpUpper.substring(4, 6);
-  // Extraer mes (posición 6-7)
+  // Extract month (positions 6-7)
   const month = curpUpper.substring(6, 8);
-  // Extraer día (posición 8-9)
+  // Extract day (positions 8-9)
   const day = curpUpper.substring(8, 10);
   
-  // Determinar siglo (posición 16)
-  const centuryChar = curpUpper.charAt(16);
-  const fullYear = centuryChar >= '0' && centuryChar <= '9' 
-    ? '20' + year 
-    : '19' + year;
+  // Determine century based on realistic age range
+  // If year is greater than current year's last 2 digits, it's from previous century
+  const currentYear = new Date().getFullYear();
+  const currentYearLastTwo = currentYear % 100;
+  const yearNum = parseInt(year);
   
-  // Extraer género (posición 10)
-  const gender = curpUpper.charAt(10);
-  const genero = gender === 'H' ? 'MASCULINO' : 'FEMENINO';
+  // Determine century: if year > current year's last 2 digits, it's 1900s, otherwise 2000s
+  // But also validate that the resulting age is realistic (between 4 and 100 years)
+  let fullYear: number;
+  const year2000 = 2000 + yearNum;
+  const year1900 = 1900 + yearNum;
   
-  // Extraer lugar de nacimiento (posición 11-12) - simplificado
-  const estadoCode = curpUpper.substring(11, 13);
-  const lugarNacimiento = getEstadoFromCode(estadoCode);
+  // Calculate ages for both possibilities
+  const age2000 = currentYear - year2000;
+  const age1900 = currentYear - year1900;
   
-  // Calcular edad
-  const fechaNac = new Date(parseInt(fullYear), parseInt(month) - 1, parseInt(day));
-  const hoy = new Date();
-  let edad = hoy.getFullYear() - fechaNac.getFullYear();
-  const mesDiff = hoy.getMonth() - fechaNac.getMonth();
-  if (mesDiff < 0 || (mesDiff === 0 && hoy.getDate() < fechaNac.getDate())) {
-    edad--;
+  // Choose the century that results in a realistic age (between 4 and 100 years)
+  if (age2000 >= 4 && age2000 <= 100) {
+    fullYear = year2000;
+  } else if (age1900 >= 4 && age1900 <= 100) {
+    fullYear = year1900;
+  } else {
+    // Default: if year > current year's last 2 digits, use 1900s, otherwise 2000s
+    fullYear = yearNum > currentYearLastTwo ? year1900 : year2000;
   }
   
-  // Formatear fecha como YYYY-MM-DD
-  const fechaNacimiento = `${fullYear}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  // Extract gender (position 10)
+  const genderChar = curpUpper.charAt(10);
+  const gender = genderChar === 'H' ? 'MASCULINO' : 'FEMENINO';
+  
+  // Extract place of birth (positions 11-12)
+  const stateCode = curpUpper.substring(11, 13);
+  const placeOfBirth = getStateFromCode(stateCode);
+  
+  // Calculate age
+  const birthDate = new Date(fullYear, parseInt(month) - 1, parseInt(day));
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  
+  // Format date as YYYY-MM-DD
+  const birthDateStr = `${fullYear}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
   
   return {
-    fechaNacimiento,
-    edad,
-    genero,
-    lugarNacimiento
+    birthDate: birthDateStr,
+    age,
+    gender,
+    placeOfBirth
   };
 }
 
-function getEstadoFromCode(code: string): string {
-  // Mapeo simplificado de códigos de estado en CURP
-  const estados: { [key: string]: string } = {
+function getStateFromCode(code: string): string {
+  // Simplified mapping of state codes in CURP
+  const states: { [key: string]: string } = {
     'AS': 'AGUASCALIENTES',
     'BS': 'BAJA CALIFORNIA SUR',
     'CL': 'COAHUILA',
@@ -79,9 +99,9 @@ function getEstadoFromCode(code: string): string {
     'TL': 'TLAXCALA',
     'YN': 'YUCATÁN',
     'NE': 'NACIDO EN EL EXTRANJERO',
-    'OC': 'OAXACA', // Código común para Oaxaca
+    'OC': 'OAXACA', // Common code for Oaxaca
   };
   
-  return estados[code] || 'OAXACA'; // Por defecto Oaxaca si no se encuentra
+  return states[code] || 'OAXACA'; // Default to Oaxaca if not found
 }
 

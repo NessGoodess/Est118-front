@@ -1,11 +1,14 @@
 "use client";
+import { use } from "react";
 import { notFound } from "next/navigation";
 import { motion } from "framer-motion";
 import { newsItems } from "@/lib/data/mockData";
 import Link from "next/link";
+import Image from "next/image";
 
-export default function NoticiaPage({ params }: { params: { id: string } }) {
-  const item = newsItems.find(i => i.id === params.id);
+export default function NoticiaPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+  const item = newsItems.find(i => i.id === id);
 
   if (!item) {
     notFound();
@@ -55,10 +58,11 @@ export default function NoticiaPage({ params }: { params: { id: string } }) {
           className="bg-white rounded-2xl shadow-xl overflow-hidden"
         >
           <div className="relative h-96 md:h-[500px]">
-            <img
+            <Image
               src={item.imagen}
               alt={item.titulo}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
           </div>
 

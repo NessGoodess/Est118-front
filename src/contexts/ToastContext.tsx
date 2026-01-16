@@ -55,7 +55,7 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
     };
 
     setToasts(prev => [...prev, newToast]);
-  }, []);
+  }, [hideToast]);
 
   const showSuccess = useCallback((title: string, message?: string, duration?: number) => {
     showToast({ type: 'success', title, message, duration });

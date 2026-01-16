@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                 setLoading(false);
             }
         },
-        [router]
+        [router, loadUser]
     );
 
     /**

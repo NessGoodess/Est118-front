@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useScroll } from "@/contexts/ScrollProvider";
 import { motion, AnimatePresence } from "framer-motion";
 import SearchBar from "./SearchBar";
+import Image from "next/image";
 
 // Componente de Icono reutilizable
 const Icon = ({ children, className = "w-5 h-5" }: { children: React.ReactNode; className?: string }) => (
@@ -22,12 +23,6 @@ const Icon = ({ children, className = "w-5 h-5" }: { children: React.ReactNode; 
     </svg>
 );
 
-// Función para crear iconos con tamaño dinámico
-const createIcon = (paths: React.ReactNode, size: string = "w-5 h-5") => (
-    <Icon className={size}>
-        {paths}
-    </Icon>
-);
 
 const mapsUrl = "https://maps.app.goo.gl/K1ca1DwxrsoBiZLL6";
 const navLinks = [
@@ -137,13 +132,13 @@ export default function Header() {
                                     }}
                                     className="w-20 h-20 md:w-24 md:h-24 z-20 relative group"
                                 >
-                                    <img
+                                    <Image
                                         src="/logo.PNG"
                                         alt="Logo Escuela Secundaria Técnica 118"
-                                        className="w-full h-full object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgb(255,255,255)]"
                                         width={96}
                                         height={96}
-                                        loading="eager"
+                                        className="w-full h-full object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgb(255,255,255)]"
+                                        priority
                                     />
                                 </motion.div>
                             )}
@@ -258,7 +253,7 @@ export default function Header() {
                                         },
                                     }}
                                 >
-                                    {navLinks.map((link, index) => (
+                                    {navLinks.map((link) => (
                                         <motion.li
                                             key={link.href}
                                             variants={{
@@ -370,7 +365,7 @@ export default function Header() {
                                 ? "bg-white"
                                 : "bg-[#2b459c]"
                                 }`}>
-                                {navLinks.map((link, index) => (
+                                {navLinks.map((link) => (
                                     <motion.a
                                         key={link.href}
                                         href={link.href}
@@ -382,7 +377,7 @@ export default function Header() {
                                         initial={{ opacity: 0, x: -20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{
-                                            delay: index * 0.1,
+                                            delay: 0.1,
                                             type: "spring",
                                             stiffness: 300,
                                         }}

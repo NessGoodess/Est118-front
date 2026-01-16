@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 import { createEcho } from '@/lib/config/echo'
 
 interface EventHandler {
-  [eventName: string]: (data: any) => void;
+  [eventName: string]: (data: unknown) => void;
 }
 
 export function useEchoMultiEvent(
@@ -26,7 +26,7 @@ export function useEchoMultiEvent(
 
     // Suscribe to each event
     Object.entries(eventsRef.current).forEach(([eventName, handler]) => {
-      const eventHandler = (data: any) => handler(data);
+      const eventHandler = (data: unknown) => handler(data);
       channel.listen(eventName, eventHandler);
       cleanupFunctions.push(() => channel.stopListening(eventName, eventHandler));
     });

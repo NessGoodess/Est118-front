@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { menuItems } from '../sidebar/sidebar.config';
 import { MenuItem } from '../sidebar/sidebar.types';
@@ -45,7 +45,7 @@ function searchItems(query: string): SearchResult[] {
       href: item.href!,
       type: item.children ? 'section' : 'page',
     }))
-    .slice(0, 8); // Limitar a 8 resultados
+    .slice(0, 8) as SearchResult[]; // Limitar a 8 resultados
 }
 
 export function HeaderSearch() {
@@ -70,6 +70,13 @@ export function HeaderSearch() {
       setIsOpen(false);
     }
   }, [query]);
+
+  const handleSelectResult = useCallback((result: SearchResult) => {
+    router.push(result.href);
+    setQuery('');
+    setIsOpen(false);
+    inputRef.current?.blur();
+  }, [router]);
 
   // Manejar teclado
   useEffect(() => {
@@ -105,7 +112,7 @@ export function HeaderSearch() {
       window.addEventListener('keydown', handleKeyDown);
       return () => window.removeEventListener('keydown', handleKeyDown);
     }
-  }, [isOpen, results, selectedIndex]);
+  }, [isOpen, results, selectedIndex, handleSelectResult]);
 
   // Cerrar al hacer click fuera
   useEffect(() => {
@@ -123,13 +130,6 @@ export function HeaderSearch() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  const handleSelectResult = (result: SearchResult) => {
-    router.push(result.href);
-    setQuery('');
-    setIsOpen(false);
-    inputRef.current?.blur();
-  };
 
   const handleFocus = () => {
     if (results.length > 0) {
@@ -211,7 +211,7 @@ export function HeaderSearch() {
       {query.trim() && results.length === 0 && isOpen && (
         <div className="absolute z-50 mt-1 w-full bg-white rounded-lg shadow-lg border border-gray-200">
           <div className="px-4 py-3 text-sm text-gray-500 text-center">
-            No se encontraron resultados para "{query}"
+            No se encontraron resultados para &quot;{query}&quot;
           </div>
         </div>
       )}

@@ -13,7 +13,6 @@ export default function AsistenciaPage() {
   const { schedules, loading: schedulesLoading, error: schedulesError } = useSchedules();
   const { students, markedDates, loading: attendanceLoading, error: attendanceError, selectedClass, selectedDate,
     attendanceStats, loadClassStudents, updateAttendance, setSelectedDate, } = useAttendance();
-  const now = new Date().toISOString().split("T")[0]
 
   const didAutoSelect = useRef(false);
 

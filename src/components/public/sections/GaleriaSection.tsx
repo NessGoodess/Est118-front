@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { galleryItems } from "@/lib/data/mockData";
+import Image from "next/image";
 
 export default function GaleriaSection() {
     const featuredItems = galleryItems.slice(0, 6);
@@ -37,10 +38,11 @@ export default function GaleriaSection() {
                         >
                             <Link href={`/galeria/${item.id}`}>
                                 <div className="relative h-80 overflow-hidden">
-                                    <img
+                                    <Image
                                         src={item.image}
                                         alt={item.title}
-                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                        fill
+                                        className="object-cover transition-transform duration-500 group-hover:scale-110"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                     

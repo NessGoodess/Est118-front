@@ -5,6 +5,7 @@ import { useStudentEcho } from "@/hooks/useStudentsEcho";
 import { CurrentStudent } from "@/lib/types/echo";
 import { globalToast } from "@/lib/toast";
 import Icon from "@/components/ui/Icon";
+import Image from "next/image";
 
 const studentInitiaLData: CurrentStudent = {
     id: 1,
@@ -19,14 +20,14 @@ const studentInitiaLData: CurrentStudent = {
 export default function StudentAttendanceCard() {
     const [scanStatus, setScanStatus] = useState<"waiting" | "scanning" | "success" | "error">("waiting");
     const [displayStudent, setDisplayStudent] = useState<CurrentStudent>(studentInitiaLData);
-    const { studentData, dataReceived, connectionStatus, isConnected, isLoading, hasError } = useStudentEcho();
+    const { studentData, dataReceived, isConnected, isLoading, hasError } = useStudentEcho();
     const divRef = useRef<HTMLDivElement>(null);
 
     const toggleFullscreen = () =>{
         if (!document.fullscreenElement) {
             divRef.current?.requestFullscreen();
         }else{
-            document.exitFullscreen;
+            document.exitFullscreen();
         }
     };
 
@@ -139,11 +140,12 @@ export default function StudentAttendanceCard() {
                         <div className="w-full lg:w-80 flex-shrink-0">
                             <div className="relative group">
                                 <div className={`aspect-[3/4] overflow-hidden rounded-2xl shadow-lg transition-all duration-300 bg-gray-100 ${pulseAnimation ? "ring-4 ring-blue-300 ring-opacity-50" : ""}`}>
-                                    <img
+                                    <Image
                                         src={displayStudent?.photo_url || "/Avatar.svg"}
                                         alt={displayStudent?.name || "Estudiante"}
                                         className="w-full h-full object-cover"
                                         onError={(e) => ((e.target as HTMLImageElement).src = "/Avatar.svg")}
+                                        fill
                                     />
                                 </div>
                             </div>

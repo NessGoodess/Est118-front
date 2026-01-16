@@ -134,7 +134,7 @@ export function setupResponseInterceptor(
               await on401Callback();
               // Reintentar la solicitud original
               return instance(originalRequest);
-            } catch (callbackError) {
+            } catch {
               return Promise.reject(error);
             }
           }

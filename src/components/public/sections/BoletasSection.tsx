@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { boletas, type Boleta } from '@/lib/data/mockData';
+import { boletas } from '@/lib/data/mockData';
 
 export default function BoletasSection() {
     const getCalificacionColor = (calificacion: number) => {

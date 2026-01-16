@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useScroll } from "@/contexts/ScrollProvider";
 
 export default function HeroWelcome() {
-    const { scrolled, visible } = useScroll();
+    const { scrolled } = useScroll();
     return (
         <section
             id="inicio"

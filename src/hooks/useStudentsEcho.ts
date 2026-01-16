@@ -14,10 +14,11 @@ export function useStudentEcho(
   
   const { connectionStatus, isConnected, isLoading, hasError } = useEchoConnection();
 
-  const handleMessage = useCallback((data: CurrentData) => {
-    console.log(' Datos de estudiante recibidos:', data);
-    setDataReceived(data);
-    setStudentData(data.student);
+  const handleMessage = useCallback((data: unknown) => {
+    const typedData = data as CurrentData;
+    console.log(' Datos de estudiante recibidos:', typedData);
+    setDataReceived(typedData);
+    setStudentData(typedData.student);
   }, []);
 
   useEcho(channelName, eventName, handleMessage);

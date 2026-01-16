@@ -5,7 +5,7 @@ import styles from "./section1.module.css";
 
 
 export default function HeroWelcome() {
-    const { scrolled, visible } = useScroll();
+    const { scrolled } = useScroll();
     return (
         <section
             id="inicio"

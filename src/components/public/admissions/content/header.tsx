@@ -1,3 +1,4 @@
+import Image from 'next/image';
 
 export default function PreregistrationHeader() {
     return (
@@ -5,9 +6,13 @@ export default function PreregistrationHeader() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-6">
-                        <img src="/Logo_IEEPO.png" alt="IEEPO" className="h-16 object-contain" />
+                        <div className="relative h-16 w-auto">
+                            <Image src="/Logo_IEEPO.png" alt="IEEPO" width={64} height={64} className="h-16 object-contain" />
+                        </div>
                         <div className="h-12 w-px bg-gray-300" />
-                        <img src="/Logo_EST118.png" alt="EST118" className="h-16 object-contain" />
+                        <div className="relative h-16 w-auto">
+                            <Image src="/Logo_EST118.png" alt="EST118" width={64} height={64} className="h-16 object-contain" />
+                        </div>
                     </div>
                     <div className="text-right">
                         <h1 className="text-2xl font-bold text-gray-900">Preinscripción 2025-2026</h1>

@@ -1,13 +1,14 @@
 // components/ui/AdvancedTable.tsx
 import React from "react";
 
-export type Column<T = any> = {
+export type Column<T = Record<string, unknown>> = {
   key: string;
   header: string;
   width?: string;
   align?: 'left' | 'center' | 'right';
-  render?: (value: any, row: T, index: number) => React.ReactNode;
+  render?: (value: unknown, row: T, index: number) => React.ReactNode;
   sortable?: boolean;
+  valueType?: 'string' | 'number' | 'boolean' | 'object' | 'unknown';
 };
 
 interface TableProps<T> {
@@ -57,7 +58,7 @@ export default function AdvancedTable<T>({
         <tbody className="bg-white divide-y divide-gray-200">
           {data.map((row, index) => (
             <tr
-              key={(row as any)[keyField] || index}
+              key={(row as Record<string, unknown>)[keyField] as string || index}
               onClick={() => onRowClick?.(row, index)}
               className={onRowClick ? "cursor-pointer hover:bg-gray-50 transition-colors" : ""}
             >
@@ -69,8 +70,8 @@ export default function AdvancedTable<T>({
                     }`}
                 >
                   {column.render
-                    ? column.render((row as any)[column.key], row, index)
-                    : String((row as any)[column.key] ?? '')}
+                    ? column.render((row as Record<string, unknown>)[column.key], row, index)
+                    : String((row as Record<string, unknown>)[column.key] ?? '')}
                 </td>
               ))}
             </tr>

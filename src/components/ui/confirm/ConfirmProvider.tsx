@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback, ReactNode } from "react";
-import { ConfirmOptions, ConfirmState, ConfirmVariant } from "./confirm.types";
+import { ConfirmOptions, ConfirmState } from "./confirm.types";
 
 interface ConfirmContextType {
   confirm: (options: ConfirmOptions) => void;

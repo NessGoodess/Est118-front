@@ -3,9 +3,21 @@
 import { useState, useEffect, useRef } from 'react'
 import { createEcho } from '@/lib/config/echo'
 
+interface EchoInstance {
+  connector?: {
+    pusher?: {
+      connection: {
+        state: string;
+        bind: (event: string, handler: () => void) => void;
+        unbind: (event: string, handler: () => void) => void;
+      };
+    };
+  };
+}
+
 export function useEchoConnection() {
   const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected' | 'error'>('connecting');
-  const echoRef = useRef<any>(null);
+  const echoRef = useRef<EchoInstance | null>(null);
 
   useEffect(() => {
     const echo = createEcho();
@@ -14,7 +26,7 @@ export function useEchoConnection() {
       return;
     }
 
-    echoRef.current = echo;
+    echoRef.current = echo as EchoInstance;
 
     // Manejar eventos de conexión
     const handleConnected = () => {
@@ -27,19 +39,19 @@ export function useEchoConnection() {
       setConnectionStatus('disconnected');
     };
 
-    const handleError = (error?: any) => {
+    const handleError = (error?: unknown) => {
       console.error('❌ Error de conexión Reverb:', error);
       setConnectionStatus('error');
     };
 
-    const handleStateChange = (currentState: any) => {
+    const handleStateChange = (currentState: unknown) => {
       // El evento state_change puede venir como objeto {current, previous} o como string
       let current = currentState;
       let previous = 'unknown';
       
-      if (typeof currentState === 'object' && currentState.current) {
+      if (typeof currentState === 'object' && currentState && 'current' in currentState) {
         current = currentState.current;
-        previous = currentState.previous || 'unknown';
+        previous = (currentState as { previous?: string }).previous || 'unknown';
       }
       
       console.log(`🔄 Estado de conexión cambió: ${previous} → ${current}`);
@@ -55,8 +67,8 @@ export function useEchoConnection() {
     };
 
     // Eventos de Pusher/Echo - siguiendo el patrón de ChatTest.tsx
-    const connector = echo.connector as any;
-    if (connector && connector.pusher) {
+    const connector = echo.connector;
+    if (connector && 'pusher' in connector && connector.pusher) {
       const pusher = connector.pusher;
       
       // Escuchar eventos de conexión
@@ -86,13 +98,13 @@ export function useEchoConnection() {
 
     // Cleanup
     return () => {
-      const connector = echoRef.current?.connector as any;
+      const connector = echoRef.current?.connector;
       if (connector && connector.pusher) {
         const pusher = connector.pusher;
         pusher.connection.unbind('connected', handleConnected);
         pusher.connection.unbind('disconnected', handleDisconnected);
         pusher.connection.unbind('error', handleError);
-        pusher.connection.unbind('state_change', handleStateChange);
+        pusher.connection.unbind('state_change', () => handleStateChange(undefined));
       }
     };
   }, []);

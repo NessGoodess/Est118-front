@@ -5,7 +5,7 @@ import { API_CONFIG } from './api'
 export const createEcho = () => {
   if (typeof window === 'undefined') return null;
 
-  (window as any).Pusher = Pusher
+  (window as Window & { Pusher?: typeof Pusher }).Pusher = Pusher
 
   const apiUrl = new URL(API_CONFIG.API_BASE_URL);
   const defaultHost = apiUrl.hostname;
@@ -14,14 +14,13 @@ export const createEcho = () => {
   const reverbHost = process.env.NEXT_PUBLIC_REVERB_HOST || defaultHost;
   const reverbPort = parseInt(process.env.NEXT_PUBLIC_REVERB_PORT || '8080'); // Puerto por defecto de Reverb
   const reverbScheme = process.env.NEXT_PUBLIC_REVERB_SCHEME || 'http';
-  const useTLS = reverbScheme === 'https';
 
   if (!reverbKey) {
     console.warn('REVERB_APP_KEY configured incorrectly');
     console.warn(`   Add NEXT_PUBLIC_REVERB_APP_KEY in your .env.local file`);
   }
 
-  const echoConfig: any = {
+  const echoConfig: Record<string, unknown> = {
     broadcaster: 'reverb',
     key: reverbKey,
     wsHost: reverbHost,
@@ -31,13 +30,13 @@ export const createEcho = () => {
     enabledTransports: ['ws'], // Solo WebSocket en desarrollo
     disableStats: true,
     cluster: '', // No usar cluster para Reverb
-  }
+  };
 
   // En desarrollo, agregar configuración adicional
   if (API_CONFIG.IS_DEVELOPMENT) {
-    echoConfig.encrypted = false
-    echoConfig.enableLogging = true // Habilitar logs para debugging
+    echoConfig.encrypted = false;
+    echoConfig.enableLogging = true; // Habilitar logs para debugging
   }
 
-  return new Echo(echoConfig)
+  return new Echo(echoConfig as never)
 }

@@ -1,74 +1,24 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Paso0Preparacion from "./pasos/Paso0Preparacion";
-import Paso1Correo from "./pasos/Paso1Correo";
-import Paso2Aspirante from "./pasos/Paso2Aspirante";
-import Paso3Educativos from "./pasos/Paso3Educativos";
-import Paso4Domicilio from "./pasos/Paso4Domicilio";
-import Paso5Tutor from "./pasos/Paso5Tutor";
-import Paso6Taller from "./pasos/Paso6Taller";
-import Paso7Vales from "./pasos/Paso7Vales";
-import Paso8Documentos from "./pasos/Paso8Documentos";
-import Paso9Revision from "./pasos/Paso9Revision";
-import Paso10Confirmacion from "./pasos/Paso10Confirmacion";
+import Preparation from "./steps/Step00Preparation";
+import EmailVerification from "./steps/Step01EmailVerification";
+import ApplicantInfo from "./steps/Step02ApplicantInfo";
+import AcademicInfo from "./steps/Step03AcademicInfo";
+import AddressInfo from "./steps/Step04AddressInfo";
+import GuardianInfo from "./steps/Step05GuardianInfo";
+import WorkshopSelection from "./steps/Step06WorkshopSelection";
+import TuitionVoucher from "./steps/Step07TuitionVoucher";
+import Review from "./steps/Step09Review";
+import Confirmation from "./steps/Step10Confirmation";
 import UbicacionSection from "../sections/UbicacionSection";
-import { FormData } from "@/lib/types/preregistration"
-import PreregistrationHeader from "./header";
-
+import PreregistrationHeader from "./content/header";
+import { AdmissionsFormProvider } from "./context/AdmissionsFormContext";
 
 const TOTAL_STEPS = 10;
 
-export default function WizardForm() {
+function WizardFormContent() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState<FormData>({
-    email: "",
-    emailConfirmacion: "",
-    emailVerificado: false,
-    apellidoPaterno: "",
-    apellidoMaterno: "",
-    nombres: "",
-    curpAspirante: "",
-    telefonoAspirante: "",
-    emailAspirante: "",
-    fechaNacimiento: "",
-    lugarNacimiento: "",
-    age: "",
-    genero: "",
-    escuelaProcedencia: "",
-    promedio: "",
-    tieneHermanos: "",
-    hermanosInfo: "",
-    vialidad: "",
-    nombreVialidad: "",
-    numeroExterior: "",
-    numeroInterior: "",
-    asentamiento: "",
-    nombreAsentamiento: "",
-    municipio: "",
-    codigoPostal: "",
-    apellidoPaternoTutor: "",
-    apellidoMaternoTutor: "",
-    nombresTutor: "",
-    curpTutor: "",
-    parentesco: "",
-    telefonoTutor: "",
-    emailTutor: "",
-    tallerFavorito: "",
-    segundaOpcion: "",
-    tieneFolioVales: "",
-    folioVales: "",
-    actaNacimiento: null,
-    curpDocumento: null,
-    comprobanteDomicilio: null,
-    constanciaEstudios: null,
-    fotografiaInfantil: null,
-    folioPreinscripcion: undefined,
-  });
-
-  const updateFormData = (data: Partial<FormData>) => {
-    setFormData(prev => ({ ...prev, ...data }));
-  };
 
   const nextStep = () => {
     if (currentStep < TOTAL_STEPS - 1) {
@@ -92,17 +42,17 @@ export default function WizardForm() {
   };
 
   const steps = [
-    { number: 0, title: "Preparación", component: Paso0Preparacion },
-    { number: 1, title: "Correo", component: Paso1Correo },
-    { number: 2, title: "Aspirante", component: Paso2Aspirante },
-    { number: 3, title: "Educativos", component: Paso3Educativos },
-    { number: 4, title: "Domicilio", component: Paso4Domicilio },
-    { number: 5, title: "Tutor", component: Paso5Tutor },
-    { number: 6, title: "Taller", component: Paso6Taller },
-    { number: 7, title: "Vales", component: Paso7Vales },
-    /*{ number: 8, title: "Documentos", component: Paso8Documentos },*/
-    { number: 8, title: "Revisión", component: Paso9Revision },
-    { number: 9, title: "Confirmación", component: Paso10Confirmacion },
+    { number: 0, title: "Preparación", component: Preparation },
+    { number: 1, title: "Correo", component: EmailVerification },
+    { number: 2, title: "Aspirante", component: ApplicantInfo },
+    { number: 3, title: "Educativos", component: AcademicInfo },
+    { number: 4, title: "Domicilio", component: AddressInfo },
+    { number: 5, title: "Tutor", component: GuardianInfo },
+    { number: 6, title: "Taller", component: WorkshopSelection },
+    { number: 7, title: "Vales", component: TuitionVoucher },
+    /*{ number: 8, title: "Documentos", component:DocumentsUpload},*/ 
+    { number: 8, title: "Revisión", component: Review },
+    { number: 9, title: "Confirmación", component: Confirmation },
   ];
 
   const CurrentStepComponent = steps[currentStep].component;
@@ -190,8 +140,6 @@ export default function WizardForm() {
             transition={{ duration: 0.3 }}
           >
             <CurrentStepComponent
-              formData={formData}
-              updateFormData={updateFormData}
               nextStep={nextStep}
               prevStep={prevStep}
               currentStep={currentStep}
@@ -201,7 +149,14 @@ export default function WizardForm() {
       </section>
       <UbicacionSection />
     </div>
+  );
+}
 
+export default function WizardForm() {
+  return (
+    <AdmissionsFormProvider>
+      <WizardFormContent />
+    </AdmissionsFormProvider>
   );
 }
 

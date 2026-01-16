@@ -21,8 +21,15 @@ export function useGeneralAttendance(): UseGeneralAttendanceResult {
         try {
             const response = await apiClient.get(API_ENDPOINTS.ALL_STUDENTS);
             setStudents(Array.isArray(response.data.students) ? response.data.students : []);
-        } catch (err: any) {
-            const errorMessage = err?.response?.data?.message || err?.message || "Error al obtener estudiantes";
+        } catch (err: unknown) {
+            let errorMessage = "Error al obtener estudiantes";
+            if (err && typeof err === 'object') {
+              if ('response' in err && err.response && typeof err.response === 'object' && 'data' in err.response && err.response.data && typeof err.response.data === 'object' && 'message' in err.response.data) {
+                errorMessage = String(err.response.data.message);
+              } else if ('message' in err) {
+                errorMessage = String(err.message);
+              }
+            }
             setError(errorMessage);
             globalToast.error("Error al obtener estudiantes:", errorMessage);
             setStudents([]);

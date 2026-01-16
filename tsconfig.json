@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(private)/dashboard/page.xtsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(private)/dashboard/page.xtsx", "src/components/public/inscripciones/steps/Step00Preparation.tsx"],
   "exclude": ["node_modules"]
 }
