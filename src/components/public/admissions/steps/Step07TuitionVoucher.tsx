@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { useAdmissionsForm } from "../context/AdmissionsFormContext";
 import { tuitionVoucherSchema } from "@/lib/validations/admissions/admissions.schema";
 import { InputText, InputCheckbox } from "@/components/ui/forms";
+import StepNavigation from "../content/StepNavigation";
+import Header from "../content/header";
 
 interface Props {
   nextStep: () => void;
@@ -21,12 +23,10 @@ export default function TuitionVoucher({ nextStep, prevStep }: Props) {
       tuitionVoucher: {
         ...formData.tuitionVoucher,
         hasSchoolVoucher: hasVoucher,
-        // Borrar el folio cuando se desactiva el checkbox
         schoolVoucherFolio: hasVoucher ? (formData.tuitionVoucher.schoolVoucherFolio || '') : '',
       },
     });
 
-    // Limpiar errores cuando cambia el checkbox
     if (errors.hasSchoolVoucher || errors.schoolVoucherFolio) {
       setErrors({});
     }
@@ -40,7 +40,6 @@ export default function TuitionVoucher({ nextStep, prevStep }: Props) {
       },
     });
 
-    // Limpiar error del campo cuando el usuario empieza a escribir
     if (errors.schoolVoucherFolio) {
       setErrors((prev) => {
         const newErrors = { ...prev };
@@ -68,15 +67,15 @@ export default function TuitionVoucher({ nextStep, prevStep }: Props) {
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2 font-merriweather">Datos de Vales Escolares</h2>
-        <p className="text-gray-600">Información sobre vales escolares del aspirante</p>
-      </motion.div>
+      <Header
+        title="Datos de Vales Escolares"
+        description="Información sobre vales escolares del aspirante"
+      />
 
       <div className="max-w-2xl mx-auto space-y-6">
         <div>
           <InputCheckbox
-            label="¿Cuenta con folio de vales escolares? *"
+            label="¿Cuenta con folio de vales escolares?"
             checked={formData.tuitionVoucher.hasSchoolVoucher}
             onChange={handleHasVoucherChange}
             error={errors.hasSchoolVoucher}
@@ -92,7 +91,7 @@ export default function TuitionVoucher({ nextStep, prevStep }: Props) {
           >
             <InputText
               type="text"
-              label="Folio correspondiente *"
+              label="Folio correspondiente"
               value={formData.tuitionVoucher.schoolVoucherFolio || ""}
               onChange={handleFolioChange}
               placeholder="Ingrese el folio de vales escolares"
@@ -127,22 +126,11 @@ export default function TuitionVoucher({ nextStep, prevStep }: Props) {
         </p>
       </div>
 
-      <div className="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
-        <button
-          onClick={prevStep}
-          className="px-6 py-3 text-gray-700 hover:text-gray-900 font-semibold transition-colors"
-        >
-          ← Atrás
-        </button>
-        <motion.button
-          onClick={handleContinue}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="px-8 py-3 rounded-full font-bold text-lg transition-all bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl"
-        >
-          Continuar →
-        </motion.button>
-      </div>
+      <StepNavigation
+        onBack={prevStep}
+        onNext={handleContinue}
+      />
+
     </div>
   );
 }

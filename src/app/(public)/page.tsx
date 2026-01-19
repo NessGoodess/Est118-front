@@ -11,15 +11,6 @@ export default function Home() {
       <NoticiasSection />
       <EventosSection />
       <GaleriaSection />
-
-      {/* Student Services Sections 
-      <CircularesSection />
-      <BoletasSection />
-      <CalendarioSection />
-      <FormatosSection />
-      <ConstanciasSection />
-      <AvisosSection />
-*/}
       <UbicacionSection />
     </div>
   );

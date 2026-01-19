@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useAdmissionsForm } from "../context/AdmissionsFormContext";
 import apiClient, { API_ENDPOINTS } from "@/lib/config/api";
 import { AxiosError } from "axios";
+import StepNavigation from "../content/StepNavigation";
 
 interface Props {
   nextStep: () => void;
@@ -15,7 +16,7 @@ interface Props {
 function generateIdempotencyKey(curp: string, contactEmail: string): string {
   const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
   const payload = `${curp}-${contactEmail}-${today}`;
-  
+
   // Hash simple usando btoa (en producción usar crypto.subtle.digest)
   // Esto crea una key consistente para el mismo CURP+email+día
   return btoa(payload).replace(/[/+=]/g, '').substring(0, 32);
@@ -36,7 +37,7 @@ export default function Review({ nextStep, prevStep }: Props) {
 
   const handleConfirm = async () => {
     if (isSubmitting) {
-      return; 
+      return;
     }
     setErrorMessage(null);
 
@@ -68,7 +69,7 @@ export default function Review({ nextStep, prevStep }: Props) {
       if (response.status === 201) {
         const folio = response.data?.folio || response.data?.data?.folio;
         const pdf = response.data?.downloadUrl || response.data?.data?.downloadUrl;
-        
+
         if (folio) {
           sessionStorage.setItem('admissions_folio', folio);
           sessionStorage.setItem('pdf_link', pdf);
@@ -84,7 +85,7 @@ export default function Review({ nextStep, prevStep }: Props) {
       if (error && typeof error === 'object' && ('name' in error || 'code' in error)) {
         const err = error as { name?: string; code?: string };
         if (err.name === 'AbortError' || err.code === 'ERR_CANCELED') {
-          return; 
+          return;
         }
       }
       //Axios Error
@@ -94,7 +95,7 @@ export default function Review({ nextStep, prevStep }: Props) {
 
         if (status === 409) {
           setErrorMessage(
-            serverMessage || 
+            serverMessage ||
             "Ya existe una preinscripción con estos datos. Por favor verifica tu información o contacta al área de admisiones."
           );
         } else if (status === 422) {
@@ -113,8 +114,8 @@ export default function Review({ nextStep, prevStep }: Props) {
           setErrorMessage("La solicitud tardó demasiado. Por favor verifica tu conexión e intenta nuevamente.");
         } else {
           setErrorMessage(
-            serverMessage || 
-            error.message || 
+            serverMessage ||
+            error.message ||
             `Error al enviar el formulario. Código: ${status || 'desconocido'}`
           );
         }
@@ -124,7 +125,7 @@ export default function Review({ nextStep, prevStep }: Props) {
           typeof error === 'object' && error !== null && 'message' in error
             ? (error as { message: string }).message
             : null;
-      
+
         setErrorMessage(message || "Ocurrió un error inesperado. Por favor intenta nuevamente.");
       }
       setIsSubmitting(false);
@@ -140,13 +141,13 @@ export default function Review({ nextStep, prevStep }: Props) {
       </motion.div>
 
       <div className="space-y-6">
-        {/* Correo */}
+        {/* Email */}
         <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
           <h3 className="font-bold text-gray-900 mb-4 text-lg">Correo Electrónico</h3>
           <p className="text-gray-700">{formData.email.contactEmail}</p>
         </div>
 
-        {/* Datos del Aspirante */}
+        {/* Aplicant Information */}
         <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
           <h3 className="font-bold text-gray-900 mb-4 text-lg">Datos del Aspirante</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
@@ -163,7 +164,7 @@ export default function Review({ nextStep, prevStep }: Props) {
           </div>
         </div>
 
-        {/* Datos Educativos */}
+        {/* Academic Information */}
         <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
           <h3 className="font-bold text-gray-900 mb-4 text-lg">Datos Educativos</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
@@ -175,7 +176,7 @@ export default function Review({ nextStep, prevStep }: Props) {
           </div>
         </div>
 
-        {/* Domicilio */}
+        {/* Address */}
         <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
           <h3 className="font-bold text-gray-900 mb-4 text-lg">Domicilio</h3>
           <div className="text-sm space-y-1">
@@ -185,7 +186,7 @@ export default function Review({ nextStep, prevStep }: Props) {
           </div>
         </div>
 
-        {/* Datos del Tutor */}
+        {/* Guardian Information */}
         <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
           <h3 className="font-bold text-gray-900 mb-4 text-lg">Datos del Tutor</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
@@ -198,7 +199,7 @@ export default function Review({ nextStep, prevStep }: Props) {
           </div>
         </div>
 
-        {/* Taller */}
+        {/* Workshop Selection */}
         <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
           <h3 className="font-bold text-gray-900 mb-4 text-lg">Taller Seleccionado</h3>
           <div className="text-sm space-y-2">
@@ -207,7 +208,7 @@ export default function Review({ nextStep, prevStep }: Props) {
           </div>
         </div>
 
-        {/* Vales */}
+        {/* Tuition Voucher */}
         {formData.tuitionVoucher.hasSchoolVoucher && (
           <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
             <h3 className="font-bold text-gray-900 mb-4 text-lg">Vales Escolares</h3>
@@ -215,7 +216,7 @@ export default function Review({ nextStep, prevStep }: Props) {
           </div>
         )}
 
-        {/* Advertencia */}
+        {/* Warning */}
         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg">
           <p className="text-sm text-gray-700">
             <strong>Importante:</strong> Para concluir este trámite es requisito indispensable asistir al área de contraloría en las instalaciones de la escuela en horario de <strong>7:15 a 9:30 y de 10:00 a 13:30 horas de lunes a viernes</strong>, presentando el número de folio asignado (que recibirá en su correo electrónico) y cubrir la cuota de preinscripción.
@@ -223,11 +224,12 @@ export default function Review({ nextStep, prevStep }: Props) {
         </div>
       </div>
 
-      {/* Mensaje de error */}
+      {/* Error Message */}
       {errorMessage && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
           className="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg mt-6"
         >
           <div className="flex items-start gap-3">
@@ -251,42 +253,14 @@ export default function Review({ nextStep, prevStep }: Props) {
         </motion.div>
       )}
 
-      <div className="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
-        <button
-          onClick={prevStep}
-          disabled={isSubmitting}
-          className={`px-6 py-3 font-semibold transition-colors ${
-            isSubmitting
-              ? "text-gray-400 cursor-not-allowed"
-              : "text-gray-700 hover:text-gray-900"
-          }`}
-        >
-          ← Atrás
-        </button>
-        <motion.button
-          onClick={handleConfirm}
-          disabled={isSubmitting}
-          whileHover={!isSubmitting ? { scale: 1.02 } : {}}
-          whileTap={!isSubmitting ? { scale: 0.98 } : {}}
-          className={`px-8 py-3 rounded-full font-bold text-lg transition-all flex items-center gap-2 ${
-            isSubmitting
-              ? "bg-gray-400 text-gray-600 cursor-not-allowed"
-              : "bg-green-600 hover:bg-green-700 text-white shadow-lg hover:shadow-xl"
-          }`}
-        >
-          {isSubmitting ? (
-            <>
-              <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Enviando...
-            </>
-          ) : (
-            "✓ Confirmar y Enviar"
-          )}
-        </motion.button>
-      </div>
+      <StepNavigation
+        onBack={prevStep}
+        onNext={handleConfirm}
+        isSubmitting={isSubmitting}
+        nextLabel="Confirmar y Enviar"
+        submittingLabel="Enviando..."
+        variant="submit"
+      />
     </div>
   );
 }

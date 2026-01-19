@@ -2,10 +2,10 @@
 import Header from "@/components/public/header/header";
 import Footer from "@/components/public/footer/Footer";
 
-export default function PublicLayout({ 
+export default function PublicLayout({
     children,
-    modal 
-}: Readonly<{ 
+    modal
+}: Readonly<{
     children: React.ReactNode;
     modal: React.ReactNode;
 }>) {
@@ -13,7 +13,7 @@ export default function PublicLayout({
     return (
         <>
             <Header />
-            <main>
+            <main className="bg-public-background">
                 {children}
             </main>
             <Footer />

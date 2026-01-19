@@ -13,7 +13,7 @@ export const createEcho = () => {
   const reverbKey = process.env.NEXT_PUBLIC_REVERB_APP_KEY || '';
   const reverbHost = process.env.NEXT_PUBLIC_REVERB_HOST || defaultHost;
   const reverbPort = parseInt(process.env.NEXT_PUBLIC_REVERB_PORT || '8080'); // Puerto por defecto de Reverb
-  const reverbScheme = process.env.NEXT_PUBLIC_REVERB_SCHEME || 'http';
+  //const reverbScheme = process.env.NEXT_PUBLIC_REVERB_SCHEME || 'http';
 
   if (!reverbKey) {
     console.warn('REVERB_APP_KEY configured incorrectly');

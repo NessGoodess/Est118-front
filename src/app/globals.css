@@ -2,6 +2,7 @@
 
 :root {
   --background: #ffffff;
+  --public-background: linear-gradient(to bottom, var(--color-blue-50), var(--color-white));
   --foreground: #171717;
   --surface-app: hsl(210, 33%, 97%);
   --foreground-app: hsl(220, 25%, 12%);
@@ -48,7 +49,7 @@
 
   --sidebar-dropdown-bg: #fff;
 
-  --loading-base:hsl(220, 14%, 90%);
+  --loading-base: hsl(220, 14%, 90%);
 
   /* Additional colors for light mode */
   --color-gallery-bg: #fafafa;
@@ -65,6 +66,7 @@
 
 @theme inline {
   --color-background: var(--background);
+  --background-image-hero-gradient: var(--public-background);
   --color-surface-app: var(--surface-app);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-nunito-sans);
@@ -128,6 +130,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: linear-gradient(to bottom, #000D44, #000000);
+    --public-background: hsl(30 3.3% 11.8%);
     --surface-app: linear-gradient(to bottom, #000D44, #000000);
     --foreground: #ffffff;
     --foreground-hover: hsl(215, 16%, 47%);
@@ -164,9 +167,9 @@
     --sidebar-group-text-active: hsl(210, 19%, 66%);
     /*blue-400	#60a5fa*/
     --sidebar-group-border: hsl(210, 95%, 64%);
-    
+
     --sidebar-group-hover: hsl(0, 0%, 100%);
-    
+
     --sidebar-group-icon-active: hsl(0, 0%, 100%);
 
     --sidebar-dropdown-bg: linear-gradient(to bottom, #000D44, #000000);

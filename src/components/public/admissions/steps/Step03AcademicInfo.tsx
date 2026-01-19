@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { useAdmissionsForm } from "../context/AdmissionsFormContext";
 import { academicInfoSchema } from "@/lib/validations/admissions/admissions.schema";
 import { InputText, InputSelect, InputCheckbox, InputTextarea } from "@/components/ui/forms";
+import Header from "../content/header";
+import StepNavigation from "../content/StepNavigation";
 
 interface Props {
   nextStep: () => void;
@@ -48,23 +49,18 @@ export default function AcademicInfo({ nextStep, prevStep }: Props) {
     }
   };
 
-  const averageOptions = Array.from({ length: 101 }, (_, i) => {
-    const value = (i / 10).toFixed(1);
+  const averageOptions = Array.from({ length: 41 }, (_, i) => {
+    const value = (6 + i * 0.1).toFixed(1);
     return { value, label: value };
   });
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2 font-merriweather">
-          Datos Educativos del Aspirante
-        </h2>
-        <p className="text-gray-600">Información académica del aspirante</p>
-      </motion.div>
+      <Header title="Datos Educativos del Aspirante" description="Información académica del aspirante" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <InputText
-          label="Nombre de la escuela de procedencia *"
+          label="Nombre de la escuela de procedencia"
           value={formData.academicInfo.previousSchool}
           onChange={(e) => updateFormData({
             academicInfo: {
@@ -79,7 +75,7 @@ export default function AcademicInfo({ nextStep, prevStep }: Props) {
         />
 
         <InputSelect
-          label="Promedio actual del aspirante *"
+          label="Promedio actual del aspirante"
           value={formData.academicInfo.currentAverage.toString()}
           onChange={handleAverageChange}
           error={errors.currentAverage}
@@ -91,7 +87,7 @@ export default function AcademicInfo({ nextStep, prevStep }: Props) {
 
         <div className="md:col-span-1">
           <InputCheckbox
-            label="¿El aspirante tiene hermanos estudiando en la escuela? *"
+            label="¿El aspirante tiene hermanos estudiando en la escuela?"
             checked={formData.academicInfo.hasSiblings}
             onChange={(e) => updateFormData({
               academicInfo: {
@@ -108,7 +104,7 @@ export default function AcademicInfo({ nextStep, prevStep }: Props) {
         {formData.academicInfo.hasSiblings && (
           <div className="md:col-span-2">
             <InputTextarea
-              label="Indique: nombre completo, grado y grupo *"
+              label="Indique: nombre completo, grado y grupo"
               value={formData.academicInfo.siblingsDetails || ''}
               onChange={(e) => updateFormData({
                 academicInfo: {
@@ -125,22 +121,11 @@ export default function AcademicInfo({ nextStep, prevStep }: Props) {
         )}
       </div>
 
-      <div className="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
-        <button
-          onClick={prevStep}
-          className="px-6 py-3 text-gray-700 hover:text-gray-900 font-semibold transition-colors"
-        >
-          ← Atrás
-        </button>
-        <motion.button
-          onClick={handleContinue}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="px-8 py-3 rounded-full font-bold text-lg transition-all bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl"
-        >
-          Continuar →
-        </motion.button>
-      </div>
+      <StepNavigation
+        onBack={prevStep}
+        onNext={handleContinue}
+      />
+
     </div>
   );
 }

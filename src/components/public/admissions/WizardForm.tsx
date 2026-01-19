@@ -12,7 +12,7 @@ import TuitionVoucher from "./steps/Step07TuitionVoucher";
 import Review from "./steps/Step09Review";
 import Confirmation from "./steps/Step10Confirmation";
 import UbicacionSection from "../sections/UbicacionSection";
-import PreregistrationHeader from "./content/header";
+import HeaderMain from "./content/headerMain";
 import { AdmissionsFormProvider } from "./context/AdmissionsFormContext";
 
 const TOTAL_STEPS = 10;
@@ -50,7 +50,6 @@ function WizardFormContent() {
     { number: 5, title: "Tutor", component: GuardianInfo },
     { number: 6, title: "Taller", component: WorkshopSelection },
     { number: 7, title: "Vales", component: TuitionVoucher },
-    /*{ number: 8, title: "Documentos", component:DocumentsUpload},*/ 
     { number: 8, title: "Revisión", component: Review },
     { number: 9, title: "Confirmación", component: Confirmation },
   ];
@@ -58,11 +57,8 @@ function WizardFormContent() {
   const CurrentStepComponent = steps[currentStep].component;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      {/* Header con logos */}
-      <PreregistrationHeader />
-
-      {/* Barra de progreso */}
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:bg-hsla(30, 3%, 12%, 1.00)">
+      <HeaderMain />
       {currentStep > 0 && currentStep < 9 && (
         <div className="bg-blue-600 text-white py-3">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -86,7 +82,6 @@ function WizardFormContent() {
         </div>
       )}
 
-      {/* Indicador de pasos (solo visible en desktop) */}
       {currentStep > 0 && currentStep < 9 && (
         <div className="hidden lg:block bg-gray-50 border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -129,7 +124,6 @@ function WizardFormContent() {
         </div>
       )}
 
-      {/* Contenido del paso actual */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <AnimatePresence mode="wait">
           <motion.div
@@ -147,7 +141,9 @@ function WizardFormContent() {
           </motion.div>
         </AnimatePresence>
       </section>
-      <UbicacionSection />
+      {currentStep === 9 && (
+        <UbicacionSection />
+      )}
     </div>
   );
 }

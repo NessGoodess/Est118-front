@@ -1,25 +1,23 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useAdmissionsForm } from "../context/AdmissionsFormContext";
 import Link from "next/link";
+import axios from "axios";
 
-interface Props {
-  nextStep: () => void;
-  prevStep: () => void;
-  currentStep: number;
-}
-
-export default function Confirmation({}: Props) {
+export default function Confirmation() {
   const { formData } = useAdmissionsForm();
-  
-  // Obtener folio desde sessionStorage (guardado en Step09Review)
+  const [showModal, setShowModal] = useState(false);
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [pdfError, setPdfError] = useState<string | null>(null);
+
   const [folio] = useState(() => {
     if (typeof window !== 'undefined') {
       return sessionStorage.getItem('admissions_folio') || 'N/A';
     }
     return 'N/A';
   });
+
   const [pdf] = useState(() => {
     if (typeof window !== 'undefined') {
       return sessionStorage.getItem('pdf_link') || 'N/A';
@@ -27,132 +25,109 @@ export default function Confirmation({}: Props) {
     return 'N/A';
   });
 
-  useEffect(() => {
-    // Aquí se enviaría el correo con el folio
-    // El backend debería haberlo enviado automáticamente después del 201
-    if (folio !== 'N/A') {
-      console.log("Folio de preinscripción:", folio);
-      console.log("Correo registrado:", formData.email.contactEmail);
+  const handleOpenPdf = async () => {
+    try {
+      const res = await axios.get(pdf, {
+        responseType: 'blob',
+      });
+
+      const blob = new Blob([res.data], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+
+      setPdfUrl(url);
+      setPdfError(null);
+      setShowModal(true);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response?.status === 403) {
+        setPdfError('El comprobante ha expirado o no es válido');
+        setShowModal(true);
+      } else {
+        setPdfError('Ocurrió un error al cargar el comprobante.');
+        setShowModal(true);
+      }
     }
-    if(pdf!=='N/A'){
-      console.log(pdf)
+  };
+
+  const handleCloseModal = () => {
+    if (pdfUrl) {
+      URL.revokeObjectURL(pdfUrl);
     }
-  }, [folio, formData.email.contactEmail, pdf]);
+    setPdfUrl(null);
+    setShowModal(false);
+  };
 
   return (
     <>
-      <style jsx global>{`
-        @media print {
-          body * {
-            visibility: hidden;
-          }
-          .print-content,
-          .print-content * {
-            visibility: visible;
-          }
-          .print-content {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-          }
-          .no-print {
-            display: none !important;
-          }
-        }
-      `}</style>
       <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="text-center print-content"
-        >
-        {/* Icono de éxito */}
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-          className="inline-flex items-center justify-center w-24 h-24 bg-green-100 rounded-full mb-6"
-        >
-          <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-          </svg>
-        </motion.div>
-
-        <h2 className="text-4xl font-bold text-gray-900 mb-4 font-merriweather">
-          ¡Preinscripción Registrada!
-        </h2>
-
-        {/* Folio destacado */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="bg-blue-50 border-2 border-blue-600 rounded-xl p-6 mb-6 max-w-md mx-auto"
-        >
-          <p className="text-sm text-gray-600 mb-2">Folio de Preinscripción</p>
-          <p className="text-3xl font-bold text-blue-600 font-mono">{folio}</p>
-        </motion.div>
-
-        {/* Información importante */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg mb-6 text-left max-w-2xl mx-auto"
-        >
-          <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-            <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="text-center">
+          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, type: "spring", stiffness: 200 }} className="inline-flex items-center justify-center w-24 h-24 bg-green-100 rounded-full mb-6">
+            <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
-            Próximos Pasos:
-          </h3>
-          <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700">
-            <li>Se ha enviado un correo electrónico a <strong>{formData.email.contactEmail}</strong> con su folio de preinscripción y las instrucciones completas.</li>
-            <li>Asista al área de <strong>Contraloría</strong> en las instalaciones de la escuela con el folio impreso o en su dispositivo móvil.</li>
-            <li><strong>Horario de atención:</strong> 7:15 a 9:30 y de 10:00 a 13:30 horas, de lunes a viernes.</li>
-            <li>Presente el folio y cubra la cuota de preinscripción para completar el proceso.</li>
-          </ol>
-        </motion.div>
+          </motion.div>
 
-        {/* Nota de privacidad */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="text-xs text-gray-500 max-w-2xl mx-auto mb-6"
-        >
-          La información proporcionada es protegida por la Ley Federal de Transparencia y Acceso a la Información Pública Gubernamental, y solamente será utilizada para los fines requeridos por la institución.
-        </motion.p>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4 font-merriweather">
+            ¡Preinscripción Registrada!
+          </h2>
 
-        {/* Botones de acción */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center no-print"
-        >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => window.print()}
-            className="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-full font-semibold transition-all"
-          >
-            📄 Imprimir Folio
-          </motion.button>
-          <Link href="/">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold transition-all"
-            >
-              Volver al Inicio
+          {/* Folio */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="bg-blue-50 border-2 border-blue-600 rounded-xl p-6 mb-6 max-w-md mx-auto">
+            <p className="text-sm text-gray-600 mb-2">Folio de Preinscripción</p>
+            <p className="text-3xl font-bold text-blue-600 font-mono">{folio}</p>
+          </motion.div>
+
+          {/*  Next steps*/}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg mb-6 text-left max-w-2xl mx-auto">
+            <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+              <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Próximos Pasos:
+            </h3>
+            <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700">
+              <li>Se ha enviado un correo electrónico a <strong>{formData.email.contactEmail}</strong> con su folio de preinscripción y las instrucciones completas.</li>
+              <li>Asista al área de <strong>Contraloría</strong> en las instalaciones de la escuela con el folio impreso o en su dispositivo móvil.</li>
+              <li><strong>Horario de atención:</strong> 7:15 a 9:30 y de 10:00 a 13:30 horas, de lunes a viernes.</li>
+              <li>Presente el folio y cubra la cuota de preinscripción para completar el proceso.</li>
+            </ol>
+          </motion.div>
+
+          {/* Privacy note */}
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }} className="text-xs text-gray-500 max-w-2xl mx-auto mb-6">
+            La información proporcionada es protegida por la Ley Federal de Transparencia y Acceso a la Información Pública Gubernamental, y solamente será utilizada para los fines requeridos por la institución.
+          </motion.p>
+
+          {/* Action button */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2 }} className="flex flex-col sm:flex-row gap-4 justify-center">
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleOpenPdf} className="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-full font-semibold transition-all">
+              📄 Ver Comprobante
             </motion.button>
-          </Link>
-         <Link href={pdf}> ver pdf
-         </Link>
-        </motion.div>
+            <Link href="/">
+              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold transition-all">
+                Volver al Inicio
+              </motion.button>
+            </Link>
+
+          </motion.div>
+          {showModal && (
+            <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
+              <div className="bg-white w-[90%] h-[90%] rounded-xl overflow-hidden relative">
+                <button onClick={handleCloseModal} className="absolute top-3 right-3 z-10 bg-white px-3 py-1 rounded">✕</button>
+                {pdfError ? (
+                  <div className="flex items-center justify-center h-full text-center p-6">
+                    <p className="text-red-600 font-semibold">{pdfError}</p>
+                  </div>
+                ) : (
+                  <object data={pdfUrl || undefined} type="application/pdf" className="w-full h-full">
+                    <p>
+                      Tu navegador no puede mostrar PDFs.
+                      <a href={pdfUrl ?? '#'} target="_blank">Abrir PDF</a>
+                    </p>
+                  </object>
+                )}
+              </div>
+            </div>
+          )}
         </motion.div>
       </div>
     </>

@@ -1,10 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { useAdmissionsForm } from "../context/AdmissionsFormContext";
 import { applicantInfoSchema } from "@/lib/validations/admissions/admissions.schema";
 import { InputText, InputSelect } from "@/components/ui/forms";
 import { validateCURP, extractDataFromCURP } from "@/lib/utils/curpValidator";
+import Header from "../content/header";
+import StepNavigation from "../content/StepNavigation";
+import { getIcon } from "@/components/ui/icons/admission.icons";
 
 interface Props {
   nextStep: () => void;
@@ -16,7 +18,6 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
   const { formData, updateFormData } = useAdmissionsForm();
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Calcular edad desde la fecha de nacimiento
   useEffect(() => {
     if (formData.applicantInfo.birthDate) {
       const birthDate = new Date(formData.applicantInfo.birthDate);
@@ -26,7 +27,7 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
       if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
         age--;
       }
-      if (age !== formData.applicantInfo.age && age >= 4 && age <= 18) {
+      if (age !== formData.applicantInfo.age && age >= 10 && age <= 18) {
         updateFormData({
           applicantInfo: {
             ...formData.applicantInfo,
@@ -46,7 +47,6 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
       },
     });
 
-    // Limpiar error
     if (errors.curp) {
       setErrors((prev) => {
         const newErrors = { ...prev };
@@ -55,7 +55,6 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
       });
     }
 
-    // Autocompletar desde CURP
     if (value.length === 18) {
       if (validateCURP(value)) {
         const curpData = extractDataFromCURP(value);
@@ -109,20 +108,11 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
-      >
-        <h2 className="text-3xl font-bold text-gray-900 mb-2 font-merriweather">
-          Datos Generales del Aspirante
-        </h2>
-        <p className="text-gray-600">Información personal del aspirante</p>
-      </motion.div>
+      <Header title="Datos Generales del Aspirante" description="Información personal del aspirante" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <InputText
-          label="Apellido Paterno *"
+          label="Apellido Paterno"
           value={formData.applicantInfo.lastName}
           onChange={(e) => updateFormData({
             applicantInfo: {
@@ -135,10 +125,11 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
           required
           helperText="Solo letras en mayúsculas"
           className="md:col-span-1"
+          icon={getIcon('contact')}
         />
 
         <InputText
-          label="Apellido Materno *"
+          label="Apellido Materno"
           value={formData.applicantInfo.secondLastName || ''}
           onChange={(e) => updateFormData({
             applicantInfo: {
@@ -154,7 +145,7 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
         />
 
         <InputText
-          label="Nombre(s) Propio(s) sin Apellido(s) *"
+          label="Nombre(s) Propio(s) sin Apellido(s)"
           value={formData.applicantInfo.firstName}
           onChange={(e) => updateFormData({
             applicantInfo: {
@@ -170,7 +161,7 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
         />
 
         <InputText
-          label="CURP del aspirante *"
+          label="CURP del aspirante"
           value={formData.applicantInfo.curp}
           onChange={handleCURPChange}
           placeholder="Ejemplo: GALL991215HOCPRN01"
@@ -179,11 +170,12 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
           required
           helperText="18 caracteres alfanuméricos en mayúsculas"
           className="md:col-span-2"
+          icon={getIcon('nationalId')}
         />
 
         <InputText
           type="tel"
-          label="Teléfono de contacto del aspirante *"
+          label="Teléfono de contacto del aspirante"
           value={formData.applicantInfo.phone}
           onChange={handlePhoneChange}
           placeholder="9511234567"
@@ -192,6 +184,7 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
           required
           helperText="10 dígitos"
           className="md:col-span-1"
+          icon={getIcon('phone')}
         />
 
         <InputText
@@ -208,11 +201,12 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
           error={errors.studentEmail}
           helperText="Opcional"
           className="md:col-span-1"
+          icon={getIcon('email')}
         />
 
         <InputText
           type="date"
-          label="Fecha de nacimiento *"
+          label="Fecha de nacimiento"
           value={formData.applicantInfo.birthDate}
           onChange={(e) => updateFormData({
             applicantInfo: {
@@ -223,10 +217,11 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
           error={errors.birthDate}
           required
           className="md:col-span-1"
+          icon={getIcon('calendar')}
         />
 
         <InputSelect
-          label="Edad del aspirante *"
+          label="Edad del aspirante"
           value={formData.applicantInfo.age.toString()}
           onChange={(e) => updateFormData({
             applicantInfo: {
@@ -245,7 +240,7 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
         />
 
         <InputText
-          label="Lugar de nacimiento *"
+          label="Lugar de nacimiento"
           value={formData.applicantInfo.placeOfBirth}
           onChange={(e) => updateFormData({
             applicantInfo: {
@@ -257,10 +252,11 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
           error={errors.placeOfBirth}
           required
           className="md:col-span-1"
+          icon={getIcon('location')}
         />
 
         <InputSelect
-          label="Género *"
+          label="Género"
           value={formData.applicantInfo.gender}
           onChange={(e) => updateFormData({
             applicantInfo: {
@@ -280,22 +276,11 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
         />
       </div>
 
-      <div className="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
-        <button
-          onClick={prevStep}
-          className="px-6 py-3 text-gray-700 hover:text-gray-900 font-semibold transition-colors"
-        >
-          ← Atrás
-        </button>
-        <motion.button
-          onClick={handleContinue}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="px-8 py-3 rounded-full font-bold text-lg transition-all bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl"
-        >
-          Continuar →
-        </motion.button>
-      </div>
+      <StepNavigation
+        onBack={prevStep}
+        onNext={handleContinue}
+      />
+
     </div>
   );
 }
