@@ -13,7 +13,7 @@ export default function PublicLayout({
     return (
         <>
             <Header />
-            <main className="bg-public-background">
+            <main className="bg-public-background pt-25">
                 {children}
             </main>
             <Footer />

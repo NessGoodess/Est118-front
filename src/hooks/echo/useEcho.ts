@@ -18,7 +18,7 @@ export function useEcho(
     const echo = createEcho()
     if (!echo) return
 
-    const channel = echo.channel(channelName)
+    const channel = echo.private(channelName)
     const handler = (data: unknown) => onMessageRef.current(data)
 
     channel.listen(eventName, handler)

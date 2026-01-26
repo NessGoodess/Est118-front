@@ -7,8 +7,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, LoginFormData } from '@/lib/validations/auth.schema';
 import type { AuthState } from '@/lib/types/auth-state';
 import { SubmitButton } from '../ui/SubmitButton';
-import { FormField } from '../ui/FormField1';
+import { FloatingInput, FloatingPassword } from '../ui/FloatingInputs';
 import { useAuth } from '@/contexts/AuthContext';
+import { IconByName } from '../ui/icons/global.icons';
 
 const initialState: AuthState = { success: false, message: '', };
 
@@ -53,7 +54,7 @@ export default function LoginForm() {
         <div className="bg-white py-6 px-4 sm:py-8 sm:px-6 lg:px-8 shadow-xl rounded-xl sm:rounded-2xl">
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6" noValidate>
-            <FormField
+            <FloatingInput
               label="Correo electrónico"
               type="email"
               placeholder=""
@@ -62,14 +63,10 @@ export default function LoginForm() {
               inputMode="email"
               {...register("email")}
               error={errors.email?.message}
-              icon={
-                <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
-                </svg>
-              }
+              icon={<IconByName name="atSign" className="h-4 w-4 sm:h-5 sm:w-5" />}
             />
 
-            <FormField
+            <FloatingPassword
               label="Contraseña"
               type="password"
               placeholder=""
@@ -77,11 +74,7 @@ export default function LoginForm() {
               required
               {...register("password")}
               error={errors.password?.message}
-              icon={
-                <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              }
+              icon={<IconByName name="password" className="h-4 w-4 sm:h-5 sm:w-5" />}
             />
 
             <div className="flex items-center justify-end">

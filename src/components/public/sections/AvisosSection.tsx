@@ -65,8 +65,8 @@ export default function AvisosSection() {
                                         key={grado}
                                         onClick={() => setSelectedGrado(grado)}
                                         className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${selectedGrado === grado
-                                                ? 'bg-cyan-600 text-white shadow-md'
-                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                            ? 'bg-cyan-600 text-white shadow-md'
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                             }`}
                                     >
                                         {grado === 'Todos' ? 'Todos' : `${grado}° Grado`}
@@ -86,8 +86,8 @@ export default function AvisosSection() {
                                         key={tipo}
                                         onClick={() => setSelectedTipo(tipo)}
                                         className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${selectedTipo === tipo
-                                                ? 'bg-cyan-600 text-white shadow-md'
-                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                            ? 'bg-cyan-600 text-white shadow-md'
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                             }`}
                                     >
                                         {tipo}

@@ -53,7 +53,7 @@ export default function Review({ nextStep, prevStep }: Props) {
         formData.email.contactEmail
       );
       const response = await apiClient.post(
-        API_ENDPOINTS.ADMISSION,
+        API_ENDPOINTS.ADMISSION.PRE_ENROLLMENT,
         {
           ...formData,
           _idempotency_key: idempotencyKey,

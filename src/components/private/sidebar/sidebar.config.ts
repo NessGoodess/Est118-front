@@ -7,6 +7,11 @@ export const menuItems: MenuItem[] = [
     icon: 'dashboard',
   },
   {
+    name: 'Preinscripciones',
+    href: '/admissions',
+    icon: 'students',
+  },
+  {
     name: 'Asistencia',
     href: '/attendance',
     icon: 'check',

@@ -96,13 +96,15 @@ export default function EventosSection() {
                     transition={{ duration: 0.8, delay: 0.5 }}
                     className="text-center mt-12"
                 >
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-semibold transition-all shadow-lg"
-                    >
-                        Ver Calendario Completo
-                    </motion.button>
+                    <Link href="/eventos">
+                        <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-semibold transition-all shadow-lg"
+                        >
+                            Ver Calendario Completo
+                        </motion.div>
+                    </Link>
                 </motion.div>
             </div>
         </section>

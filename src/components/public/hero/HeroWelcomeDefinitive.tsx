@@ -88,7 +88,7 @@ export default function HeroWelcome() {
                                     whileTap={{ scale: 0.95 }}
                                     className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 px-8 py-4 rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-xl"
                                 >
-                                    Inscripciones 2026
+                                    Preinscripciones 2026
                                 </motion.button>
                             </Link>
                             <motion.a

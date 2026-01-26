@@ -6,6 +6,7 @@ import { CurrentStudent } from "@/lib/types/echo";
 import { globalToast } from "@/lib/toast";
 import Icon from "@/components/ui/Icon";
 import Image from "next/image";
+import { API_CONFIG } from "@/lib/config/api";
 
 const studentInitiaLData: CurrentStudent = {
     id: 1,
@@ -22,11 +23,18 @@ export default function StudentAttendanceCard() {
     const [displayStudent, setDisplayStudent] = useState<CurrentStudent>(studentInitiaLData);
     const { studentData, dataReceived, isConnected, isLoading, hasError } = useStudentEcho();
     const divRef = useRef<HTMLDivElement>(null);
+    {/*=================================================*/ }
+    const photoUrl = displayStudent?.photo_url
+        ? `${API_CONFIG.API_BASE_URL}/private-image/${displayStudent.photo_url}`
+        : "/Avatar.svg";
 
-    const toggleFullscreen = () =>{
+    {/*=============================================*/ }
+
+
+    const toggleFullscreen = () => {
         if (!document.fullscreenElement) {
             divRef.current?.requestFullscreen();
-        }else{
+        } else {
             document.exitFullscreen();
         }
     };
@@ -141,11 +149,12 @@ export default function StudentAttendanceCard() {
                             <div className="relative group">
                                 <div className={`aspect-[3/4] overflow-hidden rounded-2xl shadow-lg transition-all duration-300 bg-gray-100 ${pulseAnimation ? "ring-4 ring-blue-300 ring-opacity-50" : ""}`}>
                                     <Image
-                                        src={displayStudent?.photo_url || "/Avatar.svg"}
+                                        src={photoUrl}
                                         alt={displayStudent?.name || "Estudiante"}
                                         className="w-full h-full object-cover"
                                         onError={(e) => ((e.target as HTMLImageElement).src = "/Avatar.svg")}
                                         fill
+                                        unoptimized
                                     />
                                 </div>
                             </div>

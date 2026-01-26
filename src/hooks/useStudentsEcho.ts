@@ -11,7 +11,7 @@ export function useStudentEcho(
 ) {
   const [studentData, setStudentData] = useState<CurrentStudent | null>(null);
   const [dataReceived, setDataReceived] = useState<CurrentData | null>(null);
-  
+
   const { connectionStatus, isConnected, isLoading, hasError } = useEchoConnection();
 
   const handleMessage = useCallback((data: unknown) => {

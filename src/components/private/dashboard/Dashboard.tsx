@@ -5,7 +5,7 @@ import RecentActivity from './RecentActivity';
 
 export default function ModernDashboard() {
   return (
-    <div className="space-y-6 p-4">
+    <div className="space-y-6">
       {/* Welcome section */}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-6 text-white">
         <div className="flex items-center justify-between">
@@ -110,11 +110,10 @@ export default function ModernDashboard() {
             ].map((schedule, index) => (
               <div
                 key={index}
-                className={`p-4 rounded-lg border-2 transition-all ${
-                  schedule.status === 'active'
+                className={`p-4 rounded-lg border-2 transition-all ${schedule.status === 'active'
                     ? 'border-blue-500 bg-blue-50'
                     : 'border-gray-200 hover:border-gray-300'
-                }`}
+                  }`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium text-gray-900">{schedule.time}</span>
