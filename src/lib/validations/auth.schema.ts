@@ -3,7 +3,7 @@ import z4 from 'zod/v4';
 
 export const loginSchema = z.object({
   email: z4
-    .email('Formato de correo electrónico inválido'),
+    .email('Correo electrónico inválido'),
   password: z
     .string()
     .min(1, 'La contraseña es requerida')
@@ -19,7 +19,7 @@ export const registerSchema = z.object({
   email: z
     .string()
     .min(1, 'El correo electrónico es requerido')
-    .email('Formato de correo electrónico inválido'),
+    .email('Correo electrónico inválido'),
   password: z
     .string()
     .min(1, 'La contraseña es requerida')

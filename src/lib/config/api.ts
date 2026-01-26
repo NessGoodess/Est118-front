@@ -21,7 +21,7 @@ const DEFAULT_CONFIG = {
   TIMEOUT: 10000,
   APP_ENV: 'development',
   APP_NAME: 'Tecnica_118',
-} as const; 
+} as const;
 
 // Función para obtener la configuración desde variables de entorno
 export function getApiConfig() {
@@ -66,7 +66,13 @@ export const API_ENDPOINTS = {
   STUDENTS: '/students',
   ALL_STUDENTS: '/all-students',
 
-  ADMISSION: '/pre-enrollment',
+  ADMISSION: {
+    PRE_ENROLLMENT: 'admissions/pre-enrollment',
+    CYCLES: 'admissions/cycles',
+    CYCLE_ACTIVATE: (id: number) => `admissions/cycles/${id}/activate`,
+    CYCLE_CLOSE: (id: number) => `admissions/cycles/${id}/close`,
+    STATUS: 'admissions/status',
+  }
 } as const;
 
 // Re-exportar headers desde axios.config

@@ -128,7 +128,7 @@ export function setupResponseInterceptor(
         // Si es error de CSRF, intentar obtener cookie y retry
         if (message?.includes('CSRF') || message?.includes('csrf')) {
           originalRequest._retry = true;
-          
+
           if (on401Callback) {
             try {
               await on401Callback();
@@ -139,7 +139,7 @@ export function setupResponseInterceptor(
             }
           }
         }
-        
+
         // Si es "Unauthenticated." → sesión expirada
         if (message === 'Unauthenticated.') {
           authEventBus.emit(AuthEvent.SESSION_EXPIRED);

@@ -46,7 +46,7 @@ export const galleryItems: GalleryItem[] = [
 ];
 
 export const newsItems: NewsItem[] = [
-  {
+  /*{
     id: "1",
     titulo: "Convocatoria Abierta para Inscripciones",
     fecha: "20 de Enero, 2026",
@@ -55,7 +55,7 @@ export const newsItems: NewsItem[] = [
     imagen: "/",
     categoria: "Inscripciones",
     autor: "Contraloría"
-  },
+  },*/
   {
     id: "2",
     titulo: "Temporada de frio",

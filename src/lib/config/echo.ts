@@ -1,4 +1,5 @@
 import Echo from 'laravel-echo'
+import axios from 'axios'
 import Pusher from 'pusher-js'
 import { API_CONFIG } from './api'
 
@@ -30,6 +31,22 @@ export const createEcho = () => {
     enabledTransports: ['ws'], // Solo WebSocket en desarrollo
     disableStats: true,
     cluster: '', // No usar cluster para Reverb
+    authorizer: (channel: { name: string }, _options: unknown) => {
+      return {
+        authorize: (socketId: string, callback: (error: unknown, data?: unknown) => void) => {
+          axios.post(`${process.env.NEXT_PUBLIC_API_URL}/broadcasting/auth`, {
+            socket_id: socketId,
+            channel_name: channel.name
+          })
+            .then(response => {
+              callback(false, response.data);
+            })
+            .catch(error => {
+              callback(true, error);
+            });
+        }
+      };
+    },
   };
 
   // En desarrollo, agregar configuración adicional
