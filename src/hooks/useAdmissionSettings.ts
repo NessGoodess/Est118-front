@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { settingsService } from "@/services/settings.service";
+import { settingsService } from "@/lib/services/settings.service";
 import { AdmissionCycle, CreateAdmissionCyclePayload } from "@/lib/types/settings";
 import { globalToast } from "@/lib/toast";
 import axios from "axios";

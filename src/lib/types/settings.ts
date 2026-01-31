@@ -1,9 +1,9 @@
-export type AdmissionCycleStatus = 'DRAFT' | 'ACTIVE' | 'CLOSED';
+export type AdmissionCycleStatus = 'draft' | 'active' | 'closed';
 
 export interface AdmissionCycle {
     id: number;
-    start_date: string;
-    end_date: string;
+    start_at: string;
+    end_at: string;
     name: string;
     status: AdmissionCycleStatus;
     created_at?: string;
@@ -11,8 +11,8 @@ export interface AdmissionCycle {
 }
 
 export interface CreateAdmissionCyclePayload {
-    start_date: string;
-    end_date: string;
+    start_at: string;
+    end_at: string;
     name: string;
 }
 
@@ -21,6 +21,6 @@ export interface AdmissionStatus {
     message: string;
     cycle_id?: number;
     cycle_name?: string;
-    start_date?: string;
-    end_date?: string;
+    start_at?: string;
+    end_at?: string;
 }

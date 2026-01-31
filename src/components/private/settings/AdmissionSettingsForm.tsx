@@ -9,8 +9,8 @@ export default function AdmissionSettingsForm() {
     const { cycles, loading, creating, toggling, createCycle, activateCycle, closeCycle } = useAdmissionCycles();
     const [showCreate, setShowCreate] = useState(false);
     const [newCycle, setNewCycle] = useState<CreateAdmissionCyclePayload>({
-        start_date: "",
-        end_date: "",
+        start_at: "",
+        end_at: "",
         name: ""
     });
 
@@ -24,7 +24,7 @@ export default function AdmissionSettingsForm() {
         const success = await createCycle(newCycle);
         if (success) {
             setShowCreate(false);
-            setNewCycle({ start_date: "", end_date: "", name: "" });
+            setNewCycle({ start_at: "", end_at: "", name: "" });
         }
     };
 
@@ -72,16 +72,16 @@ export default function AdmissionSettingsForm() {
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Fecha Inicio</label>
                                 <InputDateTime
                                     required
-                                    value={toDatetimeLocal(newCycle.start_date)}
-                                    onChange={e => setNewCycle({ ...newCycle, start_date: e.target.value })}
+                                    value={toDatetimeLocal(newCycle.start_at)}
+                                    onChange={e => setNewCycle({ ...newCycle, start_at: e.target.value })}
                                 />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Fecha Fin</label>
                                 <InputDateTime
                                     required
-                                    value={toDatetimeLocal(newCycle.end_date)}
-                                    onChange={e => setNewCycle({ ...newCycle, end_date: e.target.value })}
+                                    value={toDatetimeLocal(newCycle.end_at)}
+                                    onChange={e => setNewCycle({ ...newCycle, end_at: e.target.value })}
                                 />
                             </div>
                         </div>
@@ -110,18 +110,18 @@ export default function AdmissionSettingsForm() {
                                         Ciclo #{cycle.id}
                                     </span>
                                     <span className={`px-2 py-0.5 text-xs rounded-full font-medium
-                                        ${cycle.status === 'ACTIVE' ? 'bg-green-100 text-green-800' :
-                                            cycle.status === 'CLOSED' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'}`}>
-                                        {cycle.status === 'ACTIVE' ? 'ACTIVO' : cycle.status === 'CLOSED' ? 'CERRADO' : 'BORRADOR'}
+                                        ${cycle.status === 'active' ? 'bg-green-100 text-green-800' :
+                                            cycle.status === 'closed' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'}`}>
+                                        {cycle.status === 'active' ? 'ACTIVO' : cycle.status === 'closed' ? 'CERRADO' : 'BORRADOR'}
                                     </span>
                                 </div>
                                 <div className="text-sm text-gray-500">
-                                    Del {new Date(cycle.start_date).toLocaleDateString()} al {new Date(cycle.end_date).toLocaleDateString()}
+                                    Del {new Date(cycle.start_at).toLocaleDateString()} al {new Date(cycle.end_at).toLocaleDateString()}
                                 </div>
                             </div>
 
                             <div className="flex gap-2">
-                                {cycle.status === 'DRAFT' && (
+                                {cycle.status === 'draft' && (
                                     <button
                                         onClick={() => activateCycle(cycle.id)}
                                         disabled={toggling === cycle.id}
@@ -130,7 +130,7 @@ export default function AdmissionSettingsForm() {
                                         {toggling === cycle.id ? "..." : "Activar"}
                                     </button>
                                 )}
-                                {cycle.status === 'ACTIVE' && (
+                                {cycle.status === 'active' && (
                                     <button
                                         onClick={() => closeCycle(cycle.id)}
                                         disabled={toggling === cycle.id}

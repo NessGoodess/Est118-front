@@ -4,7 +4,7 @@ import { useAdmissionsForm } from "../context/AdmissionsFormContext";
 import { emailSchema } from "@/lib/validations/admissions/admissions.schema";
 import { InputText } from "@/components/ui/forms/InputText";
 import Header from "../content/header";
-import { getIcon } from "@/components/ui/icons/admission.icons";
+import { getIcon } from "@/components/ui/icons/public/admission.icons";
 import StepNavigation from "../content/StepNavigation";
 
 interface Props {

@@ -175,7 +175,7 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
     const shouldHideDatePlaceholder = type === 'date' && !isFocused && !hasValue;
 
     return (
-      <div className={`relative ${className || ''}`}>
+      <div className={`relative mb-4 ${className || ''}`}>
         <div className="relative">
           {/* Icono */}
           {icon && (
@@ -199,12 +199,16 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
             className={`
               absolute transition-all duration-200 ease-out pointer-events-none z-10
               ${icon ? 'left-11' : 'left-4'}
+              
               ${isFloating
-                ? 'top-0 text-xs font-semibold bg-white px-2 -translate-y-1/2'
+                ? error
+                  ? 'top-0 text-xs font-semibold bg-gradient-to-t from-red-50 to-white px-2 -translate-y-1/2'
+                  : 'top-0 text-xs font-semibold bg-white px-2 -translate-y-1/2'
                 : 'top-1/2 -translate-y-1/2 text-base'
               }
+
               ${isFocused
-                ? 'text-blue-600'
+                ? 'text-blue-600 '
                 : error
                   ? 'text-red-600'
                   : isFloating
@@ -250,7 +254,24 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
           />
         </div>
 
-        {/* Error o Helper Text */}
+        {/* Error or Helper Text */}
+        <div className="mt-2 flex h-2">
+          {(error || helperText) && (
+            <div className="flex items-start gap-x-0.5">
+              {error ? (
+                <>
+                  <IconByName name="error" className="w-3 h-3 text-red-500 flex-shrink-0 mt-0.5" />
+                  <p className="text-xs text-red-600 font-medium">{error}</p>
+                </>
+              ) : (
+                <> <IconByName name="info" className="w-3 h-3 text-slate-400 flex-shrink-0 mt-0.5" />
+                  <p className="text-xs text-slate-500">{helperText}</p>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+        {/* Error o Helper Text 
         {(error || helperText) && (
           <div className="mt-2 flex items-start gap-1.5">
             {error ? (
@@ -270,38 +291,12 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
             )}
           </div>
         )}
+        */}
       </div>
     );
   }
 );
-{/* 
-        <div className="mt-2 flex items-start gap-1.5 h-2">
-        {(error || helperText) && (
-          <div className="flex items-center gap-1.5">
 
-            {error ? (
-              <>
-                <svg className="w-3 h-3 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                </svg>
-                <p className="text-xs text-red-600 font-medium">{error}</p>
-              </>
-            ) : (
-              <>
-                <svg className="w-3 h-3 text-slate-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                </svg>
-                <p className="text-xs text-slate-500">{helperText}</p>
-              </>
-            )}
-            </div>
-        )}
-          </div>
-      </div>
-    );
-  }
-);
-  */}
 FloatingInput.displayName = 'FloatingInput';
 
 // ============================================================================
@@ -438,9 +433,9 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
               pr-4 text-base
               focus:outline-none
               ${error
-                ? 'border-red-300 bg-red-50 text-red-900 placeholder-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                ? 'border-red-300 bg-red-50 text-red-900 placeholder-red-400 focus:border-red-500'
                 : isFocused
-                  ? 'border-blue-500 bg-white shadow-lg shadow-blue-100 focus:ring-4 focus:ring-blue-100'
+                  ? 'border-blue-500 bg-white shadow-lg shadow-blue-100'
                   : 'border-slate-300 bg-white hover:border-slate-400'
               }
               disabled:bg-slate-100 disabled:text-slate-500 disabled:cursor-not-allowed
@@ -453,16 +448,12 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
           <div className="mt-2 flex items-start gap-1.5">
             {error ? (
               <>
-                <svg className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                </svg>
+                <IconByName name="error" className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
                 <p className="text-sm text-red-600 font-medium">{error}</p>
               </>
             ) : (
               <>
-                <svg className="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                </svg>
+                <IconByName name="info" className="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5" />
                 <p className="text-sm text-slate-500">{helperText}</p>
               </>
             )}

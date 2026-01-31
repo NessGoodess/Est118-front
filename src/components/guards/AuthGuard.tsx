@@ -19,9 +19,13 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
         }
     }, [loading, authenticated, router]);
 
-    // Show nothing while loading
+    // Show minimal loading while checking (prevents flash)
     if (loading) {
-        return null;
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="animate-pulse text-gray-400">Cargando...</div>
+            </div>
+        );
     }
 
     // Show nothing if authenticated (redirect is in progress)

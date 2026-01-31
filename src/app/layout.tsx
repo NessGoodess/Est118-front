@@ -1,10 +1,8 @@
-'use client';
-
 import { Geist, Geist_Mono, Nunito_Sans, Montserrat, Merriweather } from "next/font/google";
 import "./globals.css";
 import { ScrollProvider } from "@/contexts/ScrollProvider";
 import { ConfirmProviderWrapper } from "@/components/ui/confirm/ConfirmProviderWrapper";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { Metadata } from "next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +34,15 @@ const merriweather = Merriweather({
   variable: '--font-Merriweather',
 });
 
+export const metadata: Metadata = {
+  title: {
+    default: "Est118",
+    template: "%s | Est118",
+  },
+  description: "Escuela Secundaria Técnica Número 118",
+};
+
+
 export default function RootLayout({
   children,
 }: Readonly<
@@ -54,13 +61,11 @@ export default function RootLayout({
           ${merriweather.variable} 
           antialiased`}
       >
-        <AuthProvider>
-          <ConfirmProviderWrapper>
-            <ScrollProvider>
-              {children}
-            </ScrollProvider>
-          </ConfirmProviderWrapper>
-        </AuthProvider>
+        <ConfirmProviderWrapper>
+          <ScrollProvider>
+            {children}
+          </ScrollProvider>
+        </ConfirmProviderWrapper>
       </body>
     </html>
   );

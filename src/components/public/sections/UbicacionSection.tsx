@@ -82,8 +82,8 @@ export default function UbicacionSection() {
                                     </div>
                                     <div>
                                         <h4 className="text-white font-semibold mb-1">Correo Electrónico</h4>
-                                        <a href="mailto:est188@est118.edu.mx" className="text-gray-300 hover:text-yellow-400 transition-colors">
-                                            est188@est118.edu.mx
+                                        <a href="mailto:est.118.oax@gmail.com" className="text-gray-300 hover:text-yellow-400 transition-colors">
+                                            est.118.oax@gmail.com
                                         </a>
                                     </div>
                                 </div>

@@ -136,7 +136,7 @@ export default function HeroWelcome() {
                     >
                         <div className="relative w-full h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl">
                             <Image
-                                src="/background4.png"
+                                src="/background1.png"
                                 alt="Escuela Secundaria Técnica 118"
                                 fill
                                 className="object-cover"

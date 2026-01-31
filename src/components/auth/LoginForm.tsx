@@ -1,36 +1,44 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, LoginFormData } from '@/lib/validations/auth.schema';
-import type { AuthState } from '@/lib/types/auth-state';
 import { SubmitButton } from '../ui/SubmitButton';
 import { FloatingInput, FloatingPassword } from '../ui/FloatingInputs';
 import { useAuth } from '@/contexts/AuthContext';
 import { IconByName } from '../ui/icons/global.icons';
 
-const initialState: AuthState = { success: false, message: '', };
-
 export default function LoginForm() {
-  const [state, setState] = useState<AuthState>(initialState);
-  const { login, loading } = useAuth();
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const { login, error: authError, clearError } = useAuth();
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  useEffect(() => {
+    return () => {
+      clearError();
+    };
+  }, [clearError]);
 
   const onSubmit = async (data: LoginFormData) => {
-    setState({ success: false, message: '' });
+    setErrorMessage('');
+    clearError();
+    setIsSubmitting(true);
 
     try {
       await login(data);
-      setState({ success: true, message: 'Inicio de sesión exitoso' });
     } catch (err: unknown) {
-      setState({ success: false, message: err instanceof Error ? err.message : String(err) || 'Error al iniciar sesión' });
+      const message = err instanceof Error ? err.message : 'Error al iniciar sesión';
+      setErrorMessage(message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
+  const displayError = errorMessage || authError;
 
   return (
     <div className="flex items-center justify-center py-4 sm:py-8 lg:py-12 px-3 sm:px-4 lg:px-8">
@@ -51,7 +59,7 @@ export default function LoginForm() {
           </p>
         </div>
 
-        <div className="bg-white py-6 px-4 sm:py-8 sm:px-6 lg:px-8 shadow-xl rounded-xl sm:rounded-2xl">
+        <div className="bg-white dark:bg-gray-800 py-6 px-4 sm:py-8 sm:px-6 lg:px-8 shadow-xl rounded-xl sm:rounded-2xl">
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6" noValidate>
             <FloatingInput
@@ -87,34 +95,20 @@ export default function LoginForm() {
             </div>
 
             <div>
-              <SubmitButton pending={loading} loadingText="Iniciando sesión...">
+              <SubmitButton pending={isSubmitting} loadingText="Iniciando sesión...">
                 Iniciar Sesión
               </SubmitButton>
             </div>
 
-            <div className="text-center ">
-              <div className={` -mt-3 p-1 rounded-lg text-sm transition-all duration-300 whitespace-nowrap
-                ${state.message
-                  ? state.success
-                    ? 'bg-green-50 text-green-800 border border-green-100'
-                    : 'bg-red-50 text-red-800 border border-red-100'
-                  : 'opacity-0 '
-                }
-              `} style={{ fontSize: 'clamp(0.65rem, 2.5vw, 0.875rem)' }} role="alert">
-
-                {state.message || '\u00A0'}
-
+            {displayError && (
+              <div className="text-center">
+                <div className="p-3 rounded-lg text-sm bg-red-50 text-red-800 border border-red-200 transition-all duration-300"
+                  style={{ fontSize: 'clamp(0.75rem, 2.5vw, 0.875rem)' }}
+                  role="alert">
+                  {displayError}
+                </div>
               </div>
-              {/*<p className="text-xs sm:text-sm text-gray-600">
-                ¿No tienes una cuenta?{' '}
-                <Link
-                  href="/register"
-                  className="font-medium text-blue-600 hover:text-blue-500 transition-colors duration-200"
-                >
-                  Regístrate aquí
-                </Link>
-              </p>*/}
-            </div>
+            )}
           </form>
         </div>
       </div>

@@ -2,73 +2,60 @@
 import React, { useState, useMemo } from 'react';
 
 // ============================================================================
-// TIPOS (compatibles con Tipo 2)
+// TIPOS Y CONFIGURACIÓN
 // ============================================================================
 
-export interface TableColumn<T = any> {
+interface TableColumn<T> {
   key: keyof T | string;
   label: string;
   sortable?: boolean;
   searchable?: boolean;
+  render?: (value: any, row: T) => React.ReactNode;
   width?: string;
   align?: 'left' | 'center' | 'right';
-  render?: string | ((value: any, row: T) => React.ReactNode);
 }
 
-export interface TableAction<T = any> {
+interface TableAction<T> {
   label: string;
-  icon?: string;
+  icon?: React.ReactNode;
   onClick: (row: T) => void;
   variant?: 'primary' | 'secondary' | 'danger';
   show?: (row: T) => boolean;
 }
 
-export interface TableConfig<T = any> {
+interface TableConfig<T> {
   columns: TableColumn<T>[];
+  data: T[];
   actions?: TableAction<T>[];
   itemsPerPage?: number;
   searchable?: boolean;
   sortable?: boolean;
   selectable?: boolean;
-}
-
-interface DataTableProps<T extends Record<string, any>> {
-  config: TableConfig<T>;
-  data: T[];
-  renderers?: Record<string, (value: any, row?: T) => React.ReactNode>;
-  icons?: Record<string, React.ReactNode>;
   onSelectionChange?: (selected: T[]) => void;
   emptyMessage?: string;
   loading?: boolean;
 }
 
 // ============================================================================
-// COMPONENTE PRINCIPAL: DataTable (compatible con Tipo 2)
+// COMPONENTE PRINCIPAL: DataTable
 // ============================================================================
 
 export function DataTable<T extends Record<string, any>>({
-  config,
+  columns,
   data,
-  renderers = {},
-  icons = {},
+  actions = [],
+  itemsPerPage = 10,
+  searchable = true,
+  sortable = true,
+  selectable = false,
   onSelectionChange,
   emptyMessage = 'No hay datos disponibles',
   loading = false,
-}: DataTableProps<T>) {
+}: TableConfig<T>) {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortConfig, setSortConfig] = useState<{ key: keyof T; direction: 'asc' | 'desc' } | null>(null);
   const [selectedRows, setSelectedRows] = useState<T[]>([]);
-
-  // Extraer valores de la configuración
-  const {
-    columns,
-    actions = [],
-    itemsPerPage = 10,
-    searchable = true,
-    sortable = true,
-    selectable = false,
-  } = config;
 
   // Búsqueda
   const searchableColumns = columns.filter(col => col.searchable !== false);
@@ -134,31 +121,6 @@ export function DataTable<T extends Record<string, any>>({
   const isRowSelected = (row: T) => selectedRows.includes(row);
   const allSelected = paginatedData.length > 0 && paginatedData.every(row => isRowSelected(row));
 
-  // Función para renderizar celdas
-  const renderCell = (value: any, row: T, column: TableColumn<T>) => {
-    if (column.render) {
-      if (typeof column.render === 'string') {
-        // Usar renderer por nombre
-        const renderer = renderers[column.render];
-        if (renderer) {
-          return renderer(value, row);
-        }
-      } else if (typeof column.render === 'function') {
-        // Usar función render personalizada
-        return column.render(value, row);
-      }
-    }
-    return String(value ?? '-');
-  };
-
-  // Función para obtener icono
-  const getIcon = (iconName?: string) => {
-    if (!iconName) return null;
-    return icons[iconName] || (
-      <span className="text-xs">[{iconName}]</span>
-    );
-  };
-
   return (
     <div className="space-y-4">
       {/* Header con búsqueda */}
@@ -208,14 +170,14 @@ export function DataTable<T extends Record<string, any>>({
                   <th
                     key={index}
                     className={`px-4 py-3 text-${column.align || 'left'} text-sm font-semibold text-slate-700 ${
-                      (column.sortable !== false && sortable) ? 'cursor-pointer hover:bg-slate-100' : ''
+                      column.sortable !== false && sortable ? 'cursor-pointer hover:bg-slate-100' : ''
                     }`}
                     style={{ width: column.width }}
-                    onClick={() => (column.sortable !== false && sortable) && handleSort(column.key as keyof T)}
+                    onClick={() => column.sortable !== false && handleSort(column.key as keyof T)}
                   >
                     <div className="flex items-center gap-2">
                       <span>{column.label}</span>
-                      {(column.sortable !== false && sortable) && (
+                      {column.sortable !== false && sortable && (
                         <div className="flex flex-col">
                           <svg
                             className={`w-3 h-3 ${
@@ -284,12 +246,10 @@ export function DataTable<T extends Record<string, any>>({
                       </td>
                     )}
                     {columns.map((column, colIndex) => (
-                      <td 
-                        key={colIndex} 
-                        className={`px-4 py-3 text-${column.align || 'left'} text-sm text-slate-700`}
-                        style={{ width: column.width }}
-                      >
-                        {renderCell(row[column.key as keyof T], row, column)}
+                      <td key={colIndex} className={`px-4 py-3 text-${column.align || 'left'} text-sm text-slate-700`}>
+                        {column.render
+                          ? column.render(row[column.key as keyof T], row)
+                          : String(row[column.key as keyof T] ?? '-')}
                       </td>
                     ))}
                     {actions.length > 0 && (
@@ -309,7 +269,7 @@ export function DataTable<T extends Record<string, any>>({
                                     : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                                 }`}
                               >
-                                {getIcon(action.icon)}
+                                {action.icon}
                                 {action.label}
                               </button>
                             );
@@ -385,10 +345,12 @@ export function DataTable<T extends Record<string, any>>({
 }
 
 // ============================================================================
-// EJEMPLO DE USO CON CONFIGURACIÓN TIPO 2
+// EJEMPLO DE USO
 // ============================================================================
+import { apiToListItem} from '@/lib/types/admission/apiToFormData';
 
-// Este sería el archivo de configuración (similar al Tipo 2)
+
+// Configuración de la tabla
 const studentsTableConfig = {
   columns: [
     {
@@ -398,112 +360,109 @@ const studentsTableConfig = {
       sortable: true,
     },
     {
-      key: 'name',
-      label: 'Nombre',
+      key: 'folio',
+      label: 'Folio',
       sortable: true,
       searchable: true,
-    },
-    {
-      key: 'grade',
-      label: 'Grado',
-      width: '100px',
-      align: 'center' as const,
-    },
-    {
-      key: 'group',
-      label: 'Grupo',
-      width: '100px',
-      align: 'center' as const,
     },
     {
       key: 'status',
       label: 'Estado',
       width: '120px',
-      render: 'status-badge', // ← Nombre del renderer
+      render: (value: string) => (
+        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+          value === 'active'
+            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+            : 'bg-slate-100 text-slate-600 border border-slate-200'
+        }`}>
+          {value === 'active' ? 'Activo' : 'Inactivo'}
+        </span>
+      ),
     },
     {
-      key: 'email',
+      key: 'full_name',
+      label: 'Nombre',
+      width: '100px',
+      align: 'center' as const,
+      sortable: true,
+    },
+    {
+      key: 'curp',
+      label: 'CURP',
+      width: '100px',
+      align: 'center' as const,
+    },
+    {
+      key: 'gender',
+      label: 'Sexo',
+      width: '100px',
+      align: 'center' as const,
+    },
+    {
+      key: 'age',
+      label: 'Edad',
+      width: '100px',
+      align: 'center' as const,
+    },
+    {
+      key: 'guardian_name',
+      label: 'Tutor',
+      width: '100px',
+      align: 'center' as const,
+    },
+    {
+      key: 'guardian_phone',
+      label: 'Tutor',
+      width: '100px',
+      align: 'center' as const,
+    },
+    {
+      key: 'contact_email',
       label: 'Email',
-      searchable: true,
-      render: 'email-link', // ← Nombre del renderer
+      width: '100px',
+      align: 'center' as const,
+    },
+    {
+      key: 'created_at',
+      label: 'Fecha',
+      width: '100px',
+      align: 'center' as const,
     },
   ],
   actions: [
     {
       label: 'Ver',
-      icon: 'eye', // ← Nombre del icono
-      onClick: (student: any) => console.log('Ver', student),
+      icon: (
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+      ),
+      onClick: (student: PreEnrollmentListItem) => console.log('Ver', student),
       variant: 'secondary' as const,
     },
     {
       label: 'Editar',
-      icon: 'edit',
-      onClick: (student: any) => console.log('Editar', student),
+      onClick: (student: PreEnrollmentListItem) => console.log('Editar', student),
       variant: 'primary' as const,
     },
     {
       label: 'Eliminar',
-      icon: 'trash',
-      onClick: (student: any) => console.log('Eliminar', student),
+      onClick: (student: PreEnrollmentListItem) => console.log('Eliminar', student),
       variant: 'danger' as const,
-      show: (student: any) => student.status === 'inactive',
+      show: (student: PreEnrollmentListItem) => student.status === 'inactive',
     },
   ],
-  itemsPerPage: 5,
-  searchable: true,
-  sortable: true,
-  selectable: true,
 };
 
-// Renderers (similar al Tipo 2)
-const tableRenderers = {
-  'status-badge': (value: string) => (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-      value === 'active'
-        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-        : 'bg-slate-100 text-slate-600 border-slate-200'
-    }`}>
-      {value === 'active' ? 'Activo' : 'Inactivo'}
-    </span>
-  ),
-  'email-link': (value: string) => (
-    <a href={`mailto:${value}`} className="text-blue-600 hover:underline text-sm">
-      {value}
-    </a>
-  ),
-};
 
-// Iconos (similar al Tipo 2)
-const tableIcons = {
-  eye: (
-    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-    </svg>
-  ),
-  edit: (
-    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-    </svg>
-  ),
-  trash: (
-    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-    </svg>
-  ),
-};
+import { PreEnrollmentListItem } from "@/lib/types/admission/preEnrollmentApi";
 
-// Datos de ejemplo
-const mockStudents = [
-  { id: 1, name: 'Juan Pérez', grade: '3°', group: 'A', status: 'active', email: 'juan@example.com', phone: '555-0001' },
-  { id: 2, name: 'María García', grade: '2°', group: 'B', status: 'active', email: 'maria@example.com', phone: '555-0002' },
-  { id: 3, name: 'Carlos López', grade: '1°', group: 'A', status: 'inactive', email: 'carlos@example.com', phone: '555-0003' },
-  { id: 4, name: 'Ana Martínez', grade: '3°', group: 'C', status: 'active', email: 'ana@example.com', phone: '555-0004' },
-  { id: 5, name: 'Luis Rodríguez', grade: '2°', group: 'A', status: 'active', email: 'luis@example.com', phone: '555-0005' },
-];
-
-export default function DataTableExample() {
-  const [selectedStudents, setSelectedStudents] = useState<any[]>([]);
+interface Props {
+    data: PreEnrollmentListItem[];
+}
+export default function DataTableExample({ data }: Props) {
+  const [selectedStudents, setSelectedStudents] = useState<PreEnrollmentListItem[]>([]);
 
   return (
     <div className="min-h-screen bg-slate-50 p-8">
@@ -513,12 +472,14 @@ export default function DataTableExample() {
           <p className="text-slate-600">Gestiona los estudiantes de la institución</p>
         </div>
 
-        {/* USO CON CONFIGURACIÓN TIPO 2 */}
         <DataTable
-          config={studentsTableConfig}
-          data={mockStudents}
-          renderers={tableRenderers}
-          icons={tableIcons}
+          columns={studentsTableConfig.columns as any}
+          data={data}
+          actions={studentsTableConfig.actions as any}
+          itemsPerPage={5}
+          searchable={true}
+          sortable={true}
+          selectable={true}
           onSelectionChange={setSelectedStudents}
           emptyMessage="No se encontraron estudiantes"
         />

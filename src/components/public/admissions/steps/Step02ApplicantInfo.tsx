@@ -6,7 +6,7 @@ import { InputText, InputSelect } from "@/components/ui/forms";
 import { validateCURP, extractDataFromCURP } from "@/lib/utils/curpValidator";
 import Header from "../content/header";
 import StepNavigation from "../content/StepNavigation";
-import { getIcon } from "@/components/ui/icons/admission.icons";
+import { getIcon } from "@/components/ui/icons/public/admission.icons";
 
 interface Props {
   nextStep: () => void;

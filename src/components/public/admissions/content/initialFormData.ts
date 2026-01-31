@@ -1,4 +1,4 @@
-import { FormData } from "./admissions";
+import { FormData } from "../../../../lib/types/admission/admission";
 
 export const initialFormData: FormData = {
     email: {

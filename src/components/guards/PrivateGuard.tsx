@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 
 /**
  * PrivateGuard - Protects private routes from unauthenticated users
- * Prevents flash by blocking render until auth state is loaded
+ * Shows loading spinner while checking authentication to prevent flash
  */
 export default function PrivateGuard({ children }: { children: React.ReactNode }) {
     const { authenticated, loading } = useAuth();
@@ -19,9 +19,16 @@ export default function PrivateGuard({ children }: { children: React.ReactNode }
         }
     }, [loading, authenticated, router]);
 
-    // Show nothing while loading (prevents flash)
+    // Show loading spinner while checking authentication
     if (loading) {
-        return null;
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100">
+                <div className="text-center">
+                    <div className="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600"></div>
+                    <p className="mt-4 text-gray-700 font-medium">Verificando autenticación...</p>
+                </div>
+            </div>
+        );
     }
 
     // Show nothing if not authenticated (redirect is in progress)

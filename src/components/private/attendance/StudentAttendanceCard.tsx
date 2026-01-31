@@ -7,29 +7,52 @@ import { globalToast } from "@/lib/toast";
 import Icon from "@/components/ui/Icon";
 import Image from "next/image";
 import { API_CONFIG } from "@/lib/config/api";
-
-const studentInitiaLData: CurrentStudent = {
-    id: 1,
-    credential_id: "ROCM110926MDFMLXA6",
-    name: "Areil Delgado cruz Joaquin",
-    photo_url: "/Avatar.svg",
-    grade: "3°",
-    group: "H",
-    registered_at: "DSFSDFSdfsdfsdf"
-}
+import { useAttendanceStore } from "@/stores/attendance-store";
+import { getCurrentStudent, getAttendanceHistory } from "@/lib/services/attendance.service";
+import AttendanceHistoryList from "./AttendanceHistoryList";
 
 export default function StudentAttendanceCard() {
     const [scanStatus, setScanStatus] = useState<"waiting" | "scanning" | "success" | "error">("waiting");
-    const [displayStudent, setDisplayStudent] = useState<CurrentStudent>(studentInitiaLData);
+    const [isLoadingInitial, setIsLoadingInitial] = useState(true);
     const { studentData, dataReceived, isConnected, isLoading, hasError } = useStudentEcho();
     const divRef = useRef<HTMLDivElement>(null);
-    {/*=================================================*/ }
+
+    // Zustand store
+    const { records, addRecord, setInitialRecords, getLatestRecord } = useAttendanceStore();
+
+    // Get current display student (latest from store or null)
+    const displayStudent = getLatestRecord();
+
+    // Load initial data from API on mount
+    useEffect(() => {
+        async function loadInitialData() {
+            setIsLoadingInitial(true);
+            try {
+                // Try to get attendance history first
+                const history = await getAttendanceHistory(20);
+
+                if (history.length > 0) {
+                    setInitialRecords(history);
+                } else {
+                    // If no history, try to get current student
+                    const current = await getCurrentStudent();
+                    if (current) {
+                        addRecord(current, 'api');
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading initial attendance data:', error);
+            } finally {
+                setIsLoadingInitial(false);
+            }
+        }
+
+        loadInitialData();
+    }, [setInitialRecords, addRecord]);
+
     const photoUrl = displayStudent?.photo_url
         ? `${API_CONFIG.API_BASE_URL}/private-image/${displayStudent.photo_url}`
         : "/Avatar.svg";
-
-    {/*=============================================*/ }
-
 
     const toggleFullscreen = () => {
         if (!document.fullscreenElement) {
@@ -39,9 +62,9 @@ export default function StudentAttendanceCard() {
         }
     };
 
+    // Handle WebSocket events
     useEffect(() => {
-
-        if (!dataReceived) return
+        if (!dataReceived) return;
 
         let timeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -51,56 +74,57 @@ export default function StudentAttendanceCard() {
                 if (dataReceived.status === "ok") {
                     timeout = setTimeout(() => {
                         setScanStatus("success");
-                    }, 500)
+                    }, 500);
                     if (studentData) {
-                        setDisplayStudent(studentData);
-                        globalToast.success("exito", "Estudiante encontrado");
+                        // Add to store (will prevent duplicates automatically)
+                        addRecord(studentData, 'websocket');
+                        globalToast.success("Éxito", "Estudiante registrado");
                     }
                 } else if (dataReceived.status === "warning") {
                     timeout = setTimeout(() => {
                         setScanStatus("error");
-                    }, 500)
-                    globalToast.error("Error", "Fallo al leer credencial o Credencial No reconocida,");
-
+                    }, 500);
+                    globalToast.error("Error", "Credencial no reconocida");
                 }
-                break
+                break;
 
             case "card_removed":
                 if (dataReceived.status === "info") {
                     setScanStatus("waiting");
                 }
-                break
+                break;
+
             case "unknown":
                 if (dataReceived.status === "error") {
                     setScanStatus("error");
-                    globalToast.error("Error", "Error de lectura Intente de nuevo");
+                    globalToast.error("Error", "Error de lectura. Intente de nuevo");
                 }
-                break
+                break;
         }
 
         return () => {
-            if (timeout) clearTimeout(timeout)
+            if (timeout) clearTimeout(timeout);
         };
-    }, [dataReceived, studentData]);
+    }, [dataReceived, studentData, addRecord]);
 
-    const isVisible = true
-    const pulseAnimation = scanStatus === "scanning"
+    const pulseAnimation = scanStatus === "scanning";
 
     const statusConfig = useMemo(() => {
         switch (scanStatus) {
             case "scanning":
-                return { border: "border-blue-500 bg-blue-50", label: "Escaneando...", text: "text-blue-600", color: "bg-blue-100", textEx: "#2563eb" }
+                return { border: "border-blue-500 bg-blue-50", label: "Escaneando...", text: "text-blue-600", color: "bg-blue-100", textEx: "#2563eb" };
             case "success":
-                return { border: "border-green-500 bg-green-50", label: "Identificado", text: "text-green-600", color: "bg-green-100", textEx: "#16a34a" }
+                return { border: "border-green-500 bg-green-50", label: "Identificado", text: "text-green-600", color: "bg-green-100", textEx: "#16a34a" };
             case "error":
-                return { border: "border-red-500 bg-red-50", label: "Error", text: " text-red-600", color: "bg-red-100", textEx: "#dc2626" }
+                return { border: "border-red-500 bg-red-50", label: "Error", text: "text-red-600", color: "bg-red-100", textEx: "#dc2626" };
             default:
-                return { border: "border-gray-200 bg-white", label: "Esperando credencial", text: " text-gray-500", color: "bg-gray-100", textEx: "#6b7280" }
+                return { border: "border-gray-200 bg-white", label: "Esperando credencial", text: "text-gray-500", color: "bg-gray-100", textEx: "#6b7280" };
         }
-    }, [scanStatus])
+    }, [scanStatus]);
 
     return (
-        <div className={`transition-all duration-500 ease-out transform ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+        <div className="space-y-6">
+            {/* Main Card */}
             <article className={`relative overflow-hidden rounded-2xl shadow-xl border-2 transition-all duration-300 ${statusConfig.border} ${pulseAnimation ? "animate-pulse" : ""}`}>
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-50 opacity-80"></div>
                 {scanStatus === "scanning" && (
@@ -109,7 +133,6 @@ export default function StudentAttendanceCard() {
 
                 <div ref={divRef} className="relative p-8">
                     {/* Header */}
-
                     <header className="mb-8">
                         <div className="flex items-center justify-between mb-4">
                             <div>
@@ -125,8 +148,8 @@ export default function StudentAttendanceCard() {
                                 </div>
                                 <div className="flex items-center space-x-2 text-sm font-medium text-gray-700">
                                     <div className={`w-2 h-2 rounded-full ${isConnected ? "bg-green-500 animate-pulse" :
-                                        isLoading ? "bg-yellow-500 animate-pulse" :
-                                            hasError ? "bg-red-500" : "bg-gray-400"
+                                            isLoading ? "bg-yellow-500 animate-pulse" :
+                                                hasError ? "bg-red-500" : "bg-gray-400"
                                         }`}></div>
                                     <span>
                                         {isConnected ? "Conectado" :
@@ -136,44 +159,76 @@ export default function StudentAttendanceCard() {
                                     </span>
                                 </div>
                             </div>
-                            <button onClick={toggleFullscreen}>
+                            <button
+                                onClick={toggleFullscreen}
+                                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors duration-200 text-sm font-medium text-gray-700"
+                            >
                                 Pantalla completa
                             </button>
                         </div>
                     </header>
 
                     {/* Main content */}
-                    <div className="flex flex-col lg:flex-row gap-8 items-center">
-                        {/* Photo */}
-                        <div className="w-full lg:w-80 flex-shrink-0">
-                            <div className="relative group">
-                                <div className={`aspect-[3/4] overflow-hidden rounded-2xl shadow-lg transition-all duration-300 bg-gray-100 ${pulseAnimation ? "ring-4 ring-blue-300 ring-opacity-50" : ""}`}>
-                                    <Image
-                                        src={photoUrl}
-                                        alt={displayStudent?.name || "Estudiante"}
-                                        className="w-full h-full object-cover"
-                                        onError={(e) => ((e.target as HTMLImageElement).src = "/Avatar.svg")}
-                                        fill
-                                        unoptimized
-                                    />
+                    {isLoadingInitial ? (
+                        <div className="flex items-center justify-center py-12">
+                            <div className="text-center">
+                                <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-blue-600 mb-4"></div>
+                                <p className="text-gray-600">Cargando datos...</p>
+                            </div>
+                        </div>
+                    ) : displayStudent ? (
+                        <div className="flex flex-col lg:flex-row gap-8 items-center">
+                            {/* Photo */}
+                            <div className="w-full lg:w-80 flex-shrink-0">
+                                <div className="relative group">
+                                    <div className={`aspect-[3/4] overflow-hidden rounded-2xl shadow-lg transition-all duration-300 bg-gray-100 ${pulseAnimation ? "ring-4 ring-blue-300 ring-opacity-50" : ""}`}>
+                                        <Image
+                                            src={photoUrl}
+                                            alt={displayStudent.name}
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => ((e.target as HTMLImageElement).src = "/Avatar.svg")}
+                                            fill
+                                            unoptimized
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Student Info */}
+                            <div className="flex-1 w-full space-y-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <InfoBlock label="Nombre Completo" value={displayStudent.name} />
+                                    <InfoBlock label="Grupo" value={displayStudent.group} />
+                                    <InfoBlock label="Grado" value={displayStudent.grade} />
+                                    <InfoBlock label="ID Credencial" value={displayStudent.credential_id} />
                                 </div>
                             </div>
                         </div>
-
-                        {/* Student Info */}
-                        <div className="flex-1 w-full space-y-4">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <InfoBlock label="Nombre Completo" value={displayStudent?.name} />
-                                <InfoBlock label="Grupo" value={displayStudent?.group} />
-                                <InfoBlock label="Grado" value={displayStudent?.grade} />
-                                <InfoBlock label="Hora de Registro" value={displayStudent?.registered_at} />
+                    ) : (
+                        <div className="text-center py-12">
+                            <div className="text-gray-400 text-lg">
+                                <p className="mb-2">👋 Esperando primer escaneo</p>
+                                <p className="text-sm">Acerque una credencial al lector NFC</p>
                             </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </article>
+
+            {/* History Section */}
+            <div className="bg-white rounded-2xl shadow-lg p-6">
+                <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-2xl font-bold text-gray-800">
+                        Historial de Asistencia
+                    </h3>
+                    <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                        {records.length} {records.length === 1 ? 'registro' : 'registros'}
+                    </span>
+                </div>
+                <AttendanceHistoryList records={records} />
+            </div>
         </div>
-    )
+    );
 }
 
 function InfoBlock({ label, value }: { label: string; value?: string }) {
@@ -184,30 +239,5 @@ function InfoBlock({ label, value }: { label: string; value?: string }) {
                 {value || "No disponible"}
             </p>
         </div>
-    )
+    );
 }
-
-{/* Action Buttons 
-                            <div className="mt-8 flex flex-wrap gap-4">
-                                <button
-                                    disabled={!isConnected || hasError}
-                                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center space-x-2 ${!isConnected || hasError
-                                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                        : 'bg-blue-600 text-white hover:bg-blue-700'
-                                        }`}
-                                >
-                                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span>Confirmar Asistencia</span>
-                                </button>
-
-                                <button className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors duration-200 flex items-center space-x-2">
-                                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                    <span>Configurar</span>
-                                </button>
-                            </div>
-*/}

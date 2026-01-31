@@ -70,27 +70,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const handleLogin = useCallback(
         async (credentials: LoginCredentials) => {
             try {
-                setLoading(true);
                 setError(null);
-                //const response = await login(credentials);
+
                 await login(credentials);
                 await loadUser();
-                //setUser(response.user || (response as unknown as User));
                 setAuthenticated(true);
 
-                // Small delay to ensure cookies are set
-                //await new Promise(resolve => setTimeout(resolve, 100));
+                // Redirect to dashboard after successful login
+                router.replace('/dashboard');
 
-                // Redirect to dashboard after login
-                router.push('/dashboard');
-                router.refresh();
             } catch (err) {
                 const apiError = err as ApiError;
-                setError(formatAuthError(apiError));
+                const errorMessage = formatAuthError(apiError);
+                setError(errorMessage);
                 setAuthenticated(false);
-                throw err;
-            } finally {
-                setLoading(false);
+                // Re-throw with formatted message so LoginForm can catch it
+                throw new Error(errorMessage);
             }
         },
         [router, loadUser]

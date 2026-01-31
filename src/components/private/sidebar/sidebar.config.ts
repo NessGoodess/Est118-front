@@ -7,6 +7,12 @@ export const menuItems: MenuItem[] = [
     icon: 'dashboard',
   },
   {
+    name: 'Asistencia General',
+    href: '/asistencia-general',
+    icon: 'listCheck',
+    badge: 'NFC',
+  },
+  {
     name: 'Preinscripciones',
     href: '/admissions',
     icon: 'students',
@@ -15,12 +21,6 @@ export const menuItems: MenuItem[] = [
     name: 'Asistencia',
     href: '/attendance',
     icon: 'check',
-  },
-  {
-    name: 'Asistencia General',
-    href: '/asistencia-general',
-    icon: 'listCheck',
-    badge: 'NFC',
   },
   {
     name: 'Gestion De Estudiantes',
@@ -32,6 +32,11 @@ export const menuItems: MenuItem[] = [
         icon: 'add',
       },
       {
+        name: 'chat de pruebas',
+        href: '/gestion-de-credenciales/chat-de-pruebas',
+        icon: 'list',
+      },
+      {
         name: 'Lista de Estudiantes',
         href: '/students/list-students',
         icon: 'list',
@@ -39,45 +44,9 @@ export const menuItems: MenuItem[] = [
     ],
   },
   {
-    name: 'Grupos',
-    href: '/grupos',
-    icon: 'groups',
-  },
-  {
     name: 'Reportes',
     href: '/reportes',
     icon: 'reports',
-  },
-  {
-    name: 'eXTRA',
-    href: '/extra',
-    icon: 'reports',
-  },
-  {
-    name: 'Preuba',
-    href: '/pruebas',
-    icon: 'reports',
-  },
-  {
-    name: 'Gestion De Credenciales',
-    icon: 'credentials',
-    children: [
-      {
-        name: 'Asignar NFC',
-        href: '/gestion-de-credenciales/asignar-nfc',
-        icon: 'nfc',
-      },
-      {
-        name: 'Imprimir Credenciales',
-        href: '/gestion-de-credenciales/impresion-de-credenciales',
-        icon: 'print',
-      },
-      {
-        name: 'Chat de Pruebas',
-        href: '/gestion-de-credenciales/chat-de-pruebas',
-        icon: 'chat',
-      },
-    ],
   },
   {
     name: 'Configuración',

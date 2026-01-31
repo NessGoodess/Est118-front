@@ -1,21 +1,17 @@
-import { getApiConfig, API_ENDPOINTS } from "@/lib/config/api";
-
 export interface AdmissionStatusResponse {
     enabled: boolean;
     status?: "active" | "not_started" | "ended" | "not_available";
     message?: string;
-    start_date?: string;
-    end_date?: string;
+    start_at?: string;
+    end_at?: string;
     cycle_id?: number;
     cycle_name?: string;
 }
 
 export async function getAdmissionStatus(): Promise<AdmissionStatusResponse> {
-    const { API_FULL_URL } = getApiConfig();
-
     try {
         const res = await fetch(
-            `${API_FULL_URL}${API_ENDPOINTS.ADMISSION.STATUS}`,
+            `${process.env.NEXT_PUBLIC_API_URL}/api/admissions/status`,
             { cache: "no-store" }
         );
 

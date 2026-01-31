@@ -61,7 +61,11 @@ export const API_ENDPOINTS = {
     RESET_PASSWORD: '/auth/reset-password',
   },
   SCHEDULES: '/schedules',
-  ATTENDANCE: '/record',
+  ATTENDANCE: {
+    RECORD: '/record',
+    CURRENT_STUDENT: '/attendance/last-attendance',
+    HISTORY: '/attendance/all-attendances',
+  },
   CLASS_STUDENTS: (scheduleId: number, date: string) => `/class/${scheduleId}/date/${date}`,
   STUDENTS: '/students',
   ALL_STUDENTS: '/all-students',
@@ -72,6 +76,8 @@ export const API_ENDPOINTS = {
     CYCLE_ACTIVATE: (id: number) => `admissions/cycles/${id}/activate`,
     CYCLE_CLOSE: (id: number) => `admissions/cycles/${id}/close`,
     STATUS: 'admissions/status',
+
+    PRE_ENROLLMENTS: 'admissions/pre-enrollments',   
   }
 } as const;
 
