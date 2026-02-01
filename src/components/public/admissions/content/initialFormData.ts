@@ -21,7 +21,7 @@ export const initialFormData: FormData = {
 
     academicInfo: {
         previousSchool: '',
-        currentAverage: 0,
+        currentAverage: "0",
         hasSiblings: false,
         siblingsDetails: '',
     },

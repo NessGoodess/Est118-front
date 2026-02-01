@@ -2,7 +2,6 @@
 "use client";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useStudentEcho } from "@/hooks/useStudentsEcho";
-import { CurrentStudent } from "@/lib/types/echo";
 import { globalToast } from "@/lib/toast";
 import Icon from "@/components/ui/Icon";
 import Image from "next/image";
@@ -148,8 +147,8 @@ export default function StudentAttendanceCard() {
                                 </div>
                                 <div className="flex items-center space-x-2 text-sm font-medium text-gray-700">
                                     <div className={`w-2 h-2 rounded-full ${isConnected ? "bg-green-500 animate-pulse" :
-                                            isLoading ? "bg-yellow-500 animate-pulse" :
-                                                hasError ? "bg-red-500" : "bg-gray-400"
+                                        isLoading ? "bg-yellow-500 animate-pulse" :
+                                            hasError ? "bg-red-500" : "bg-gray-400"
                                         }`}></div>
                                     <span>
                                         {isConnected ? "Conectado" :

@@ -13,15 +13,14 @@ interface Props {
 }
 
 export default function AcademicInfo({ nextStep, prevStep }: Props) {
-  const { formData, updateFormData } = useAdmissionsForm();
+  const { formData, updateFormData, markStepCompleted } = useAdmissionsForm();
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleAverageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = parseFloat(e.target.value) || 0;
     updateFormData({
       academicInfo: {
         ...formData.academicInfo,
-        currentAverage: value,
+        currentAverage: e.target.value,
       },
     });
     if (errors.currentAverage) {
@@ -37,6 +36,7 @@ export default function AcademicInfo({ nextStep, prevStep }: Props) {
     const result = academicInfoSchema.safeParse(formData.academicInfo);
     if (result.success) {
       setErrors({});
+      markStepCompleted(3);
       nextStep();
     } else {
       const fieldErrors: Record<string, string> = {};
@@ -49,10 +49,13 @@ export default function AcademicInfo({ nextStep, prevStep }: Props) {
     }
   };
 
-  const averageOptions = Array.from({ length: 41 }, (_, i) => {
-    const value = (6 + i * 0.1).toFixed(1);
-    return { value, label: value };
-  });
+  const averageOptions = [
+    { value: "0", label: 'Seleccionar promedio' },
+    ...Array.from({ length: 41 }, (_, i) => {
+      const value = (6 + i * 0.1).toFixed(1);
+      return { value, label: value };
+    })
+  ];
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
@@ -81,7 +84,7 @@ export default function AcademicInfo({ nextStep, prevStep }: Props) {
           error={errors.currentAverage}
           required
           placeholder="Seleccionar promedio"
-          options={averageOptions}
+          options={averageOptions.map(o => ({ ...o, value: o.value.toString() }))}
           className="md:col-span-1"
         />
 

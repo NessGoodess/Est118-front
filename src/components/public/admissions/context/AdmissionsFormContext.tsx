@@ -7,6 +7,8 @@ interface AdmissionsFormContextType {
   formData: FormData;
   updateFormData: (data: Partial<FormData>) => void;
   resetFormData: () => void;
+  completeSteps: number[];
+  markStepCompleted: (step: number) => void;
 }
 
 const AdmissionsFormContext = createContext<AdmissionsFormContextType | undefined>(undefined);
@@ -16,6 +18,16 @@ const STORAGE_KEY = "admissions_form_data";
 export function AdmissionsFormProvider({ children }: { children: ReactNode }) {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [completeSteps, setCompleteSteps] = useState<number[]>([]);
+
+  const markStepCompleted = (step: number) => {
+    setCompleteSteps((prev) => {
+      if (!prev.includes(step)) {
+        return [...prev, step];
+      }
+      return prev;
+    });
+  };
 
   // Cargar datos del localStorage al montar
   useEffect(() => {
@@ -55,7 +67,7 @@ export function AdmissionsFormProvider({ children }: { children: ReactNode }) {
         const typedKey = key as keyof FormData;
         const newValue = data[typedKey];
         const prevValue = prev[typedKey];
-        
+
         if (newValue && typeof newValue === "object" && !Array.isArray(newValue) && prevValue && typeof prevValue === "object" && !Array.isArray(prevValue)) {
           // Si es un objeto anidado, hacer merge
           (updated as Record<string, unknown>)[typedKey] = { ...prevValue, ...newValue };
@@ -79,7 +91,7 @@ export function AdmissionsFormProvider({ children }: { children: ReactNode }) {
 
   // Siempre proporcionar el contexto, incluso antes de la hidratación
   return (
-    <AdmissionsFormContext.Provider value={{ formData, updateFormData, resetFormData }}>
+    <AdmissionsFormContext.Provider value={{ formData, updateFormData, resetFormData, completeSteps, markStepCompleted }}>
       {children}
     </AdmissionsFormContext.Provider>
   );

@@ -6,6 +6,7 @@ import { guardianInfoSchema } from "@/lib/validations/admissions/admissions.sche
 import { InputText, InputSelect } from "@/components/ui/forms";
 import Header from "../content/header";
 import StepNavigation from "../content/StepNavigation";
+import { GUARDIAN_TYPES } from "@/lib/types/select-types";
 
 interface Props {
   nextStep: () => void;
@@ -14,7 +15,7 @@ interface Props {
 }
 
 export default function GuardianInfo({ nextStep, prevStep }: Props) {
-  const { formData, updateFormData } = useAdmissionsForm();
+  const { formData, updateFormData, markStepCompleted } = useAdmissionsForm();
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleCURPChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,6 +88,7 @@ export default function GuardianInfo({ nextStep, prevStep }: Props) {
     }
 
     setErrors({});
+    markStepCompleted(5);
     nextStep();
   };
 
@@ -167,12 +169,10 @@ export default function GuardianInfo({ nextStep, prevStep }: Props) {
           error={errors.guardianRelationship}
           required
           placeholder="Seleccionar parentesco"
-          options={[
-            { value: 'PADRE', label: 'Padre' },
-            { value: 'MADRE', label: 'Madre' },
-            { value: 'TUTOR', label: 'Tutor' },
-            { value: 'OTRO', label: 'Otro' },
-          ]}
+          options={GUARDIAN_TYPES.map((type) => ({
+            value: type,
+            label: type,
+          }))}
           className="md:col-span-1"
         />
 

@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function EmailVerification({ nextStep, prevStep }: Props) {
-  const { formData, updateFormData } = useAdmissionsForm();
+  const { formData, updateFormData, markStepCompleted } = useAdmissionsForm();
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,6 +55,7 @@ export default function EmailVerification({ nextStep, prevStep }: Props) {
     const result = emailSchema.safeParse(formData.email);
     if (result.success) {
       setErrors({});
+      markStepCompleted(1);
       nextStep();
     } else {
       const fieldErrors: Record<string, string> = {};

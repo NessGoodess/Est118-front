@@ -14,26 +14,18 @@ interface Props {
 
 // idempotency key
 function generateIdempotencyKey(curp: string, contactEmail: string): string {
-  const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+  const today = new Date().toISOString().split('T')[0];
   const payload = `${curp}-${contactEmail}-${today}`;
 
-  // Hash simple usando btoa (en producción usar crypto.subtle.digest)
-  // Esto crea una key consistente para el mismo CURP+email+día
+  //  usar crypto.subtle.digest)
   return btoa(payload).replace(/[/+=]/g, '').substring(0, 32);
 }
 
 export default function Review({ nextStep, prevStep }: Props) {
-  const { formData } = useAdmissionsForm();
+  const { formData, resetFormData } = useAdmissionsForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
-
-  const talleres = {
-    "CONFECCION_VESTIDO": "Confección del vestido e industria Textil",
-    "MAQUINAS_HERRAMIENTAS": "Máquinas, herramientas y sistemas de control",
-    "DISEÑO_INDUSTRIAL": "Diseño Industrial",
-    "INFORMATICA": "Informática",
-  };
 
   const handleConfirm = async () => {
     if (isSubmitting) {
@@ -75,7 +67,7 @@ export default function Review({ nextStep, prevStep }: Props) {
           sessionStorage.setItem('pdf_link', pdf);
         }
 
-        //resetFormData();
+        resetFormData();
 
         nextStep();
       } else {
@@ -169,7 +161,10 @@ export default function Review({ nextStep, prevStep }: Props) {
           <h3 className="font-bold text-gray-900 mb-4 text-lg">Datos Educativos</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div><span className="font-semibold">Escuela de procedencia:</span> {formData.academicInfo.previousSchool}</div>
-            <div><span className="font-semibold">Promedio:</span> {formData.academicInfo.currentAverage.toFixed(1)}</div>
+            <div>
+              <span className="font-semibold">Promedio:</span> {formData.academicInfo.currentAverage === "0" ? "-" : formData.academicInfo.currentAverage}
+            </div>
+
             {formData.academicInfo.hasSiblings && formData.academicInfo.siblingsDetails && (
               <div className="md:col-span-2"><span className="font-semibold">Hermanos:</span> {formData.academicInfo.siblingsDetails}</div>
             )}
@@ -203,8 +198,8 @@ export default function Review({ nextStep, prevStep }: Props) {
         <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
           <h3 className="font-bold text-gray-900 mb-4 text-lg">Taller Seleccionado</h3>
           <div className="text-sm space-y-2">
-            <p><span className="font-semibold">Opción favorita:</span> {talleres[formData.workshopSelect.workshopFirstChoice as keyof typeof talleres] || formData.workshopSelect.workshopFirstChoice}</p>
-            <p><span className="font-semibold">Segunda opción:</span> {talleres[formData.workshopSelect.workshopSecondChoice as keyof typeof talleres] || formData.workshopSelect.workshopSecondChoice}</p>
+            <p><span className="font-semibold">Opción favorita:</span> {formData.workshopSelect.workshopFirstChoice}</p>
+            <p><span className="font-semibold">Segunda opción:</span> {formData.workshopSelect.workshopSecondChoice}</p>
           </div>
         </div>
 

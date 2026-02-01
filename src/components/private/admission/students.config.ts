@@ -75,21 +75,21 @@ export const studentsTableConfig: TableConfig<PreEnrollmentListItem> = {
     {
       label: 'Ver',
       icon: 'eye', // ← Nombre del icono
-      onClick: (student: any) => console.log('Ver', student),
+      onClick: (student: PreEnrollmentListItem) => console.log('Ver', student),
       variant: 'secondary' as const,
     },
     {
       label: 'Editar',
       icon: 'edit',
-      onClick: (student: any) => console.log('Editar', student),
+      onClick: (student: PreEnrollmentListItem) => console.log('Editar', student),
       variant: 'primary' as const,
     },
     {
       label: 'Eliminar',
       icon: 'trash',
-      onClick: (student: any) => console.log('Eliminar', student),
+      onClick: (student: PreEnrollmentListItem) => console.log('Eliminar', student),
       variant: 'danger' as const,
-      show: (student: any) => student.status === 'inactive',
+      show: (student: PreEnrollmentListItem) => student.status === 'inactive',
     },
   ],
   itemsPerPage: 5,

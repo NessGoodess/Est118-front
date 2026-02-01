@@ -1,15 +1,15 @@
 
-export interface TableColumn<T = any> {
+export interface TableColumn<T = unknown> {
   key: keyof T | string;
   label: string;
   sortable?: boolean;
   searchable?: boolean;
   width?: string;
   align?: 'left' | 'center' | 'right';
-  render?: string | ((value: any, row: T) => React.ReactNode);
+  render?: string | ((value: unknown, row: T) => React.ReactNode);
 }
 
-export interface TableAction<T = any> {
+export interface TableAction<T = unknown> {
   label: string;
   icon?: string;
   onClick: (row: T) => void;
@@ -17,7 +17,7 @@ export interface TableAction<T = any> {
   show?: (row: T) => boolean;
 }
 
-export interface TableConfig<T = any> {
+export interface TableConfig<T = unknown> {
   columns: TableColumn<T>[];
   actions?: TableAction<T>[];
   itemsPerPage?: number;
@@ -26,10 +26,10 @@ export interface TableConfig<T = any> {
   selectable?: boolean;
 }
 
-export interface DataTableProps<T extends Record<string, any>> {
+export interface DataTableProps<T> {
   config: TableConfig<T>;
   data: T[];
-  renderers?: Record<string, (value: any, row?: T) => React.ReactNode>;
+  renderers?: Record<string, (value: unknown, row?: T) => React.ReactNode>;
   icons?: Record<string, React.ReactNode>;
   onSelectionChange?: (selected: T[]) => void;
   emptyMessage?: string;

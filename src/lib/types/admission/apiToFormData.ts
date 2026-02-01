@@ -22,7 +22,7 @@ export function apiToFormData(api: PreEnrollmentApi): FormData {
     },
     academicInfo: {
       previousSchool: api.previous_school,
-      currentAverage: Number(api.current_average),
+      currentAverage: api.current_average,
       hasSiblings: api.has_siblings,
       siblingsDetails: api.siblings_details,
     },

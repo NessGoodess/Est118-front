@@ -1,20 +1,20 @@
 
 "use client"
-import GenericHeader from "@/components/ui/GenericHeader";
 import { usePreEnrollments } from "@/hooks/admissions/use-pre-enrollments";
 import Loading from "./loading";
 import { useToast } from "@/contexts/ToastContext";
-import { DataTable } from "../gestion-de-credenciales/chat-de-pruebas/page";
+import { DataTable } from "@/components/ui/DataTable";
 import { studentsTableConfig } from "@/components/private/admission/students.config";
 import { tableRenderers } from "@/components/private/admission/tableRerenders";
 import { tableIcons } from "@/components/private/admission/icons";
 import React, { useState } from "react";
+import { PreEnrollmentListItem } from "@/lib/types/admission/preEnrollmentApi";
 
 
 export default function Admissions() {
     const { data, loading, error } = usePreEnrollments();
     const { showError } = useToast();
-    const [selectedStudents, setSelectedStudents] = useState<any[]>([]);
+    const [selectedStudents, setSelectedStudents] = useState<PreEnrollmentListItem[]>([]);
     React.useEffect(() => {
         if (error) {
             showError('Error', 'Error al cargar las preinscripciones');

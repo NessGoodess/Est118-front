@@ -14,11 +14,13 @@ import Confirmation from "./steps/Step10Confirmation";
 import UbicacionSection from "../sections/UbicacionSection";
 import HeaderMain from "./content/headerMain";
 import { AdmissionsFormProvider } from "./context/AdmissionsFormContext";
+import { useAdmissionsForm } from "./context/AdmissionsFormContext";
 
 const TOTAL_STEPS = 10;
 
 function WizardFormContent() {
   const [currentStep, setCurrentStep] = useState(0);
+  const { completeSteps } = useAdmissionsForm();
 
   const nextStep = () => {
     if (currentStep < TOTAL_STEPS - 1) {
@@ -88,25 +90,32 @@ function WizardFormContent() {
             <div className="flex items-center justify-between">
               {steps.slice(1, 9).map((step, index) => {
                 const stepNumber = step.number;
-                const isCompleted = stepNumber < currentStep;
+                const isCompleted = completeSteps.includes(stepNumber);
                 const isCurrent = stepNumber === currentStep;
 
                 return (
                   <div key={stepNumber} className="flex items-center flex-1">
                     <button
-                      onClick={() => goToStep(stepNumber)}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${isCurrent
-                        ? "bg-blue-600 text-white font-semibold"
-                        : isCompleted
-                          ? "bg-green-100 text-green-700 hover:bg-green-200"
-                          : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                      onClick={() => {
+                        if (isCompleted || stepNumber < currentStep) {
+                          goToStep(stepNumber);
+                        }
+                      }}
+                      disabled={!isCompleted && stepNumber > currentStep}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all 
+                        ${isCurrent
+                          ? "bg-blue-600 text-white font-semibold"
+                          : isCompleted
+                            ? "bg-green-100 text-green-700 hover:bg-green-200"
+                            : "bg-gray-100 text-gray-500 hover:bg-gray-200"
                         }`}
                     >
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${isCurrent
-                        ? "bg-white text-blue-600"
-                        : isCompleted
-                          ? "bg-green-600 text-white"
-                          : "bg-gray-300 text-gray-600"
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold 
+                      ${isCurrent
+                          ? "bg-white text-blue-600"
+                          : isCompleted
+                            ? "bg-green-600 text-white"
+                            : "bg-gray-300 text-gray-600"
                         }`}>
                         {isCompleted ? "✓" : stepNumber}
                       </div>

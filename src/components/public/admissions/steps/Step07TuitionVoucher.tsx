@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function TuitionVoucher({ nextStep, prevStep }: Props) {
-  const { formData, updateFormData } = useAdmissionsForm();
+  const { formData, updateFormData, markStepCompleted } = useAdmissionsForm();
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleHasVoucherChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +53,7 @@ export default function TuitionVoucher({ nextStep, prevStep }: Props) {
     const result = tuitionVoucherSchema.safeParse(formData.tuitionVoucher);
     if (result.success) {
       setErrors({});
+      markStepCompleted(7);
       nextStep();
     } else {
       const fieldErrors: Record<string, string> = {};
@@ -97,7 +98,7 @@ export default function TuitionVoucher({ nextStep, prevStep }: Props) {
               placeholder="Ingrese el folio de vales escolares"
               error={errors.schoolVoucherFolio}
               required
-              helperText="Si no lo conoce, consulte en: http://pucsys.oaxaca.gob.mx/consultas"
+              helperText="Obligatorio si marco la casilla"
             />
           </motion.div>
         )}
@@ -105,7 +106,7 @@ export default function TuitionVoucher({ nextStep, prevStep }: Props) {
         {formData.tuitionVoucher.hasSchoolVoucher === false && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <p className="text-sm text-blue-900">
-              No se requiere folio de vales escolares. Puede continuar con el siguiente paso.
+             Marque la casilla si cuenta con vales escolares, si no puede continuar con el siguiente paso.
             </p>
           </div>
         )}

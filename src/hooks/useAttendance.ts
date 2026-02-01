@@ -119,7 +119,7 @@ export function useAttendance(): UseAttendanceResult {
         date,
         status,
       };
-      await apiClient.post(API_ENDPOINTS.ATTENDANCE, attendanceRecord);
+      await apiClient.post(`${API_ENDPOINTS.ATTENDANCE}`, attendanceRecord);
 
       const statusText = {
         'present': 'Presente',

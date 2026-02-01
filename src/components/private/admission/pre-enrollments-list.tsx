@@ -1,17 +1,17 @@
 "use client"
 import React, { useState } from 'react';
-import DataTable from '@/components/ui/data-table';
+import { DataTable } from '@/components/ui/DataTable';
 import { studentsTableConfig } from './students.config';
 import { tableIcons } from './icons';
 import { PreEnrollmentListItem } from '@/lib/types/admission/preEnrollmentApi';
 import { tableRenderers } from './tableRerenders';
 
 interface props {
-    data: PreEnrollmentListItem[];
+  data: PreEnrollmentListItem[];
 }
 
 export default function DataTableExample({ data }: props) {
-  const [selectedStudents, setSelectedStudents] = useState<any[]>([]);
+  const [selectedStudents, setSelectedStudents] = useState<PreEnrollmentListItem[]>([]);
 
   return (
     <div className="min-h-screen bg-slate-50 p-8">

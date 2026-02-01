@@ -20,7 +20,7 @@ export interface ApplicantInfo {
 
 export interface AcademicInfo {
     previousSchool: string;
-    currentAverage: number;
+    currentAverage: string;
     hasSiblings: boolean;
     siblingsDetails?: string; // opcional si no tiene hermanos
 }

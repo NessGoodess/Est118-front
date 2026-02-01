@@ -19,7 +19,7 @@ export interface PreEnrollmentApi {
   place_of_birth: string;
 
   previous_school: string;
-  current_average: number;
+  current_average: string;
   has_siblings: boolean;
   siblings_details?: string;
 

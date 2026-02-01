@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function ApplicantInfo({ nextStep, prevStep }: Props) {
-  const { formData, updateFormData } = useAdmissionsForm();
+  const { formData, updateFormData, markStepCompleted } = useAdmissionsForm();
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -94,6 +94,7 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
     const result = applicantInfoSchema.safeParse(formData.applicantInfo);
     if (result.success) {
       setErrors({});
+      markStepCompleted(2);
       nextStep();
     } else {
       const fieldErrors: Record<string, string> = {};
@@ -199,7 +200,7 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
           })}
           placeholder="correo@ejemplo.com"
           error={errors.studentEmail}
-          helperText="Opcional"
+          required
           className="md:col-span-1"
           icon={getIcon('email')}
         />
@@ -220,22 +221,21 @@ export default function ApplicantInfo({ nextStep, prevStep }: Props) {
           icon={getIcon('calendar')}
         />
 
-        <InputSelect
+        <InputText
+          type="number"
           label="Edad del aspirante"
-          value={formData.applicantInfo.age.toString()}
-          onChange={(e) => updateFormData({
-            applicantInfo: {
-              ...formData.applicantInfo,
-              age: parseInt(e.target.value) || 0,
-            },
-          })}
+          value={formData.applicantInfo.age ? formData.applicantInfo.age.toString() : ""}
+          onChange={(e) =>
+            updateFormData({
+              applicantInfo: {
+                ...formData.applicantInfo,
+                age: parseInt(e.target.value) || 0,
+              },
+            })
+          }
           error={errors.age}
           required
-          placeholder="Seleccionar edad"
-          options={Array.from({ length: 15 }, (_, i) => {
-            const age = i + 4;
-            return { value: age.toString(), label: age.toString() };
-          })}
+          placeholder="Ingrese la edad"
           className="md:col-span-1"
         />
 

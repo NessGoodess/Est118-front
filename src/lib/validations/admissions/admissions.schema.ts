@@ -6,8 +6,8 @@ export type Gender = z.infer<typeof genderEnum>;
 
 // Email Schema
 export const emailSchema = z.object({
-  contactEmail: z.string().email("Correo electrónico inválido"),
-  contactEmailConfirmation: z.string().email("Correo electrónico inválido")
+  contactEmail: z.string().email("Correo electrónico inválido").nonempty("Correo electrónico requerido"),
+  contactEmailConfirmation: z.string().email("Correo electrónico inválido").nonempty("Correo electrónico requerido")
 }).refine((data) => data.contactEmail === data.contactEmailConfirmation, {
   message: "Los correos electrónicos no coinciden",
   path: ["contactEmailConfirmation"]
@@ -15,6 +15,7 @@ export const emailSchema = z.object({
 
 // Applicant Info Schema
 export const applicantInfoSchema = z.object({
+  
   firstName: z.string()
     .min(2, "El nombre debe tener al menos 2 caracteres")
     .max(50, "El nombre es demasiado largo")
@@ -42,12 +43,13 @@ export const applicantInfoSchema = z.object({
       const birthDate = new Date(date);
       const today = new Date();
       const age = today.getFullYear() - birthDate.getFullYear();
-      return age >= 4 && age <= 18;
-    }, "La edad debe estar entre 4 y 18 años"),
+      return age >= 10 && age <= 15;
+    }, "La edad debe estar entre 10 y 15 años"),
   
-  age: z.number()
-    .min(4, "Edad mínima: 4 años")
-    .max(18, "Edad máxima: 18 años"),
+  age: z
+  .number()
+  .min(10, "La edad debe ser mínimo 10 años")
+  .max(15, "La edad debe ser máximo 15 años"),
   
   gender: genderEnum,
   
@@ -56,8 +58,7 @@ export const applicantInfoSchema = z.object({
   
   studentEmail: z.string()
     .email("Correo electrónico inválido")
-    .optional()
-    .or(z.literal("")),
+    .nonempty("Correo electrónico requerido"),
   
   placeOfBirth: z.string()
     .min(2, "Lugar de nacimiento requerido")
@@ -70,11 +71,12 @@ export const academicInfoSchema = z.object({
     .min(2, "Nombre de la escuela anterior requerido")
     .max(200, "Máximo 200 caracteres"),
   
-  currentAverage: z.number()
-    .min(0, "El promedio no puede ser negativo")
-    .max(10, "El promedio máximo es 10")
-    .refine((avg) => avg >= 6, "El promedio mínimo de admisión es 6.0"),
-  
+  currentAverage: z
+  .string()
+  .refine(val => parseFloat(val) >= 6 && parseFloat(val) <= 10, {
+    message: "Seleccione un promedio válido",
+  }),
+
   hasSiblings: z.boolean(),
   
   siblingsDetails: z.string()

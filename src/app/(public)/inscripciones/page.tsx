@@ -1,5 +1,5 @@
 import WizardForm from "@/components/public/admissions/WizardForm";
-import { formatLongWithoutTime } from "@/lib/utils/dateFormatter";
+import { formatLongWithoutTime, formatLong } from "@/lib/utils/dateFormatter";
 import { getAdmissionStatus } from "@/lib/admissions/getAdmissionStatus";
 
 const titleByStatus = {
@@ -11,7 +11,6 @@ const titleByStatus = {
 
 export default async function InscripcionesPage() {
     const status = await getAdmissionStatus();
-    console.log(status);
 
     if (!status.enabled) {
         return (
@@ -19,7 +18,7 @@ export default async function InscripcionesPage() {
                 <div className="bg-white p-8 rounded-2xl shadow-xl max-w-2xl w-full space-y-6">
                     {/* Ícono más amigable según el estado */}
                     <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto ${status.status === 'not_started' ? 'bg-blue-100' :
-                            status.status === 'ended' ? 'bg-orange-100' : 'bg-gray-100'
+                        status.status === 'ended' ? 'bg-orange-100' : 'bg-gray-100'
                         }`}>
                         {status.status === 'not_started' && (
                             <svg className="w-10 h-10 text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" >
@@ -27,12 +26,12 @@ export default async function InscripcionesPage() {
                             </svg>
                         )}
                         {status.status === 'ended' && (
-                            <svg className="w-10 h-10 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <svg className="w-10 h-10 text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M12 6v6l4 2" /><circle cx="12" cy="12" r="10" />
                             </svg>
                         )}
                         {status.status === 'not_available' && (
-                            <svg className="w-10 h-10 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="w-10 h-10 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         )}
@@ -59,10 +58,10 @@ export default async function InscripcionesPage() {
                                     Las inscripciones estarán disponibles:
                                 </p>
                                 <p className="text-lg font-bold text-blue-700">
-                                    Del {formatLongWithoutTime(status.start_at)}
+                                    Del {formatLong(status.start_at)}
                                 </p>
                                 <p className="text-lg font-bold text-blue-700">
-                                    al {formatLongWithoutTime(status.end_at)}
+                                    al {status.end_at ? formatLong(status.end_at) : 'No hay fecha de finalización'}
                                 </p>
                                 <p className="text-sm text-gray-600 mt-3">
                                     <svg className="w-4 h-4 inline mr-2 text-yellow-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" >
@@ -81,17 +80,20 @@ export default async function InscripcionesPage() {
                                     {formatLongWithoutTime(status.end_at)}
                                 </p>
                                 <p className="text-sm text-gray-600 mt-3">
-                                    📞 Si necesita ayuda, por favor comuníquese con la institución
+                                    <svg className="w-4 h-4 inline mr-2 text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" >
+                                        <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
+                                    </svg>
+                                    Si necesita ayuda, por favor comuníquese con la institución
                                 </p>
                             </div>
                         )}
                         {status.status === 'not_available' && (
                             <div className="bg-gray-50 p-5 rounded-xl">
                                 <p className="text-base text-gray-600">
-                                    ⏳ Por favor, intente nuevamente en unos minutos
+                                    Aun no se ha habilitado el periodo de inscripciones
                                 </p>
                                 <p className="text-sm text-gray-500 mt-2">
-                                    Si el problema persiste, contacte con la institución
+                                    Si hay alguna duda, por favor comuníquese con la institución
                                 </p>
                             </div>
                         )}
