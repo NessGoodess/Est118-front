@@ -16,11 +16,11 @@ import { createAxiosInstance, setupRequestInterceptor, setupResponseInterceptor,
 
 // Configuración por defecto
 const DEFAULT_CONFIG = {
-  API_BASE_URL: 'http://localhost:8000',
-  API_BASE_PATH: '',
+  API_BASE_URL: 'https://api.est118.edu.mx',
+  API_BASE_PATH: '/api',
   TIMEOUT: 10000,
-  APP_ENV: 'development',
-  APP_NAME: 'Tecnica_118',
+  APP_ENV: 'production',
+  APP_NAME: 'EST_118',
 } as const;
 
 // Función para obtener la configuración desde variables de entorno

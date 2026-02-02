@@ -13,7 +13,7 @@
     "axios": "^1.13.2",
     "framer-motion": "^12.23.26",
     "laravel-echo": "^2.2.7",
-    "next": "15.5.9",
+    "next": "^15.5.11",
     "pusher-js": "^8.4.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
