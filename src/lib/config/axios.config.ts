@@ -126,11 +126,13 @@ export function setupResponseInterceptor(
       // Manejo de errores 419 (CSRF Token Mismatch) y 403 (Forbidden por CSRF)
       if ((status === 419 || status === 403) && originalRequest && !originalRequest._retry) {
         // Verificar si es un error de CSRF
-        const isCsrfError = 
+        // Nota: ApiError no define `error`, pero algunos backends lo envían; validamos de forma defensiva.
+        const maybeData = error.response?.data as unknown as { message?: string; error?: string } | undefined;
+        const isCsrfError =
           message?.toLowerCase().includes('csrf') ||
           message?.toLowerCase().includes('token') ||
-          error.response?.data?.message?.toLowerCase().includes('csrf') ||
-          error.response?.data?.error?.toLowerCase().includes('csrf');
+          maybeData?.message?.toLowerCase().includes('csrf') ||
+          maybeData?.error?.toLowerCase().includes('csrf');
 
         if (isCsrfError && on401Callback) {
           originalRequest._retry = true;

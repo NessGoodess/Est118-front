@@ -67,7 +67,7 @@ export default function TuitionVoucher({ nextStep, prevStep }: Props) {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+    <div className="md:bg-white md:rounded-2xl md:shadow-xl p-6 md:p-12">
       <Header
         title="Datos de Vales Escolares"
         description="Información sobre vales escolares del aspirante"
@@ -106,7 +106,7 @@ export default function TuitionVoucher({ nextStep, prevStep }: Props) {
         {formData.tuitionVoucher.hasSchoolVoucher === false && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <p className="text-sm text-blue-900">
-             Marque la casilla si cuenta con vales escolares, si no puede continuar con el siguiente paso.
+              Marque la casilla si cuenta con vales escolares, si no puede continuar con el siguiente paso.
             </p>
           </div>
         )}

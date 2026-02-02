@@ -26,7 +26,7 @@ export const InputText = forwardRef<HTMLInputElement, InputTextProps>(
             <input
               ref={ref}
               className={`
-                w-full px-4 py-3 rounded-xl border-2 transition-all duration-200
+                w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 text-slate-900
                 ${icon && iconPosition === 'left' ? 'pl-11' : ''}
                 ${icon && iconPosition === 'right' ? 'pr-11' : ''}
                 ${hasError 

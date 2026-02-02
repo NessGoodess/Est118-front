@@ -59,7 +59,7 @@ function WizardFormContent() {
   const CurrentStepComponent = steps[currentStep].component;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:bg-hsla(30, 3%, 12%, 1.00)">
+    <section className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <HeaderMain />
       {currentStep > 0 && currentStep < 9 && (
         <div className="bg-blue-600 text-white py-3">
@@ -133,7 +133,7 @@ function WizardFormContent() {
         </div>
       )}
 
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+      <article className="max-w-4xl mx-auto p-0 sm:px-6 lg:px-8 md:py-12">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentStep}
@@ -149,11 +149,11 @@ function WizardFormContent() {
             />
           </motion.div>
         </AnimatePresence>
-      </section>
+      </article>
       {currentStep === 9 && (
         <UbicacionSection />
       )}
-    </div>
+    </section>
   );
 }
 

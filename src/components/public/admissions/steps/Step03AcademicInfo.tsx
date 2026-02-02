@@ -58,7 +58,7 @@ export default function AcademicInfo({ nextStep, prevStep }: Props) {
   ];
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+    <div className="md:bg-white md:rounded-2xl md:shadow-xl p-6 md:p-12">
       <Header title="Datos Educativos del Aspirante" description="Información académica del aspirante" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

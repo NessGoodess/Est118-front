@@ -140,7 +140,7 @@ export default function Review({ nextStep, prevStep }: Props) {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+    <div className="md:bg-white md:rounded-2xl md:shadow-xl p-6 md:p-12 text-gray-900">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-2 font-merriweather">Revisión Final</h2>
         <p className="text-gray-600">Por favor, revise cuidadosamente toda la información antes de confirmar</p>
