@@ -34,7 +34,7 @@ export const InputFile = forwardRef<HTMLInputElement, InputFileProps>(
           )}
           
           <div className={`
-            relative border-2 border-dashed rounded-xl p-6 transition-all duration-200
+            relative border-2 border-dashed rounded-xl p-6 transition-all duration-200 text-slate-900
             ${hasError 
               ? 'border-red-300 bg-red-50' 
               : 'border-slate-300 bg-slate-50 hover:border-blue-400 hover:bg-blue-50'

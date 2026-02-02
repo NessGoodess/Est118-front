@@ -93,7 +93,7 @@ export default function WorkshopSelection({ nextStep, prevStep }: Props) {
   const segundaOpcion = formData.workshopSelect.workshopSecondChoice;
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+    <div className="md:bg-white md:rounded-2xl md:shadow-xl p-6 md:p-12">
       <Header
         title="Selección de Tecnología"
         description="De las opciones de taller, marca tu opción favorita, enseguida, selecciona una segunda opción, que te será asignada en caso de no haber cupo en la primera."

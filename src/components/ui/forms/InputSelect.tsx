@@ -19,7 +19,7 @@ export const InputSelect = forwardRef<HTMLSelectElement, InputSelectProps>(
             <select
               ref={ref}
               className={`
-                w-full px-4 py-3 pr-10 rounded-xl border-2 transition-all duration-200 appearance-none
+                w-full px-4 py-3 pr-10 rounded-xl border-2 transition-all duration-200 appearance-none text-slate-900
                 ${hasError 
                   ? 'border-red-300 bg-red-50 text-red-900 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
                   : isFocused

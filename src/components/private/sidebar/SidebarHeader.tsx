@@ -15,7 +15,7 @@ export function SidebarHeader() {
       `}>
 
         <div className="w-10 h-10  rounded-xl flex items-center justify-center shadow-lg relative">
-          <Image src="/logo.png" alt="Logo tecnica 118" width={40} height={40} className="drop-shadow-2xl" />
+          <Image src="/logo.PNG" alt="Logo tecnica 118" width={40} height={40} className="drop-shadow-2xl" />
         </div>
 
 
