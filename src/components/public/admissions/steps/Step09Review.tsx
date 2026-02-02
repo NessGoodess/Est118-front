@@ -84,8 +84,22 @@ export default function Review({ nextStep, prevStep }: Props) {
       if (error instanceof AxiosError) {
         const status = error.response?.status;
         const serverMessage = error.response?.data?.message || error.response?.data?.error;
+        const errorMessage = error.message || '';
+        const errorData = error.response?.data;
 
-        if (status === 409) {
+        // Detectar errores de CSRF token mismatch
+        if (
+          status === 419 ||
+          status === 403 ||
+          serverMessage?.toLowerCase().includes('csrf') ||
+          serverMessage?.toLowerCase().includes('token') ||
+          errorMessage?.toLowerCase().includes('csrf') ||
+          errorData?.error?.toLowerCase().includes('csrf')
+        ) {
+          setErrorMessage(
+            "Error de autenticación. Por favor recarga la página e intenta nuevamente."
+          );
+        } else if (status === 409) {
           setErrorMessage(
             serverMessage ||
             "Ya existe una preinscripción con estos datos. Por favor verifica tu información o contacta al área de admisiones."
