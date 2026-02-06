@@ -1,14 +1,17 @@
-export interface AdmissionStatusResponse {
-    enabled: boolean;
-    status?: "active" | "not_started" | "ended" | "not_available";
-    message?: string;
-    start_at?: string;
-    end_at?: string;
-    cycle_id?: number;
-    cycle_name?: string;
-}
+import type { AdmissionStatusResponse } from "../types/admission/admissionCycles";
 
 export async function getAdmissionStatus(): Promise<AdmissionStatusResponse> {
+    const fallback: AdmissionStatusResponse = {
+        enabled: false,
+        status: "not_available",
+        message: "No se pudo verificar el estado de las preinscripciones",
+        start_at: null,
+        end_at: null,
+        server_time: new Date().toISOString(),
+        cycle_id: null,
+        cycle_name: null,
+    };
+
     try {
         const res = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/api/admissions/status`,
@@ -17,18 +20,15 @@ export async function getAdmissionStatus(): Promise<AdmissionStatusResponse> {
 
         if (!res.ok) {
             return {
-                enabled: false,
-                status: "not_available",
+                ...fallback,
                 message: "Servicio temporalmente no disponible",
             };
         }
 
-        return (await res.json()) as AdmissionStatusResponse;
+        const data = await res.json();
+
+        return data as AdmissionStatusResponse;
     } catch {
-        return {
-            enabled: false,
-            status: "not_available",
-            message: "No se pudo verificar el estado de las preinscripciones",
-        };
+        return fallback;
     }
 }

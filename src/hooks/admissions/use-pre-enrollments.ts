@@ -37,7 +37,7 @@ export function usePreEnrollments() {
   }, [fetchData]);
 
   return {
-    // datos
+    // data
     data: data?.data ?? [],
     pagination: data
       ? {
@@ -46,22 +46,25 @@ export function usePreEnrollments() {
           total: data.total,
           from: data.from,
           to: data.to,
-          hasNext: !!data.next_page_url,
-          hasPrev: !!data.prev_page_url,
+          perPage: data.per_page,
+          hasNext: data.current_page < data.last_page,
+          hasPrev: data.current_page > 1,
         }
       : null,
 
-    // estado
+    // state
     loading,
     error,
     hasError: !!error,
 
-    // acciones
+    // actions
     goToPage: fetchData,
     nextPage: () =>
-      data?.next_page_url && fetchData(page + 1),
+      data && data.current_page < data.last_page && 
+    fetchData(data.current_page + 1),
     prevPage: () =>
-      data?.prev_page_url && fetchData(page - 1),
+      data && data.current_page > 1 && 
+    fetchData(data.current_page - 1),
     refetch: () => fetchData(page),
   };
 }

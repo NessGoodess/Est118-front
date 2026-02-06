@@ -37,9 +37,6 @@ export default function WelcomeHeader() {
         </div>
       </div>
 
-      <div className="lg:hidden px-4 pb-3">
-        <HeaderSearch />
-      </div>
     </header>
   );
 }

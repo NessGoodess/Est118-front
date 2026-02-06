@@ -15,6 +15,7 @@ import UbicacionSection from "../sections/UbicacionSection";
 import HeaderMain from "./content/headerMain";
 import { AdmissionsFormProvider } from "./context/AdmissionsFormContext";
 import { useAdmissionsForm } from "./context/AdmissionsFormContext";
+import { AdmissionStatusResponse } from "@/lib/types/admission/admissionCycles";
 
 const TOTAL_STEPS = 10;
 
@@ -157,9 +158,9 @@ function WizardFormContent() {
   );
 }
 
-export default function WizardForm() {
+export default function WizardForm({ admissionStatus }: { admissionStatus?: AdmissionStatusResponse }) {
   return (
-    <AdmissionsFormProvider>
+    <AdmissionsFormProvider admissionStatus={admissionStatus}>
       <WizardFormContent />
     </AdmissionsFormProvider>
   );

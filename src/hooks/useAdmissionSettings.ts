@@ -92,6 +92,38 @@ export function useAdmissionCycles() {
         }
     };
 
+    const reopenCycle = async (id: number, endAt?: string) => {
+        setToggling(id);
+        try {
+            await settingsService.reopenCycle(id, endAt);
+            globalToast.success("Éxito", "Ciclo reabierto correctamente");
+            await loadCycles();
+        } catch (error: unknown) {
+            const message = getErrorMessage(error, "No se pudo reabrir el ciclo");
+            if (!message) return;
+            globalToast.error("Error", message);
+        } finally {
+            setToggling(null);
+        }
+    };
+
+    const deleteCycle = async (id: number) => {
+        setToggling(id);
+        try {
+            await settingsService.deleteCycle(id);
+            globalToast.success("Éxito", "Ciclo eliminado correctamente");
+            await loadCycles();
+        } catch (error: unknown) {
+            const message = getErrorMessage(error, "No se pudo eliminar el ciclo");
+            if (!message) return;
+            globalToast.error("Error", message);
+        } finally {
+            setToggling(null);
+        }
+    };
+
+
+
 
     return {
         cycles,
@@ -101,6 +133,8 @@ export function useAdmissionCycles() {
         loadCycles,
         createCycle,
         activateCycle,
-        closeCycle
+        closeCycle,
+        reopenCycle,
+        deleteCycle
     };
 }

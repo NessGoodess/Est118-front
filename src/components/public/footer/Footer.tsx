@@ -45,6 +45,7 @@ export default function Footer() {
                                 <a
                                     href="https://www.instagram.com/est_118_oax"
                                     target="_blank"
+                                    rel="noopener noreferrer"
                                     className="w-10 h-10 bg-pink-600 hover:bg-pink-700 rounded-lg flex items-center justify-center transition-colors"
                                     aria-label="Instagram"
                                 >

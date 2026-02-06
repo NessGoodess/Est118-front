@@ -25,7 +25,7 @@ function GeneralAttendanceContent() {
 
   return (
     <section className="">
-      <GenericHeader title="Asistencia General" description="" icon="" />
+      <GenericHeader title="Asistencia General" description=""/>
       <div className="rounded-lg shadow-sm">
 
         <div className="border-b border-gray-200">

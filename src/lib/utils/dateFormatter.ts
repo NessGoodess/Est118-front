@@ -88,6 +88,33 @@ export class DateFormatter {
   // ==========================================================================
 
   /**
+   * Formato sin año: 24 de enero
+   */
+  withoutYear(date: Date | string): string {
+    const d = this.parseDate(date);
+    return new Intl.DateTimeFormat(this.locale, {
+      day: '2-digit',
+      month: 'long',
+      timeZone: this.timezone,
+    }).format(d);
+  }
+
+  /**
+   * Formato sin año con hora: 24 de enero 4:50 PM
+   */
+  withoutYearWithTime(date: Date | string): string {
+    const d = this.parseDate(date);
+    return new Intl.DateTimeFormat(this.locale, {
+      day: '2-digit',
+      month: 'long',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+      timeZone: this.timezone,
+    }).format(d);
+  }
+
+  /**
    * Formato corto: 24/01/2023
    */
   short(date: Date | string): string {
@@ -514,6 +541,8 @@ export class DateFormatter {
 export const dateFormatter = new DateFormatter();
 
 // Funciones de conveniencia
+export const formatWithoutYear = (date: Date | string) => dateFormatter.withoutYear(date);
+export const formatWithoutYearWithTime = (date: Date | string) => dateFormatter.withoutYearWithTime(date);
 export const formatShort = (date: Date | string) => dateFormatter.short(date);
 export const formatShortWithTime = (date: Date | string) => dateFormatter.shortWithTime(date);
 export const formatMedium = (date: Date | string) => dateFormatter.medium(date);
@@ -535,26 +564,30 @@ export const formatSQL = (date: Date | string) => dateFormatter.sql(date);
 // ============================================================================
 
 export type DateFormat = 
-  | 'short'
-  | 'shortWithTime'
-  | 'medium'
-  | 'mediumWithTime'
-  | 'long'
-  | 'longWithoutTime'
-  | 'time'
-  | 'time24'
-  | 'relative'
-  | 'relativeWithTime'
-  | 'chat'
-  | 'notification'
-  | 'iso'
-  | 'sql';
+  | 'withoutYear' // 24 de enero
+  | 'withoutYearWithTime' // 24 de enero 4:50 PM
+  | 'short' // 24/01/2023
+  | 'shortWithTime' // 24/01/2023 4:50 PM
+  | 'medium' // 24 de enero de 2023
+  | 'mediumWithTime' // 24 de enero de 2023, 4:50 PM
+  | 'long' // Sábado, 20 de enero de 2024, 4:40 PM
+  | 'longWithoutTime' // Sábado, 20 de enero de 2024
+  | 'time' // 4:50 PM
+  | 'time24' // 16:50
+  | 'relative' // Hace 2 horas
+  | 'relativeWithTime' // Hace 2 horas, 4:50 PM
+  | 'chat' // 4:50 PM
+  | 'notification' // Hace 5 min, Hace 2 hrs, Ayer, 24 de enero, 24/01/2023
+  | 'iso' // 2024-01-20T16:50:00.000000Z
+  | 'sql'; // 2024-01-20 16:50:00
 
 /**
  * Función universal para formatear fechas
  */
 export function formatDate(date: Date | string, format: DateFormat = 'medium'): string {
   const formatters: Record<DateFormat, (d: Date | string) => string> = {
+    withoutYear: formatWithoutYear,
+    withoutYearWithTime: formatWithoutYearWithTime,
     short: formatShort,
     shortWithTime: formatShortWithTime,
     medium: formatMedium,

@@ -11,7 +11,7 @@ const titleByStatus = {
 
 export default async function InscripcionesPage() {
     const status = await getAdmissionStatus();
-
+    console.log(status);
     if (!status.enabled) {
         return (
             <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:bg-gradient-to-b dark:from-transparent dark:to-transparent flex flex-col items-center justify-center p-4 text-center">
@@ -40,11 +40,13 @@ export default async function InscripcionesPage() {
                     {/* Título más claro */}
                     <div className="space-y-3">
                         <h1 className="text-3xl font-bold text-gray-900">
-                            {titleByStatus[status.status || 'not_available']}
+                            {titleByStatus[status.status]}
                         </h1>
-                        <p className="text-lg text-gray-600 leading-relaxed">
-                            {status.message}
-                        </p>
+                        {status.message && (
+                            <p className="text-lg text-gray-600 leading-relaxed">
+                                {status.message}
+                            </p>
+                        )}
                     </div>
 
                     {/* Información de fechas más visible */}
@@ -103,5 +105,5 @@ export default async function InscripcionesPage() {
         );
     }
 
-    return <WizardForm />;
+    return <WizardForm admissionStatus={status} />;
 }

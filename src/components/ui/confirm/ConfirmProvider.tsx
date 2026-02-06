@@ -26,18 +26,9 @@ interface ConfirmProviderProps {
   children: ReactNode;
 }
 
-/**
- * ConfirmProvider
- * 
- * Mantiene el estado global del modal de confirmación.
- * NO ejecuta lógica de negocio, solo guarda callbacks y estado UI.
- */
 export const ConfirmProvider = ({ children }: ConfirmProviderProps) => {
   const [state, setState] = useState<ConfirmState>(defaultState);
 
-  /**
-   * Abre el modal de confirmación con las opciones proporcionadas
-   */
   const confirm = useCallback((options: ConfirmOptions) => {
     setState({
       isOpen: true,
@@ -51,9 +42,6 @@ export const ConfirmProvider = ({ children }: ConfirmProviderProps) => {
     });
   }, []);
 
-  /**
-   * Cierra el modal de confirmación
-   */
   const close = useCallback(() => {
     setState((prev) => ({
       ...prev,
@@ -74,10 +62,6 @@ export const ConfirmProvider = ({ children }: ConfirmProviderProps) => {
   );
 };
 
-/**
- * Hook para acceder al contexto de confirmación
- * NO debe usarse directamente, usar useConfirm en su lugar
- */
 export const useConfirmContext = () => {
   const context = useContext(ConfirmContext);
   if (context === undefined) {

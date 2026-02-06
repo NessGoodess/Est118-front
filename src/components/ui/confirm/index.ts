@@ -1,7 +1,7 @@
 /**
- * Confirm Modal Global - Exportaciones públicas
+ * Confirm Modal Global - Exportations
  * 
- * Uso:
+ * Usage:
  * ```tsx
  * import { useConfirm } from '@/components/ui/confirm';
  * ```

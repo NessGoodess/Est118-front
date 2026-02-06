@@ -5,7 +5,7 @@ import { useConfirmContext } from "./ConfirmProvider";
 /**
  * useConfirm
  * 
- * API pública para abrir confirmaciones desde cualquier parte de la app.
+ * API for opening confirmations from any part of the app.
  * 
  * @example
  * ```tsx
@@ -28,13 +28,13 @@ export const useConfirm = () => {
 
   return {
     /**
-     * Abre el modal de confirmación
+     * Opens the confirmation modal
      * 
-     * @param options - Opciones de confirmación
+     * @param options - Confirmation options
      */
     confirm,
     /**
-     * Cierra el modal de confirmación manualmente
+     * Closes the confirmation modal manually
      */
     close,
   };

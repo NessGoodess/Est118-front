@@ -12,10 +12,9 @@ interface SearchResult {
   type: 'page' | 'section';
 }
 
-// Función para aplanar todos los items del menú (incluyendo children)
 function flattenMenuItems(items: MenuItem[]): MenuItem[] {
   const flattened: MenuItem[] = [];
-  
+
   for (const item of items) {
     if (item.href) {
       flattened.push(item);
@@ -24,17 +23,16 @@ function flattenMenuItems(items: MenuItem[]): MenuItem[] {
       flattened.push(...flattenMenuItems(item.children));
     }
   }
-  
+
   return flattened;
 }
 
-// Función de búsqueda
 function searchItems(query: string): SearchResult[] {
   if (!query.trim()) return [];
-  
+
   const allItems = flattenMenuItems(menuItems);
   const lowerQuery = query.toLowerCase();
-  
+
   return allItems
     .filter(item => {
       const name = item.name.toLowerCase();
@@ -45,7 +43,7 @@ function searchItems(query: string): SearchResult[] {
       href: item.href!,
       type: item.children ? 'section' : 'page',
     }))
-    .slice(0, 8) as SearchResult[]; // Limitar a 8 resultados
+    .slice(0, 8) as SearchResult[];
 }
 
 export function HeaderSearch() {
@@ -58,7 +56,6 @@ export function HeaderSearch() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const SearchIcon = getHeaderIcon('search');
 
-  // Buscar cuando cambia el query
   useEffect(() => {
     if (query.trim()) {
       const searchResults = searchItems(query);
@@ -78,7 +75,7 @@ export function HeaderSearch() {
     inputRef.current?.blur();
   }, [router]);
 
-  // Manejar teclado
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isOpen || results.length === 0) return;
@@ -86,7 +83,7 @@ export function HeaderSearch() {
       switch (e.key) {
         case 'ArrowDown':
           e.preventDefault();
-          setSelectedIndex(prev => 
+          setSelectedIndex(prev =>
             prev < results.length - 1 ? prev + 1 : prev
           );
           break;
@@ -114,7 +111,6 @@ export function HeaderSearch() {
     }
   }, [isOpen, results, selectedIndex, handleSelectResult]);
 
-  // Cerrar al hacer click fuera
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -138,7 +134,7 @@ export function HeaderSearch() {
   };
 
   return (
-    <div className="relative w-full max-w-md">
+    <div className="relative w-full max-w-md text-slate-900">
       <div className="relative">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <SearchIcon className="w-5 h-5 text-gray-400" />
@@ -150,7 +146,8 @@ export function HeaderSearch() {
           onChange={(e) => setQuery(e.target.value)}
           onFocus={handleFocus}
           placeholder="Buscar páginas..."
-          className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+          className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 
+               focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-900 focus:border-blue-900 text-sm"
         />
         {query && (
           <button
@@ -178,7 +175,6 @@ export function HeaderSearch() {
         )}
       </div>
 
-      {/* Dropdown de resultados */}
       {isOpen && results.length > 0 && (
         <div
           ref={dropdownRef}
@@ -189,11 +185,10 @@ export function HeaderSearch() {
               <button
                 key={`${result.href}-${index}`}
                 onClick={() => handleSelectResult(result)}
-                className={`w-full text-left px-4 py-2 text-sm transition-colors duration-150 ${
-                  index === selectedIndex
+                className={`w-full text-left px-4 py-2 text-sm transition-colors duration-150 ${index === selectedIndex
                     ? 'bg-blue-50 text-blue-900'
                     : 'text-gray-700 hover:bg-gray-50'
-                }`}
+                  }`}
               >
                 <div className="flex items-center space-x-2">
                   <span className="text-gray-400">
@@ -207,7 +202,6 @@ export function HeaderSearch() {
         </div>
       )}
 
-      {/* Mensaje cuando no hay resultados */}
       {query.trim() && results.length === 0 && isOpen && (
         <div className="absolute z-50 mt-1 w-full bg-white rounded-lg shadow-lg border border-gray-200">
           <div className="px-4 py-3 text-sm text-gray-500 text-center">

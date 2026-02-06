@@ -4,15 +4,14 @@ import { useEffect } from "react";
 import { useConfirmContext } from "./ConfirmProvider";
 
 /**
- * ConfirmModal
+ * Confirm Modal
  * 
- * Componente UI puro que renderiza el modal de confirmación.
+ * Ui component for confirm modal
  * 
  */
 export const ConfirmModal = () => {
   const { state, close } = useConfirmContext();
 
-  // Cerrar modal con Escape
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape" && state.isOpen) {
@@ -22,7 +21,6 @@ export const ConfirmModal = () => {
 
     if (state.isOpen) {
       document.addEventListener("keydown", handleEscape);
-      // Prevenir scroll del body cuando el modal está abierto
       document.body.style.overflow = "hidden";
     }
 
@@ -42,7 +40,6 @@ export const ConfirmModal = () => {
     } catch (error) {
       console.error("Error en confirmación:", error);
     } finally {
-      // Siempre cerrar el modal después de ejecutar el callback
       close();
     }
   };
@@ -55,7 +52,6 @@ export const ConfirmModal = () => {
   };
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Solo cerrar si se hace click en el overlay, no en el contenido del modal
     if (e.target === e.currentTarget) {
       handleCancel();
     }
@@ -68,15 +64,12 @@ export const ConfirmModal = () => {
       className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
       onClick={handleOverlayClick}
     >
-      {/* Overlay con backdrop blur */}
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" />
 
-      {/* Modal */}
       <div
         className="relative bg-white dark:bg-slate-800 rounded-xl shadow-2xl max-w-md w-full p-6 transform transition-all"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Icono de advertencia (opcional para danger) */}
         {isDanger && (
           <div className="flex justify-center mb-4">
             <div className="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
@@ -97,21 +90,16 @@ export const ConfirmModal = () => {
           </div>
         )}
 
-        {/* Título */}
         <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">
           {state.title}
         </h2>
-
-        {/* Descripción */}
         {state.description && (
           <p className="text-slate-600 dark:text-slate-300 mb-6">
             {state.description}
           </p>
         )}
 
-        {/* Botones */}
         <div className="flex gap-3 justify-end">
-          {/* Botón Cancelar */}
           <button
             onClick={handleCancel}
             className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg transition-colors"
@@ -119,7 +107,6 @@ export const ConfirmModal = () => {
             {state.cancelLabel}
           </button>
 
-          {/* Botón Confirmar */}
           <button
             onClick={handleConfirm}
             className={`

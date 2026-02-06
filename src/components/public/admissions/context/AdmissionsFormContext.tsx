@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { FormData } from "@/lib/validations/admissions/admissions.schema";
 import { initialFormData } from "../content/initialFormData";
+import { AdmissionStatusResponse } from "@/lib/types/admission/admissionCycles";
 
 interface AdmissionsFormContextType {
   formData: FormData;
@@ -9,13 +10,20 @@ interface AdmissionsFormContextType {
   resetFormData: () => void;
   completeSteps: number[];
   markStepCompleted: (step: number) => void;
+  admissionStatus?: AdmissionStatusResponse;
 }
 
 const AdmissionsFormContext = createContext<AdmissionsFormContextType | undefined>(undefined);
 
 const STORAGE_KEY = "admissions_form_data";
 
-export function AdmissionsFormProvider({ children }: { children: ReactNode }) {
+export function AdmissionsFormProvider({
+  children,
+  admissionStatus
+}: {
+  children: ReactNode;
+  admissionStatus?: AdmissionStatusResponse;
+}) {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isHydrated, setIsHydrated] = useState(false);
   const [completeSteps, setCompleteSteps] = useState<number[]>([]);
@@ -91,7 +99,7 @@ export function AdmissionsFormProvider({ children }: { children: ReactNode }) {
 
   // Siempre proporcionar el contexto, incluso antes de la hidratación
   return (
-    <AdmissionsFormContext.Provider value={{ formData, updateFormData, resetFormData, completeSteps, markStepCompleted }}>
+    <AdmissionsFormContext.Provider value={{ formData, updateFormData, resetFormData, completeSteps, markStepCompleted, admissionStatus }}>
       {children}
     </AdmissionsFormContext.Provider>
   );

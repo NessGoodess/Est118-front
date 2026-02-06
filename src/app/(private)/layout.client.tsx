@@ -14,12 +14,13 @@ function LayoutContent({
   const { isCollapsed, isMobile } = useSidebar();
 
   return (
-    <div className="flex h-screen bg-surface-app overflow-x-hidden min-w-0">
+    <div className="flex h-dvh bg-surface-app overflow-x-hidden min-w-0">
       <ModernSidebar />
-      <div className={`flex-1 flex flex-col min-w-0 transition-all duration-400 ease-in-out rounded-l-2xl rounded-r-none my-4 shadow-card bg-gradient-to-br from-blue-100 to-indigo-100 ${isMobile ? 'ml-0' : isCollapsed ? 'md:ml-16' : 'md:ml-64'}`}>
+      <div className={`flex-1 flex flex-col min-w-0 transition-all duration-400 ease-in-out rounded-l-2xl rounded-r-none shadow-card bg-gradient-to-br from-blue-100 to-indigo-100
+        ${isMobile ? 'ml-0 my-1' : isCollapsed ? 'md:ml-16 my-4' : 'md:ml-64 my-4'}`}>
         <main className="flex-1 overflow-y-auto rounded-l-2xl">
           <WelcomeHeader />
-          <div className="min-h-full p-2 md:p-4">{children}</div>
+          <div className="min-h-dvh p-2 md:p-6">{children}</div>
         </main>
 
       </div>

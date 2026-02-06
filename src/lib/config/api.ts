@@ -75,9 +75,11 @@ export const API_ENDPOINTS = {
     CYCLES: 'admissions/cycles',
     CYCLE_ACTIVATE: (id: number) => `admissions/cycles/${id}/activate`,
     CYCLE_CLOSE: (id: number) => `admissions/cycles/${id}/close`,
+    CYCLE_REOPEN: (id: number) => `admissions/cycles/${id}/reopen`,
+    CYCLE_DELETE: (id: number) => `admissions/cycles/${id}`,
     STATUS: 'admissions/status',
 
-    PRE_ENROLLMENTS: 'admissions/pre-enrollments',   
+    PRE_ENROLLMENTS: 'admissions/pre-enrollments',
   }
 } as const;
 

@@ -35,6 +35,25 @@ export const settingsService = {
     },
 
     /**
+     * Reopen a closed cycle with optional new end date
+     */
+    reopenCycle: async (id: number, endAt?: string): Promise<{ message: string }> => {
+        const response = await apiClient.patch<{ message: string }>(
+            API_ENDPOINTS.ADMISSION.CYCLE_REOPEN(id),
+            endAt ? { end_at: endAt } : {}
+        );
+        return response.data;
+    },
+
+    /**
+     * Delete a draft cycle
+     */
+    deleteCycle: async (id: number): Promise<{ message: string }> => {
+        const response = await apiClient.delete<{ message: string }>(API_ENDPOINTS.ADMISSION.CYCLE_DELETE(id));
+        return response.data;
+    },
+
+    /**
      * Get public status of admissions
      */
     getAdmissionStatus: async (): Promise<AdmissionStatus> => {
