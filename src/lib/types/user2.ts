@@ -1,9 +1,8 @@
 /**
- * 
- * Types for the user, role and permission
+ * Types for users, roles and permissions
  */
 
-/** Role/permission as returned by admin/list/detail API (object shape) */
+/** Role as returned by admin/list/detail endpoints */
 export interface RolePayload {
   id: number;
   name: string;
@@ -23,6 +22,7 @@ export interface PermissionPayload {
   updated_at?: string;
   pivot?: unknown;
 }
+
 /**
  * Authenticated user (used in AuthProvider)
  * Comes from: GET /api/user
@@ -75,6 +75,9 @@ export interface UserDetail {
   permissions: PermissionPayload[];
 }
 
+/**
+ * Auth forms
+ */
 export interface LoginCredentials {
   email: string;
   password: string;

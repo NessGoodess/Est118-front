@@ -7,6 +7,7 @@ import { ApiError } from "@/lib/types/auth";
 import { User, LoginCredentials } from "@/lib/types/user";
 import { authEventBus } from "@/lib/auth-event-bus";
 import { AuthEvent } from "@/lib/auth-event";
+import { clearPermissionCache } from "@/hooks/useRoutePermission";
 
 interface AuthContextType {
     user: User | null;
@@ -17,6 +18,9 @@ interface AuthContextType {
     logout: () => Promise<void>;
     refreshUser: () => Promise<void>;
     clearError: () => void;
+    hasPermission: (permission: string) => boolean;
+    hasRole: (role: string) => boolean;
+    hasAnyPermission: (permissions: string[]) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -105,6 +109,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             setAuthenticated(false);
             setLoading(false);
 
+            // Limpiar cache de permisos
+            clearPermissionCache();
+
             router.refresh();
         }
     }, [router]);
@@ -122,6 +129,27 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const clearError = useCallback(() => {
         setError(null);
     }, []);
+
+    /**
+     * Check if user has a specific permission
+     */
+    const hasPermission = useCallback((permission: string): boolean => {
+        return user?.permissions?.includes(permission) ?? false;
+    }, [user]);
+
+    /**
+     * Check if user has a specific role
+     */
+    const hasRole = useCallback((role: string): boolean => {
+        return user?.roles?.includes(role) ?? false;
+    }, [user]);
+
+    /**
+     * Check if user has any of the specified permissions
+     */
+    const hasAnyPermission = useCallback((permissions: string[]): boolean => {
+        return permissions.some(permission => hasPermission(permission));
+    }, [hasPermission]);
 
     // Load user at mount
     useEffect(() => {
@@ -178,6 +206,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         logout: handleLogout,
         refreshUser,
         clearError,
+        hasPermission,
+        hasRole,
+        hasAnyPermission,
     };
 
     return (

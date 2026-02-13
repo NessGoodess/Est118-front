@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { useConfirm } from '@/components/ui/confirm';
 import { useSidebar } from '@/contexts/SidebarContext';
@@ -8,6 +9,7 @@ import { getIcon } from './sidebar.icons';
 import { UserAvatar, UserDropdown } from './SidebarUser.components';
 
 export function SidebarUser() {
+  const router = useRouter();
   const { isCollapsed } = useSidebar();
   const { user, loading, authenticated, logout } = useAuth();
   const { confirm } = useConfirm();
@@ -47,10 +49,11 @@ export function SidebarUser() {
     );
   }
 
+
+
   const handleEditProfile = () => {
-    // TODO: Implementar navegación a editar perfil
-    console.log('Editar perfil');
     setIsDropdownOpen(false);
+    router.push('/profile/update');
   };
 
   const handleLogout = () => {

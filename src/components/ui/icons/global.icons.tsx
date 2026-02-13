@@ -227,6 +227,30 @@ export const GlobalIcons = {
       <path d="m9 9 6 6" />
     </Icon>
   ),
+  x: ({ className = "w-5 h-5" }: IconProps) => (
+    <Icon className={className}>
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </Icon>
+  ),
+  check: ({ className = "w-5 h-5" }: IconProps) => (
+    <Icon className={className}>
+      <polyline points="20 6 9 17 4 12" />
+    </Icon>
+  ),
+  alert: ({ className = "w-5 h-5" }: IconProps) => (
+    <Icon className={className}>
+      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+      <line x1="12" y1="9" x2="12" y2="13" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
+    </Icon>
+  ),
+  search: ({ className = "w-5 h-5" }: IconProps) => (
+    <Icon className={className}>
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.35-4.35" />
+    </Icon>
+  ),
 
 } as const;
 

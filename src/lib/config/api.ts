@@ -59,6 +59,10 @@ export const API_ENDPOINTS = {
     REGISTER: '/register',
     FORGOT_PASSWORD: '/auth/forgot-password',
     RESET_PASSWORD: '/auth/reset-password',
+    VERIFICATION: '/email/verification-notification',
+  },
+  CURRENT_USER: {
+    CHANGE_PASSWORD: '/current-user/change-password',
   },
   SCHEDULES: '/schedules',
   ATTENDANCE: {
@@ -80,7 +84,17 @@ export const API_ENDPOINTS = {
     STATUS: 'admissions/status',
 
     PRE_ENROLLMENTS: 'admissions/pre-enrollments',
-  }
+  },
+  USERS: {
+    LIST: '/users',
+    DETAIL: (id: number) => `/users/${id}`,
+    UPDATE: (id: number) => `/users/${id}`,
+    DELETE: (id: number) => `/users/${id}`,
+    CHANGE_PASSWORD: (id: number) => `/users/${id}/change-password`,
+    RESEND_VERIFICATION: (id: number) => `/users/${id}/resend-verification`,
+  },
+  ROLES: '/roles',
+  PERMISSIONS: '/permissions',
 } as const;
 
 // Re-exportar headers desde axios.config

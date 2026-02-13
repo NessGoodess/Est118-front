@@ -1,6 +1,5 @@
 "use client"
 import React, { useState} from 'react';
-import { useRouter } from 'next/navigation';
 import { DataTable } from '@/components/ui/DataTable';
 import { studentsTableConfig } from './students.config';
 import { tableIcons } from './icons';

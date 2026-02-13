@@ -30,7 +30,7 @@ export const createEcho = () => {
     enabledTransports: ['ws'], // Solo WebSocket en desarrollo
     disableStats: true,
     cluster: '', // No usar cluster para Reverb
-    authorizer: (channel: { name: string }, _options: unknown) => {
+    authorizer: (channel: { name: string }) => {
       return {
         authorize: (socketId: string, callback: (error: unknown, data?: unknown) => void) => {
           baseAxiosClient.post(`${API_CONFIG.API_BASE_URL}/broadcasting/auth`, {

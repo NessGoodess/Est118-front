@@ -1,23 +1,36 @@
 'use client';
 
 import { useAuth } from '@/contexts/AuthContext';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
+const PERFIL_EDITAR_PATH = '/perfil/editar';
+
 /**
- * PrivateGuard - Protects private routes from unauthenticated users
- * Shows loading spinner while checking authentication to prevent flash
+ * PrivateGuard - Protects private routes from unauthenticated users.
+ * If user is authenticated but email is not verified, only /perfil/editar is allowed (and /perfil/*).
  */
 export default function PrivateGuard({ children }: { children: React.ReactNode }) {
-    const { authenticated, loading } = useAuth();
+    const { authenticated, loading, user } = useAuth();
     const router = useRouter();
+    const pathname = usePathname();
 
     useEffect(() => {
-        // Only redirect after loading is complete and user is not authenticated
-        if (!loading && !authenticated) {
+        if (loading) return;
+
+        if (!authenticated) {
             router.replace('/login');
+            return;
         }
-    }, [loading, authenticated, router]);
+
+        // Email not verified: only allow /perfil/editar (and any /perfil/*)
+        if (user && !user.email_verified_at) {
+            const isOnPerfilRoute = pathname === PERFIL_EDITAR_PATH || (pathname?.startsWith('/perfil'));
+            if (!isOnPerfilRoute) {
+                router.replace(PERFIL_EDITAR_PATH);
+            }
+        }
+    }, [loading, authenticated, user, pathname, router]);
 
     // Show loading spinner while checking authentication
     if (loading) {
