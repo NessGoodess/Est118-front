@@ -59,9 +59,9 @@ export default function LoginForm() {
           </p>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 py-6 px-4 sm:py-8 sm:px-6 lg:px-8 shadow-xl rounded-xl sm:rounded-2xl">
+        <div className="bg-white py-6 px-4 sm:py-8 sm:px-6 lg:px-8 shadow-xl rounded-xl sm:rounded-2xl">
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6" noValidate>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6 min-w-64 max-w-72" noValidate>
             <FloatingInput
               label="Correo electrónico"
               type="email"

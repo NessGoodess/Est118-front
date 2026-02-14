@@ -5,7 +5,6 @@ export const menuItems: MenuItem[] = [
     name: 'Dashboard',
     href: '/dashboard',
     icon: 'dashboard',
-    permission: 'view dashboard',
   },
   {
     name: 'Asistencia General',

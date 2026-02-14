@@ -375,7 +375,7 @@ export function DataTable<T>({
                                             onClick={(e) => handleRowClick(row, e)}
                                         >
                                             {selectable && (
-                                                <td className="px-1 md:px-2 py-1 md:py-2" onClick={(e) => e.stopPropagation()}>
+                                                <td className="px-2 md:px-4 py-1 md:py-2" onClick={(e) => e.stopPropagation()}>
                                                     <input
                                                         type="checkbox"
                                                         aria-label="Seleccionar"

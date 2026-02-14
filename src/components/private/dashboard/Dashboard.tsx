@@ -12,7 +12,7 @@ export default function ModernDashboard() {
           <div>
             <h2 className="text-2xl font-bold mb-2">¡Bienvenido de vuelta!</h2>
             <p className="text-blue-100">
-              Aquí tienes un resumen de la actividad escolar de hoy
+              Escuela Secundaria Técnica 118
             </p>
           </div>
           <div className="hidden md:block">
@@ -22,20 +22,23 @@ export default function ModernDashboard() {
               </svg>
             </div>
           </div>
+
         </div>
       </div>
-
-      {/* Stats cards */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <p className="text-gray-600 p-5">
+          Sin configuraciones de dashboard aún
+        </p>
+      </div>
+      {/*
       <DashboardStats />
 
-      {/* Main content grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Activity */}
+
         <div className="lg:col-span-2">
           <RecentActivity />
         </div>
 
-        {/* Quick Actions */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
           <div className="p-6 border-b border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900">Acciones Rápidas</h3>
@@ -93,7 +96,6 @@ export default function ModernDashboard() {
         </div>
       </div>
 
-      {/* Today's Schedule */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200">
         <div className="p-6 border-b border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900">Horarios de Hoy</h3>
@@ -130,6 +132,7 @@ export default function ModernDashboard() {
           </div>
         </div>
       </div>
+*/}
     </div>
   );
 }

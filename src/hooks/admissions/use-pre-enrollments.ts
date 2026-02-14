@@ -5,6 +5,7 @@ import { getPreEnrollments } from '@/lib/services/admissions.service';
 import { PaginatedResponse } from '@/lib/types/paginated-response';
 import { PreEnrollmentListItem } from '@/lib/types/admission/preEnrollmentApi';
 import { ApiError } from '@/lib/types/auth';
+import { handleApiError } from '@/lib/config/api';
 
 export function usePreEnrollments() {
   const [data, setData] =
@@ -23,8 +24,8 @@ export function usePreEnrollments() {
         const result = await getPreEnrollments(pageToLoad);
         setData(result);
         setPage(pageToLoad);
-      } catch (err) {
-        setError(err as ApiError);
+      } catch (error) {
+        setError(handleApiError(error));
       } finally {
         setLoading(false);
       }
@@ -41,15 +42,15 @@ export function usePreEnrollments() {
     data: data?.data ?? [],
     pagination: data
       ? {
-          currentPage: data.current_page,
-          lastPage: data.last_page,
-          total: data.total,
-          from: data.from,
-          to: data.to,
-          perPage: data.per_page,
-          hasNext: data.current_page < data.last_page,
-          hasPrev: data.current_page > 1,
-        }
+        currentPage: data.current_page,
+        lastPage: data.last_page,
+        total: data.total,
+        from: data.from,
+        to: data.to,
+        perPage: data.per_page,
+        hasNext: data.current_page < data.last_page,
+        hasPrev: data.current_page > 1,
+      }
       : null,
 
     // state
@@ -60,11 +61,11 @@ export function usePreEnrollments() {
     // actions
     goToPage: fetchData,
     nextPage: () =>
-      data && data.current_page < data.last_page && 
-    fetchData(data.current_page + 1),
+      data && data.current_page < data.last_page &&
+      fetchData(data.current_page + 1),
     prevPage: () =>
-      data && data.current_page > 1 && 
-    fetchData(data.current_page - 1),
+      data && data.current_page > 1 &&
+      fetchData(data.current_page - 1),
     refetch: () => fetchData(page),
   };
 }

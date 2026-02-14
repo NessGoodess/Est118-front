@@ -12,9 +12,8 @@ export default function Admissions() {
     const { data, loading, error } = usePreEnrollments();
     const { showError } = useToast();
     useEffect(() => {
-        if (error) {
-            showError('Error', 'Error al cargar las preinscripciones');
-        }
+        if (!error) return;
+        showError('Error', error.message || 'Error al cargar las preinscripciones');
     }, [error, showError]);
     if (loading) return <Loading />;
     return (
