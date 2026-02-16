@@ -24,7 +24,7 @@ function GeneralAttendanceContent() {
   };
 
   return (
-    <section className="">
+    <section className="container mx-auto max-w-5xl py-6 px-4">
       <GenericHeader title="Asistencia General" description=""/>
       <div className="rounded-lg shadow-sm">
 

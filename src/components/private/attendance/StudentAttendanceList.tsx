@@ -1,6 +1,8 @@
 "use client";
+
 import { useGeneralAttendanceContext } from "@/contexts/GeneralAttendanceContext";
 import Image from "next/image";
+import { getPrivateImageProxyUrl } from "@/lib/config/api";
 
 export default function StudentAttendanceList() {
     const { students: data, loading, error } = useGeneralAttendanceContext();
@@ -60,13 +62,15 @@ export default function StudentAttendanceList() {
                 {data.map((estudiante) => (
                     <div key={estudiante.id} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                         <div className="flex items-center space-x-3">
-                            <div className="flex-shrink-0">
+                            <div className="relative h-10 w-10 flex-shrink-0">
                                 {estudiante.photo_url ? (
                                     <Image
-                                        className="h-10 w-10 rounded-full object-cover"
-                                        src={estudiante.photo_url}
+                                        className="rounded-full object-cover"
+                                        src={getPrivateImageProxyUrl(estudiante.photo_url)}
                                         alt={estudiante.name}
                                         fill
+                                        sizes="40px"
+                                        unoptimized
                                     />
                                 ) : (
                                     <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">

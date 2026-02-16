@@ -2,7 +2,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { AttendanceRecord } from "@/stores/attendance-store";
 import Image from "next/image";
-import { API_CONFIG } from "@/lib/config/api";
+import { getPrivateImageProxyUrl } from "@/lib/config/api";
 import { useEffect, useRef } from "react";
 
 interface AttendanceHistoryListProps {
@@ -57,7 +57,7 @@ interface AttendanceRecordCardProps {
 
 function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
     const photoUrl = record.photo_url
-        ? `${API_CONFIG.API_BASE_URL}/private-image/${record.photo_url}`
+        ? getPrivateImageProxyUrl(record.photo_url)
         : "/Avatar.svg";
 
     const timeAgo = getTimeAgo(record.scannedAt);
@@ -65,7 +65,7 @@ function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
     return (
         <article
             className={`relative overflow-hidden rounded-xl shadow-md border-2 transition-all duration-300 hover:shadow-lg ${isLatest
-                    ? 'border-blue-400 bg-linear-to-r from-blue-50 to-indigo-50'
+                    ? 'border-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50'
                     : 'border-gray-200 bg-white hover:border-gray-300'
                 }`}
         >
@@ -115,7 +115,7 @@ function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
 
             {/* Subtle gradient overlay for latest */}
             {isLatest && (
-                <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-blue-400 via-blue-600 to-blue-400"></div>
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 via-blue-600 to-blue-400"></div>
             )}
         </article>
     );

@@ -1,7 +1,7 @@
 import { Students } from "@/lib/types/general-attendance";
 import apiClient, { API_ENDPOINTS } from "@/lib/config/api";
 import { useState, useEffect } from "react";
-import { globalToast } from "@/lib/toast/globalToast";
+import { globalToast } from "@/lib/toast";
 
 interface UseGeneralAttendanceResult {
     students: Students[];
@@ -20,7 +20,8 @@ export function useGeneralAttendance(): UseGeneralAttendanceResult {
         setError(null);
         try {
             const response = await apiClient.get(API_ENDPOINTS.ALL_STUDENTS);
-            setStudents(Array.isArray(response.data.students) ? response.data.students : []);
+            const data = response.data?.data ?? response.data?.students ?? [];
+            setStudents(Array.isArray(data) ? data : []);
         } catch (err: unknown) {
             let errorMessage = "Error al obtener estudiantes";
             if (err && typeof err === 'object') {

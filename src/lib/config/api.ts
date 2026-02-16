@@ -70,6 +70,7 @@ export const API_ENDPOINTS = {
     RECORD: '/record',
     CURRENT_STUDENT: '/attendance/last-attendance',
     HISTORY: '/attendance/all-attendances',
+    RECENT_READINGS: '/attendance/recent-readings',
   },
   CLASS_STUDENTS: (scheduleId: number, date: string) => `/class/${scheduleId}/date/${date}`,
   STUDENTS: '/students',
@@ -120,6 +121,12 @@ export function getPrivateImageUrl(path: string | null | undefined): string {
   const base = getApiBaseUrl().replace(/\/$/, '');
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
   return `${base}/private-image/${cleanPath}`;
+}
+
+/** URL del proxy de imágenes (same-origin). Usar en el frontend para que el navegador envíe cookies y cachee bien. */
+export function getPrivateImageProxyUrl(path: string | null | undefined): string {
+  if (!path) return '';
+  return `/api/private-image?path=${encodeURIComponent(path)}`;
 }
 
 // ============================================================================
