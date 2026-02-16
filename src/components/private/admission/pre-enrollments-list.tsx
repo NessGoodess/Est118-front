@@ -6,6 +6,7 @@ import { tableIcons } from './icons';
 import { PreEnrollmentListItem } from '@/lib/types/admission/preEnrollmentApi';
 import { tableRenderers } from './tableRerenders';
 import { TableConfig } from '@/lib/types/data-table';
+import { downloadPreEnrollmentExcel } from '@/lib/services/admissions.service';
 
 interface props {
   data: PreEnrollmentListItem[];
@@ -13,6 +14,19 @@ interface props {
 
 export default function PreEnrollmentsList({ data }: props) {
   const [selectedStudents, setSelectedStudents] = useState<PreEnrollmentListItem[]>([]);
+
+  const exportFunction = () => {
+    downloadPreEnrollmentExcel().then((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'pre-enrollments.xlsx';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    });
+  }
   return (
     <>
       <DataTable
@@ -23,6 +37,8 @@ export default function PreEnrollmentsList({ data }: props) {
         onSelectionChange={setSelectedStudents}
         emptyMessage="No se encontraron estudiantes"
         minRows={10}
+        exportable={true}
+        exportFunction={exportFunction}
       />
 
       {selectedStudents.length > 0 && (

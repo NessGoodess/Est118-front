@@ -86,8 +86,9 @@ export const API_ENDPOINTS = {
     CYCLE_REOPEN: (id: number) => `admissions/cycles/${id}/reopen`,
     CYCLE_DELETE: (id: number) => `admissions/cycles/${id}`,
     STATUS: 'admissions/status',
-
+    
     PRE_ENROLLMENTS: 'admissions/pre-enrollments',
+    PRE_ENROLLMENT_EXPORT: 'admissions/pre-enrollments/export',
   },
   USERS: {
     LIST: '/users',

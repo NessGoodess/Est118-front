@@ -49,4 +49,6 @@ export interface DataTableProps<T> {
   loading?: boolean;
   minRows?: number;
   onRowClick?: (item: T) => void;
+  exportable?: boolean;
+  exportFunction?: () => void;
 }

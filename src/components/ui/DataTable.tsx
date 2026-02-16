@@ -13,6 +13,8 @@ export function DataTable<T>({
     emptyMessage = 'No hay datos',
     loading = false,
     minRows = 10,
+    exportable = false,
+    exportFunction,
 }: DataTableProps<T> & { config: TableConfig<T> | EnhancedTableConfig<T> }) {
     const router = useRouter();
     const [currentPage, setCurrentPage] = useState(1);
@@ -203,6 +205,19 @@ export function DataTable<T>({
                 )}
 
                 <div className="flex items-center gap-4">
+                    {exportable && exportFunction && (
+                        <div className="flex items-center gap-2">
+                            <button className="px-3 py-2 border border-slate-300 rounded-lg text-sm text-slate-700 hover:bg-slate-50 focus:outline-none focus:border-transparent"
+                            data-tooltip-target="tooltip-export"
+                            data-tooltip-placement="top"
+                            title="Exportar a Excel"
+                            aria-label="Export"
+                            onClick={exportFunction}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
+                            </button>
+                        </div>
+                    )}
+                    
                     {/* Items per page selector */}
                     <div className="flex items-center gap-2">
                         <label className="hidden md:block text-sm text-slate-600 ">Mostrar:</label>

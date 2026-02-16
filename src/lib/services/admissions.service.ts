@@ -45,3 +45,15 @@ export async function downloadPreEnrollmentSCV(): Promise<Blob> {
         });
         return response.data;
 }
+
+
+/**
+ * Download the Excel for all pre-enrollments
+*/
+
+export async function downloadPreEnrollmentExcel(): Promise<Blob> {
+        const response = await apiClient.get<Blob>(`${API_ENDPOINTS.ADMISSION.PRE_ENROLLMENT_EXPORT}`, {
+                responseType: 'blob',
+        });
+        return response.data;
+}
