@@ -35,13 +35,8 @@ export const routePermissionMap = {
 
 export type RoutePath = keyof typeof routePermissionMap;
 
-// Cache de permisos verificados por sesión
 const permissionCache = new Map<string, boolean>();
 
-/**
- * Limpia el cache de permisos
- * Debe ser llamado en logout para evitar permisos obsoletos
- */
 export function clearPermissionCache() {
     permissionCache.clear();
 }
@@ -67,14 +62,12 @@ export function useRoutePermission(options: UseRoutePermissionOptions = {}) {
 
     useEffect(() => {
         if (!enabled || loading) return;
-        if (!user) return; // No hay usuario, no verificar permisos aún
+        if (!user) return; 
 
         const checkPermission = async () => {
-            // Encontrar el permiso requerido para esta ruta
             let requiredPermission: string | null = null;
 
             for (const [route, permission] of Object.entries(routePermissionMap)) {
-                // Convertir [id] a regex para matchear números
                 const pattern = route.replace(/\[.*?\]/g, '\\d+');
                 const regex = new RegExp(`^${pattern}$`);
 
@@ -84,7 +77,6 @@ export function useRoutePermission(options: UseRoutePermissionOptions = {}) {
                 }
             }
 
-            // Si requiere múltiples permisos específicos
             if (requireAll.length > 0) {
                 const hasAllRequired = requireAll.every(p => hasPermission(p));
                 if (!hasAllRequired) {
@@ -97,13 +89,10 @@ export function useRoutePermission(options: UseRoutePermissionOptions = {}) {
                 }
             }
 
-            // Si la ruta no requiere permiso específico (null = accesible para usuarios autenticados)
             if (!requiredPermission) {
                 setIsAuthorized(true);
                 return;
             }
-
-            // Verificar caché
             const cacheKey = `${pathname}-${user.id}-${requiredPermission}`;
             if (permissionCache.has(cacheKey)) {
                 const cached = permissionCache.get(cacheKey)!;
@@ -115,7 +104,6 @@ export function useRoutePermission(options: UseRoutePermissionOptions = {}) {
                 return;
             }
 
-            // Verificar permiso
             const authorized = hasPermission(requiredPermission);
             permissionCache.set(cacheKey, authorized);
             setIsAuthorized(authorized);
@@ -129,7 +117,6 @@ export function useRoutePermission(options: UseRoutePermissionOptions = {}) {
         checkPermission();
     }, [pathname, loading, hasPermission, user, router, fallback, requireAll, enabled]);
 
-    // Resetear redirect flag cuando cambia la ruta
     useEffect(() => {
         redirectAttempted.current = false;
     }, [pathname]);

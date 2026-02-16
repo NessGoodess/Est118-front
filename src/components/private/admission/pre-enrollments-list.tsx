@@ -7,6 +7,7 @@ import { PreEnrollmentListItem } from '@/lib/types/admission/preEnrollmentApi';
 import { tableRenderers } from './tableRerenders';
 import { TableConfig } from '@/lib/types/data-table';
 import { downloadPreEnrollmentExcel } from '@/lib/services/admissions.service';
+import { globalToast } from '@/lib/toast';
 
 interface props {
   data: PreEnrollmentListItem[];
@@ -15,8 +16,9 @@ interface props {
 export default function PreEnrollmentsList({ data }: props) {
   const [selectedStudents, setSelectedStudents] = useState<PreEnrollmentListItem[]>([]);
 
-  const exportFunction = () => {
-    downloadPreEnrollmentExcel().then((blob) => {
+  const exportFunction = async () => {
+    try {
+      const blob = await downloadPreEnrollmentExcel();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -25,7 +27,10 @@ export default function PreEnrollmentsList({ data }: props) {
       a.click();
       a.remove();
       window.URL.revokeObjectURL(url);
-    });
+      globalToast.success('Exito', 'Datos exportados correctamente');
+    } catch (error) {
+      globalToast.error('Error', 'No se encontraron datos para exportar');
+    }
   }
   return (
     <>

@@ -4,11 +4,11 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
-const PERFIL_EDITAR_PATH = '/perfil/editar';
+const PERFIL_EDITAR_PATH = '/profile/update';
 
 /**
  * PrivateGuard - Protects private routes from unauthenticated users.
- * If user is authenticated but email is not verified, only /perfil/editar is allowed (and /perfil/*).
+ * If user is authenticated but email is not verified, only /profile/update is allowed (and /profile/*).
  */
 export default function PrivateGuard({ children }: { children: React.ReactNode }) {
     const { authenticated, loading, user } = useAuth();
@@ -23,9 +23,9 @@ export default function PrivateGuard({ children }: { children: React.ReactNode }
             return;
         }
 
-        // Email not verified: only allow /perfil/editar (and any /perfil/*)
+        // Email not verified: only allow /profile/update (and any /profile/*)
         if (user && !user.email_verified_at) {
-            const isOnPerfilRoute = pathname === PERFIL_EDITAR_PATH || (pathname?.startsWith('/perfil'));
+            const isOnPerfilRoute = pathname === PERFIL_EDITAR_PATH || (pathname?.startsWith('/profile'));
             if (!isOnPerfilRoute) {
                 router.replace(PERFIL_EDITAR_PATH);
             }
