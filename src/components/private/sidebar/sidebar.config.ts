@@ -7,6 +7,17 @@ export const menuItems: MenuItem[] = [
     icon: 'dashboard',
   },
   {
+    name: 'Todos Los Estudiantes',
+    icon: 'students',
+    children: [
+      {
+        name: 'Lista de Estudiantes',
+        href: '/students/all-students',
+        icon: 'list',
+      },
+    ],
+  },
+  {
     name: 'Asistencia General',
     href: '/asistencia-general',
     icon: 'listCheck',

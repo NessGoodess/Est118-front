@@ -64,6 +64,7 @@ export const API_ENDPOINTS = {
   CURRENT_USER: {
     CHANGE_PASSWORD: '/current-user/change-password',
   },
+
   SCHEDULES: '/schedules',
   ATTENDANCE: {
     RECORD: '/record',
@@ -73,6 +74,8 @@ export const API_ENDPOINTS = {
   CLASS_STUDENTS: (scheduleId: number, date: string) => `/class/${scheduleId}/date/${date}`,
   STUDENTS: '/students',
   ALL_STUDENTS: '/all-students',
+  GRADES: '/students/grades',
+  STUDENTS_BY_GRADE: (grade_id: number) => `/students/grades/${grade_id}`,
 
   ADMISSION: {
     PRE_ENROLLMENT: 'admissions/pre-enrollment',
@@ -109,6 +112,14 @@ export function buildApiUrl(endpoint: string, useBasePath: boolean = true): stri
 // Función helper para obtener la URL base sin /api
 export function getApiBaseUrl(): string {
   return API_CONFIG.API_BASE_URL;
+}
+
+/** URL del endpoint de imagen privada (auth:sanctum). path = lo que devuelve el backend (ej: photos/students/1ero/A/photo.jpg). */
+export function getPrivateImageUrl(path: string | null | undefined): string {
+  if (!path) return '';
+  const base = getApiBaseUrl().replace(/\/$/, '');
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  return `${base}/private-image/${cleanPath}`;
 }
 
 // ============================================================================
