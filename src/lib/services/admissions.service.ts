@@ -24,8 +24,8 @@ export async function getPreEnrollmentById(id: number): Promise<PreEnrollmentApi
 /**
  * Update pre-enrollment
 */
-export async function updatePreEnrollment(id: number, data: PreEnrollmentApi): Promise<PreEnrollmentApi> {
-        const response = await apiClient.put<PreEnrollmentApi>(`${API_ENDPOINTS.ADMISSION.PRE_ENROLLMENTS}/${id}`, data);
+export async function updatePreEnrollment(id: number, data: Partial<PreEnrollmentApi>): Promise<PreEnrollmentApi> {
+        const response = await apiClient.patch<PreEnrollmentApi>(`${API_ENDPOINTS.ADMISSION.PRE_ENROLLMENTS}/${id}`, data);
         return response.data;
 }
 
@@ -55,5 +55,20 @@ export async function downloadPreEnrollmentExcel(): Promise<Blob> {
         const response = await apiClient.get<Blob>(`${API_ENDPOINTS.ADMISSION.PRE_ENROLLMENT_EXPORT}`, {
                 responseType: 'blob',
         });
+        return response.data;
+}
+
+/**
+ * Resent PDF Folio
+ */
+
+export interface ResentPDFFolioResponse {
+        status: string;
+        message: string;
+        folio?: string;
+}
+
+export async function resentPDFFolio(id: number): Promise<ResentPDFFolioResponse> {
+        const response= await apiClient.post<ResentPDFFolioResponse>(`${API_ENDPOINTS.ADMISSION.PRE_ENROLLMENTS}/${id}/resent-pdf-folio`);
         return response.data;
 }

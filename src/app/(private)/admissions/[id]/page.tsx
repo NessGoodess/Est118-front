@@ -4,14 +4,19 @@
 "use client"
 
 import { use } from 'react';
-import { useRouter } from 'next/navigation';
-import { getPreEnrollmentById } from '@/lib/services/admissions.service';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { getPreEnrollmentById, resentPDFFolio } from '@/lib/services/admissions.service';
 import { useToast } from '@/contexts/ToastContext';
 import { useEffect, useState } from 'react';
 import { PreEnrollmentApi } from '@/lib/types/admission/preEnrollmentApi';
 import PreEnrollmentDetail from '@/components/private/admission/pre-enrollment-detail';
+import PreEnrollmentEditForm from '@/components/private/admission/pre-enrollment-edit-form';
 import Loading from './loading';
 import GenericHeader from '@/components/ui/GenericHeader';
+import { handleApiError } from '@/lib/config/api';
+import { globalToast } from '@/lib/toast/globalToast';
+import { ApiError } from '@/lib/types/auth';
+
 
 export default function PreEnrollmentPage({
   params,
@@ -19,32 +24,60 @@ export default function PreEnrollmentPage({
   params: Promise<{ id: string }>;
 }) {
   const resolvedParams = use(params);
+  const searchParams = useSearchParams();
   const router = useRouter();
-  const { showError } = useToast();
+  const [error, setError] = useState<ApiError | null>(null);
   const [preEnrollment, setPreEnrollment] = useState<PreEnrollmentApi | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const data = await getPreEnrollmentById(parseInt(resolvedParams.id));
-        setPreEnrollment(data);
-      } catch {
-        showError('Error', 'No se pudo cargar los detalles de la pre-inscripción');
-        router.push('/admissions');
-      } finally {
-        setLoading(false);
-      }
-    };
+  const isEditMode = searchParams.get('edit') === '1';
 
-    fetchData();
-  }, [resolvedParams.id, router, showError]);
+  useEffect(() => {
+     const fetchData = async () => {
+       try {
+         setLoading(true);
+         const data = await getPreEnrollmentById(parseInt(resolvedParams.id));
+         setPreEnrollment(data);
+       } catch (err) {
+         setError(handleApiError(err));
+         globalToast.error(error?.message || 'Error al obtener pre-inscripción');
+         router.back();
+       } finally {
+         setLoading(false);
+       }
+     };
+ 
+     fetchData();
+   }, [resolvedParams.id, router, error]);
+ 
+   const handleResentPdf = async () => {
+     try {
+       const data = await resentPDFFolio(parseInt(resolvedParams.id));
+       if (data.status === 'success') {
+         globalToast.success('PDF reenviado correctamente');
+       }
+     } catch (err) {
+       setError(handleApiError(err));
+       globalToast.error(error?.message || 'Error al reenviar PDF');
+ 
+     }
+   };
+
+  const handleSwitchToEdit = () => {
+    router.push(`/admissions/${resolvedParams.id}?edit=1`);
+  };
+
+  const handleEditSuccess = (updated: PreEnrollmentApi) => {
+    setPreEnrollment(updated);
+    router.push(`/admissions/${resolvedParams.id}`);
+  };
+
+  const handleEditCancel = () => {
+    router.push(`/admissions/${resolvedParams.id}`);
+  };
 
   if (loading) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
   }
 
   return (
@@ -52,7 +85,7 @@ export default function PreEnrollmentPage({
       <button
         type="button"
         onClick={() => router.push('/admissions')}
-        className="mb-4 text-blue-600 hover:text-blue-900 flex items-center gap-2"
+        className="mb-4 text-blue-900 hover:text-blue-500 flex items-center gap-2 cursor-pointer"
       >
         <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -61,9 +94,27 @@ export default function PreEnrollmentPage({
       </button>
 
       <div>
-        <GenericHeader title="Información completa" description="Detalles de la pre-inscripción" />
+        <GenericHeader
+          title={isEditMode ? 'Editar pre-inscripción' : 'Información completa'}
+          description={isEditMode ? 'Modifica los datos del aspirante' : 'Detalles de la pre-inscripción'}
+        />
         {preEnrollment ? (
-          <PreEnrollmentDetail data={preEnrollment} />
+          isEditMode ? (
+            <PreEnrollmentEditForm
+              data={preEnrollment}
+              onSuccess={handleEditSuccess}
+              onCancel={handleEditCancel}
+            />
+          ) : (
+            <PreEnrollmentDetail
+              data={preEnrollment}
+              onEdit={handleSwitchToEdit}
+              showEditButton
+              showResentPdfButton
+              onResentPdf={handleResentPdf}
+              
+            />
+          )
         ) : (
           <p>No se encontró el registro</p>
         )}

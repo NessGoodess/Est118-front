@@ -7,15 +7,19 @@ interface ModalProps {
   onClose: () => void;
   title?: string;
   children: React.ReactNode;
+  footerActions?: boolean;
+  footerActionsContent?: React.ReactNode;
   maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl' | '6xl' | 'min-h-dvh';
 }
 
-export default function Modal({ 
-  isOpen, 
-  onClose, 
-  title, 
-  children, 
-  maxWidth = '2xl' 
+export default function Modal({
+  isOpen,
+  onClose,
+  title,
+  children,
+  footerActions,
+  footerActionsContent,
+  maxWidth = '2xl'
 }: ModalProps) {
 
   useEffect(() => {
@@ -56,7 +60,7 @@ export default function Modal({
   };
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
@@ -66,11 +70,11 @@ export default function Modal({
     >
       {/* Backdrop */}
       <div className="fixed inset-0 bg-black/50 transition-opacity" />
-      
+
       {/* Modal */}
       <div className="flex min-h-dvh items-center justify-center p-1 md:p-4">
-        <div 
-          className={`relative bg-white rounded-xl shadow-xl w-full ${maxWidthClasses[maxWidth]} transform transition-all`}
+        <div
+          className={`relative bg-gradient-to-br from-white via-blue-100 to-blue-50 rounded-xl shadow-xl w-full ${maxWidthClasses[maxWidth]} transform transition-all`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
@@ -88,11 +92,16 @@ export default function Modal({
               </button>
             </div>
           )}
-          
+
           {/* Content */}
           <div className="px-4 md:px-6 md:py-6 py-2 max-h-[90dvh] overflow-y-auto">
             {children}
           </div>
+          {footerActions && (
+            <div className="flex items-center justify-end px-4 py-4 border-t border-slate-200">
+              {footerActionsContent}
+            </div>
+          )}
         </div>
       </div>
     </div>

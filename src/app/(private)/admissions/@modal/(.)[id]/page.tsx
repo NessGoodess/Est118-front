@@ -1,26 +1,35 @@
 //app/(private)/admissions/@modal/(.)[id]/page.tsx
 
-"use client" 
+"use client"
 
 import { use } from 'react';
-import { useRouter } from 'next/navigation';
-import { getPreEnrollmentById } from '@/lib/services/admissions.service';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { getPreEnrollmentById, resentPDFFolio } from '@/lib/services/admissions.service';
 import Modal from '@/components/ui/Modal';
 import PreEnrollmentDetail from '@/components/private/admission/pre-enrollment-detail';
+import PreEnrollmentEditForm from '@/components/private/admission/pre-enrollment-edit-form';
 import { useToast } from '@/contexts/ToastContext';
 import { useEffect, useState } from 'react';
 import { PreEnrollmentApi } from '@/lib/types/admission/preEnrollmentApi';
 import Loading from '../../[id]/loading';
+import { handleApiError } from '@/lib/config/api';
+import { globalToast } from '@/lib/toast/globalToast';
+import { ApiError } from '@/lib/types/auth';
+
 export default function InterceptedModal({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const resolvedParams = use(params);
+  const searchParams = useSearchParams();
   const router = useRouter();
-  const { showError } = useToast();
+  const [error, setError] = useState<ApiError | null>(null);
   const [preEnrollment, setPreEnrollment] = useState<PreEnrollmentApi | null>(null);
   const [loading, setLoading] = useState(true);
+
+
+  const isEditMode = searchParams.get('edit') === '1';
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,8 +37,9 @@ export default function InterceptedModal({
         setLoading(true);
         const data = await getPreEnrollmentById(parseInt(resolvedParams.id));
         setPreEnrollment(data);
-      } catch {
-        showError('Error', 'No se pudo cargar los detalles de la pre-inscripción');
+      } catch (err) {
+        setError(handleApiError(err));
+        globalToast.error(error?.message || 'Error al obtener pre-inscripción');
         router.back();
       } finally {
         setLoading(false);
@@ -37,23 +47,64 @@ export default function InterceptedModal({
     };
 
     fetchData();
-  }, [resolvedParams.id, router, showError]);
+  }, [resolvedParams.id, router, error]);
 
+  const handleResentPdf = async () => {
+    try {
+      const data = await resentPDFFolio(parseInt(resolvedParams.id));
+      if (data.status === 'success') {
+        globalToast.success('PDF reenviado correctamente');
+      }
+    } catch (err) {
+      setError(handleApiError(err));
+      globalToast.error(error?.message || 'Error al reenviar PDF');
+
+    } 
+  };
   const handleClose = () => {
     router.back();
+  };
+
+  const handleSwitchToEdit = () => {
+    router.replace(`/admissions/${resolvedParams.id}?edit=1`, { scroll: false });
+  };
+
+  const handleEditSuccess = (updated: PreEnrollmentApi) => {
+    setPreEnrollment(updated);
+    router.replace(`/admissions/${resolvedParams.id}`, { scroll: false });
+  };
+
+  const handleEditCancel = () => {
+    router.replace(`/admissions/${resolvedParams.id}`, { scroll: false });
   };
 
   return (
     <Modal
       isOpen={true}
       onClose={handleClose}
-      title="Detalles de Pre-inscripción"
-      maxWidth="min-h-dvh"
+      title={isEditMode ? 'Editar Pre-inscripción' : 'Detalles de Pre-inscripción'}
+      maxWidth="6xl"
     >
       {loading ? (
         <Loading />
       ) : preEnrollment ? (
-        <PreEnrollmentDetail data={preEnrollment} />
+        isEditMode ? (
+          <div className="max-h-[85dvh] overflow-y-auto pr-2">
+            <PreEnrollmentEditForm
+              data={preEnrollment}
+              onSuccess={handleEditSuccess}
+              onCancel={handleEditCancel}
+            />
+          </div>
+        ) : (
+          <PreEnrollmentDetail
+            data={preEnrollment}
+            onEdit={handleSwitchToEdit}
+            showEditButton
+            showResentPdfButton
+            onResentPdf={handleResentPdf}
+          />
+        )
       ) : null}
     </Modal>
   );

@@ -71,15 +71,15 @@ export const studentsTableConfig: EnhancedTableConfig<PreEnrollmentListItem> = {
     {
       label: '',
       icon: 'eye',
-      onClick: (student: PreEnrollmentListItem) => `/admissions/${student.id}`,
+      href: (student: PreEnrollmentListItem) => `/admissions/${student.id}`,
       variant: 'secondary' as const,
     },
-    /*{
+    {
       label: '',
       icon: 'edit',
-      onClick: (student: PreEnrollmentListItem) => console.log('Editar', student),
+      href: (student: PreEnrollmentListItem) => `/admissions/${student.id}?edit=1`,
       variant: 'primary' as const,
-    },*/
+    },
     {
       label: '',
       icon: 'trash',

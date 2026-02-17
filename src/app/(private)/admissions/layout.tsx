@@ -1,6 +1,6 @@
 //app/(private)/admissions/layout.tsx
 
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export default function AdmissionsLayout({
   return (
     <>
       {children}
-      {modal}
+      <Suspense fallback={null}>{modal}</Suspense>
     </>
   );
 }

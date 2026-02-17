@@ -7,9 +7,13 @@ import { IconByName, GlobalIcons } from '@/components/ui/icons/global.icons';
 
 interface PreEnrollmentDetailProps {
   data: PreEnrollmentApi;
+  onEdit?: () => void;
+  showEditButton?: boolean;
+  showResentPdfButton?: boolean;
+  onResentPdf?: () => void;
 }
 
-export default function PreEnrollmentDetail({ data }: PreEnrollmentDetailProps) {
+export default function PreEnrollmentDetail({ data, onEdit, showEditButton, showResentPdfButton, onResentPdf }: PreEnrollmentDetailProps) {
   const formatGender = (gender: string) => gender === 'M' ? 'Masculino' : 'Femenino';
   const formatBoolean = (value: boolean) => value ? 'Sí' : 'No';
 
@@ -98,35 +102,58 @@ export default function PreEnrollmentDetail({ data }: PreEnrollmentDetailProps) 
   );
 
   return (
-      <div className="min-h-dvh mx-auto space-y-8">
+      <div className="mx-auto space-y-6 max-h-[85dvh] overflow-y-auto">
         {/* Header */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-gradient-to-br from-slate-50 to-white rounded-xl border border-slate-200 shadow-sm p-6">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
-            <div>
-              <span className="text-sm font-medium text-gray-500 block mb-1">Folio: {data.folio}</span>
-              <h1 className="text-2xl font-bold text-gray-900">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">
+                  Folio {data.folio}
+                </span>
+                {data.status && (
+                  <StatusBadge status={data.status} />
+                )}
+              </div>
+              <h1 className="text-xl sm:text-2xl font-bold text-slate-900 mt-2 break-words">
                 {data.first_name} {data.last_name} {data.second_last_name}
               </h1>
+              <p className="text-sm text-slate-500 mt-1">Registrado el {formatLong(data.created_at)}</p>
             </div>
-            <StatusBadge status={data.status} />
+            {showResentPdfButton && onResentPdf && (
+              <button
+                type="button"
+                onClick={onResentPdf}
+                className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-colors shrink-0"
+              >
+                
+                Reenviar PDF
+              </button>
+            )}
+            {showEditButton && onEdit && (
+              <button
+                type="button"
+                onClick={onEdit}
+                className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-colors shrink-0"
+              >
+                <GlobalIcons.edit className="w-4 h-4" />
+                Editar
+              </button>
+            )}
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-200">
             <div className="space-y-1">
-              <span className="text-xs font-medium text-gray-500">CURP</span>
-              <p className="text-sm font-mono text-gray-900">{data.curp}</p>
+              <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">CURP</span>
+              <p className="text-sm font-mono text-slate-900 break-all">{data.curp}</p>
             </div>
             <div className="space-y-1">
-              <span className="text-xs font-medium text-gray-500">Teléfono</span>
-              <p className="text-sm text-gray-900">{data.phone}</p>
+              <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">Teléfono</span>
+              <p className="text-sm text-slate-900">{data.phone}</p>
             </div>
             <div className="space-y-1">
-              <span className="text-xs font-medium text-gray-500">Email</span>
-              <p className="text-sm text-gray-900 truncate">{data.student_email}</p>
-            </div>
-            <div className="space-y-1">
-              <span className="text-xs font-medium text-gray-500">Fecha de registro</span>
-              <p className="text-sm text-gray-900">{formatLong(data.created_at)}</p>
+              <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">Email</span>
+              <p className="text-sm text-slate-900 truncate" title={data.student_email}>{data.student_email}</p>
             </div>
           </div>
         </div>
@@ -136,7 +163,7 @@ export default function PreEnrollmentDetail({ data }: PreEnrollmentDetailProps) 
           {/* Columna izquierda */}
           <div className="space-y-6">
             {/* Información Personal */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
               <InfoSection title="Información Personal" iconName="user">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <InfoCard 
@@ -164,7 +191,7 @@ export default function PreEnrollmentDetail({ data }: PreEnrollmentDetailProps) 
             </div>
 
             {/* Información del Tutor */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
               <InfoSection title="Información del Tutor" iconName="users">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <InfoCard 
@@ -195,7 +222,7 @@ export default function PreEnrollmentDetail({ data }: PreEnrollmentDetailProps) 
           {/* Columna derecha */}
           <div className="space-y-6">
             {/* Información Académica */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
               <InfoSection title="Información Académica" iconName="graduationCap">
                 <div className="space-y-4">
                   <InfoCard 
@@ -235,7 +262,7 @@ export default function PreEnrollmentDetail({ data }: PreEnrollmentDetailProps) 
             </div>
 
             {/* Dirección */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
               <InfoSection title="Dirección" iconName="mapPin">
                 <div className="space-y-4">
                   <InfoCard 
@@ -272,7 +299,7 @@ export default function PreEnrollmentDetail({ data }: PreEnrollmentDetailProps) 
             {/* Contacto y Talleres */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {/* Contacto */}
-              <div className="bg-white rounded-xl shadow-sm p-6">
+              <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
                 <InfoSection title="Contacto" iconName="mail">
                   <div className="space-y-4">
                     <InfoCard 
@@ -290,7 +317,7 @@ export default function PreEnrollmentDetail({ data }: PreEnrollmentDetailProps) 
               </div>
 
               {/* Talleres */}
-              <div className="bg-white rounded-xl shadow-sm p-6">
+              <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
                 <InfoSection title="Talleres" iconName="palette">
                   <div className="space-y-4">
                     <InfoCard 
@@ -309,7 +336,7 @@ export default function PreEnrollmentDetail({ data }: PreEnrollmentDetailProps) 
             </div>
 
             {/* Vales Escolares */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
               <InfoSection title="Vales Escolares" iconName="ticket">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <InfoCard 
