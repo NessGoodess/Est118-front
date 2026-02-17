@@ -12,8 +12,8 @@ export const createEcho = () => {
 
   const reverbKey = process.env.NEXT_PUBLIC_REVERB_APP_KEY || '';
   const reverbHost = process.env.NEXT_PUBLIC_REVERB_HOST || defaultHost;
-  const reverbPort = parseInt(process.env.NEXT_PUBLIC_REVERB_PORT || '8080'); // Puerto por defecto de Reverb
-  //const reverbScheme = process.env.NEXT_PUBLIC_REVERB_SCHEME || 'http';
+  const reverbPort = parseInt(process.env.NEXT_PUBLIC_REVERB_PORT || '8080');
+  const reverbScheme = process.env.NEXT_PUBLIC_REVERB_SCHEME || 'https';
 
   if (!reverbKey) {
     console.warn('REVERB_APP_KEY configured incorrectly');
@@ -26,10 +26,11 @@ export const createEcho = () => {
     wsHost: reverbHost,
     wsPort: reverbPort,
     wssPort: reverbPort,
-    forceTLS: false, // Forzar a no usar TLS en desarrollo
-    enabledTransports: ['ws'], // Solo WebSocket en desarrollo
-    disableStats: true,
-    cluster: '', // No usar cluster para Reverb
+    forceTLS: true,
+    enabledTransports: ['ws', 'wss'],
+    disableStats: false,
+    cluster: '',
+    scheme: reverbScheme,
     authorizer: (channel: { name: string }) => {
       return {
         authorize: (socketId: string, callback: (error: unknown, data?: unknown) => void) => {
