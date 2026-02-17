@@ -58,7 +58,7 @@ interface AttendanceRecordCardProps {
 function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
     const photoUrl = record.photo_url
         ? getPrivateImageProxyUrl(record.photo_url)
-        : "/Avatar.svg";
+        : "/avatar-m.svg";
 
     const timeAgo = getTimeAgo(record.scannedAt);
 

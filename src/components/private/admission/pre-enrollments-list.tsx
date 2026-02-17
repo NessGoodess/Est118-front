@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { DataTable } from '@/components/ui/DataTable';
 import { studentsTableConfig } from './students.config';
 import { tableIcons } from './icons';
@@ -32,16 +32,9 @@ export default function PreEnrollmentsList({ data }: props) {
       window.URL.revokeObjectURL(url);
     } catch (err) {
       setError(handleApiError(err));
+      globalToast.error(error?.message || 'Error al exportar datos');
     }
   }
-
-  useEffect(() => {
-    if (error) {
-      globalToast.error(error?.message || 'Error al exportar datos');
-    } else {
-      globalToast.success('Exito', 'Datos exportados correctamente');
-    }
-  }, [error]);
 
   return (
     <>

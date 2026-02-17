@@ -50,8 +50,8 @@ export default function StudentAttendanceCard() {
     }, [setInitialRecords, addRecord]);
 
     const photoUrl = displayStudent?.photo_url
-        ? getPrivateImageProxyUrl(displayStudent.photo_url)
-        : "/Avatar.svg";
+        ? getPrivateImageProxyUrl(decodeURIComponent(displayStudent.photo_url))
+        : "/avatar-m.svg";
 
     const toggleFullscreen = () => {
         if (!document.fullscreenElement) {
@@ -183,7 +183,7 @@ export default function StudentAttendanceCard() {
                                     <div className={`aspect-[3/4] overflow-hidden rounded-2xl shadow-lg transition-all duration-300 bg-gray-100 ${pulseAnimation ? "ring-4 ring-blue-300 ring-opacity-50" : ""}`}>
                                         <Image
                                             src={photoUrl}
-                                            alt={displayStudent.name}
+                                            alt={`Foto de ${displayStudent.name || "estudiante"}`}
                                             className="w-full h-full object-cover"
                                             onError={(e) => ((e.target as HTMLImageElement).src = "/Avatar.svg")}
                                             fill
