@@ -1,5 +1,5 @@
-import { PreEnrollmentListItem } from "@/lib/types/admission/preEnrollmentApi";
-import {EnhancedTableConfig } from "@/lib/types/data-table";
+
+import { EnhancedTableConfig } from "@/lib/types/data-table";
 import { Student } from "@/lib/types/students";
 
 export const studentsTableConfig: EnhancedTableConfig<Student> = {

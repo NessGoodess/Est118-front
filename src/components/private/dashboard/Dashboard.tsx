@@ -1,13 +1,13 @@
 "use client";
 
-import DashboardStats from './DashboardStats';
-import RecentActivity from './RecentActivity';
+// import DashboardStats from './DashboardStats';
+// import RecentActivity from './RecentActivity';
 
 export default function ModernDashboard() {
   return (
     <div className="space-y-6">
       {/* Welcome section */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-6 text-white">
+      <div className="bg-linear-to-r from-blue-600 to-indigo-600 rounded-xl p-6 text-white">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold mb-2">¡Bienvenido de vuelta!</h2>

@@ -8,13 +8,13 @@ import GenericHeader from "@/components/ui/GenericHeader";
 import StudentsByGradeSection from "@/components/private/students/StudentsByGrade/StudentsByGradeSection";
 
 export default function AllStudentsPage() {
-    const { grades, totals, isLoading, error } = useGrades();
+    const { grades, isLoading, error } = useGrades();
     const [selectedGrade, setSelectedGrade] = useState<number | null>(1);
 
     useEffect(() => {
         if (error) {
             globalToast.error(error.message);
-        } 
+        }
     }, [error, isLoading, grades]);
 
 

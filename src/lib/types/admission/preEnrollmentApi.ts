@@ -1,4 +1,4 @@
-export type Gender = "M" | "F";
+export type Gender = "M" | "F" | "O";
 
 export interface PreEnrollmentApi {
   id: number;

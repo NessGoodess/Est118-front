@@ -6,7 +6,6 @@
 import { use } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getPreEnrollmentById, resentPDFFolio } from '@/lib/services/admissions.service';
-import { useToast } from '@/contexts/ToastContext';
 import { useEffect, useState } from 'react';
 import { PreEnrollmentApi } from '@/lib/types/admission/preEnrollmentApi';
 import PreEnrollmentDetail from '@/components/private/admission/pre-enrollment-detail';
@@ -33,35 +32,35 @@ export default function PreEnrollmentPage({
   const isEditMode = searchParams.get('edit') === '1';
 
   useEffect(() => {
-     const fetchData = async () => {
-       try {
-         setLoading(true);
-         const data = await getPreEnrollmentById(parseInt(resolvedParams.id));
-         setPreEnrollment(data);
-       } catch (err) {
-         setError(handleApiError(err));
-         globalToast.error(error?.message || 'Error al obtener pre-inscripción');
-         router.back();
-       } finally {
-         setLoading(false);
-       }
-     };
- 
-     fetchData();
-   }, [resolvedParams.id, router, error]);
- 
-   const handleResentPdf = async () => {
-     try {
-       const data = await resentPDFFolio(parseInt(resolvedParams.id));
-       if (data.status === 'success') {
-         globalToast.success('PDF reenviado correctamente');
-       }
-     } catch (err) {
-       setError(handleApiError(err));
-       globalToast.error(error?.message || 'Error al reenviar PDF');
- 
-     }
-   };
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = await getPreEnrollmentById(parseInt(resolvedParams.id));
+        setPreEnrollment(data);
+      } catch (err) {
+        setError(handleApiError(err));
+        globalToast.error(error?.message || 'Error al obtener pre-inscripción');
+        router.back();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [resolvedParams.id, router, error]);
+
+  const handleResentPdf = async () => {
+    try {
+      const data = await resentPDFFolio(parseInt(resolvedParams.id));
+      if (data.status === 'success') {
+        globalToast.success('PDF reenviado correctamente');
+      }
+    } catch (err) {
+      setError(handleApiError(err));
+      globalToast.error(error?.message || 'Error al reenviar PDF');
+
+    }
+  };
 
   const handleSwitchToEdit = () => {
     router.push(`/admissions/${resolvedParams.id}?edit=1`);
@@ -112,7 +111,7 @@ export default function PreEnrollmentPage({
               showEditButton
               showResentPdfButton
               onResentPdf={handleResentPdf}
-              
+
             />
           )
         ) : (

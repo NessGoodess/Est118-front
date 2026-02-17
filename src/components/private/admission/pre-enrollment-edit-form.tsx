@@ -102,8 +102,8 @@ export default function PreEnrollmentEditForm({ data, onSuccess, onCancel }: Pre
         second_last_name: formData.second_last_name || undefined,
         unit_number: formData.unit_number || undefined,
         guardian_second_last_name: formData.guardian_second_last_name || undefined,
-        siblings_details: formData.has_siblings ? formData.siblings_details : undefined,
-        school_voucher_folio: formData.has_school_voucher ? formData.school_voucher_folio : undefined,
+        siblings_details: formData.has_siblings ? (formData.siblings_details || undefined) : undefined,
+        school_voucher_folio: formData.has_school_voucher ? (formData.school_voucher_folio || undefined) : undefined,
       };
       const updated = await updatePreEnrollment(data.id, payload);
       globalToast.success('Pre-inscripción actualizada correctamente');

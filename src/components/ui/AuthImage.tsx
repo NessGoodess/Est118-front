@@ -8,5 +8,6 @@ import Image, { ImageProps } from 'next/image';
  * Úsalo para src que apunten a /private-image/* del backend.
  */
 export function AuthImage(props: ImageProps) {
-  return <Image {...props} unoptimized />;
+  const { alt, ...rest } = props;
+  return <Image alt={alt || ""} {...rest} unoptimized />;
 }

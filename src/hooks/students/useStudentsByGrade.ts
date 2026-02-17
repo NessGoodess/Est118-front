@@ -9,19 +9,19 @@ export default function useStudentsByGrade(grade_id: number | null) {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<ApiError | null>(null);
 
-    const fetchStudents = async () => {
-        if (!grade_id) return;
-        try {
-            const response = await getStudentsByGrade(grade_id);
-            setStudents(response.data);
-            setIsLoading(false);
-        } catch (error) {
-            setError(handleApiError(error));
-            setIsLoading(false);
-        }
-    };
-
     useEffect(() => {
+        const fetchStudents = async () => {
+            if (!grade_id) return;
+            try {
+                const response = await getStudentsByGrade(grade_id);
+                setStudents(response.data);
+                setIsLoading(false);
+            } catch (error) {
+                setError(handleApiError(error));
+                setIsLoading(false);
+            }
+        };
+
         fetchStudents();
     }, [grade_id]);
 

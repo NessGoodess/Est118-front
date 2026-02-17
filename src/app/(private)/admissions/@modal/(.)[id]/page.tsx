@@ -8,7 +8,6 @@ import { getPreEnrollmentById, resentPDFFolio } from '@/lib/services/admissions.
 import Modal from '@/components/ui/Modal';
 import PreEnrollmentDetail from '@/components/private/admission/pre-enrollment-detail';
 import PreEnrollmentEditForm from '@/components/private/admission/pre-enrollment-edit-form';
-import { useToast } from '@/contexts/ToastContext';
 import { useEffect, useState } from 'react';
 import { PreEnrollmentApi } from '@/lib/types/admission/preEnrollmentApi';
 import Loading from '../../[id]/loading';
@@ -59,7 +58,7 @@ export default function InterceptedModal({
       setError(handleApiError(err));
       globalToast.error(error?.message || 'Error al reenviar PDF');
 
-    } 
+    }
   };
   const handleClose = () => {
     router.back();

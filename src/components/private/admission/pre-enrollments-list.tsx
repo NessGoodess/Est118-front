@@ -1,5 +1,5 @@
 "use client"
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { DataTable } from '@/components/ui/DataTable';
 import { studentsTableConfig } from './students.config';
 import { tableIcons } from './icons';
@@ -8,6 +8,8 @@ import { tableRenderers } from './tableRerenders';
 import { TableConfig } from '@/lib/types/data-table';
 import { downloadPreEnrollmentExcel } from '@/lib/services/admissions.service';
 import { globalToast } from '@/lib/toast';
+import { ApiError } from '@/lib/types/auth';
+import { handleApiError } from '@/lib/config/api';
 
 interface props {
   data: PreEnrollmentListItem[];
@@ -15,6 +17,7 @@ interface props {
 
 export default function PreEnrollmentsList({ data }: props) {
   const [selectedStudents, setSelectedStudents] = useState<PreEnrollmentListItem[]>([]);
+  const [error, setError] = useState<ApiError | null>(null);
 
   const exportFunction = async () => {
     try {
@@ -27,11 +30,19 @@ export default function PreEnrollmentsList({ data }: props) {
       a.click();
       a.remove();
       window.URL.revokeObjectURL(url);
-      globalToast.success('Exito', 'Datos exportados correctamente');
-    } catch (error) {
-      globalToast.error('Error', 'No se encontraron datos para exportar');
+    } catch (err) {
+      setError(handleApiError(err));
     }
   }
+
+  useEffect(() => {
+    if (error) {
+      globalToast.error(error?.message || 'Error al exportar datos');
+    } else {
+      globalToast.success('Exito', 'Datos exportados correctamente');
+    }
+  }, [error]);
+
   return (
     <>
       <DataTable
