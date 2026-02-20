@@ -12,14 +12,14 @@ function createEchoInstance(): Echo<'reverb'> | null {
   const apiUrl = new URL(API_CONFIG.API_BASE_URL)
   const defaultHost = apiUrl.hostname
 
-  const reverbKey = process.env.NEXT_PUBLIC_REVERB_APP_KEY || ''
+  const reverbKey = process.env.NEXT_PUBLIC_REVERB_APP_KEY
   const reverbHost = process.env.NEXT_PUBLIC_REVERB_HOST || defaultHost
   const reverbPort = parseInt(process.env.NEXT_PUBLIC_REVERB_PORT || '8080', 10)
-  const reverbScheme = process.env.NEXT_PUBLIC_REVERB_SCHEME || 'https'
+  const reverbScheme = process.env.NEXT_PUBLIC_REVERB_SCHEME || 'http'
 
   if (!reverbKey) {
     console.warn('REVERB_APP_KEY configured incorrectly')
-    console.warn('   Add NEXT_PUBLIC_REVERB_APP_KEY in your .env.local file')
+    console.warn('   Add NEXT_PUBLIC_REVERB_APP_KEY')
   }
 
   const echoConfig: Record<string, unknown> = {
@@ -28,8 +28,8 @@ function createEchoInstance(): Echo<'reverb'> | null {
     wsHost: reverbHost,
     wsPort: reverbPort,
     wssPort: reverbPort,
-    forceTLS: true,
-    enabledTransports: ['wss'],
+    forceTLS: false,
+    enabledTransports: ['ws'],
     disableStats: true,
     cluster: '',
     scheme: reverbScheme,
@@ -49,7 +49,7 @@ function createEchoInstance(): Echo<'reverb'> | null {
   }
 
   if (API_CONFIG.IS_DEVELOPMENT) {
-    echoConfig.encrypted = true
+    echoConfig.encrypted = false
     echoConfig.enableLogging = true
   }
 
