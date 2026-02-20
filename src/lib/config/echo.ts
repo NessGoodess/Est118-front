@@ -7,7 +7,7 @@ let echoInstance: Echo<'reverb'> | null = null
 function createEchoInstance(): Echo<'reverb'> | null {
   if (typeof window === 'undefined') return null
 
-  ;(window as Window & { Pusher?: typeof Pusher }).Pusher = Pusher
+    ; (window as Window & { Pusher?: typeof Pusher }).Pusher = Pusher
 
   const apiUrl = new URL(API_CONFIG.API_BASE_URL)
   const defaultHost = apiUrl.hostname
@@ -33,7 +33,6 @@ function createEchoInstance(): Echo<'reverb'> | null {
     disableStats: true,
     cluster: '',
     scheme: reverbScheme,
-    wsPath: '/app',
     authorizer: (channel: { name: string }) => {
       return {
         authorize: (socketId: string, callback: (error: unknown, data?: unknown) => void) => {
