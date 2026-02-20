@@ -1,7 +1,7 @@
 // hooks/useEcho.ts
 'use client'
 import { useEffect, useRef } from 'react'
-import { createEcho } from '@/lib/config/echo'
+import { getEcho } from '@/lib/config/echo'
 
 export function useEcho(
   channelName: string,
@@ -15,7 +15,7 @@ export function useEcho(
   }, [onMessage])
 
   useEffect(() => {
-    const echo = createEcho()
+    const echo = getEcho()
     if (!echo) return
 
     const channel = echo.private(channelName)
@@ -34,7 +34,7 @@ export function useEcho(
 /*
 'use client'
 import { useEffect, useRef } from 'react'
-import { createEcho } from '@/lib/config/echo'
+import { getEcho } from '@/lib/config/echo'
 
 export function useEcho(
   channelName: string,
@@ -52,7 +52,7 @@ export function useEcho(
     console.log('📡 Canal:', channelName)
     console.log('🎯 Evento:', eventName)
 
-    const echo = createEcho()
+    const echo = getEcho()
     if (!echo) {
       console.error('❌ No se pudo crear instancia de Echo')
       return
@@ -90,7 +90,7 @@ export function useEcho(
 }
 'use client'
 import { useEffect, useRef } from 'react'
-import { createEcho } from '@/lib/config/echo'
+import { getEcho } from '@/lib/config/echo'
 
 export function useEcho(
   channelName: string,
@@ -108,7 +108,7 @@ export function useEcho(
     console.log('📡 Canal:', channelName)
     console.log('🎯 Evento:', eventName)
 
-    const echo = createEcho()
+    const echo = getEcho()
     if (!echo) {
       console.error('❌ No se pudo crear instancia de Echo')
       return

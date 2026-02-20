@@ -574,7 +574,7 @@ export type DateFormat =
   | 'longWithoutTime' // Sábado, 20 de enero de 2024
   | 'time' // 4:50 PM
   | 'time24' // 16:50
-  | 'relative' // Hace 2 horas
+  | 'relative' // Hace 2 horas 
   | 'relativeWithTime' // Hace 2 horas, 4:50 PM
   | 'chat' // 4:50 PM
   | 'notification' // Hace 5 min, Hace 2 hrs, Ayer, 24 de enero, 24/01/2023

@@ -72,6 +72,9 @@ export const API_ENDPOINTS = {
     HISTORY: '/attendance/all-attendances',
     RECENT_READINGS: '/attendance/recent-readings',
   },
+  READER: {
+    STATUS: '/reader/status',
+  },
   CLASS_STUDENTS: (scheduleId: number, date: string) => `/class/${scheduleId}/date/${date}`,
   STUDENTS: '/students',
   ALL_STUDENTS: '/all-students',
@@ -86,7 +89,7 @@ export const API_ENDPOINTS = {
     CYCLE_REOPEN: (id: number) => `admissions/cycles/${id}/reopen`,
     CYCLE_DELETE: (id: number) => `admissions/cycles/${id}`,
     STATUS: 'admissions/status',
-    
+
     PRE_ENROLLMENTS: 'admissions/pre-enrollments',
     PRE_ENROLLMENT_EXPORT: 'admissions/pre-enrollments/export',
   },

@@ -1,7 +1,7 @@
 // hooks/useEchoConnection.ts
 'use client'
 import { useState, useEffect, useRef } from 'react'
-import { createEcho } from '@/lib/config/echo'
+import { getEcho } from '@/lib/config/echo'
 
 interface EchoInstance {
   connector?: {
@@ -20,7 +20,7 @@ export function useEchoConnection() {
   const echoRef = useRef<EchoInstance | null>(null);
 
   useEffect(() => {
-    const echo = createEcho();
+    const echo = getEcho();
     if (!echo) {
       setConnectionStatus('error');
       return;

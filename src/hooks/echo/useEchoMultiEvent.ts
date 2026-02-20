@@ -1,7 +1,7 @@
 // hooks/useEchoMultiEvent.ts
 'use client'
 import { useEffect, useRef } from 'react'
-import { createEcho } from '@/lib/config/echo'
+import { getEcho } from '@/lib/config/echo'
 
 interface EventHandler {
   [eventName: string]: (data: unknown) => void;
@@ -18,7 +18,7 @@ export function useEchoMultiEvent(
   }, [events]);
 
   useEffect(() => {
-    const echo = createEcho();
+    const echo = getEcho();
     if (!echo) return;
 
     const channel = echo.channel(channelName);

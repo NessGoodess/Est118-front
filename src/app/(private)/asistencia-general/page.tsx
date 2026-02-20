@@ -24,9 +24,9 @@ function GeneralAttendanceContent() {
   };
 
   return (
-    <section className="container mx-auto max-w-5xl py-6 px-4">
+    <section className="space-y-6">
       <GenericHeader title="Asistencia General" description=""/>
-      <div className="rounded-lg shadow-sm">
+      <div className="rounded-lg">
 
         <div className="border-b border-gray-200">
           <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-6 pb-1">
@@ -59,7 +59,6 @@ function GeneralAttendanceContent() {
         </div>
 
         <div
-          className="p-4 sm:p-6"
           role="tabpanel"
           id={`tabpanel-${selectedTab}`}
           aria-labelledby={`tab-${selectedTab}`}

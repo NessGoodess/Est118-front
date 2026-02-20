@@ -4,29 +4,34 @@ import { AttendanceRecord } from "@/stores/attendance-store";
 import Image from "next/image";
 import { getPrivateImageProxyUrl } from "@/lib/config/api";
 import { useEffect, useRef } from "react";
+import { formatRelative } from "@/lib/utils/dateFormatter";
+import { IconByName } from "@/components/ui/icons/attendenceCard.icons";
 
 interface AttendanceHistoryListProps {
     records: AttendanceRecord[];
+    loading: boolean;
 }
 
-export default function AttendanceHistoryList({ records }: AttendanceHistoryListProps) {
+export default function AttendanceHistoryList({ records, loading }: AttendanceHistoryListProps) {
     const listRef = useRef<HTMLDivElement>(null);
 
-    // Auto-scroll to top when new record is added
     useEffect(() => {
         if (listRef.current && records.length > 0) {
             listRef.current.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }, [records.length]);
 
-    if (records.length === 0) {
+    if (!loading && records.length === 0) {
         return (
             <div className="text-center py-12">
                 <div className="text-gray-400 text-lg">
-                    <p className="mb-2">📋 Sin registros de asistencia</p>
-                    <p className="text-sm">Los estudiantes aparecerán aquí al escanear su credencial</p>
+                    <p className="mb-2">Sin registros de asistencia</p>
                 </div>
             </div>
+        );
+    } else if (loading) {
+        return (
+            <Loading />
         );
     }
 
@@ -36,9 +41,9 @@ export default function AttendanceHistoryList({ records }: AttendanceHistoryList
                 {records.map((record, index) => (
                     <motion.div
                         key={`${record.id}-${record.scannedAt.getTime()}`}
-                        initial={{ opacity: 0, y: -20, height: 0 }}
-                        animate={{ opacity: 1, y: 0, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.98 }}
                         transition={{ duration: 0.3, ease: 'easeOut' }}
                         layout
                     >
@@ -47,7 +52,7 @@ export default function AttendanceHistoryList({ records }: AttendanceHistoryList
                 ))}
             </AnimatePresence>
         </div>
-    );
+    )
 }
 
 interface AttendanceRecordCardProps {
@@ -60,24 +65,22 @@ function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
         ? getPrivateImageProxyUrl(record.photo_url)
         : "/avatar-m.svg";
 
-    const timeAgo = getTimeAgo(record.scannedAt);
+    const timeAgo = formatRelative(record.scannedAt);
 
     return (
-        <article
+        <div
             className={`relative overflow-hidden rounded-xl shadow-md border-2 transition-all duration-300 hover:shadow-lg ${isLatest
-                    ? 'border-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50'
-                    : 'border-gray-200 bg-white hover:border-gray-300'
-                }`}
-        >
+                ? 'border-blue-400 bg-linear-to-r from-blue-50 to-indigo-50'
+                : 'border-gray-200 bg-white hover:border-gray-300'
+                }`} >
             <div className="flex items-center gap-4 p-4">
-                {/* Photo */}
                 <div className="relative w-16 h-16 shrink-0">
-                    <div className="aspect-square overflow-hidden rounded-lg shadow-sm bg-gray-100">
+                    <div className="aspect-3/4 overflow-hidden rounded-lg shadow-sm bg-gray-100">
                         <Image
                             src={photoUrl}
                             alt={record.name}
                             className="w-full h-full object-cover"
-                            onError={(e) => ((e.target as HTMLImageElement).src = "/Avatar.svg")}
+                            onError={(e) => ((e.target as HTMLImageElement).src = "/avatar-m.svg")}
                             width={64}
                             height={64}
                             unoptimized
@@ -85,7 +88,6 @@ function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
                     </div>
                 </div>
 
-                {/* Info */}
                 <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-gray-900 truncate text-lg">
                         {record.name}
@@ -95,40 +97,59 @@ function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
                             {record.grade} {record.group}
                         </span>
                         <span className="text-sm text-gray-500 flex items-center gap-1">
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
+                            <IconByName name="timer" className="w-4 h-4" />
                             {timeAgo}
                         </span>
                     </div>
                 </div>
 
-                {/* Source indicator */}
-                {isLatest && (
-                    <div className="shrink-0">
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800 animate-pulse">
-                            ✓ Reciente
-                        </span>
-                    </div>
-                )}
             </div>
-
-            {/* Subtle gradient overlay for latest */}
-            {isLatest && (
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 via-blue-600 to-blue-400"></div>
-            )}
-        </article>
+        </div>
     );
 }
 
-function getTimeAgo(date: Date): string {
-    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+/**
+ * Attendance history list skeleton
+ */
+function Loading() {
+    return (
+        <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+            <AnimatePresence initial={false}>
+                {[1, 2, 3, 4].map((record, index) => (
+                    <motion.div
+                        key={`${record}-${index}`}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.98 }}
+                        transition={{ duration: 0.3, ease: 'easeOut' }}
+                        layout
+                    >
+                        <AttendanceRecordCardSkeleton />
+                    </motion.div>
+                ))}
+            </AnimatePresence>
+        </div>
+    );
+}
 
-    if (seconds < 60) return 'Hace unos segundos';
-    if (seconds < 120) return 'Hace 1 minuto';
-    if (seconds < 3600) return `Hace ${Math.floor(seconds / 60)} minutos`;
-    if (seconds < 7200) return 'Hace 1 hora';
-    if (seconds < 86400) return `Hace ${Math.floor(seconds / 3600)} horas`;
-    if (seconds < 172800) return 'Hace 1 día';
-    return `Hace ${Math.floor(seconds / 86400)} días`;
+function AttendanceRecordCardSkeleton() {
+    return (
+        <div className="relative overflow-hidden rounded-xl bg-slate-200 shadow-md border-2 transition-all duration-300 hover:shadow-lg animate-pulse" >
+            <div className="flex items-center gap-4 p-4">
+                <div className="relative w-16 h-16 shrink-0">
+                    <div className="aspect-3/4 overflow-hidden rounded-lg shadow-sm bg-gray-100">
+                        <Image src={"/avatar-m.svg"} alt={""} className="w-full h-full object-cover" width={64} height={64} />
+                    </div>
+                </div>
+
+                <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold bg-slate-300 h-6 rounded-lg"></h3>
+                    <div className="flex items-center gap-3 mt-1">
+                        <div className="inline-flex items-center px-2.5 py-0.5 rounded-full font-medium bg-slate-300 h-6 w-6"></div>
+                        <div className="bg-slate-300 flex items-center gap-1 h-6 w-32 rounded-xl"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }

@@ -2,22 +2,24 @@ import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
 import { API_CONFIG, baseAxiosClient } from './api'
 
-export const createEcho = () => {
-  if (typeof window === 'undefined') return null;
+let echoInstance: Echo<'reverb'> | null = null
 
-  (window as Window & { Pusher?: typeof Pusher }).Pusher = Pusher
+function createEchoInstance(): Echo<'reverb'> | null {
+  if (typeof window === 'undefined') return null
 
-  const apiUrl = new URL(API_CONFIG.API_BASE_URL);
-  const defaultHost = apiUrl.hostname;
+  ;(window as Window & { Pusher?: typeof Pusher }).Pusher = Pusher
 
-  const reverbKey = process.env.NEXT_PUBLIC_REVERB_APP_KEY || '';
-  const reverbHost = process.env.NEXT_PUBLIC_REVERB_HOST || defaultHost;
-  const reverbPort = parseInt(process.env.NEXT_PUBLIC_REVERB_PORT || '8080');
-  const reverbScheme = process.env.NEXT_PUBLIC_REVERB_SCHEME || 'https';
+  const apiUrl = new URL(API_CONFIG.API_BASE_URL)
+  const defaultHost = apiUrl.hostname
+
+  const reverbKey = process.env.NEXT_PUBLIC_REVERB_APP_KEY || ''
+  const reverbHost = process.env.NEXT_PUBLIC_REVERB_HOST || defaultHost
+  const reverbPort = parseInt(process.env.NEXT_PUBLIC_REVERB_PORT || '8080', 10)
+  const reverbScheme = process.env.NEXT_PUBLIC_REVERB_SCHEME || 'https'
 
   if (!reverbKey) {
-    console.warn('REVERB_APP_KEY configured incorrectly');
-    console.warn(`   Add NEXT_PUBLIC_REVERB_APP_KEY in your .env.local file`);
+    console.warn('REVERB_APP_KEY configured incorrectly')
+    console.warn('   Add NEXT_PUBLIC_REVERB_APP_KEY in your .env.local file')
   }
 
   const echoConfig: Record<string, unknown> = {
@@ -27,33 +29,46 @@ export const createEcho = () => {
     wsPort: reverbPort,
     wssPort: reverbPort,
     forceTLS: true,
-    enabledTransports: ['ws', 'wss'],
-    disableStats: false,
+    enabledTransports: ['wss'],
+    disableStats: true,
     cluster: '',
     scheme: reverbScheme,
     authorizer: (channel: { name: string }) => {
       return {
         authorize: (socketId: string, callback: (error: unknown, data?: unknown) => void) => {
-          baseAxiosClient.post(`${API_CONFIG.API_BASE_URL}/broadcasting/auth`, {
-            socket_id: socketId,
-            channel_name: channel.name
-          })
-            .then(response => {
-              callback(false, response.data);
+          baseAxiosClient
+            .post(`${API_CONFIG.API_BASE_URL}/broadcasting/auth`, {
+              socket_id: socketId,
+              channel_name: channel.name
             })
-            .catch(error => {
-              callback(true, error);
-            });
+            .then(response => callback(false, response.data))
+            .catch(error => callback(true, error))
         }
-      };
-    },
-  };
+      }
+    }
+  }
 
-  // En desarrollo, agregar configuración adicional
   if (API_CONFIG.IS_DEVELOPMENT) {
-    echoConfig.encrypted = false;
-    echoConfig.enableLogging = true; // Habilitar logs para debugging
+    echoConfig.encrypted = true
+    echoConfig.enableLogging = true
   }
 
   return new Echo(echoConfig as never)
 }
+
+/**
+ * Obtiene la instancia única (singleton) de Echo.
+ * Usar siempre getEcho() en componentes; nunca crear una nueva instancia con createEcho.
+ */
+export function getEcho(): Echo<'reverb'> | null {
+  if (typeof window === 'undefined') return null
+  if (echoInstance) return echoInstance
+  echoInstance = createEchoInstance()
+  return echoInstance
+}
+
+/**
+ * @deprecated Usa getEcho() para evitar múltiples conexiones WebSocket.
+ * createEcho() crea una nueva conexión en cada llamada.
+ */
+export const createEcho = getEcho
