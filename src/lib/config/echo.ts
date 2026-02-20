@@ -14,8 +14,8 @@ function createEchoInstance(): Echo<'reverb'> | null {
 
   const reverbKey = process.env.NEXT_PUBLIC_REVERB_APP_KEY
   const reverbHost = process.env.NEXT_PUBLIC_REVERB_HOST || defaultHost
-  const reverbPort = parseInt(process.env.NEXT_PUBLIC_REVERB_PORT || '8080', 10)
-  const reverbScheme = process.env.NEXT_PUBLIC_REVERB_SCHEME || 'http'
+  const reverbPort = parseInt(process.env.NEXT_PUBLIC_REVERB_PORT || '443', 10)
+  const reverbScheme = process.env.NEXT_PUBLIC_REVERB_SCHEME || 'https'
 
   if (!reverbKey) {
     console.warn('REVERB_APP_KEY configured incorrectly')
@@ -28,8 +28,8 @@ function createEchoInstance(): Echo<'reverb'> | null {
     wsHost: reverbHost,
     wsPort: reverbPort,
     wssPort: reverbPort,
-    forceTLS: false,
-    enabledTransports: ['ws'],
+    forceTLS: true,
+    enabledTransports: ['wss'],
     disableStats: true,
     cluster: '',
     scheme: reverbScheme,
@@ -49,7 +49,7 @@ function createEchoInstance(): Echo<'reverb'> | null {
   }
 
   if (API_CONFIG.IS_DEVELOPMENT) {
-    echoConfig.encrypted = false
+    echoConfig.encrypted = true
     echoConfig.enableLogging = true
   }
 
