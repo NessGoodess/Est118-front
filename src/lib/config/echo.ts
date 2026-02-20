@@ -33,6 +33,7 @@ function createEchoInstance(): Echo<'reverb'> | null {
     disableStats: true,
     cluster: '',
     scheme: reverbScheme,
+    wsPath: '/app',
     authorizer: (channel: { name: string }) => {
       return {
         authorize: (socketId: string, callback: (error: unknown, data?: unknown) => void) => {

@@ -316,7 +316,7 @@ function Header({ statusConfig, isConnected, isLoading, hasError, isFullScreen, 
             {/* Title Section */}
             <div className="flex flex-col items-start gap-4 w-full 2xl:flex-row 2xl:items-center 2xl:justify-between 2xl:gap-4 bg-blue-950 p-4 md:p-8">
                 <div className="flex items-center gap-4 flex-1 min-w-[250px]">
-                    <Image src="/logo.png" alt="Logo" height={100} width={100} className={`${isFullScreen ? 'w-[clamp(50px,6vw,100px)]' : 'w-[clamp(40px,6vw,50px)]'} h-auto flex-shrink-0 rounded-2xl`} />
+                    <Image src="/logo.PNG" alt="Logo header" height={100} width={100} className={`${isFullScreen ? 'w-[clamp(50px,6vw,100px)]' : 'w-[clamp(40px,6vw,50px)]'} h-auto flex-shrink-0 rounded-2xl`} />
                     <h2 className={`font-bold text-slate-50 leading-tight ${isFullScreen ? 'text-[clamp(1.8rem,4vw,3.2rem)]' : 'text-[clamp(1rem,2vw,1.5rem)]'}`}>
                         Escuela Secundaria Técnica # 118
                     </h2>
