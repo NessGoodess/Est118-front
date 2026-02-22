@@ -30,6 +30,7 @@ function createEchoInstance(): Echo<'reverb'> | null {
     wssPort: reverbPort,
     forceTLS: reverbScheme === 'https',
     enabledTransports: ['wss'],
+    wsPath: '/app',
     disableStats: true,
     cluster: '',
     authorizer: (channel: { name: string }) => {

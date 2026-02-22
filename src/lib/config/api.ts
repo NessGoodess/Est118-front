@@ -1,20 +1,21 @@
 /**
- * Configuración centralizada de API y Axios para comunicación con Laravel Sanctum
- * Maneja automáticamente cookies HTTP-only y tokens XSRF
+ * API configuration
+ * Centralized API and Axios configuration for communication with Laravel Sanctum
+ * Automatically handles HTTP-only cookies and XSRF tokens
  * 
- * Este archivo contiene:
- * - Configuración de URLs y endpoints
- * - Instancias de Axios configuradas
- * - Interceptores y manejo de errores
+ * This file contains:
+ * - URL and endpoint configuration
+ * - Axios instances configuration
+ * - Request and response interceptors
  */
 
 import { createAxiosInstance, setupRequestInterceptor, setupResponseInterceptor, handleAxiosError, formatError } from './axios.config';
 
 // ============================================================================
-// CONFIGURACIÓN DE API
+// API CONFIGURATION
 // ============================================================================
 
-// Configuración por defecto
+// Default configuration
 const DEFAULT_CONFIG = {
   API_BASE_URL: 'https://api.est118.edu.mx',
   API_BASE_PATH: '/api',
@@ -23,7 +24,7 @@ const DEFAULT_CONFIG = {
   APP_NAME: 'EST_118',
 } as const;
 
-// Función para obtener la configuración desde variables de entorno
+// Function to get configuration from environment variables
 export function getApiConfig() {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || DEFAULT_CONFIG.API_BASE_URL;
   const apiBasePath = process.env.NEXT_PUBLIC_API_BASE_PATH || DEFAULT_CONFIG.API_BASE_PATH;
@@ -46,10 +47,10 @@ export function getApiConfig() {
   };
 }
 
-// Configuración exportada para uso inmediato
+// Exported configuration for immediate use
 export const API_CONFIG = getApiConfig();
 
-// URLs específicas de endpoints
+// URLs of endpoints
 export const API_ENDPOINTS = {
   AUTH: {
     CSRF_COOKIE: '/sanctum/csrf-cookie',
@@ -105,21 +106,21 @@ export const API_ENDPOINTS = {
   PERMISSIONS: '/permissions',
 } as const;
 
-// Re-exportar headers desde axios.config
+// Re-export headers from axios.config
 export { DEFAULT_HEADERS } from './axios.config';
 
-// Función helper para construir URLs completas
+// Helper function to build full URLs
 export function buildApiUrl(endpoint: string, useBasePath: boolean = true): string {
   const baseUrl = useBasePath ? API_CONFIG.API_FULL_URL : API_CONFIG.API_BASE_URL;
   return `${baseUrl}${endpoint}`;
 }
 
-// Función helper para obtener la URL base sin /api
+// Helper function to get the base URL without /api
 export function getApiBaseUrl(): string {
   return API_CONFIG.API_BASE_URL;
 }
 
-/** URL del endpoint de imagen privada (auth:sanctum). path = lo que devuelve el backend (ej: photos/students/1ero/A/photo.jpg). */
+/** URL of the private image endpoint (auth:sanctum). path = what the backend returns (e.g: photos/students/1ero/A/photo.jpg). */
 export function getPrivateImageUrl(path: string | null | undefined): string {
   if (!path) return '';
   const base = getApiBaseUrl().replace(/\/$/, '');
@@ -127,39 +128,39 @@ export function getPrivateImageUrl(path: string | null | undefined): string {
   return `${base}/private-image/${cleanPath}`;
 }
 
-/** URL del proxy de imágenes (same-origin). Usar en el frontend para que el navegador envíe cookies y cachee bien. */
+/** URL of the private image proxy (same-origin). Use in the frontend to make the browser send cookies and cache well. */
 export function getPrivateImageProxyUrl(path: string | null | undefined): string {
   if (!path) return '';
   return `/api/private-image?path=${encodeURIComponent(path)}`;
 }
 
 // ============================================================================
-// CONFIGURACIÓN DE AXIOS
+// AXIOS CONFIGURATION
 // ============================================================================
 
-// Crear instancia de axios para endpoints bajo /api
+// Create axios instance for endpoints under /api
 const apiClient = createAxiosInstance(
   API_CONFIG.API_FULL_URL,
   API_CONFIG.TIMEOUT
 );
 
-// Crear instancia de axios para endpoints fuera de /api (login, logout, csrf-cookie)
-// Estos endpoints no usan baseURL porque están en la raíz del servidor
+// Create axios instance for endpoints outside of /api (login, logout, csrf-cookie)
+// These endpoints do not use baseURL because they are at the root of the server
 export const baseAxiosClient = createAxiosInstance(
-  API_CONFIG.API_BASE_URL, // Solo la URL base, sin /api
+  API_CONFIG.API_BASE_URL, // Only the base URL, without /api
   API_CONFIG.TIMEOUT
 );
 
-// Configurar interceptores para apiClient
+// Configure interceptors for apiClient
 setupRequestInterceptor(apiClient, API_CONFIG.IS_DEVELOPMENT);
 
-// Configurar interceptor de respuestas con callback para manejar 401
+// Configure response interceptor with callback to handle 401
 setupResponseInterceptor(apiClient, async () => {
-  // Intentar obtener cookie CSRF si no existe
+  // Try to obtain CSRF cookie if it doesn't exist
   await baseAxiosClient.get(API_ENDPOINTS.AUTH.CSRF_COOKIE);
 });
 
-// Re-exportar funciones de manejo de errores desde axios.config
+// Re-export functions from axios.config
 export const handleApiError = handleAxiosError;
 export const formatAuthError = formatError;
 

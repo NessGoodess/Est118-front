@@ -1,12 +1,12 @@
 /**
- * Configuración centralizada de Axios
- * Maneja automáticamente cookies HTTP-only y tokens XSRF para Laravel Sanctum
+ * Centralized Axios configuration
+ * Automatically handles HTTP-only cookies and XSRF tokens for Laravel Sanctum
  * 
- * Este archivo contiene:
- * - Configuración global de Axios
- * - Instancias de Axios configuradas
- * - Interceptores de solicitudes y respuestas
- * - Manejo centralizado de errores
+ * This file contains:
+ * - Global Axios configuration
+ * - Configured Axios instances
+ * - Request and response interceptors
+ * - Centralized error handling
  */
 
 import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'axios';
@@ -15,7 +15,7 @@ import { authEventBus } from '../auth-event-bus';
 import { AuthEvent } from '../auth-event';
 
 // ============================================================================
-// CONFIGURACIÓN POR DEFECTO
+// DEFAULT CONFIGURATION
 // ============================================================================
 
 const DEFAULT_AXIOS_CONFIG = {
@@ -25,15 +25,15 @@ const DEFAULT_AXIOS_CONFIG = {
 } as const;
 
 // ============================================================================
-// CONFIGURACIÓN GLOBAL DE AXIOS
+// GLOBAL AXIOS CONFIGURATION
 // ============================================================================
 
-// Configurar axios globalmente para Laravel Sanctum
+// Configure axios globally for Laravel Sanctum
 axios.defaults.withCredentials = DEFAULT_AXIOS_CONFIG.WITH_CREDENTIALS;
 axios.defaults.withXSRFToken = DEFAULT_AXIOS_CONFIG.WITH_XSRF_TOKEN;
 
 // ============================================================================
-// HEADERS POR DEFECTO
+// DEFAULT HEADERS
 // ============================================================================
 
 export const DEFAULT_HEADERS = {
@@ -43,15 +43,15 @@ export const DEFAULT_HEADERS = {
 } as const;
 
 // ============================================================================
-// FUNCIÓN PARA CREAR INSTANCIA DE AXIOS
+// FUNCTION TO CREATE AXIOS INSTANCE
 // ============================================================================
 
 /**
- * Crea una instancia de Axios con configuración personalizada
- * @param baseURL - URL base para las peticiones
- * @param timeout - Tiempo de espera en milisegundos
- * @param headers - Headers personalizados (se combinan con DEFAULT_HEADERS)
- * @returns Instancia de Axios configurada
+ * Creates an Axios instance with custom configuration
+ * @param baseURL - Base URL for requests
+ * @param timeout - Timeout in milliseconds
+ * @param headers - Custom headers (combined with DEFAULT_HEADERS)
+ * @returns Configured Axios instance
  */
 export function createAxiosInstance(
   baseURL: string,
@@ -68,18 +68,18 @@ export function createAxiosInstance(
     },
   });
 
-  // Habilitar manejo automático de XSRF token
+  // Enable automatic XSRF token handling
   instance.defaults.withXSRFToken = DEFAULT_AXIOS_CONFIG.WITH_XSRF_TOKEN;
 
   return instance;
 }
 
 // ============================================================================
-// INTERCEPTORES
+// INTERCEPTORS
 // ============================================================================
 
 /**
- * Configura interceptores de solicitudes para logging en desarrollo
+ * Configures request interceptors for development logging
  */
 export function setupRequestInterceptor(
   instance: AxiosInstance,
@@ -87,7 +87,7 @@ export function setupRequestInterceptor(
 ): void {
   instance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-      // Log de solicitudes en desarrollo
+      // Log requests in development
       if (isDevelopment) {
         console.log(
           `[Axios Request] ${config.method?.toUpperCase()} ${config.url}`
@@ -102,10 +102,10 @@ export function setupRequestInterceptor(
 }
 
 /**
- * Configura interceptores de respuestas para manejo de errores
- * @param instance - Instancia de Axios
- * @param on401Callback - Función a ejecutar cuando hay error 401 CSRF (opcional)
- *                        Debe retornar void, la función maneja el retry automáticamente
+ * Configures response interceptors for error handling
+ * @param instance - Axios instance
+ * @param on401Callback - Function to execute when there's a 401 CSRF error (optional)
+ *                        Should return void, the function handles retry automatically
  */
 export function setupResponseInterceptor(
   instance: AxiosInstance,
@@ -123,10 +123,10 @@ export function setupResponseInterceptor(
       const status = error.response?.status;
       const message = error.response?.data?.message;
 
-      // Manejo de errores 419 (CSRF Token Mismatch) y 403 (Forbidden por CSRF)
+      // Handle 419 (CSRF Token Mismatch) and 403 (Forbidden by CSRF) errors
       if ((status === 419 || status === 403) && originalRequest && !originalRequest._retry) {
-        // Verificar si es un error de CSRF
-        // Nota: ApiError no define `error`, pero algunos backends lo envían; validamos de forma defensiva.
+        // Check if it's a CSRF error
+        // Note: ApiError doesn't define `error`, but some backends send it; we validate defensively.
         const maybeData = error.response?.data as unknown as { message?: string; error?: string } | undefined;
         const isCsrfError =
           message?.toLowerCase().includes('csrf') ||
@@ -138,7 +138,7 @@ export function setupResponseInterceptor(
           originalRequest._retry = true;
           try {
             await on401Callback();
-            // Reintentar la solicitud original
+            // Retry the original request
             return instance(originalRequest);
           } catch {
             return Promise.reject(error);
@@ -146,16 +146,16 @@ export function setupResponseInterceptor(
         }
       }
 
-      // Manejo de errores 401 (Unauthenticated)
+      // Handle 401 (Unauthenticated) errors
       if (status === 401 && originalRequest && !originalRequest._retry) {
-        // Si es error de CSRF, intentar obtener cookie y retry
+        // If it's a CSRF error, try to get cookie and retry
         if (message?.includes('CSRF') || message?.includes('csrf')) {
           originalRequest._retry = true;
 
           if (on401Callback) {
             try {
               await on401Callback();
-              // Reintentar la solicitud original
+              // Retry the original request
               return instance(originalRequest);
             } catch {
               return Promise.reject(error);
@@ -163,14 +163,14 @@ export function setupResponseInterceptor(
           }
         }
 
-        // Si es "Unauthenticated." → sesión expirada
+        // If it's "Unauthenticated." → session expired
         if (message === 'Unauthenticated.') {
           authEventBus.emit(AuthEvent.SESSION_EXPIRED);
           return Promise.reject(error);
         }
       }
 
-      // Manejo de errores 403 (Forbidden)
+      // Handle 403 (Forbidden) errors
       if (status === 403) {
         authEventBus.emit(AuthEvent.FORBIDDEN, error.response?.data);
       }
@@ -181,20 +181,20 @@ export function setupResponseInterceptor(
 }
 
 // ============================================================================
-// MANEJO DE ERRORES
+// ERROR HANDLING
 // ============================================================================
 
 /**
- * Convierte errores de Axios a formato ApiError
- * @param error - Error desconocido a convertir
- * @returns Error formateado como ApiError
+ * Converts Axios errors to ApiError format
+ * @param error - Unknown error to convert
+ * @returns Formatted error as ApiError
  */
 export function handleAxiosError(error: unknown): ApiError {
   if (axios.isAxiosError(error)) {
     const axiosError = error as AxiosError<ApiError>;
 
     if (axiosError.response) {
-      // El servidor respondió con un código de error
+      // Server responded with an error code
       return {
         message:
           axiosError.response.data?.message || 'Error en la solicitud',
@@ -202,7 +202,7 @@ export function handleAxiosError(error: unknown): ApiError {
         status: axiosError.response.status,
       };
     } else if (axiosError.request) {
-      // La solicitud se hizo pero no se recibió respuesta
+      // Request was made but no response was received
       return {
         message: 'No se pudo conectar con el servidor',
         status: 0,
@@ -210,17 +210,17 @@ export function handleAxiosError(error: unknown): ApiError {
     }
   }
 
-  // Error desconocido
+  // Unknown error
   return {
     message: error instanceof Error ? error.message : 'Error desconocido',
   };
 }
 
 /**
- * Formatea mensaje de error para mostrar al usuario
- * Útil para errores de autenticación y validación
- * @param error - Error a formatear
- * @returns Mensaje de error formateado
+ * Formats error message for display to user
+ * Useful for authentication and validation errors
+ * @param error - Error to format
+ * @returns Formatted error message
  */
 export function formatError(error: ApiError): string {
   if (error.errors) {
@@ -234,10 +234,10 @@ export function formatError(error: ApiError): string {
 }
 
 // ============================================================================
-// EXPORTACIONES
+// EXPORTS
 // ============================================================================
 
-// Re-exportar axios para uso directo si es necesario
+// Re-export axios for direct use if needed
 export { axios };
 export type { AxiosInstance, AxiosError, AxiosRequestConfig } from 'axios';
 
