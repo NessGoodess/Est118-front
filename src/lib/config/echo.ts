@@ -29,9 +29,9 @@ function createEchoInstance(): Echo<'reverb'> | null {
     wsPort: reverbPort,
     wssPort: reverbPort,
     forceTLS: reverbScheme === 'https',
-    enabledTransports: ['wss'],
+    enabledTransports: ['ws', 'wss'],
     wsPath: '/app',
-    disableStats: true,
+    disableStats: false,
     cluster: '',
     authorizer: (channel: { name: string }) => {
       return {
@@ -48,10 +48,7 @@ function createEchoInstance(): Echo<'reverb'> | null {
     }
   }
 
-  if (API_CONFIG.IS_DEVELOPMENT) {
-    echoConfig.encrypted = true
-    echoConfig.enableLogging = true
-  }
+
 
   return new Echo(echoConfig as never)
 }
