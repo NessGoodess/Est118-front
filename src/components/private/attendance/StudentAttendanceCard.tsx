@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useStudentEcho } from "@/hooks/useStudentsEcho";
 import { globalToast } from "@/lib/toast";
 import { IconByName } from "@/components/ui/icons/attendenceCard.icons";
-import { getPrivateImageProxyUrl } from "@/lib/config/api";
+import { getPrivateImageUrl } from "@/lib/config/api";
 import { useAttendanceStore } from "@/stores/attendance-store";
 import { getCurrentStudent, getAttendanceHistory } from "@/lib/services/attendance.service";
 import { formatLongWithoutTime } from "@/lib/utils/dateFormatter";
@@ -58,7 +58,7 @@ export default function StudentAttendanceCard() {
     }, [setInitialRecords, addRecord]);
 
     const photoUrl = displayStudent?.photo_url
-        ? getPrivateImageProxyUrl(decodeURIComponent(displayStudent.photo_url))
+        ? getPrivateImageUrl(decodeURIComponent(displayStudent.photo_url))
         : "/avatar-m.svg";
 
     const toggleFullscreen = () => {

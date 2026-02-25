@@ -2,7 +2,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { AttendanceRecord } from "@/stores/attendance-store";
 import Image from "next/image";
-import { getPrivateImageProxyUrl } from "@/lib/config/api";
+import { getPrivateImageUrl } from "@/lib/config/api";
 import { useEffect, useRef } from "react";
 import { formatRelative } from "@/lib/utils/dateFormatter";
 import { IconByName } from "@/components/ui/icons/attendenceCard.icons";
@@ -62,7 +62,7 @@ interface AttendanceRecordCardProps {
 
 function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
     const photoUrl = record.photo_url
-        ? getPrivateImageProxyUrl(record.photo_url)
+        ? getPrivateImageUrl(record.photo_url)
         : "/avatar-m.svg";
 
     const timeAgo = formatRelative(record.scannedAt);

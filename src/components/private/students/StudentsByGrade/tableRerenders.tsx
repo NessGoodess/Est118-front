@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { formatShortWithTime } from "@/lib/utils/dateFormatter";
 import { AuthImage } from "@/components/ui/AuthImage";
-import { getPrivateImageProxyUrl } from "@/lib/config/api";
+import { getPrivateImageUrl } from "@/lib/config/api";
 import { Student } from "@/lib/types/students";
 
 function StudentPhotoPlaceholder({ name }: { name: string }) {
@@ -20,7 +20,7 @@ function StudentPhotoPlaceholder({ name }: { name: string }) {
 
 function StudentPhotoCell({ student }: { student: Student }) {
   const [error, setError] = useState(false);
-  const url = student.photo_url ? getPrivateImageProxyUrl(student.photo_url) : "";
+  const url = student.photo_url ? getPrivateImageUrl(student.photo_url) : "";
 
   if (!url || error) {
     return <StudentPhotoPlaceholder name={student.name} />;

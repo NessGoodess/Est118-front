@@ -4,11 +4,11 @@ const curpRegex = /^[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z0-9]\d$/;
 
 export const preEnrollmentEditSchema = z.object({
   contact_email: z.string().email('Correo inválido').max(100),
-  first_name: z.string().min(1, 'Requerido').max(100),
-  last_name: z.string().min(1, 'Requerido').max(100),
+  first_name: z.string().min(1, 'Nombre es requerido').max(100),
+  last_name: z.string().min(1, 'Apellido es requerido').max(100),
   second_last_name: z.string().max(100).optional().nullable(),
   curp: z.string().length(18, '18 caracteres').regex(curpRegex, 'CURP inválida'),
-  birth_date: z.string().min(1, 'Requerida'),
+  birth_date: z.string().min(1, ' Requerida'),
   age: z.number().min(10).max(18),
   gender: z.enum(['M', 'F', 'O']),
   phone: z.string().min(1, 'Requerido').max(15),

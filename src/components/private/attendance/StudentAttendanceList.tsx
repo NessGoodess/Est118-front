@@ -2,7 +2,7 @@
 
 import { useGeneralAttendanceContext } from "@/contexts/GeneralAttendanceContext";
 import Image from "next/image";
-import { getPrivateImageProxyUrl } from "@/lib/config/api";
+import { getPrivateImageUrl } from "@/lib/config/api";
 
 export default function StudentAttendanceList() {
     const { students: data, loading, error } = useGeneralAttendanceContext();
@@ -66,7 +66,7 @@ export default function StudentAttendanceList() {
                                 {estudiante.photo_url ? (
                                     <Image
                                         className="rounded-full object-cover"
-                                        src={getPrivateImageProxyUrl(estudiante.photo_url)}
+                                        src={getPrivateImageUrl(estudiante.photo_url)}
                                         alt={estudiante.name}
                                         fill
                                         sizes="40px"

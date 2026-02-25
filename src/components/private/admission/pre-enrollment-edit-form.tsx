@@ -6,10 +6,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { PreEnrollmentApi } from '@/lib/types/admission/preEnrollmentApi';
 import { preEnrollmentEditSchema, PreEnrollmentEditFormData } from '@/lib/validations/admissions/preEnrollmentEdit.schema';
 import { updatePreEnrollment } from '@/lib/services/admissions.service';
-import { FloatingInput } from '@/components/ui/FloatingInputs';
+import { FloatingInput, FloatingTextarea } from '@/components/ui/FloatingInputs';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 import { IconByName, GlobalIcons } from '@/components/ui/icons/global.icons';
 import { globalToast } from '@/lib/toast';
+import { FloatingSelect } from '@/components/ui/FloatingSelect';
 
 const TALLERES = [
   'Confección del vestido e industria Textil',
@@ -64,16 +65,16 @@ interface PreEnrollmentEditFormProps {
 }
 
 const FormSection = ({ title, iconName, children }: { title: string; iconName?: keyof typeof GlobalIcons; children: React.ReactNode }) => (
-  <div className="space-y-3">
+  <div className="space-y-6  bg-white rounded-xl shadow-xl p-5 lg:p-10">
     <div className="flex items-center gap-2 pb-2 border-b border-slate-200">
       {iconName && (
         <div className="p-1.5 bg-slate-100 rounded-lg">
-          <IconByName name={iconName} className="w-4 h-4 text-slate-600" />
+          <IconByName name={iconName} className="w-4 h-4 text-slate-500" />
         </div>
       )}
-      <h3 className="text-sm font-semibold text-slate-800">{title}</h3>
+      <h3 className="text-sm font-semibold text-slate-500">{title}</h3>
     </div>
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
       {children}
     </div>
   </div>
@@ -116,42 +117,35 @@ export default function PreEnrollmentEditForm({ data, onSuccess, onCancel }: Pre
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 text-black">
       <FormSection title="Datos personales" iconName="user">
-        <FloatingInput label="Nombre" {...register('first_name')} error={errors.first_name?.message} icon={<GlobalIcons.user className="w-4 h-4" />} />
+        <FloatingInput label="Nombre" {...register('first_name')} error={errors.first_name?.message} icon={<GlobalIcons.user />} />
         <FloatingInput label="Apellido paterno" {...register('last_name')} error={errors.last_name?.message} />
         <FloatingInput label="Apellido materno" {...register('second_last_name')} error={errors.second_last_name?.message} />
-        <FloatingInput label="CURP" {...register('curp')} error={errors.curp?.message} className="sm:col-span-2" />
-        <FloatingInput label="Fecha de nacimiento" type="date" {...register('birth_date')} error={errors.birth_date?.message} icon={<GlobalIcons.calendar className="w-4 h-4" />} />
+        <FloatingInput label="CURP" {...register('curp')} error={errors.curp?.message} className="" />
+        <FloatingInput label="Email estudiante" type="email" {...register('student_email')} error={errors.student_email?.message} icon={<GlobalIcons.atSign />} />
+        <FloatingInput label="Fecha de nacimiento" type="date" {...register('birth_date')} error={errors.birth_date?.message} icon={<GlobalIcons.calendar />} />
+        <FloatingSelect label="Género" {...register('gender', { required: 'Selecciona un Genero' })} error={errors.gender?.message} required icon={<IconByName name="user" />} >
+          <option disabled>Selecciona...</option>
+          <option value="M">Masculino</option>
+          <option value="F">Femenino</option>
+          <option value="O">Otro</option>
+        </FloatingSelect>
         <FloatingInput label="Edad" type="number" {...register('age', { valueAsNumber: true })} error={errors.age?.message} />
-        <div className="sm:col-span-2">
-          <label className="block text-sm font-medium text-slate-700 mb-2">Sexo</label>
-          <select {...register('gender')} className="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none">
-            <option value="M">Masculino</option>
-            <option value="F">Femenino</option>
-            <option value="O">Otro</option>
-          </select>
-          {errors.gender && <p className="text-sm text-red-600 mt-1">{errors.gender.message}</p>}
-        </div>
-        <FloatingInput label="Teléfono" {...register('phone')} error={errors.phone?.message} icon={<GlobalIcons.phone className="w-4 h-4" />} />
-        <FloatingInput label="Lugar de nacimiento" {...register('place_of_birth')} error={errors.place_of_birth?.message} icon={<GlobalIcons.mapPin className="w-4 h-4" />} />
-        <FloatingInput label="Email estudiante" type="email" {...register('student_email')} error={errors.student_email?.message} icon={<GlobalIcons.atSign className="w-4 h-4" />} />
-        <FloatingInput label="Email contacto" type="email" {...register('contact_email')} error={errors.contact_email?.message} icon={<GlobalIcons.mail className="w-4 h-4" />} />
+        <FloatingInput label="Lugar de nacimiento" {...register('place_of_birth')} error={errors.place_of_birth?.message} icon={<GlobalIcons.mapPin />} />
+        <FloatingInput label="Teléfono" {...register('phone')} error={errors.phone?.message} icon={<GlobalIcons.phone />} />
+        <FloatingInput label="Email contacto" type="email" {...register('contact_email')} error={errors.contact_email?.message} icon={<GlobalIcons.mail />} className='md:col-span-2' />
       </FormSection>
 
       <FormSection title="Información académica" iconName="graduationCap">
-        <FloatingInput label="Escuela anterior" {...register('previous_school')} error={errors.previous_school?.message} className="sm:col-span-2" icon={<GlobalIcons.school className="w-4 h-4" />} />
-        <FloatingInput label="Promedio" {...register('current_average')} error={errors.current_average?.message} icon={<GlobalIcons.star className="w-4 h-4" />} />
+        <FloatingInput label="Escuela anterior" {...register('previous_school')} error={errors.previous_school?.message} className="sm:col-span-2" icon={<GlobalIcons.school />} />
+        <FloatingInput label="Promedio" {...register('current_average')} error={errors.current_average?.message} icon={<GlobalIcons.star />} />
         <div className="flex items-center gap-2">
           <input type="checkbox" id="has_siblings" {...register('has_siblings')} className="w-4 h-4 rounded border-slate-300 text-blue-600" />
           <label htmlFor="has_siblings" className="text-sm text-slate-700">Tiene hermanos</label>
         </div>
         {hasSiblings && (
-          <div className="sm:col-span-2">
-            <label className="block text-sm font-medium text-slate-700 mb-2">Detalles de hermanos</label>
-            <textarea {...register('siblings_details')} rows={2} className="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-blue-500 outline-none" placeholder="Detalles..." />
-            {errors.siblings_details && <p className="text-sm text-red-600 mt-1">{errors.siblings_details.message}</p>}
-          </div>
+          <FloatingTextarea label="Detalles de hermanos" {...register('siblings_details')} error={errors.siblings_details?.message} className='md:col-span-2' />
         )}
       </FormSection>
 
@@ -163,53 +157,48 @@ export default function PreEnrollmentEditForm({ data, onSuccess, onCancel }: Pre
         <FloatingInput label="Tipo colonia" {...register('neighborhood_type')} error={errors.neighborhood_type?.message} />
         <FloatingInput label="Nombre colonia" {...register('neighborhood_name')} error={errors.neighborhood_name?.message} />
         <FloatingInput label="Código postal" {...register('postal_code')} error={errors.postal_code?.message} />
-        <FloatingInput label="Ciudad" {...register('city')} error={errors.city?.message} icon={<GlobalIcons.building className="w-4 h-4" />} />
-        <FloatingInput label="Estado" {...register('state')} error={errors.state?.message} className="sm:col-span-2" />
+        <FloatingInput label="Ciudad" {...register('city')} error={errors.city?.message} icon={<GlobalIcons.building />} />
+        <FloatingInput label="Estado" {...register('state')} error={errors.state?.message} />
       </FormSection>
 
       <FormSection title="Tutor" iconName="users">
         <FloatingInput label="Nombre" {...register('guardian_first_name')} error={errors.guardian_first_name?.message} />
         <FloatingInput label="Apellido paterno" {...register('guardian_last_name')} error={errors.guardian_last_name?.message} />
         <FloatingInput label="Apellido materno" {...register('guardian_second_last_name')} error={errors.guardian_second_last_name?.message} />
-        <FloatingInput label="CURP tutor" {...register('guardian_curp')} error={errors.guardian_curp?.message} className="sm:col-span-2" />
-        <FloatingInput label="Teléfono" {...register('guardian_phone')} error={errors.guardian_phone?.message} icon={<GlobalIcons.phone className="w-4 h-4" />} />
+        <FloatingInput label="CURP tutor" {...register('guardian_curp')} error={errors.guardian_curp?.message} />
+        <FloatingInput label="Teléfono" {...register('guardian_phone')} error={errors.guardian_phone?.message} icon={<GlobalIcons.phone />} />
         <FloatingInput label="Parentesco" {...register('guardian_relationship')} error={errors.guardian_relationship?.message} />
       </FormSection>
 
-      <FormSection title="Talleres" iconName="palette">
-        <div className="sm:col-span-2">
-          <label className="block text-sm font-medium text-slate-700 mb-2">Primera opción</label>
-          <select {...register('workshop_first_choice')} className="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-blue-500 outline-none">
-            <option value="">Selecciona...</option>
-            {TALLERES.map((t) => (
-              <option key={t} value={t}>{t}</option>
-            ))}
-          </select>
-          {errors.workshop_first_choice && <p className="text-sm text-red-600 mt-1">{errors.workshop_first_choice.message}</p>}
-        </div>
-        <div className="sm:col-span-2">
-          <label className="block text-sm font-medium text-slate-700 mb-2">Segunda opción</label>
-          <select {...register('workshop_second_choice')} className="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-blue-500 outline-none">
-            <option value="">Selecciona...</option>
-            {TALLERES.map((t) => (
-              <option key={t} value={t}>{t}</option>
-            ))}
-          </select>
-          {errors.workshop_second_choice && <p className="text-sm text-red-600 mt-1">{errors.workshop_second_choice.message}</p>}
-        </div>
-      </FormSection>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-3">
 
-      <FormSection title="Vales escolares" iconName="ticket">
-        <div className="flex items-center gap-2">
-          <input type="checkbox" id="has_school_voucher" {...register('has_school_voucher')} className="w-4 h-4 rounded border-slate-300 text-blue-600" />
-          <label htmlFor="has_school_voucher" className="text-sm text-slate-700">Tiene vale escolar</label>
-        </div>
-        {hasSchoolVoucher && (
-          <>
-            <FloatingInput label="Folio del vale" {...register('school_voucher_folio')} error={errors.school_voucher_folio?.message} />
-          </>
-        )}
-      </FormSection>
+        <FormSection title="Talleres" iconName="palette">
+          <FloatingSelect label="Primera opción" {...register('workshop_first_choice')} error={errors.workshop_first_choice?.message} icon={<IconByName name="palette" />} className="md:col-span-3">
+            <option disabled>Selecciona...</option>
+            {TALLERES.map((t) => (
+              <option key={t} value={t}>{t}</option>
+            ))}
+          </FloatingSelect>
+          <FloatingSelect label="Segunda opción" {...register('workshop_second_choice')} error={errors.workshop_second_choice?.message} icon={<IconByName name="palette" />} className="md:col-span-3">
+            <option disabled>Selecciona...</option>
+            {TALLERES.map((t) => (
+              <option key={t} value={t}>{t}</option>
+            ))}
+          </FloatingSelect>
+        </FormSection>
+
+        <FormSection title="Vales escolares" iconName="ticket">
+          <div className="flex items-center gap-2 md:col-span-2 p-5">
+            <input type="checkbox" id="has_school_voucher" {...register('has_school_voucher')} className="w-4 h-4 rounded border-slate-300 text-blue-600" />
+            <label htmlFor="has_school_voucher" className="text-sm text-slate-700">Tiene vale escolar</label>
+          </div>
+          {hasSchoolVoucher && (
+            <>
+              <FloatingInput label="Folio del vale" {...register('school_voucher_folio')} error={errors.school_voucher_folio?.message} className="md:col-span-3" />
+            </>
+          )}
+        </FormSection>
+      </div>
 
       <div className="flex gap-3 justify-end pt-4 border-t border-slate-200">
         {onCancel && (
