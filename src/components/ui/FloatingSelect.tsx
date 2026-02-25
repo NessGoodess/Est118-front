@@ -3,7 +3,6 @@ import { IconByName } from './icons/global.icons';
 
 interface BaseFloatingInputProps {
   label: string;
-  name: string;
   icon?: React.ReactNode;
   error?: string;
   helperText?: string;
@@ -12,13 +11,11 @@ interface BaseFloatingInputProps {
   className?: string;
   value?: string | number | readonly string[];
   defaultValue?: string | number | readonly string[];
-  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  onBlur?: (e: React.FocusEvent<HTMLSelectElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLSelectElement>) => void;
 }
 
 interface FloatingSelectProps
-  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'className' | 'onChange' | 'onBlur'>,
+  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'className'>,
     BaseFloatingInputProps {
   children: React.ReactNode;
   placeholder?: string;
