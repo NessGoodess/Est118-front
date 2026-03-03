@@ -125,7 +125,7 @@ export function getPrivateImageUrl(path: string | null | undefined): string {
   if (!path) return '';
   const base = getApiBaseUrl().replace(/\/$/, '');
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-  return `${base}/private-image/${cleanPath}`;
+  return `${base}/api/private-image/${cleanPath}`;
 }
 
 /** URL of the private image proxy (same-origin). Use in the frontend to make the browser send cookies and cache well. */
