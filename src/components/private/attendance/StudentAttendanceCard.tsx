@@ -57,8 +57,8 @@ export default function StudentAttendanceCard() {
         loadInitialData();
     }, [setInitialRecords, addRecord]);
 
-    const photoUrl = displayStudent?.id
-        ? getPrivateImageUrl(displayStudent.id)
+    const photoUrl = displayStudent?.photo_url
+        ? getPrivateImageUrl(displayStudent.photo_url)
         : "/avatar-m.svg";
 
     const toggleFullscreen = () => {

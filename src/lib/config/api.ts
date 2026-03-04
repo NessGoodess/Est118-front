@@ -17,10 +17,10 @@ import { createAxiosInstance, setupRequestInterceptor, setupResponseInterceptor,
 
 // Default configuration
 const DEFAULT_CONFIG = {
-  API_BASE_URL: 'https://api.est118.edu.mx',
+  API_BASE_URL: 'http://api.est118.test:8000',
   API_BASE_PATH: '/api',
   TIMEOUT: 10000,
-  APP_ENV: 'production',
+  APP_ENV: 'development',
   APP_NAME: 'EST_118',
 } as const;
 
@@ -120,11 +120,12 @@ export function getApiBaseUrl(): string {
   return API_CONFIG.API_BASE_URL;
 }
 
-/** URL of the private image endpoint (auth:sanctum). Uses the student ID. */
-export function getPrivateImageUrl(id: number | string | null | undefined): string {
-  if (!id) return '';
+/** URL of the private image endpoint. Returns the signed URL directly if provided, or builds a fallback URL by ID. */
+export function getPrivateImageUrl(urlOrId: number | string | null | undefined): string {
+  if (!urlOrId) return '';
+  if (typeof urlOrId === 'string' && urlOrId.startsWith('http')) return urlOrId;
   const base = getApiBaseUrl().replace(/\/$/, '');
-  return `${base}/api/private-image/${id}`;
+  return `${base}/api/private-image/${urlOrId}`;
 }
 
 // ============================================================================

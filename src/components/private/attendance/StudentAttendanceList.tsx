@@ -66,7 +66,7 @@ export default function StudentAttendanceList() {
                                 {estudiante.photo_url ? (
                                     <Image
                                         className="rounded-full object-cover"
-                                        src={getPrivateImageUrl(estudiante.id)}
+                                        src={getPrivateImageUrl(estudiante.photo_url)}
                                         alt={estudiante.name}
                                         fill
                                         sizes="40px"

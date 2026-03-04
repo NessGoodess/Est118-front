@@ -20,7 +20,7 @@ function StudentPhotoPlaceholder({ name }: { name: string }) {
 
 function StudentPhotoCell({ student }: { student: Student }) {
   const [error, setError] = useState(false);
-  const url = student.photo_url ? getPrivateImageUrl(student.id) : "";
+  const url = student.photo_url ? getPrivateImageUrl(student.photo_url) : "";
 
   if (!url || error) {
     return <StudentPhotoPlaceholder name={student.name} />;
