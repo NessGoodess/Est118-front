@@ -57,7 +57,7 @@ export default function StudentAttendanceList() {
                     Lista de Estudiantes ({data.length})
                 </h2>
             </div>
-            
+
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {data.map((estudiante) => (
                     <div key={estudiante.id} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
@@ -66,7 +66,7 @@ export default function StudentAttendanceList() {
                                 {estudiante.photo_url ? (
                                     <Image
                                         className="rounded-full object-cover"
-                                        src={getPrivateImageUrl(estudiante.photo_url)}
+                                        src={getPrivateImageUrl(estudiante.id)}
                                         alt={estudiante.name}
                                         fill
                                         sizes="40px"

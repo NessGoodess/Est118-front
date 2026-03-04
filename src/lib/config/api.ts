@@ -120,18 +120,11 @@ export function getApiBaseUrl(): string {
   return API_CONFIG.API_BASE_URL;
 }
 
-/** URL of the private image endpoint (auth:sanctum). path = what the backend returns (e.g: photos/students/1ero/A/photo.jpg). */
-export function getPrivateImageUrl(path: string | null | undefined): string {
-  if (!path) return '';
+/** URL of the private image endpoint (auth:sanctum). Uses the student ID. */
+export function getPrivateImageUrl(id: number | string | null | undefined): string {
+  if (!id) return '';
   const base = getApiBaseUrl().replace(/\/$/, '');
-  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-  return `${base}/api/private-image/${cleanPath}`;
-}
-
-/** URL of the private image proxy (same-origin). Use in the frontend to make the browser send cookies and cache well. */
-export function getPrivateImageProxyUrl(path: string | null | undefined): string {
-  if (!path) return '';
-  return `/api/private-image?path=${encodeURIComponent(path)}`;
+  return `${base}/api/private-image/${id}`;
 }
 
 // ============================================================================

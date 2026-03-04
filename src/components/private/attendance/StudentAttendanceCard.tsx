@@ -57,8 +57,8 @@ export default function StudentAttendanceCard() {
         loadInitialData();
     }, [setInitialRecords, addRecord]);
 
-    const photoUrl = displayStudent?.photo_url
-        ? getPrivateImageUrl(decodeURIComponent(displayStudent.photo_url))
+    const photoUrl = displayStudent?.id
+        ? getPrivateImageUrl(displayStudent.id)
         : "/avatar-m.svg";
 
     const toggleFullscreen = () => {
@@ -344,20 +344,20 @@ function Header({ statusConfig, isConnected, isLoading, hasError, isFullScreen, 
 
             {/* Status and Controls */}
             <div className="hidden md:flex w-full justify-end px-4 md:px-6">
-                    {/* Status Badge */}
-                    <div className={`inline-flex items-center gap-3 py-3 px-6 rounded-xl shadow-lg border-2 transition-all ${statusConfig.border} ${statusConfig.text}`}>
-                {readerStatus.connected ? (
-                    <>
-                        <IconByName name={statusConfig.icon} />
-                        <span className={`font-bold ${isFullScreen ? 'text-[clamp(1rem,2.5vw,1.8rem)]' : 'text-[clamp(0.5rem,2vw,1rem)]'}`}>{statusConfig.label}</span>
-                    </>
-                    ):(
+                {/* Status Badge */}
+                <div className={`inline-flex items-center gap-3 py-3 px-6 rounded-xl shadow-lg border-2 transition-all ${statusConfig.border} ${statusConfig.text}`}>
+                    {readerStatus.connected ? (
                         <>
-                        <IconByName name="readerOff" className="w-5 h-5 text-red-500 animate-pulse" />
-                        <span className={`font-bold animate-pulse ${isFullScreen ? 'text-[clamp(1rem,2.5vw,1.8rem)]' : 'text-[clamp(0.5rem,2vw,1rem)]'}`}>Lector Desconectado</span>
-                    </>
+                            <IconByName name={statusConfig.icon} />
+                            <span className={`font-bold ${isFullScreen ? 'text-[clamp(1rem,2.5vw,1.8rem)]' : 'text-[clamp(0.5rem,2vw,1rem)]'}`}>{statusConfig.label}</span>
+                        </>
+                    ) : (
+                        <>
+                            <IconByName name="readerOff" className="w-5 h-5 text-red-500 animate-pulse" />
+                            <span className={`font-bold animate-pulse ${isFullScreen ? 'text-[clamp(1rem,2.5vw,1.8rem)]' : 'text-[clamp(0.5rem,2vw,1rem)]'}`}>Lector Desconectado</span>
+                        </>
                     )}
-                    </div>
+                </div>
             </div>
         </header>
     )
