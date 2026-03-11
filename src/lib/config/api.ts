@@ -121,11 +121,14 @@ export function getApiBaseUrl(): string {
 }
 
 /** URL of the private image endpoint. Returns the signed URL directly if provided, or builds a fallback URL by ID. */
-export function getPrivateImageUrl(urlOrId: number | string | null | undefined): string {
+export function getPrivateImageUrl(
+  urlOrId: number | string | null | undefined,
+  size: 'thumb' | 'profile' | 'original' = 'thumb'
+): string {
   if (!urlOrId) return '';
   if (typeof urlOrId === 'string' && urlOrId.startsWith('http')) return urlOrId;
   const base = getApiBaseUrl().replace(/\/$/, '');
-  return `${base}/api/private-image/${urlOrId}`;
+  return `${base}/api/private-image/${urlOrId}?size=${size}`;
 }
 
 // ============================================================================

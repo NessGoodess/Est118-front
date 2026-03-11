@@ -1,21 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
- /* images: {
+  images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: '192.168.1.125',
-        port: '8000',
-        pathname: '/private-image/**',
+        protocol: "http",
+        hostname: "api.est118.test",
+        port: "8000",
       },
       {
-        protocol: 'https',
-        hostname: 'est118.edu.mx',
-        pathname: '/private-image/**',
+        protocol: "https",
+        hostname: "api.est118.edu.mx",
       },
     ],
-  },*/
+  },
 };
 
 export default nextConfig;

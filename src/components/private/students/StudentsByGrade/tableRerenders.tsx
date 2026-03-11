@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { formatShortWithTime } from "@/lib/utils/dateFormatter";
-import { AuthImage } from "@/components/ui/AuthImage";
+import Image from "next/image";
 import { getPrivateImageUrl } from "@/lib/config/api";
 import { Student } from "@/lib/types/students";
 
@@ -27,7 +27,7 @@ function StudentPhotoCell({ student }: { student: Student }) {
   }
 
   return (
-    <AuthImage
+    <Image
       src={url}
       alt={student.name}
       width={40}
