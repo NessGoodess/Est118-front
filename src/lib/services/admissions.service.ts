@@ -22,6 +22,14 @@ export async function getPreEnrollmentById(id: number): Promise<PreEnrollmentApi
 }
 
 /**
+ * Create a new pre-enrollment from the Admin panel
+ */
+export async function createPreEnrollmentByAdmin(data: any): Promise<{ folio: string, downloadUrl: string, message: string }> {
+    const response = await apiClient.post(API_ENDPOINTS.ADMISSION.PRE_ENROLLMENTS, data);
+    return response.data;
+}
+
+/**
  * Update pre-enrollment
 */
 export async function updatePreEnrollment(id: number, data: Partial<PreEnrollmentApi>): Promise<PreEnrollmentApi> {

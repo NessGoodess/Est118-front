@@ -104,6 +104,13 @@ export const API_ENDPOINTS = {
   },
   ROLES: '/roles',
   PERMISSIONS: '/permissions',
+  ANNOUNCEMENTS: {
+    GET_ALL: '/announcements',
+    GET_ONE: (id: string | number) => `/announcements/${id}`,
+    CREATE: '/announcements',
+    UPDATE: (id: string | number) => `/announcements/${id}`,
+    DELETE: (id: string | number) => `/announcements/${id}`,
+  },
 } as const;
 
 // Re-export headers from axios.config

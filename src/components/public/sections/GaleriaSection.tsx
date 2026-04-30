@@ -4,12 +4,20 @@ import Link from "next/link";
 import { galleryItems } from "@/lib/data/mockData";
 import Image from "next/image";
 
+const RATIO_CLASS: Record<string, string> = {
+    "4/3": "aspect-[4/3]",
+    "3/4": "aspect-[3/4]",
+    "1/1": "aspect-square",
+    "16/9": "aspect-video",
+};
+
 export default function GaleriaSection() {
     const featuredItems = galleryItems.slice(0, 6);
 
     return (
         <section id="galeria" className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white py-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Heading */}
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -18,57 +26,58 @@ export default function GaleriaSection() {
                     className="text-center mb-16"
                 >
                     <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 font-merriweather">
-                        Galería <span className="text-blue-600">Visual</span>
+                        Visual <span className="text-blue-600">Gallery</span>
                     </h2>
                     <div className="w-24 h-1 bg-yellow-400 mx-auto mb-4" />
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                        Descubre los momentos más destacados de nuestra comunidad educativa a través de nuestra galería visual.
+                        Discover the most memorable moments of our school community.
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                    {featuredItems.map((item, index) => (
-                        <motion.div
-                            key={item.id}
-                            initial={{ opacity: 0, y: 50 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300"
-                        >
-                            <Link href={`/galeria/${item.id}`}>
-                                <div className="relative h-80 overflow-hidden">
-                                    <Image
-                                        src={item.image}
-                                        alt={item.title}
-                                        fill
-                                        className="object-cover transition-transform duration-500 group-hover:scale-110"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                    
-                                    {/* Overlay con información */}
-                                    <div className="absolute inset-0 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                            <span className="inline-block bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold mb-2">
+                {/* Masonry preview — 3 columns, items adapt to their ratio */}
+                <div className="columns-1 gap-4 sm:columns-2 lg:columns-3 mb-12">
+                    {featuredItems.map((item, index) => {
+                        const ratioClass = RATIO_CLASS[item.ratio ?? "4/3"];
+                        return (
+                            <motion.div
+                                key={`${item.id}-${index}`}
+                                initial={{ opacity: 0, y: 50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                className="break-inside-avoid mb-4"
+                            >
+                                <Link href={`/galeria/${item.id}`}>
+                                    <div className={`group relative w-full overflow-hidden rounded-2xl shadow-lg
+                                   hover:shadow-2xl transition-shadow duration-300 ${ratioClass}`}>
+                                        <Image
+                                            src={item.image}
+                                            alt={item.title}
+                                            fill
+                                            className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                        />
+                                        {/* Hover overlay */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent
+                                    opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                        <div className="absolute inset-0 flex flex-col justify-end p-5
+                                    opacity-0 translate-y-3
+                                    group-hover:opacity-100 group-hover:translate-y-0
+                                    transition-all duration-300">
+                                            <span className="mb-2 w-fit rounded-full bg-yellow-400 px-2.5 py-0.5 text-[11px] font-bold text-gray-900">
                                                 {item.category}
                                             </span>
-                                            <h3 className="text-white text-xl font-bold mb-2 line-clamp-2">
-                                                {item.title}
-                                            </h3>
-                                            <p className="text-white/90 text-sm line-clamp-2 mb-2">
-                                                {item.description}
-                                            </p>
-                                            <p className="text-white/70 text-xs">
-                                                {item.date}
-                                            </p>
+                                            <h3 className="text-white text-base font-bold line-clamp-2 mb-1">{item.title}</h3>
+                                            <p className="text-white/85 text-xs line-clamp-2">{item.description}</p>
                                         </div>
                                     </div>
-                                </div>
-                            </Link>
-                        </motion.div>
-                    ))}
+                                </Link>
+                            </motion.div>
+                        );
+                    })}
                 </div>
 
+                {/* CTA */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -82,7 +91,7 @@ export default function GaleriaSection() {
                             whileTap={{ scale: 0.95 }}
                             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-semibold transition-all shadow-lg"
                         >
-                            Ver Galería Completa
+                            View Full Gallery
                         </motion.button>
                     </Link>
                 </motion.div>
@@ -90,4 +99,3 @@ export default function GaleriaSection() {
         </section>
     );
 }
-

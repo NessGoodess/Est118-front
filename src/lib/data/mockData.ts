@@ -7,6 +7,8 @@ export interface GalleryItem {
   date: string;
   author?: string;
   tags?: string[];
+  /** Aspect ratio for masonry layout: "4/3" | "3/4" | "1/1" | "16/9" */
+  ratio?: "4/3" | "3/4" | "1/1" | "16/9";
 }
 
 export interface NewsItem {
@@ -41,7 +43,96 @@ export const galleryItems: GalleryItem[] = [
     image: "/background4.png",
     date: "15 de Julio, 2024",
     author: "Comunicación EST118",
-    tags: ["graduación", "ceremonia", "2024"]
+    tags: ["graduación", "ceremonia", "2024"],
+    ratio: "16/9",
+  },
+  {
+    id: "2",
+    title: "Día del Estudiante",
+    description: "Actividades recreativas y culturales organizadas por el departamento de orientación escolar.",
+    category: "Actividades",
+    image: "/aviso1.jpg",
+    date: "10 de Mayo, 2024",
+    author: "Orientación",
+    tags: ["estudiantes", "cultura"],
+    ratio: "3/4",
+  },
+  {
+    id: "3",
+    title: "Exposición de Ciencias",
+    description: "Alumnos presentan sus proyectos de investigación en la feria anual de ciencias del plantel.",
+    category: "Académico",
+    image: "/aviso2.jpg",
+    date: "22 de Marzo, 2024",
+    author: "Academia",
+    tags: ["ciencias", "proyectos"],
+    ratio: "4/3",
+  },
+  {
+    id: "4",
+    title: "Competencia de Oratoria",
+    description: "Tres estudiantes representaron a EST118 en el concurso municipal de oratoria, obteniendo el primer lugar.",
+    category: "Logros",
+    image: "/background4.png",
+    date: "5 de Abril, 2024",
+    author: "Comunicación EST118",
+    tags: ["oratoria", "logros"],
+    ratio: "1/1",
+  },
+  {
+    id: "5",
+    title: "Club de Astronomía",
+    description: "Durante la semana cultural, el club de astronomía instaló un telescopio para observación nocturna con la comunidad.",
+    category: "Actividades",
+    image: "/aviso1.jpg",
+    date: "18 de Febrero, 2024",
+    author: "Club Astronomía",
+    tags: ["astronomía", "ciencias"],
+    ratio: "3/4",
+  },
+  {
+    id: "6",
+    title: "Torneo Deportivo Interescolar",
+    description: "Equipos de fútbol, basquetbol y atletismo compitieron en el primer torneo interescolar del año.",
+    category: "Deportes",
+    image: "/aviso2.jpg",
+    date: "1 de Junio, 2024",
+    author: "Educación Física",
+    tags: ["deporte", "torneo"],
+    ratio: "16/9",
+  },
+  {
+    id: "7",
+    title: "Visita al Planetario",
+    description: "Alumnos de 3er grado realizaron una visita educativa al planetario de la ciudad.",
+    category: "Excursiones",
+    image: "/background4.png",
+    date: "14 de Agosto, 2024",
+    author: "3er Grado",
+    tags: ["visita", "educación"],
+    ratio: "4/3",
+  },
+  {
+    id: "8",
+    title: "Exposición de Arte",
+    description: "Muestra de pinturas y esculturas realizadas por estudiantes del taller de artes visuales.",
+    category: "Arte",
+    image: "/aviso1.jpg",
+    date: "20 de Septiembre, 2024",
+    author: "Taller de Arte",
+    tags: ["arte", "pintura"],
+    ratio: "3/4",
+  },
+  {
+    id: "9",
+    title: "Recepción Inicio de Ciclo",
+    description: "Bienvenida oficial al ciclo escolar 2024-2025 con autoridades, padres de familia y estudiantes.",
+    category: "Eventos",
+    image: "/aviso2.jpg",
+    date: "29 de Agosto, 2024",
+    author: "Dirección",
+    tags: ["inicio", "ciclo"],
+    ratio: "1/1",
   },
 ];
 

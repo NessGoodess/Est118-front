@@ -14,6 +14,7 @@ import Loading from '../../[id]/loading';
 import { handleApiError } from '@/lib/config/api';
 import { globalToast } from '@/lib/toast/globalToast';
 import { ApiError } from '@/lib/types/auth';
+import NewPreEnrollment from '../../new/page';
 
 export default function InterceptedModal({
   params,
@@ -31,6 +32,11 @@ export default function InterceptedModal({
   const isEditMode = searchParams.get('edit') === '1';
 
   useEffect(() => {
+    if (resolvedParams.id === 'new') {
+      setLoading(false);
+      return;
+    }
+
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -46,7 +52,7 @@ export default function InterceptedModal({
     };
 
     fetchData();
-  }, [resolvedParams.id, router, error]);
+  }, [resolvedParams.id, router]);
 
   const handleResentPdf = async () => {
     try {
@@ -65,17 +71,32 @@ export default function InterceptedModal({
   };
 
   const handleSwitchToEdit = () => {
-    router.replace(`/admissions/${resolvedParams.id}?edit=1`, { scroll: false });
+    router.replace(`/admissions/applications/${resolvedParams.id}?edit=1`, { scroll: false });
   };
 
   const handleEditSuccess = (updated: PreEnrollmentApi) => {
     setPreEnrollment(updated);
-    router.replace(`/admissions/${resolvedParams.id}`, { scroll: false });
+    router.replace(`/admissions/applications/${resolvedParams.id}`, { scroll: false });
   };
 
   const handleEditCancel = () => {
-    router.replace(`/admissions/${resolvedParams.id}`, { scroll: false });
+    router.replace(`/admissions/applications/${resolvedParams.id}`, { scroll: false });
   };
+
+  if (resolvedParams.id === 'new') {
+    return (
+      <Modal
+        isOpen={true}
+        onClose={handleClose}
+        title="Crear Preinscripción"
+        maxWidth="6xl"
+      >
+        <div className="max-h-[85dvh] overflow-y-auto pr-2">
+          <NewPreEnrollment />
+        </div>
+      </Modal>
+    );
+  }
 
   return (
     <Modal

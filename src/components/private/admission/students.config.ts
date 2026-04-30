@@ -71,13 +71,13 @@ export const studentsTableConfig: EnhancedTableConfig<PreEnrollmentListItem> = {
     {
       label: '',
       icon: 'eye',
-      href: (student: PreEnrollmentListItem) => `/admissions/${student.id}`,
+      href: (student: PreEnrollmentListItem) => `/admissions/applications/${student.id}`,
       variant: 'secondary' as const,
     },
     {
       label: '',
       icon: 'edit',
-      href: (student: PreEnrollmentListItem) => `/admissions/${student.id}?edit=1`,
+      href: (student: PreEnrollmentListItem) => `/admissions/applications/${student.id}?edit=1`,
       variant: 'primary' as const,
     },
     {
@@ -91,7 +91,7 @@ export const studentsTableConfig: EnhancedTableConfig<PreEnrollmentListItem> = {
 
   features: {
     rowClickable: true,
-    rowClickRoute: (item: PreEnrollmentListItem) => `/admissions/${item.id}`,
+    rowClickRoute: (item: PreEnrollmentListItem) => `/admissions/applications/${item.id}`,
     selectionEnabled: true,
     batchActions: [
       {

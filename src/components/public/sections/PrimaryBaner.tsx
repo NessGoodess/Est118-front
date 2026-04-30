@@ -38,7 +38,7 @@ const featuresService = {
         return {
             title: "PROTECCIÓN SUPERIOR ANTI-FRAUDE",
             subtitle: "Tecnología de punta para tu seguridad",
-            image: "/images/woman-phone.jpg", // Cambia por tu ruta
+            image: "/Avatar.svg", // Cambia por tu ruta
             imageAlt: "Mujer usando aplicación móvil segura",
             layout: "left",
             status: "active",
@@ -161,7 +161,9 @@ const DecorativeImage = ({ imageSrc, imageAlt }: { imageSrc: string; imageAlt: s
                 <Image
                     src={imageSrc}
                     alt={imageAlt}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover max-w-72"
+                    width={10}
+                    height={10}
                 />
 
                 {/* Overlay sutil */}

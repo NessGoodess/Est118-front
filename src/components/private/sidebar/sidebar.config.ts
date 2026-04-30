@@ -26,9 +26,48 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: 'Preinscripciones',
-    href: '/admissions',
     icon: 'students',
     permission: 'view pre-enrollments',
+    children: [
+      {
+        name: 'Lista de Preinscritos',
+        href: '/admissions/applications',
+        icon: 'list',
+        permission: 'view pre-enrollments',
+      },
+      {
+        name: 'Crear Preinscripción',
+        href: '/admissions/applications/new',
+        icon: 'list',
+        permission: 'create pre-enrollments',
+      },
+      {
+        name: 'Proceso de Admisión',
+        href: '/admissions/process',
+        icon: 'list',
+        permission: 'manage admission cycles',
+      },
+      
+    ],
+  },
+  {
+    name: 'Avisos',
+    icon: 'reports',
+    permission: 'create announcements',
+    children: [
+      {
+        name: 'Lista de Avisos',
+        href: '/Announcement/list',
+        icon: 'list',
+        permission: 'create announcements',
+      },
+      {
+        name: 'Crear aviso',
+        href: '/Announcement',
+        icon: 'add',
+        permission: 'create announcements',
+      },
+    ],
   },
   {
     name: 'Asistencia',

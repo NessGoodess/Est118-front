@@ -6,6 +6,13 @@ import { galleryItems } from "@/lib/data/mockData";
 import Link from "next/link";
 import Image from "next/image";
 
+const RATIO_CLASS: Record<string, string> = {
+  "4/3": "aspect-[4/3]",
+  "3/4": "aspect-[3/4]",
+  "1/1": "aspect-square",
+  "16/9": "aspect-video",
+};
+
 export default function GaleriaItemPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const item = galleryItems.find(i => i.id === id);
@@ -14,69 +21,84 @@ export default function GaleriaItemPage({ params }: { params: Promise<{ id: stri
     notFound();
   }
 
+  const ratioClass = RATIO_CLASS[item.ratio ?? "4/3"];
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      {/* Header */}
-      <section className="relative h-96 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 overflow-hidden">
+      {/* Slim top header */}
+      <section className="relative h-40 md:h-52 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/background4.png')] bg-cover bg-center opacity-20" />
         <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 to-blue-700/70" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-6">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
             className="text-white"
           >
-            <Link href="/galeria" className="text-white/80 hover:text-white mb-4 inline-block">
-              ← Volver a Galería
+            <Link href="/galeria" className="text-white/70 hover:text-white text-sm mb-2 inline-flex items-center gap-1">
+              ← Back to Gallery
             </Link>
-            <span className="inline-block bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-sm font-semibold mb-4">
-              {item.category}
-            </span>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-merriweather">
-              {item.title}
-            </h1>
-            <div className="flex items-center gap-4 text-white/90">
-              <span>{item.date}</span>
-              {item.author && (
-                <>
-                  <span>•</span>
-                  <span>{item.author}</span>
-                </>
-              )}
+            <div className="flex items-center gap-3 mt-1">
+              <span className="inline-block bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-xs font-bold">
+                {item.category}
+              </span>
+              <h1 className="text-2xl md:text-3xl font-bold font-merriweather line-clamp-2">
+                {item.title}
+              </h1>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Content */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* 2-col content: image LEFT, description RIGHT */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="bg-white rounded-2xl shadow-xl overflow-hidden"
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="flex flex-col gap-8 md:flex-row md:items-start md:gap-10"
         >
-          <div className="relative h-96 md:h-[500px]">
+          {/* LEFT — main image, adopts its natural ratio */}
+          <div className={`w-full md:w-[55%] md:shrink-0 overflow-hidden rounded-2xl shadow-xl relative ${ratioClass}`}>
             <Image
               src={item.image}
               alt={item.title}
               fill
               className="object-cover"
+              sizes="(max-width: 768px) 100vw, 55vw"
+              priority
             />
           </div>
 
-          <div className="p-8 md:p-12">
-            <p className="text-gray-700 text-lg leading-relaxed mb-8">
+          {/* RIGHT — description panel */}
+          <div className="flex flex-1 flex-col gap-5">
+            {/* Meta */}
+            <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
+              <span>{item.date}</span>
+              {item.author && (
+                <>
+                  <span aria-hidden>·</span>
+                  <span>{item.author}</span>
+                </>
+              )}
+            </div>
+
+            {/* Decorative rule */}
+            <div className="h-[3px] w-10 rounded-full bg-yellow-400" />
+
+            {/* Description */}
+            <p className="text-base leading-relaxed text-gray-700">
               {item.description}
             </p>
 
+            {/* Tags */}
             {item.tags && item.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-8">
+              <div className="flex flex-wrap gap-2 pt-2">
                 {item.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium"
+                    className="rounded-full bg-blue-50 border border-blue-200 px-3 py-1 text-xs font-medium text-blue-700"
                   >
                     #{tag}
                   </span>
@@ -84,12 +106,13 @@ export default function GaleriaItemPage({ params }: { params: Promise<{ id: stri
               </div>
             )}
 
-            <div className="pt-8 border-t border-gray-200">
+            {/* Back link */}
+            <div className="mt-auto pt-6 border-t border-gray-200">
               <Link
                 href="/galeria"
-                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-700"
               >
-                ← Ver más en la galería
+                ← View more in gallery
               </Link>
             </div>
           </div>
@@ -98,4 +121,3 @@ export default function GaleriaItemPage({ params }: { params: Promise<{ id: stri
     </div>
   );
 }
-

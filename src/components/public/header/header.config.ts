@@ -17,6 +17,11 @@ export const navLinks:{
             icon: "news",
         },
         {
+            href: "/Announcements",
+            label: "Avisos",
+            icon: "news",
+        },
+        {
             href: "/galeria",
             label: "Galería",
             icon: "galery",

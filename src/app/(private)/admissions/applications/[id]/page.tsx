@@ -63,16 +63,16 @@ export default function PreEnrollmentPage({
   };
 
   const handleSwitchToEdit = () => {
-    router.push(`/admissions/${resolvedParams.id}?edit=1`);
+    router.push(`/admissions/applications/${resolvedParams.id}?edit=1`);
   };
 
   const handleEditSuccess = (updated: PreEnrollmentApi) => {
     setPreEnrollment(updated);
-    router.push(`/admissions/${resolvedParams.id}`);
+    router.push(`/admissions/applications/${resolvedParams.id}`);
   };
 
   const handleEditCancel = () => {
-    router.push(`/admissions/${resolvedParams.id}`);
+    router.push(`/admissions/applications/${resolvedParams.id}`);
   };
 
   if (loading) {
@@ -83,7 +83,7 @@ export default function PreEnrollmentPage({
     <>
       <button
         type="button"
-        onClick={() => router.push('/admissions')}
+        onClick={() => router.push('/admissions/applications')}
         className="mb-4 text-blue-900 hover:text-blue-500 flex items-center gap-2 cursor-pointer"
       >
         <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
