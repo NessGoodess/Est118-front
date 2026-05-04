@@ -19,7 +19,6 @@ function isAuthRoute(pathname: string) {
 }
 
 function isLoggedIn(req: NextRequest) {
-  // ✅ TU cookie REAL de sesión
   return !!req.cookies.get('est118-session');
 }
 
@@ -27,14 +26,12 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const loggedIn = isLoggedIn(req);
 
-  // 🔒 Rutas protegidas sin sesión
   if (isProtected(pathname) && !loggedIn) {
     const loginUrl = new URL('/login', req.url);
     loginUrl.searchParams.set('redirect', pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  // 🔁 Usuario logueado intentando ir a /login
   if (isAuthRoute(pathname) && loggedIn) {
     const redirectTo = req.nextUrl.searchParams.get('redirect');
 
