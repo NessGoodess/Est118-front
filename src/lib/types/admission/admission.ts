@@ -65,3 +65,55 @@ export interface FormData {
     workshopSelect: WorkshopSelect;
     tuitionVoucher: TuitionVoucher;
 }
+
+export const defaultFormData: FormData = {
+    email: { 
+        contactEmail: "", 
+        contactEmailConfirmation: ""
+     },
+    applicantInfo: {
+        firstName: "", 
+        lastName: "", 
+        secondLastName: "", 
+        curp: "",
+        birthDate: "", 
+        age: 0, 
+        gender: "O", 
+        phone: "", 
+        studentEmail: "", 
+        placeOfBirth: ""
+    },
+    academicInfo: { 
+        previousSchool: "", 
+        currentAverage: "", 
+        hasSiblings: false, 
+        siblingsDetails: "" 
+    },
+    addressInfo: {
+        streetType: "", 
+        streetName: "", 
+        houseNumber: "", 
+        unitNumber: "",
+        neighborhoodType: "", 
+        neighborhoodName: "", 
+        postalCode: "", 
+        city: "", 
+        state: ""
+    },
+    guardianInfo: {
+        guardianFirstName: "", 
+        guardianLastName: "", 
+        guardianSecondLastName: "",
+        guardianCurp: "", 
+        guardianPhone: "", 
+        guardianRelationship: ""
+    },
+    workshopSelect: { 
+        workshopFirstChoice: "", 
+        workshopSecondChoice: ""
+     },
+    tuitionVoucher: { 
+        hasSchoolVoucher: false, 
+        schoolVoucherFolio: ""
+     }
+};

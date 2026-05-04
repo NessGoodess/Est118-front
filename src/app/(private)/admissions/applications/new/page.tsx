@@ -1,6 +1,6 @@
 "use client"
 import GenericHeader from "@/components/ui/GenericHeader";
-import PrivatePreEnrollmentTabs from "@/components/private/admission/PrivatePreEnrollmentTabs";
+import PrivatePreEnrollmentTabs from "@/components/private/admission/add/PrivatePreEnrollmentTabs";
 
 export default function NewPreEnrollment() {
     return (
@@ -9,7 +9,7 @@ export default function NewPreEnrollment() {
                 title="Crear Preinscripción"
                 description="Ingresa los datos para una nueva preinscripción"
             />
-            <div className="gap-4 bg-gray-50 p-4 rounded-xl">
+            <div className="gap-4 p-4 rounded-xl">
                 <PrivatePreEnrollmentTabs />
             </div>
         </div>
