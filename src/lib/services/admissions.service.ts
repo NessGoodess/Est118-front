@@ -1,7 +1,6 @@
 import apiClient, { API_ENDPOINTS } from '@/lib/config/api';
 import { PaginatedResponse } from '@/lib/types/paginated-response';
 import { PreEnrollmentListItem, PreEnrollmentApi, AdmissionCycle } from '@/lib/types/admission/preEnrollmentApi';
-import { globalToast } from '@/lib/toast';
 
 /**
  * Fetch all admission cycles
@@ -34,7 +33,7 @@ export async function getPreEnrollmentById(id: number): Promise<PreEnrollmentApi
 /**
  * Create a new pre-enrollment from the Admin panel
  */
-export async function createPreEnrollmentByAdmin(data: any): Promise<{ folio: string, downloadUrl: string, message: string }> {
+export async function createPreEnrollmentByAdmin(data: Record<string, unknown> | FormData): Promise<{ folio: string, downloadUrl: string, message: string }> {
     const response = await apiClient.post(API_ENDPOINTS.ADMISSION.PRE_ENROLLMENTS, data);
     return response.data;
 }

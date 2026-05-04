@@ -35,14 +35,14 @@ function createEchoInstance(): Echo<'reverb'> | null {
     cluster: '',
     authorizer: (channel: { name: string }) => {
       return {
-        authorize: (socketId: string, callback: (error: unknown, data?: unknown) => void) => {
+        authorize: (socketId: string, callback: (error: boolean | null, data?: unknown) => void) => {
           baseAxiosClient
             .post(`${API_CONFIG.API_BASE_URL}/broadcasting/auth`, {
               socket_id: socketId,
               channel_name: channel.name
             })
-            .then(response => callback(false, response.data))
-            .catch(error => callback(true, error))
+            .then(response => callback(null, response.data))
+            .catch(error => callback(true, error.message))
         }
       }
     }

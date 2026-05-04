@@ -1,8 +1,7 @@
 import { formatShortWithTime, formatDate } from "@/lib/utils/dateFormatter";
-import { AnnouncementRawItem } from "@/lib/services/announcements.service";
 
 export const tableRenderers = {
-  'type-badge': (value: unknown, _row: unknown) => {
+  'type-badge': (value: unknown) => {
     const type = value as string;
     const colors: Record<string, string> = {
       Informativo: 'bg-blue-50 text-blue-700 border-blue-200',
@@ -21,7 +20,7 @@ export const tableRenderers = {
     );
   },
   
-  'important-badge': (value: unknown, _row: unknown) => {
+  'important-badge': (value: unknown) => {
     const isImportant = value as boolean;
     if (!isImportant) return null;
     return (
@@ -31,7 +30,7 @@ export const tableRenderers = {
     );
   },
   
-  'date': (value: unknown, _row: unknown) => {
+  'date': (value: unknown) => {
     if (!value) return <span className="text-slate-400 text-sm">-</span>;
     return (
       <span className="text-sm">
@@ -40,7 +39,7 @@ export const tableRenderers = {
     );
   },
   
-  'datetime': (value: unknown, _row: unknown) => {
+  'datetime': (value: unknown) => {
     if (!value) return <span className="text-slate-400 text-sm">-</span>;
     return (
       <span className="text-sm cursor-help" title={new Date(value as string).toLocaleString()}>

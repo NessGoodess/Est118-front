@@ -35,7 +35,7 @@ export async function getAnnouncements(): Promise<AnnouncementRawItem[]> {
 /**
  * Get all announcements (Public - Fetch for Next.js caching)
  */
-export async function getPublicAnnouncements(): Promise<any[]> {
+export async function getPublicAnnouncements(): Promise<AnnouncementRawItem[]> {
     const url = `${API_CONFIG.API_FULL_URL}${API_ENDPOINTS.ANNOUNCEMENTS.GET_ALL}`;
     const response = await fetch(url, {
         next: { revalidate: 60 },

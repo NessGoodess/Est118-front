@@ -526,7 +526,7 @@ interface UseFloatingFieldOptions {
   maxLength?: number;
   min?: number | string;
   max?: number | string;
-  validate?: (value: unknown) => boolean | string;
+  validate?: (value: string) => boolean | string;
 }
 
 export function useFloatingField(options: UseFloatingFieldOptions = {}) {

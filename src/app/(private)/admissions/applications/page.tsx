@@ -1,7 +1,8 @@
 //app/(private)/admissions/page.tsx
 
 "use client"
-import { useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
+
 import { usePreEnrollments } from "@/hooks/admissions/use-pre-enrollments";
 import { useAdmissionCycles } from "@/hooks/admissions/use-admission-cycles";
 import { CardOption, CardOptionData } from "@/components/ui/CardOption";
@@ -14,18 +15,10 @@ import Loading from "./loading";
 
 
 export default function Admissions() {
-    const { data: cycles, loading: cyclesLoading, error: cyclesError } = useAdmissionCycles();
-    const { data, isInitialLoading, isRefetching, loading, error, cycleId, setCycleId } = usePreEnrollments();
+    const { data: cycles } = useAdmissionCycles();
+    const { data, isInitialLoading, isRefetching, error, cycleId, setCycleId } = usePreEnrollments();
 
     const { showError } = useToast();
-
-    const [query, setQuery] = useState("");
-    const filtered = useMemo(
-        () => cycles.filter(cycle =>
-            cycle.name.toLowerCase().includes(query.toLowerCase())
-        ),
-        [cycles, query]
-    );
 
     const activeCycleId = cycleId || cycles.find(c => c.status === 'active')?.id || cycles[0]?.id;
 
@@ -47,7 +40,7 @@ export default function Admissions() {
                     <div className="max-h-[480px] overflow-y-auto">
                         <div className="overflow-x-auto">
                             <div className="flex gap-3 m-2 min-w-max">
-                                {filtered.map(cycle => {
+                                {cycles.map(cycle => {
                                     const cardData: CardOptionData = {
                                         id: cycle.id,
                                         title: cycle.name,

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { formDataSchema, FormData } from "@/lib/validations/admissions/admissions.schema";
 import { defaultFormData } from "@/lib/types/admission/admission";
 import { createPreEnrollmentByAdmin } from "@/lib/services/admissions.service";
-import { TabAcademicInfo, TabAddressInfo, TabApplicantInfo, TabEmail, TabGuardianInfo, TabTuitionVoucher, TabWorkshopSelect } from "./tabs";
+import { TabEmail, TabApplicantInfo, TabAcademicInfo, TabAddressInfo, TabGuardianInfo, TabWorkshopSelect, TabTuitionVoucher } from "./tabs";
 import { globalToast } from '@/lib/toast';
 import axios from "axios";
 
@@ -51,15 +51,15 @@ export default function PrivatePreEnrollmentTabs() {
         try {
             setIsSaving(true);
             const result = await createPreEnrollmentByAdmin(data);
-            
+
             // Clear draft on successful submit
             localStorage.removeItem(DRAFT_KEY);
             globalToast.success(result.message || "Preinscripción creada correctamente");
-            
+
             setSuccessResult(result);
             setPreviewUrl(null);
             setPdfError(null);
-            
+
             // Opcional: Limpiar el formulario y regresar a la primera pestaña
             reset();
             setActiveTab(0);
@@ -84,7 +84,7 @@ export default function PrivatePreEnrollmentTabs() {
     return (
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                
+
                 {/* Save Draft Header / Global Actions */}
                 <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                     <p className="text-sm text-gray-500">
@@ -110,11 +110,10 @@ export default function PrivatePreEnrollmentTabs() {
                                 key={tab.id}
                                 type="button"
                                 onClick={() => setActiveTab(tab.id)}
-                                className={`px-6 py-3 text-sm font-medium whitespace-nowrap transition-colors border-b-2 ${
-                                    activeTab === tab.id
+                                className={`px-6 py-3 text-sm font-medium whitespace-nowrap transition-colors border-b-2 ${activeTab === tab.id
                                         ? "border-blue-500 text-blue-600 bg-white"
                                         : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                                }`}
+                                    }`}
                             >
                                 {tab.label}
                             </button>
@@ -142,9 +141,9 @@ export default function PrivatePreEnrollmentTabs() {
                 {/* Success Block */}
                 {successResult && (
                     <div className="mt-8 bg-blue-50 border-2 border-blue-600 rounded-xl p-6 md:p-8 relative">
-                        <button 
-                            type="button" 
-                            onClick={() => { setSuccessResult(null); setPreviewUrl(null); }} 
+                        <button
+                            type="button"
+                            onClick={() => { setSuccessResult(null); setPreviewUrl(null); }}
                             className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-white rounded-full text-gray-500 hover:text-gray-800 shadow-sm"
                         >
                             ✕
@@ -153,12 +152,12 @@ export default function PrivatePreEnrollmentTabs() {
                             ¡Registro Exitoso!
                         </h3>
                         <p className="text-center text-sm text-gray-600 mb-6">{successResult.message}</p>
-                        
+
                         <div className="bg-white rounded-lg p-4 mb-6 text-center mx-auto max-w-sm shadow-sm border border-blue-100">
                             <p className="text-sm text-gray-500 mb-1">Folio de Preinscripción</p>
                             <p className="text-3xl font-bold text-blue-600 font-mono tracking-wider">{successResult.folio}</p>
                         </div>
-                        
+
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <button
                                 type="button"
@@ -178,7 +177,7 @@ export default function PrivatePreEnrollmentTabs() {
                             >
                                 Previsualizar Comprobante
                             </button>
-                            <a 
+                            <a
                                 href={successResult.downloadUrl}
                                 target="_blank"
                                 rel="noreferrer"
@@ -187,9 +186,9 @@ export default function PrivatePreEnrollmentTabs() {
                                 Descargar PDF Comprobante
                             </a>
                         </div>
-                        
+
                         {pdfError && <p className="text-center text-red-500 font-medium mt-4 bg-red-50 p-2 rounded">{pdfError}</p>}
-                        
+
                         {previewUrl && !pdfError && (
                             <div className="mt-6 bg-white p-2 rounded-lg shadow-sm border border-gray-200 h-[600px] md:h-[800px]">
                                 <object data={previewUrl} type="application/pdf" className="w-full h-full rounded">

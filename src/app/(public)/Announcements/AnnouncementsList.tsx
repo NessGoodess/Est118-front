@@ -33,10 +33,12 @@ function MediaThumb({ media }: { media: AnnouncementMedia }) {
   if (media.type === "youtube" && media.youtubeId) {
     return (
       <div className={`relative w-full overflow-hidden ${ratioClass}`}>
-        <img
+        <Image
           src={`https://img.youtube.com/vi/${media.youtubeId}/mqdefault.jpg`}
           alt={media.alt}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />

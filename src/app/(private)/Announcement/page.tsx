@@ -274,7 +274,7 @@ export default function AnnouncementsPage() {
           mediaYoutubeId: data.media_youtube_id || "",
           publishedAt: data.published_at ? data.published_at.substring(0, 16) : undefined,
           author: data.author || "",
-          type: (data.type as any) || "General",
+          type: (data.type as AnnouncementFormValues['type']) || "General",
           important: Boolean(data.important),
           summary: data.summary || "",
         })
@@ -284,7 +284,7 @@ export default function AnnouncementsPage() {
         } else if (data.media_type === "video" && data.media_src && !data.media_src.includes("youtube")) {
           setVideoPreview(data.media_src)
         }
-      } catch (err) {
+      } catch (_err: unknown) {
         globalToast.error("Error", "No se pudo cargar el aviso para edición.")
         router.push("/Announcement/list")
       } finally {
@@ -298,7 +298,7 @@ export default function AnnouncementsPage() {
   // ── Helper ───────────────────────────────────────────────────────────────
   
   function handleMediaTypeChange(value: string) {
-    setValue("mediaType", value as any)
+    setValue("mediaType", value as AnnouncementFormValues['mediaType'])
     setValue("mediaFile", null)
     setValue("mediaVideoUrl", "")
     setImagePreview(null)
@@ -742,9 +742,11 @@ export default function AnnouncementsPage() {
                   />
                   {watch("mediaYoutubeId") && (
                     <div className="mt-2 overflow-hidden rounded-xl border border-gray-200">
-                      <img
+                    <Image
                         src={`https://img.youtube.com/vi/${watch("mediaYoutubeId")}/mqdefault.jpg`}
                         alt="Vista previa YouTube"
+                        width={320}
+                        height={180}
                         className="h-40 w-full object-cover"
                       />
                     </div>

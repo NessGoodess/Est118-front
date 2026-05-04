@@ -51,7 +51,7 @@ export function usePreEnrollments() {
         setLoading(false);
       }
     }
-  }, []);
+  }, [hasLoadedOnce]);
 
   // Función para cambiar el ciclo
   const setCycleId = useCallback((newCycleId: number | null) => {

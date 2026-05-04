@@ -1,8 +1,7 @@
 import { UseFormRegister, Control, FieldErrors } from "react-hook-form"
 import { Controller } from "react-hook-form"
-import { FloatingInput, FloatingSelect } from "@/components/ui/FloatingInputs"
-// Note: Assuming FloatingSelect might actually be exported from FloatingSelect based on original code
-import { FloatingSelect as FS } from "@/components/ui/FloatingSelect"
+import { FloatingInput } from "@/components/ui/FloatingInputs"
+import { FloatingSelect } from "@/components/ui/FloatingSelect"
 import { ToggleChip } from "./SharedComponents"
 import { ANNOUNCEMENT_TYPES, AnnouncementFormValues } from "@/lib/validations/announcement.schema"
 import { SectionTitle } from "./SharedComponents"
@@ -61,7 +60,7 @@ export function GeneralSection({ register, control, errors, headerAlertEnabled }
           name="type"
           control={control}
           render={({ field }) => (
-            <FS
+            <FloatingSelect
               label="Tipo de aviso"
               required
               error={errors.type?.message}
@@ -71,7 +70,7 @@ export function GeneralSection({ register, control, errors, headerAlertEnabled }
               {ANNOUNCEMENT_TYPES.map((t) => (
                 <option key={t} value={t}>{t}</option>
               ))}
-            </FS>
+            </FloatingSelect>
           )}
         />
         <FloatingInput

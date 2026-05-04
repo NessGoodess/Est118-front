@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation"
-import Link from "next/link"
 import { getAnnouncementExtendedByIdOrSlug } from "@/lib/data/announcementsExtended"
 import AnnouncementDetailContent from "./DetailContent"
 

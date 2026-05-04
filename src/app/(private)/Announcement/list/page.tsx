@@ -12,7 +12,7 @@ export default function AnnouncementsListPage() {
       try {
         const result = await getAnnouncements();
         setData(result);
-      } catch (err) {
+      } catch (_err) {
         setError(true);
       }
     }

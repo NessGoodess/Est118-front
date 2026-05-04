@@ -44,7 +44,7 @@ export default function InterceptedModal({
         setPreEnrollment(data);
       } catch (err) {
         setError(handleApiError(err));
-        globalToast.error(error?.message || 'Error al obtener pre-inscripción');
+        globalToast.error(handleApiError(err).message || 'Error al obtener pre-inscripción');
         router.back();
       } finally {
         setLoading(false);
@@ -53,7 +53,6 @@ export default function InterceptedModal({
 
     fetchData();
   }, [resolvedParams.id, router]);
-
   const handleResentPdf = async () => {
     try {
       const data = await resentPDFFolio(parseInt(resolvedParams.id));
@@ -62,7 +61,7 @@ export default function InterceptedModal({
       }
     } catch (err) {
       setError(handleApiError(err));
-      globalToast.error(error?.message || 'Error al reenviar PDF');
+      globalToast.error(handleApiError(err).message || 'Error al reenviar PDF');
 
     }
   };
