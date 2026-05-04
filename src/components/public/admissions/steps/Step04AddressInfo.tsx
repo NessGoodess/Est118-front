@@ -5,7 +5,7 @@ import { addressInfoSchema } from "@/lib/validations/admissions/admissions.schem
 import { InputText, InputSelect } from "@/components/ui/forms";
 import Header from "../content/header";
 import StepNavigation from "../content/StepNavigation";
-import { STREET_TYPES, NEIGHBORHOOD_TYPES } from "@/lib/types/select-types";
+import { STREET_TYPES, NEIGHBORHOOD_TYPES } from "@/lib/types/admission/select-types";
 import { getInfoByPostalCode, getMunicipios } from "@/lib/Address";
 
 interface Props {

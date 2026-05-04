@@ -1,6 +1,6 @@
 // src/lib/address.ts
 import raw from "./data/oaxaca.json";
-import type { Estados } from "./types/address";
+import type { Estados } from "./types/admission/address";
 
 /**
  * Catalog of addresses

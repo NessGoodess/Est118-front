@@ -6,7 +6,7 @@ import { guardianInfoSchema } from "@/lib/validations/admissions/admissions.sche
 import { InputText, InputSelect } from "@/components/ui/forms";
 import Header from "../content/header";
 import StepNavigation from "../content/StepNavigation";
-import { GUARDIAN_TYPES } from "@/lib/types/select-types";
+import { GUARDIAN_TYPES } from "@/lib/types/admission/select-types";
 
 interface Props {
   nextStep: () => void;
