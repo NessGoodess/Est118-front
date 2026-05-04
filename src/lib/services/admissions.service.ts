@@ -1,14 +1,24 @@
 import apiClient, { API_ENDPOINTS } from '@/lib/config/api';
 import { PaginatedResponse } from '@/lib/types/paginated-response';
-import { PreEnrollmentListItem, PreEnrollmentApi } from '@/lib/types/admission/preEnrollmentApi';
+import { PreEnrollmentListItem, PreEnrollmentApi, AdmissionCycle } from '@/lib/types/admission/preEnrollmentApi';
+import { globalToast } from '@/lib/toast';
+
+/**
+ * Fetch all admission cycles
+ */
+export async function getAdmissionCycles(): Promise<AdmissionCycle[]> {
+        const response = await apiClient.get<AdmissionCycle[]>(API_ENDPOINTS.ADMISSION.CYCLES);
+        return response.data;
+}
+
 
 /**
  * Fetch all pre-enrollments
  */
-export async function getPreEnrollments(page: number = 1): Promise<PaginatedResponse<PreEnrollmentListItem>> {
+export async function getPreEnrollments(page: number = 1, cycleId?: number | null): Promise<PaginatedResponse<PreEnrollmentListItem>> {
 
         const response = await apiClient.get<PaginatedResponse<PreEnrollmentListItem>>(API_ENDPOINTS.ADMISSION.PRE_ENROLLMENTS, {
-                params: { page }
+                params: { page, cycle_id: cycleId || undefined }
         });
         return response.data;
 }

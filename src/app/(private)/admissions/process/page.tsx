@@ -9,7 +9,7 @@ export default function ConfiguracionPage() {
         <div className="space-y-6">
             <GenericHeader
                 title="Configuración del Proceso de Admision"
-                description="Ajusta las configuraciones del formulario de preinscripción."
+                description="Administra los periodos de preinscripción. (Apertura Y cierre)"
             />
 
             <AdmissionSettingsForm />

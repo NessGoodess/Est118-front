@@ -65,3 +65,23 @@ export interface PreEnrollmentListItem {
 
   created_at: string;
 }
+
+export enum AdmissionCycleStatus {
+  DRAFT = 'draft',
+  ACTIVE = 'active',
+  CLOSED = 'closed',
+}
+
+export interface AdmissionCycle {
+  id: number;
+  name: string;
+  start_at: string;
+  end_at: string;
+  status: AdmissionCycleStatus;
+  last_folio_number: number;
+  created_by: number;
+  closed_at: string | null;
+  created_at: string;
+  updated_at: string;
+  preenrollments_count: number;
+}

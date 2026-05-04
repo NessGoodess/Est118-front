@@ -16,7 +16,7 @@ interface BaseFloatingInputProps {
 
 interface FloatingSelectProps
   extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'className'>,
-    BaseFloatingInputProps {
+  BaseFloatingInputProps {
   children: React.ReactNode;
   placeholder?: string;
 }
@@ -105,9 +105,8 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
           {icon && (
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none z-10">
               <div
-                className={`transition-colors duration-200 ${
-                  isFocused ? 'text-blue-600' : error ? 'text-red-400' : 'text-slate-400'
-                }`}
+                className={`transition-colors duration-200 ${isFocused ? 'text-blue-600' : error ? 'text-red-400' : 'text-slate-400'
+                  }`}
               >
                 <div className="h-5 w-5">{icon}</div>
               </div>
@@ -119,21 +118,19 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
             className={`
               absolute transition-all duration-200 ease-out pointer-events-none z-10
               ${icon ? 'left-11' : 'left-4'}
-              ${
-                isFloating
-                  ? error
-                    ? 'top-0 text-xs font-semibold bg-gradient-to-t from-red-50 to-white px-2 -translate-y-1/2'
-                    : 'top-0 text-xs font-semibold bg-white px-2 -translate-y-1/2'
-                  : 'top-1/2 -translate-y-1/2 text-base'
+              ${isFloating
+                ? error
+                  ? 'top-0 text-xs font-semibold bg-gradient-to-t from-red-50 to-white px-2 -translate-y-1/2'
+                  : 'top-0 text-xs font-semibold bg-white px-2 -translate-y-1/2'
+                : 'top-1/2 -translate-y-1/2 text-base'
               }
-              ${
-                isFocused
-                  ? 'text-blue-600'
-                  : error
+              ${isFocused
+                ? 'text-blue-600'
+                : error
                   ? 'text-red-600'
                   : isFloating
-                  ? 'text-slate-700'
-                  : 'text-slate-500'
+                    ? 'text-slate-700'
+                    : 'text-slate-500'
               }
             `}
           >
@@ -154,21 +151,19 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
             required={required}
             {...props}
             className={`
-              w-full rounded-xl border-2 transition-all duration-200 appearance-none
-              ${icon ? 'pl-11' : 'pl-4'}
-              pt-6 pb-2 pr-10
-              focus:outline-none
-              ${error
+    w-full rounded-xl border-2 transition-all duration-200 appearance-none
+    ${icon ? 'pl-11' : 'pl-4'}
+    pt-6 pb-2 pr-10
+    focus:outline-none
+    ${error
                 ? 'border-red-300 bg-red-50 text-red-900 focus:border-red-500'
                 : isFocused
-                ? 'border-blue-500 bg-white shadow-lg shadow-blue-100'
-                : 'border-slate-300 bg-white hover:border-slate-400'
+                  ? 'border-blue-500 bg-white shadow-lg shadow-blue-100'
+                  : 'border-slate-300 bg-white hover:border-slate-400'
               }
-              disabled:bg-slate-100 disabled:text-slate-500 disabled:cursor-not-allowed
-              text-base
-              [&:not([value=""])]:text-black
-              ${!hasValue && !isFocused ? 'text-transparent' : 'text-black'}
-            `}
+    disabled:bg-slate-100 disabled:text-slate-500 disabled:cursor-not-allowed
+    text-base text-black  /* ← Quitamos la condición y siempre usamos text-black */
+  `}
           >
             <option value="" disabled hidden>
               {placeholder}
@@ -178,9 +173,8 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
 
           <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none">
             <svg
-              className={`w-5 h-5 transition-transform duration-200 ${
-                isFocused ? 'text-blue-600 rotate-180' : 'text-slate-400'
-              }`}
+              className={`w-5 h-5 transition-transform duration-200 ${isFocused ? 'text-blue-600 rotate-180' : 'text-slate-400'
+                }`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

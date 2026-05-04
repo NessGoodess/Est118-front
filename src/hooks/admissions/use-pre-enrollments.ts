@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { getPreEnrollments } from '@/lib/services/admissions.service';
 import { PaginatedResponse } from '@/lib/types/paginated-response';
 import { PreEnrollmentListItem } from '@/lib/types/admission/preEnrollmentApi';
@@ -8,64 +8,97 @@ import { ApiError } from '@/lib/types/auth';
 import { handleApiError } from '@/lib/config/api';
 
 export function usePreEnrollments() {
-  const [data, setData] =
-    useState<PaginatedResponse<PreEnrollmentListItem> | null>(null);
-
+  const [data, setData] = useState<PaginatedResponse<PreEnrollmentListItem> | null>(null);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [cycleId, setCycleIdState] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<ApiError | null>(null);
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
 
-  const fetchData = useCallback(
-    async (pageToLoad = page) => {
-      setLoading(true);
-      setError(null);
+  // Ref para evitar llamadas duplicadas
+  const isMounted = useRef(true);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
-      try {
-        const result = await getPreEnrollments(pageToLoad);
+  const fetchData = useCallback(async (pageToLoad: number, cycleIdToLoad: number | null) => {
+    // Cancelar petición anterior si existe
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const result = await getPreEnrollments(pageToLoad, cycleIdToLoad);
+      if (isMounted.current) {
         setData(result);
         setPage(pageToLoad);
-      } catch (error) {
+
+        if (!hasLoadedOnce) {
+          setHasLoadedOnce(true);
+        }
+      }
+    } catch (error) {
+      if (isMounted.current && !(error instanceof DOMException && error.name === 'AbortError')) {
         setError(handleApiError(error));
-      } finally {
+        console.error(error);
+      }
+    } finally {
+      if (isMounted.current) {
         setLoading(false);
       }
-    },
-    [page]
-  );
+    }
+  }, []);
+
+  // Función para cambiar el ciclo
+  const setCycleId = useCallback((newCycleId: number | null) => {
+    setCycleIdState(newCycleId);
+  }, []);
+
+  // Función para cambiar de página
+  const goToPage = useCallback((newPage: number) => {
+    fetchData(newPage, cycleId);
+  }, [fetchData, cycleId]);
 
   useEffect(() => {
-    fetchData(1);
-  }, [fetchData]);
+    isMounted.current = true;
+
+    fetchData(1, cycleId);
+
+    return () => {
+      isMounted.current = false;
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, [cycleId, fetchData]);
+
 
   return {
-    // data
     data: data?.data ?? [],
-    pagination: data
-      ? {
-        currentPage: data.current_page,
-        lastPage: data.last_page,
-        total: data.total,
-        from: data.from,
-        to: data.to,
-        perPage: data.per_page,
-        hasNext: data.current_page < data.last_page,
-        hasPrev: data.current_page > 1,
-      }
-      : null,
-
-    // state
+    pagination: data ? {
+      currentPage: data.current_page,
+      lastPage: data.last_page,
+      total: data.total,
+      from: data.from,
+      to: data.to,
+      perPage: data.per_page,
+      hasNext: data.current_page < data.last_page,
+      hasPrev: data.current_page > 1,
+    } : null,
     loading,
+    isInitialLoading: !hasLoadedOnce && loading,
+    isRefetching: hasLoadedOnce && loading,
     error,
     hasError: !!error,
-
-    // actions
-    goToPage: fetchData,
-    nextPage: () =>
-      data && data.current_page < data.last_page &&
-      fetchData(data.current_page + 1),
-    prevPage: () =>
-      data && data.current_page > 1 &&
-      fetchData(data.current_page - 1),
-    refetch: () => fetchData(page),
+    goToPage,
+    nextPage: () => data && data.current_page < data.last_page && goToPage(data.current_page + 1),
+    prevPage: () => data && data.current_page > 1 && goToPage(data.current_page - 1),
+    refetch: () => fetchData(page, cycleId),
+    cycleId,
+    setCycleId,
   };
 }

@@ -1,5 +1,5 @@
 import apiClient, { API_ENDPOINTS } from "@/lib/config/api";
-import { AdmissionCycle, CreateAdmissionCyclePayload, AdmissionStatus } from "@/lib/types/settings";
+import { AdmissionCycle, CreateAdmissionCyclePayload, AdmissionStatus } from "@/lib/types/admission/settings";
 
 export const settingsService = {
     /**

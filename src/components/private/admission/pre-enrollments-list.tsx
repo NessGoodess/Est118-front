@@ -13,9 +13,10 @@ import { handleApiError } from '@/lib/config/api';
 
 interface props {
   data: PreEnrollmentListItem[];
+  loading?: boolean;
 }
 
-export default function PreEnrollmentsList({ data }: props) {
+export default function PreEnrollmentsList({ data, loading = false }: props) {
   const [selectedStudents, setSelectedStudents] = useState<PreEnrollmentListItem[]>([]);
   const [error, setError] = useState<ApiError | null>(null);
 
@@ -45,6 +46,7 @@ export default function PreEnrollmentsList({ data }: props) {
         icons={tableIcons}
         onSelectionChange={setSelectedStudents}
         emptyMessage="No se encontraron estudiantes"
+        loading={loading}
         minRows={10}
         exportable={true}
         exportFunction={exportFunction}
