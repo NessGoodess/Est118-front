@@ -5,7 +5,7 @@ import { FloatingSelect } from "@/components/ui/FloatingSelect";
 
 export default function TabWorkshopSelect() {
     const { register, formState: { errors } } = useFormContext<FormData>();
-    
+
     return (
         <div className="bg-white p-6 rounded-lg shadow-sm">
             <h3 className="text-lg font-semibold mb-4 text-slate-700">Selección de Taller</h3>
@@ -14,27 +14,25 @@ export default function TabWorkshopSelect() {
                     label="Primera Opción"
                     {...register("workshopSelect.workshopFirstChoice")}
                     error={errors.workshopSelect?.workshopFirstChoice?.message}
-                    placeholder="Taller"
+                    placeholder=""
                     required
                 >
-                    <option value="">Seleccione taller...</option>
-                    <option value="INFORMATICA">Informática</option>
-                    <option value="ELECTRICIDAD">Electricidad</option>
-                    <option value="CARPINTERIA">Carpintería</option>
-                    <option value="DISEÑO_MECANICO">Diseño Mecánico</option>
+                    <option value="Confección del vestido e industria Textil">Confeccion del vestido e Industria Textil </option>
+                    <option value="Maquinas, herramientas y sistemas de control">Maquinas, Herramientas y Sistemas de Control</option>
+                    <option value="Diseño Industrial">Diseño Industrial</option>
+                    <option value="Informática">Informática</option>
                 </FloatingSelect>
                 <FloatingSelect
                     label="Segunda Opción"
                     {...register("workshopSelect.workshopSecondChoice")}
                     error={errors.workshopSelect?.workshopSecondChoice?.message}
-                    placeholder="Taller Alternativo"
+                    placeholder=""
                     required
                 >
-                    <option value="">Seleccione taller...</option>
-                    <option value="INFORMATICA">Informática</option>
-                    <option value="ELECTRICIDAD">Electricidad</option>
-                    <option value="CARPINTERIA">Carpintería</option>
-                    <option value="DISEÑO_MECANICO">Diseño Mecánico</option>
+                    <option value="Confección del vestido e industria Textil">Confeccion del vestido e Industria Textil </option>
+                    <option value="Maquinas, herramientas y sistemas de control">Maquinas, Herramientas y Sistemas de Control</option>
+                    <option value="Diseño Industrial">Diseño Industrial</option>
+                    <option value="Informática">Informática</option>
                 </FloatingSelect>
             </div>
         </div>

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useForm, FormProvider, useFormContext } from "react-hook-form";
+import { useEffect, useState, useMemo } from "react";
+import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formDataSchema, FormData } from "@/lib/validations/admissions/admissions.schema";
 import { defaultFormData } from "@/lib/types/admission/admission";
@@ -9,15 +9,27 @@ import { createPreEnrollmentByAdmin } from "@/lib/services/admissions.service";
 import { TabEmail, TabApplicantInfo, TabAcademicInfo, TabAddressInfo, TabGuardianInfo, TabWorkshopSelect, TabTuitionVoucher } from "./tabs";
 import { globalToast } from '@/lib/toast';
 import axios from "axios";
+import { handleApiError } from "@/lib/config/api";
+import { Button } from "@/components/ui/Button";
+import Link from "next/link";
+import { useConfirm } from "@/components/ui/confirm";
 
 const DRAFT_KEY = "private_new_preenrollment_draft";
 
 export default function PrivatePreEnrollmentTabs() {
-    const [activeTab, setActiveTab] = useState(0);
+    const [activeTab, setActiveTab] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return parseInt(sessionStorage.getItem('activeTab') || '0');
+        }
+        return 0;
+    });
     const [isSaving, setIsSaving] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [successResult, setSuccessResult] = useState<{ folio: string, downloadUrl: string, message: string } | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [pdfError, setPdfError] = useState<string | null>(null);
+    const [isPreviewLoading, setIsPreviewLoading] = useState(false);
+    const { confirm } = useConfirm();
 
     const methods = useForm<FormData>({
         resolver: zodResolver(formDataSchema),
@@ -25,7 +37,7 @@ export default function PrivatePreEnrollmentTabs() {
         defaultValues: defaultFormData
     });
 
-    const { handleSubmit, watch, reset, formState: { errors } } = methods;
+    const { handleSubmit, watch, reset, getValues, formState: { errors } } = methods;
 
     // Load draft on mount
     useEffect(() => {
@@ -40,37 +52,131 @@ export default function PrivatePreEnrollmentTabs() {
         }
     }, [reset]);
 
+
+
+    // Save draft manually
     const saveDraft = () => {
         setIsSaving(true);
-        const currentData = watch();
+        const currentData = getValues();
         localStorage.setItem(DRAFT_KEY, JSON.stringify(currentData));
         setTimeout(() => setIsSaving(false), 800);
+        globalToast.success("Exito:", "Formulario guardado temporalmente");
     };
 
-    const onSubmit = async (data: FormData) => {
-        try {
-            setIsSaving(true);
-            const result = await createPreEnrollmentByAdmin(data);
+    // Handle tab change
+    const handleTabChange = (newTab: number) => {
+        setActiveTab(newTab);
+        sessionStorage.setItem('activeTab', newTab.toString());
+    };
 
-            // Clear draft on successful submit
-            localStorage.removeItem(DRAFT_KEY);
-            globalToast.success(result.message || "Preinscripción creada correctamente");
+    // Tab error keys
+    const tabErrorKeys: Record<number, string> = {
+        0: 'email', 1: 'applicantInfo', 2: 'academicInfo',
+        3: 'addressInfo', 4: 'guardianInfo', 5: 'workshopSelect', 6: 'tuitionVoucher'
+    };
+
+    // Check if tab has errors
+    const hasErrorsInTab = (tabId: number) => {
+        return !!errors[tabErrorKeys[tabId] as keyof typeof errors];
+    };
+
+
+    // Get current data
+    const currentData = watch();
+
+    // Calculate completion percentage
+    const completionPercentage = useMemo(() => {
+        if (!currentData) return 0;
+        let filledCount = 0;
+        let totalCount = 0;
+        const countFields = (obj: any) => {
+            if (!obj) return;
+            Object.values(obj).forEach(val => {
+                if (typeof val === 'object' && val !== null && !Array.isArray(val)) {
+                    countFields(val);
+                } else {
+                    totalCount++;
+                    if (val !== '' && val !== null && val !== undefined && val !== false) {
+                        filledCount++;
+                    }
+                }
+            });
+        };
+        countFields(currentData);
+        if (totalCount === 0) return 0;
+        return Math.round((filledCount / totalCount) * 100);
+    }, [currentData]);
+
+    // Submit form
+    const onSubmit = async (data: FormData) => {
+        if (isSubmitting) return;
+        setIsSubmitting(true);
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+            const result = await createPreEnrollmentByAdmin(data, { signal: controller.signal });
+            clearTimeout(timeoutId);
+
+            globalToast.success("Exito:", result.message || "Preinscripción creada correctamente");
 
             setSuccessResult(result);
             setPreviewUrl(null);
             setPdfError(null);
 
-            // Opcional: Limpiar el formulario y regresar a la primera pestaña
             reset();
             setActiveTab(0);
-        } catch (error) {
+        } catch (error: any) {
             console.error("Error al enviar el formulario", error);
-            globalToast.error("Ocurrió un error al crear la preinscripción");
+            if (error.name === 'AbortError' || error.message === 'canceled') {
+                globalToast.error("Error:", "La petición tomó demasiado tiempo. Intenta nuevamente.");
+            } else {
+                const apiError = handleApiError(error);
+                globalToast.error("Error:", apiError.message || "Ocurrió un error al crear la preinscripción");
+            }
         } finally {
-            setIsSaving(false);
+            setIsSubmitting(false);
         }
     };
 
+    // Handle preview
+    async function handlePreview() {
+        if (!successResult?.downloadUrl) return;
+        try {
+            setIsPreviewLoading(true);
+            setPreviewUrl(null);
+            const res = await axios.get(successResult.downloadUrl, { responseType: "blob" });
+            const blob = new Blob([res.data], { type: "application/pdf" });
+            const url = URL.createObjectURL(blob);
+            setPreviewUrl(url);
+            setPdfError(null);
+        } catch {
+            setPdfError("Error al cargar PDF o enlace expirado");
+        } finally {
+            setIsPreviewLoading(false);
+        }
+    }
+
+    // Handle form errors
+    const onError = (formErrors: any) => {
+        const firstErrorTab = Object.keys(tabErrorKeys).find(tabId =>
+            formErrors[tabErrorKeys[parseInt(tabId)]]
+        );
+        if (firstErrorTab !== undefined) {
+            setActiveTab(parseInt(firstErrorTab));
+            setTimeout(() => {
+                const tabKey = tabErrorKeys[parseInt(firstErrorTab)];
+                const firstErrorField = Object.keys(formErrors[tabKey] || {})[0];
+                if (firstErrorField) {
+                    const element = document.getElementsByName(`${tabKey}.${firstErrorField}`)[0] || document.getElementById(firstErrorField);
+                    element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 100);
+        }
+        globalToast.error("Info", "Corrige los errores antes de enviar. Verifica la pestaña marcada.");
+    };
+
+    // Tabsgt
     const tabs = [
         { id: 0, label: "Correo" },
         { id: 1, label: "Aspirante" },
@@ -81,46 +187,82 @@ export default function PrivatePreEnrollmentTabs() {
         { id: 6, label: "Vales" }
     ];
 
+    const HandleClearForm = async () => {
+        confirm({
+            title: 'Limpiar formulario',
+            description: `¿Estás seguro de que deseas limpiar el formulario?`,
+            confirmLabel: 'Limpiar',
+            cancelLabel: 'Cancelar',
+            variant: 'danger',
+            onConfirm: async () => {
+                try {
+                    localStorage.removeItem(DRAFT_KEY);
+                    sessionStorage.removeItem('activeTab');
+                    reset(defaultFormData);
+                    setActiveTab(0);
+                    globalToast.success("Formulario limpiado", "El formulario se limpió.");
+                } catch (err) {
+                    globalToast.error("Error al limpiar", "No se pudo limpiar el formulario.");
+                }
+            }
+        });
+    };
+
     return (
         <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-6" noValidate>
 
                 {/* Save Draft Header / Global Actions */}
-                <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-                    <p className="text-sm text-gray-500">
-                        {Object.keys(errors).length > 0 && <span className="text-red-500 font-semibold">Existen errores en el formulario. </span>}
-                        Revisa las pestañas para corregirlos.
-                    </p>
-                    <div className="flex gap-2">
-                        <button
-                            type="button"
-                            onClick={saveDraft}
-                            className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors border border-gray-300 shadow-sm"
-                        >
-                            {isSaving ? "Guardando..." : "Guarda formulario para continuar mas tarde"}
-                        </button>
+                <div className="flex flex-col gap-4 bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <div className="flex justify-between items-center">
+                        <p className="text-sm text-gray-500">
+                            {Object.keys(errors).length > 0 && <span className="text-red-500 font-semibold">Existen errores en el formulario. </span>}
+                            {Object.keys(errors).length === 0 ? "Completa la información necesaria." : "Revisa las pestañas marcadas para corregirlos."}
+                        </p>
+                        <div className="flex gap-2">
+                            <Button
+                                variant="ghost"
+                                type="button"
+                                onClick={HandleClearForm}
+                            >Limpiar formulario</Button>
+                            <Button
+                                variant="secondary"
+                                loading={isSaving}
+                                loadingText="Guardando..."
+                                onClick={saveDraft}
+                            >Guardar formulario</Button>
+                        </div>
                     </div>
+
                 </div>
 
                 {/* Professional Tabs Layout */}
                 <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
-                    <div className="flex overflow-x-auto border-b border-gray-200 hide-scrollbar bg-gray-50">
-                        {tabs.map((tab) => (
-                            <button
-                                key={tab.id}
-                                type="button"
-                                onClick={() => setActiveTab(tab.id)}
-                                className={`px-6 py-3 text-sm font-medium whitespace-nowrap transition-colors border-b-2 ${activeTab === tab.id
-                                        ? "border-blue-500 text-blue-600 bg-white"
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-blue-900 h-1 rounded-full transition-all duration-500 ease-out"
+                            style={{ width: `${completionPercentage}%` }} />
+                    </div>
+                    <div className="flex border-b border-gray-200 bg-gray-50 justify-between">
+                        <div className="flex overflow-x-auto hide-scrollbar">
+                            {tabs.map((tab) => (
+                                <button
+                                    key={tab.id}
+                                    type="button"
+                                    onClick={() => handleTabChange(tab.id)}
+                                    className={`px-6 py-3 text-sm font-medium whitespace-nowrap transition-colors border-b-2 flex items-center gap-2 cursor-pointer ${activeTab === tab.id
+                                        ? "border-blue-500 text-blue-900 bg-white"
                                         : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                                    }`}
-                            >
-                                {tab.label}
-                            </button>
-                        ))}
+                                        } ${hasErrorsInTab(tab.id) ? 'border-red-500 text-red-600 font-bold bg-red-50' : ''}`}
+                                >
+                                    {tab.label}
+                                    {hasErrorsInTab(tab.id) && <span className="text-red-500" title="Contiene errores">*</span>}
+                                </button>
+                            ))}
+                        </div>
+                        <span className="px-6 py-3 text-xs text-gray-500 mt-1 inline-block">{completionPercentage}% completado</span>
                     </div>
 
-                    <div className="p-6 bg-gray-100">
+                    <div className="p-2 md:p-4 lg:p-6 bg-gray-100">
                         {activeTab === 0 && <TabEmail />}
                         {activeTab === 1 && <TabApplicantInfo />}
                         {activeTab === 2 && <TabAcademicInfo />}
@@ -129,18 +271,23 @@ export default function PrivatePreEnrollmentTabs() {
                         {activeTab === 5 && <TabWorkshopSelect />}
                         {activeTab === 6 && <TabTuitionVoucher />}
                     </div>
+                    {/* Progress Bar */}
                 </div>
 
                 {/* Main Submit */}
                 <div className="flex justify-end">
-                    <button type="submit" disabled={isSaving} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                        {isSaving ? "Guardando..." : "Guardar Preinscripción"}
-                    </button>
+                    <Button
+                        type="submit"
+                        variant="primary"
+                        loading={isSubmitting}
+                        loadingText="Registrando..."
+                        disabled={isSaving}
+                    >Registrar</Button>
                 </div>
 
                 {/* Success Block */}
                 {successResult && (
-                    <div className="mt-8 bg-blue-50 border-2 border-blue-600 rounded-xl p-6 md:p-8 relative">
+                    <div className="mt-8 bg-white border-2 border-blue-900 rounded-xl p-6 md:p-8 relative">
                         <button
                             type="button"
                             onClick={() => { setSuccessResult(null); setPreviewUrl(null); }}
@@ -149,42 +296,30 @@ export default function PrivatePreEnrollmentTabs() {
                             ✕
                         </button>
                         <h3 className="text-2xl font-bold text-gray-900 mb-2 font-merriweather text-center">
-                            ¡Registro Exitoso!
+                            ¡Preinscripción Completada!
                         </h3>
                         <p className="text-center text-sm text-gray-600 mb-6">{successResult.message}</p>
 
                         <div className="bg-white rounded-lg p-4 mb-6 text-center mx-auto max-w-sm shadow-sm border border-blue-100">
                             <p className="text-sm text-gray-500 mb-1">Folio de Preinscripción</p>
-                            <p className="text-3xl font-bold text-blue-600 font-mono tracking-wider">{successResult.folio}</p>
+                            <p className="text-3xl font-bold text-blue-900 font-mono tracking-wider">{successResult.folio}</p>
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <button
-                                type="button"
-                                onClick={async () => {
-                                    try {
-                                        setPreviewUrl(null);
-                                        const res = await axios.get(successResult.downloadUrl, { responseType: 'blob' });
-                                        const blob = new Blob([res.data], { type: 'application/pdf' });
-                                        const url = URL.createObjectURL(blob);
-                                        setPreviewUrl(url);
-                                        setPdfError(null);
-                                    } catch (e) {
-                                        setPdfError('Error al cargar PDF o enlace expirado');
-                                    }
-                                }}
-                                className="px-6 py-3 bg-white border border-gray-300 text-gray-800 rounded-lg hover:bg-gray-100 font-medium transition-colors"
-                            >
-                                Previsualizar Comprobante
-                            </button>
-                            <a
+                            <Button
+                                variant="secondary"
+                                loading={isPreviewLoading}
+                                loadingText="Cargando PDF..."
+                                onClick={handlePreview}
+                            >Previsualizar Comprobante</Button>
+                            <Link
                                 href={successResult.downloadUrl}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors text-center shadow-sm"
+                                className="px-6 py-2 bg-blue-900 text-white text-sm rounded-lg hover:bg-blue-950 font-medium transition-colors text-center shadow-sm cursor-pointer active:bg-black"
                             >
                                 Descargar PDF Comprobante
-                            </a>
+                            </Link>
                         </div>
 
                         {pdfError && <p className="text-center text-red-500 font-medium mt-4 bg-red-50 p-2 rounded">{pdfError}</p>}

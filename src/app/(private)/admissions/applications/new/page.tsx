@@ -9,7 +9,7 @@ export default function NewPreEnrollment() {
                 title="Crear Preinscripción"
                 description="Ingresa los datos para una nueva preinscripción"
             />
-            <div className="gap-4 p-4 rounded-xl">
+            <div className="lg:gap-4 lg:p-4 rounded-xl">
                 <PrivatePreEnrollmentTabs />
             </div>
         </div>

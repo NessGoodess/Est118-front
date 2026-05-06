@@ -1,6 +1,7 @@
 import apiClient, { API_ENDPOINTS } from '@/lib/config/api';
 import { PaginatedResponse } from '@/lib/types/paginated-response';
 import { PreEnrollmentListItem, PreEnrollmentApi, AdmissionCycle } from '@/lib/types/admission/preEnrollmentApi';
+import { AxiosRequestConfig } from 'axios';
 
 /**
  * Fetch all admission cycles
@@ -33,8 +34,8 @@ export async function getPreEnrollmentById(id: number): Promise<PreEnrollmentApi
 /**
  * Create a new pre-enrollment from the Admin panel
  */
-export async function createPreEnrollmentByAdmin(data: Record<string, unknown> | FormData): Promise<{ folio: string, downloadUrl: string, message: string }> {
-    const response = await apiClient.post(API_ENDPOINTS.ADMISSION.PRE_ENROLLMENTS, data);
+export async function createPreEnrollmentByAdmin(data: Record<string, unknown> | FormData, config?: AxiosRequestConfig): Promise<{ folio: string, downloadUrl: string, message: string }> {
+    const response = await apiClient.post(API_ENDPOINTS.ADMISSION.PRE_ENROLLMENTS, data, config);
     return response.data;
 }
 
