@@ -284,7 +284,7 @@ export default function AnnouncementsPage() {
         } else if (data.media_type === "video" && data.media_src && !data.media_src.includes("youtube")) {
           setVideoPreview(data.media_src)
         }
-      } catch (_err: unknown) {
+      } catch {
         globalToast.error("Error", "No se pudo cargar el aviso para edición.")
         router.push("/Announcement/list")
       } finally {

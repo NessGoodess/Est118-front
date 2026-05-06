@@ -89,9 +89,9 @@ export default function PrivatePreEnrollmentTabs() {
         if (!currentData) return 0;
         let filledCount = 0;
         let totalCount = 0;
-        const countFields = (obj: any) => {
+        const countFields = (obj: Record<string, unknown> | unknown) => {
             if (!obj) return;
-            Object.values(obj).forEach(val => {
+            Object.values(obj as Record<string, unknown>).forEach(val => {
                 if (typeof val === 'object' && val !== null && !Array.isArray(val)) {
                     countFields(val);
                 } else {
@@ -126,9 +126,10 @@ export default function PrivatePreEnrollmentTabs() {
 
             reset();
             setActiveTab(0);
-        } catch (error: any) {
+        } catch (error) {
+            const err = error as { name?: string; message?: string };
             console.error("Error al enviar el formulario", error);
-            if (error.name === 'AbortError' || error.message === 'canceled') {
+            if (err.name === 'AbortError' || err.message === 'canceled') {
                 globalToast.error("Error:", "La petición tomó demasiado tiempo. Intenta nuevamente.");
             } else {
                 const apiError = handleApiError(error);
@@ -158,7 +159,7 @@ export default function PrivatePreEnrollmentTabs() {
     }
 
     // Handle form errors
-    const onError = (formErrors: any) => {
+    const onError = (formErrors: Record<string, unknown>) => {
         const firstErrorTab = Object.keys(tabErrorKeys).find(tabId =>
             formErrors[tabErrorKeys[parseInt(tabId)]]
         );
@@ -166,7 +167,7 @@ export default function PrivatePreEnrollmentTabs() {
             setActiveTab(parseInt(firstErrorTab));
             setTimeout(() => {
                 const tabKey = tabErrorKeys[parseInt(firstErrorTab)];
-                const firstErrorField = Object.keys(formErrors[tabKey] || {})[0];
+                const firstErrorField = Object.keys((formErrors[tabKey] as Record<string, unknown>) || {})[0];
                 if (firstErrorField) {
                     const element = document.getElementsByName(`${tabKey}.${firstErrorField}`)[0] || document.getElementById(firstErrorField);
                     element?.scrollIntoView({ behavior: 'smooth', block: 'center' });

@@ -6,15 +6,28 @@ export interface AnnouncementRawItem {
     id: number;
     title: string;
     type: string;
-    author?: string;
-    published_at?: string;
+    author?: string | null;
+    published_at?: string | null;
     created_at: string;
     important: boolean;
-    header?: string;
-    slug?: string;
-    summary?: string;
+    header?: string | null;
+    slug?: string | null;
+    summary?: string | null;
     media_type: "image" | "video" | "youtube";
-    // ... plus all other model attributes ...
+    // Full API shape fields
+    header_alert_enabled: boolean;
+    header_alert_label?: string | null;
+    content_type: "text" | "list";
+    content_text?: string | null;
+    content_items?: string[] | null;
+    secondary_button_enabled: boolean;
+    secondary_button_label?: string | null;
+    secondary_button_href?: string | null;
+    media_src?: string | null;
+    media_youtube_id?: string | null;
+    media_alt: string;
+    media_ratio: "4/3" | "3/4" | "4/4";
+    content_blocks?: import("@/components/public/sections/Announcements/Announcement-extended.types").AnnouncementContentBlock[] | null;
 }
 
 /**

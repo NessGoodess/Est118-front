@@ -4,7 +4,7 @@ import type {
   AnnouncementExtended,
   AnnouncementMediaType,
 } from "@/components/public/sections/Announcements/Announcement-extended.types";
-import { getPublicAnnouncements } from "@/lib/services/announcements.service";
+import { getPublicAnnouncements, AnnouncementRawItem } from "@/lib/services/announcements.service";
 
 /**
  * Announcements en formato extendido (diseño Hero).
@@ -42,34 +42,7 @@ export const AnnouncementsExtended: AnnouncementExtended[] = [
   },
 ];
 
-/** Obtiene todos los Announcements (en futuro: fetch desde API). */
-interface AnnouncementApi {
-  id: number;
-  slug: string;
-  header: string;
-  title: string;
-  header_alert_enabled: boolean;
-  header_alert_label: string | null;
-  content_type: AnnouncementContentType;
-  content_text: string | null;
-  content_items: string[] | null;
-  secondary_button_enabled: boolean;
-  secondary_button_label: string | null;
-  secondary_button_href: string | null;
-  media_type: AnnouncementMediaType;
-  media_src: string | null;
-  media_youtube_id: string | null;
-  media_alt: string;
-  media_ratio: "4/3" | "3/4" | "4/4";
-  published_at: string | null;
-  author: string | null;
-  type: AnnouncementExtended["type"];
-  important: boolean;
-  summary: string | null;
-  content_blocks: AnnouncementContentBlock[] | null;
-}
-
-function formatDateToSpanish(dateString: string | null): string | undefined {
+function formatDateToSpanish(dateString: string | null | undefined): string | undefined {
   if (!dateString) return undefined;
   const date = new Date(dateString);
   if (Number.isNaN(date.getTime())) return undefined;
@@ -80,7 +53,7 @@ function formatDateToSpanish(dateString: string | null): string | undefined {
   });
 }
 
-function mapAnnouncementFromApi(api: AnnouncementApi): AnnouncementExtended {
+function mapAnnouncementFromApi(api: AnnouncementRawItem): AnnouncementExtended {
   const content =
     api.content_type === "list"
       ? {
@@ -94,14 +67,14 @@ function mapAnnouncementFromApi(api: AnnouncementApi): AnnouncementExtended {
 
   return {
     id: String(api.id),
-    slug: api.slug,
+    slug: api.slug ?? "",
     headerAlert: api.header_alert_enabled
       ? {
           enabled: true,
           label: api.header_alert_label ?? undefined,
         }
       : undefined,
-    header: api.header,
+    header: api.header ?? "",
     title: api.title,
     content,
     secondaryButton: {
@@ -118,7 +91,7 @@ function mapAnnouncementFromApi(api: AnnouncementApi): AnnouncementExtended {
     },
     fecha: formatDateToSpanish(api.published_at),
     autor: api.author ?? undefined,
-    type: api.type,
+    type: api.type as AnnouncementExtended["type"],
     importante: api.important,
     resumen: api.summary ?? undefined,
     contentBlocks: api.content_blocks ?? [],

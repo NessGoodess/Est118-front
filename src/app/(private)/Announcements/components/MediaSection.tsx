@@ -1,5 +1,6 @@
 import { UseFormRegister, Control, FieldErrors } from "react-hook-form"
 import { Controller } from "react-hook-form"
+import Image from "next/image"
 import { FloatingInput } from "@/components/ui/FloatingInputs"
 import { FloatingSelect as FS } from "@/components/ui/FloatingSelect"
 import { AnnouncementFormValues } from "@/lib/validations/announcement.schema"
@@ -168,9 +169,11 @@ export function MediaSection({
           />
           {mediaYoutubeId && (
             <div className="mt-2 overflow-hidden rounded-xl border border-gray-200">
-              <img
+              <Image
                 src={`https://img.youtube.com/vi/${mediaYoutubeId}/mqdefault.jpg`}
                 alt="Vista previa YouTube"
+                width={320}
+                height={180}
                 className="h-40 w-full object-cover"
               />
             </div>
