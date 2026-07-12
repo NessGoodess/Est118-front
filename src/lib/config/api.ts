@@ -94,6 +94,15 @@ export const API_ENDPOINTS = {
     PRE_ENROLLMENTS: 'admissions/pre-enrollments',
     PRE_ENROLLMENT_EXPORT: 'admissions/pre-enrollments/export',
   },
+  
+  ACADEMIC_YEARS: {
+    LIST: '/academic-years',
+    DETAIL: (id: number) => `/academic-years/${id}`,
+    ACTIVATE: (id: number) => `/academic-years/${id}/activate`,
+    GENERATE_GROUPS: (id: number) => `/academic-years/${id}/generate-groups`,
+    PROMOTE: '/academic-years/promote',
+  },
+
   USERS: {
     LIST: '/users',
     DETAIL: (id: number) => `/users/${id}`,

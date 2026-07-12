@@ -47,8 +47,13 @@ export const menuItems: MenuItem[] = [
         icon: 'list',
         permission: 'manage admission cycles',
       },
-      
     ],
+  },
+  {
+    name: 'Ciclos escolares',
+    href: '/academic-years',
+    icon: 'settings',
+    permission: 'manage re-enrollment',
   },
   {
     name: 'Avisos',
