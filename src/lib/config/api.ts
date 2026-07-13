@@ -111,6 +111,10 @@ export const API_ENDPOINTS = {
 
     PRE_ENROLLMENTS: 'admissions/pre-enrollments',
     PRE_ENROLLMENT_EXPORT: 'admissions/pre-enrollments/export',
+    ENROLLMENTS_PENDING_DECISIONS: 'admissions/enrollments/pending-decisions',
+    ENROLLMENT_PROMOTION_DECISION: (enrollmentId: number) =>
+      `admissions/enrollments/${enrollmentId}/promotion-decision`,
+    FIRST_GRADE_GROUP_ASSIGNMENT: 'admissions/enrollments/first-grade-group-assignment',
   },
   ACADEMIC_YEARS: {
     LIST: '/academic-years',
