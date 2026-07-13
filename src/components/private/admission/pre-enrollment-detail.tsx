@@ -4,6 +4,7 @@ import React from 'react';
 import { PreEnrollmentApi } from '@/lib/types/admission/preEnrollmentApi';
 import { formatLong, formatMedium } from '@/lib/utils/dateFormatter';
 import { IconByName, GlobalIcons } from '@/components/ui/icons/global.icons';
+import PreEnrollmentProcessPanel from '@/components/private/admission/pre-enrollment-process-panel';
 
 interface PreEnrollmentDetailProps {
   data: PreEnrollmentApi;
@@ -11,9 +12,11 @@ interface PreEnrollmentDetailProps {
   showEditButton?: boolean;
   showResentPdfButton?: boolean;
   onResentPdf?: () => void;
+  /** Si se provee, se muestra el panel de proceso (etapa/documentos/pago + inscribir). */
+  onProcessSaved?: (updated: PreEnrollmentApi) => void;
 }
 
-export default function PreEnrollmentDetail({ data, onEdit, showEditButton, showResentPdfButton, onResentPdf }: PreEnrollmentDetailProps) {
+export default function PreEnrollmentDetail({ data, onEdit, showEditButton, showResentPdfButton, onResentPdf, onProcessSaved }: PreEnrollmentDetailProps) {
   const formatGender = (gender: string) => gender === 'M' ? 'Masculino' : 'Femenino';
   const formatBoolean = (value: boolean) => value ? 'Sí' : 'No';
 
@@ -22,6 +25,11 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
       pending: {
         label: 'Pendiente',
         className: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+        icon: <GlobalIcons.clock className="w-4 h-4" />
+      },
+      in_review: {
+        label: 'En revisión',
+        className: 'bg-blue-100 text-blue-800 border-blue-200',
         icon: <GlobalIcons.clock className="w-4 h-4" />
       },
       approved: {
@@ -157,6 +165,10 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
           </div>
         </div>
       </div>
+
+      {onProcessSaved && (
+        <PreEnrollmentProcessPanel data={data} onSaved={onProcessSaved} />
+      )}
 
       {/* Grid principal */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

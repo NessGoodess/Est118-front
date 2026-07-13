@@ -9,12 +9,38 @@ export const studentsTableConfig: EnhancedTableConfig<PreEnrollmentListItem> = {
       sortable: true,
       searchable: true,
     },
-    /*{
+    {
       key: 'status',
-      label: 'Estado',
+      label: 'Etapa',
+      width: '140px',
+      render: 'pre-status',
+      sortable: true,
+      searchable: true,
+    },
+    {
+      key: 'documents_status',
+      label: 'Documentos',
+      width: '140px',
+      render: 'docs-status',
+      sortable: true,
+      searchable: true,
+    },
+    {
+      key: 'payment_status',
+      label: 'Pago',
+      width: '140px',
+      render: 'pay-status',
+      sortable: true,
+      searchable: true,
+    },
+    {
+      key: 'converted_student_id',
+      label: 'Inst.',
       width: '120px',
-      render: 'status-badge',
-    },*/
+      render: 'enrollment-done',
+      sortable: true,
+      searchable: false,
+    },
     {
       key: 'full_name',
       label: 'Nombre Completo',

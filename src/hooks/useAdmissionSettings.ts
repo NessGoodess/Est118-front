@@ -42,20 +42,20 @@ export function useAdmissionCycles() {
         loadCycles();
     }, [loadCycles]);
 
-    const createCycle = async (data: CreateAdmissionCyclePayload) => {
+    const createCycle = async (data: CreateAdmissionCyclePayload): Promise<AdmissionCycle | null> => {
         setCreating(true);
         try {
-            await settingsService.createCycle(data);
+            const created = await settingsService.createCycle(data);
             globalToast.success("Éxito", "Ciclo creado correctamente");
 
             // Reload list
             await loadCycles();
-            return true;
+            return created;
         } catch (error: unknown) {
             const message = getErrorMessage(error, "No se pudo crear el ciclo");
-            if (!message) return;
+            if (!message) return null;
             globalToast.error("Error", message);
-
+            return null;
         } finally {
             setCreating(false);
         }

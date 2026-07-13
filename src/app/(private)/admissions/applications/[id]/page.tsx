@@ -14,8 +14,6 @@ import Loading from './loading';
 import GenericHeader from '@/components/ui/GenericHeader';
 import { handleApiError } from '@/lib/config/api';
 import { globalToast } from '@/lib/toast/globalToast';
-import { ApiError } from '@/lib/types/auth';
-
 
 export default function PreEnrollmentPage({
   params,
@@ -25,7 +23,6 @@ export default function PreEnrollmentPage({
   const resolvedParams = use(params);
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [error, setError] = useState<ApiError | null>(null);
   const [preEnrollment, setPreEnrollment] = useState<PreEnrollmentApi | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -38,8 +35,8 @@ export default function PreEnrollmentPage({
         const data = await getPreEnrollmentById(parseInt(resolvedParams.id));
         setPreEnrollment(data);
       } catch (err) {
-        setError(handleApiError(err));
-        globalToast.error(error?.message || 'Error al obtener pre-inscripción');
+        const apiErr = handleApiError(err);
+        globalToast.error(apiErr.message || 'Error al obtener pre-inscripción');
         router.back();
       } finally {
         setLoading(false);
@@ -47,7 +44,7 @@ export default function PreEnrollmentPage({
     };
 
     fetchData();
-  }, [resolvedParams.id, router, error]);
+  }, [resolvedParams.id, router]);
 
   const handleResentPdf = async () => {
     try {
@@ -56,9 +53,7 @@ export default function PreEnrollmentPage({
         globalToast.success('PDF reenviado correctamente');
       }
     } catch (err) {
-      setError(handleApiError(err));
-      globalToast.error(error?.message || 'Error al reenviar PDF');
-
+      globalToast.error(handleApiError(err).message || 'Error al reenviar PDF');
     }
   };
 
@@ -111,7 +106,7 @@ export default function PreEnrollmentPage({
               showEditButton
               showResentPdfButton
               onResentPdf={handleResentPdf}
-
+              onProcessSaved={(updated) => setPreEnrollment(updated)}
             />
           )
         ) : (

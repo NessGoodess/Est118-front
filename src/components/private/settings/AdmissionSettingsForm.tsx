@@ -56,6 +56,7 @@ export default function AdmissionSettingsForm() {
     const [reopenEndDate, setReopenEndDate] = useState("");
     const [showReopenDateInput, setShowReopenDateInput] = useState(false);
     const [cycleToReopen, setCycleToReopen] = useState<AdmissionCycle | null>(null);
+    const [createAndActivate, setCreateAndActivate] = useState(false);
 
     function toDatetimeLocal(value?: string) {
         if (!value) return '';
@@ -64,10 +65,14 @@ export default function AdmissionSettingsForm() {
 
     const handleSubmitCreate = async (e: React.FormEvent) => {
         e.preventDefault();
-        const success = await createCycle(newCycle);
-        if (success) {
+        const created = await createCycle(newCycle);
+        if (created) {
+            if (createAndActivate) {
+                await activateCycle(created.id);
+            }
             setShowCreate(false);
             setNewCycle({ start_at: "", end_at: "", name: "" });
+            setCreateAndActivate(false);
         }
     };
 
@@ -226,6 +231,7 @@ export default function AdmissionSettingsForm() {
                                     type="submit"
                                     disabled={creating}
                                     className="px-4 py-2 bg-blue-900 text-white text-sm rounded-md hover:bg-blue-800 disabled:opacity-50 flex items-center gap-2"
+                                    onClick={() => setCreateAndActivate(false)}
                                 >
                                     {creating ? (
                                         <>
@@ -236,6 +242,24 @@ export default function AdmissionSettingsForm() {
                                         <>
                                             <CheckIcon />
                                             Guardar Periodo
+                                        </>
+                                    )}
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={creating}
+                                    onClick={() => setCreateAndActivate(true)}
+                                    className="ml-2 px-4 py-2 bg-green-700 text-white text-sm rounded-md hover:bg-green-800 disabled:opacity-50 flex items-center gap-2"
+                                >
+                                    {creating ? (
+                                        <>
+                                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                            Procesando...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <CheckIcon />
+                                            Crear y Activar
                                         </>
                                     )}
                                 </button>
@@ -447,6 +471,10 @@ export default function AdmissionSettingsForm() {
                         <li className="flex items-start gap-2">
                             <span className="inline-block w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></span>
                             <span>Solo puede haber un periodo activo a la vez</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                            <span className="inline-block w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></span>
+                            <span>Puede usar &quot;Crear y Activar&quot; para publicar el periodo en un solo paso</span>
                         </li>
                         <li className="flex items-start gap-2">
                             <span className="inline-block w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></span>

@@ -13,7 +13,6 @@ import { PreEnrollmentApi } from '@/lib/types/admission/preEnrollmentApi';
 import Loading from '../../[id]/loading';
 import { handleApiError } from '@/lib/config/api';
 import { globalToast } from '@/lib/toast/globalToast';
-import { ApiError } from '@/lib/types/auth';
 import NewPreEnrollment from '../../new/page';
 
 export default function InterceptedModal({
@@ -24,7 +23,6 @@ export default function InterceptedModal({
   const resolvedParams = use(params);
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [error, setError] = useState<ApiError | null>(null);
   const [preEnrollment, setPreEnrollment] = useState<PreEnrollmentApi | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -43,7 +41,6 @@ export default function InterceptedModal({
         const data = await getPreEnrollmentById(parseInt(resolvedParams.id));
         setPreEnrollment(data);
       } catch (err) {
-        setError(handleApiError(err));
         globalToast.error(handleApiError(err).message || 'Error al obtener pre-inscripción');
         router.back();
       } finally {
@@ -60,9 +57,7 @@ export default function InterceptedModal({
         globalToast.success('PDF reenviado correctamente');
       }
     } catch (err) {
-      setError(handleApiError(err));
       globalToast.error(handleApiError(err).message || 'Error al reenviar PDF');
-
     }
   };
   const handleClose = () => {
@@ -122,6 +117,7 @@ export default function InterceptedModal({
             showEditButton
             showResentPdfButton
             onResentPdf={handleResentPdf}
+            onProcessSaved={(updated) => setPreEnrollment(updated)}
           />
         )
       ) : null}

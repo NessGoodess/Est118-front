@@ -16,7 +16,7 @@ import Loading from "./loading";
 
 export default function Admissions() {
     const { data: cycles } = useAdmissionCycles();
-    const { data, isInitialLoading, isRefetching, error, cycleId, setCycleId } = usePreEnrollments();
+    const { data, isInitialLoading, isRefetching, error, cycleId, setCycleId, refetch } = usePreEnrollments();
 
     const { showError } = useToast();
 
@@ -64,7 +64,7 @@ export default function Admissions() {
                         </div>
                     </div>
                 </div>
-                <PreEnrollmentsList data={data} loading={isRefetching} />
+                <PreEnrollmentsList data={data} loading={isRefetching} refetch={refetch} />
             </div>
         </>
     );

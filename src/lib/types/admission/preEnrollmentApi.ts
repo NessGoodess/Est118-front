@@ -4,6 +4,9 @@ export interface PreEnrollmentApi {
   id: number;
   folio: string;
   status: string;
+  documents_status?: string;
+  payment_status?: string;
+  converted_student_id?: number | null;
 
   contact_email: string;
 
@@ -20,6 +23,7 @@ export interface PreEnrollmentApi {
 
   previous_school: string;
   current_average: string;
+  admission_exam_score?: string | null;
   has_siblings: boolean;
   siblings_details?: string;
 
@@ -54,6 +58,9 @@ export interface PreEnrollmentListItem {
   id: number;
   folio: string;
   status: string;
+  documents_status?: string;
+  payment_status?: string;
+  converted_student_id?: number | null;
   full_name: string;
   curp: string;
   gender: Gender;
