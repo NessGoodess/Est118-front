@@ -93,6 +93,13 @@ export const API_ENDPOINTS = {
     `/students/credentials/class-groups/${classGroupId}/photos-zip`,
   CREDENTIAL_TRACKING: (studentId: number) => `/students/credentials/${studentId}/tracking`,
 
+  NOTIFICATIONS: {
+    LIST: '/notifications',
+    UNREAD_COUNT: '/notifications/unread-count',
+    MARK_READ: (id: string) => `/notifications/${id}/read`,
+    READ_ALL: '/notifications/read-all',
+  },
+
   ADMISSION: {
     PRE_ENROLLMENT: 'admissions/pre-enrollment',
     CYCLES: 'admissions/cycles',

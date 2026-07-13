@@ -5,6 +5,7 @@ import { ToastProvider } from "@/contexts/ToastContext";
 import ModernSidebar from "@/components/private/sidebar/Sidebar";
 import PrivateGuard from "@/components/guards/PrivateGuard";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { NotificationProvider } from "@/contexts/NotificationContext";
 
 function LayoutContent({
   children,
@@ -35,13 +36,15 @@ export default function ClientLayout({
 }) {
   return (
     <AuthProvider>
-      <PrivateGuard>
-        <SidebarProvider>
-          <ToastProvider>
-            <LayoutContent >{children}</LayoutContent>
-          </ToastProvider>
-        </SidebarProvider>
-      </PrivateGuard>
+      <NotificationProvider>
+        <PrivateGuard>
+          <SidebarProvider>
+            <ToastProvider>
+              <LayoutContent >{children}</LayoutContent>
+            </ToastProvider>
+          </SidebarProvider>
+        </PrivateGuard>
+      </NotificationProvider>
     </AuthProvider>
   );
 }

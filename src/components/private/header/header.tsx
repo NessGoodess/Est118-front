@@ -23,7 +23,7 @@ export default function WelcomeHeader() {
           <div className="flex items-center space-x-4 flex-shrink-0">
 
             <div className="hidden md:block">
-              <HeaderNotifications count={0} />
+              <HeaderNotifications />
             </div>
             
             <HeaderMobileMenu />
