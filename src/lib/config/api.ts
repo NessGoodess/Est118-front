@@ -83,6 +83,15 @@ export const API_ENDPOINTS = {
   ALL_STUDENTS: '/all-students',
   GRADES: '/students/grades',
   STUDENTS_BY_GRADE: (grade_id: number) => `/students/grades/${grade_id}`,
+  CREDENTIAL_CLASS_GROUPS: (gradeId: number) =>
+    `/students/credentials/grades/${gradeId}/class-groups`,
+  CREDENTIAL_ROWS: (classGroupId: number) =>
+    `/students/credentials/class-groups/${classGroupId}/rows`,
+  CREDENTIAL_EXPORT: (classGroupId: number) =>
+    `/students/credentials/class-groups/${classGroupId}/export`,
+  CREDENTIAL_PHOTOS_ZIP: (classGroupId: number) =>
+    `/students/credentials/class-groups/${classGroupId}/photos-zip`,
+  CREDENTIAL_TRACKING: (studentId: number) => `/students/credentials/${studentId}/tracking`,
 
   ADMISSION: {
     PRE_ENROLLMENT: 'admissions/pre-enrollment',

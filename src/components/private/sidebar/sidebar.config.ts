@@ -130,6 +130,12 @@ export const menuItems: MenuItem[] = [
     permission: 'view students',
     children: [
       {
+        name: 'Impresión de credenciales',
+        href: '/students/credential-printing',
+        icon: 'list',
+        permission: 'view students',
+      },
+      {
         name: 'Agregar Estudiante',
         href: '/students/add-students',
         icon: 'add',
