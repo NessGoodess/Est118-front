@@ -49,11 +49,55 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
+
   {
     name: 'Ciclos escolares',
     href: '/academic-years',
     icon: 'settings',
     permission: 'manage re-enrollment',
+  },
+  {
+    name: 'Reinscripciones',
+    icon: 'students',
+    permission: 'manage re-enrollment',
+    children: [
+      {
+        name: 'Tablero',
+        href: '/re-enrollment',
+        icon: 'list',
+        permission: 'manage re-enrollment',
+      },
+      {
+        name: 'Configuración',
+        href: '/re-enrollment/settings',
+        icon: 'settings',
+        permission: 'manage re-enrollment',
+      },
+      {
+        name: 'Validación',
+        href: '/re-enrollment/validation',
+        icon: 'list',
+        permission: 'manage re-enrollment',
+      },
+      {
+        name: 'Promoción',
+        href: '/re-enrollment/promotion',
+        icon: 'list',
+        permission: 'manage re-enrollment',
+      },
+      {
+        name: 'Asignación de grupos',
+        href: '/re-enrollment/groups',
+        icon: 'list',
+        permission: 'manage re-enrollment',
+      },
+      {
+        name: 'Finalizadas',
+        href: '/re-enrollment/completed',
+        icon: 'list',
+        permission: 'manage re-enrollment',
+      },
+    ],
   },
   {
     name: 'Avisos',

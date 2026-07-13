@@ -1,6 +1,9 @@
 import apiClient, { API_ENDPOINTS } from '@/lib/config/api';
 import { PaginatedResponse } from '@/lib/types/paginated-response';
 import { PreEnrollmentListItem, PreEnrollmentApi, AdmissionCycle } from '@/lib/types/admission/preEnrollmentApi';
+import { PendingPromotionDecisionItem, PromotionDecisionApiResponse } from '@/lib/types/admission/promotion';
+import { AcademicYearListItem, PromoteAcademicYearSummary } from '@/lib/types/academic-year';
+import { FirstGradeAssignmentResult, ScoreSource } from '@/lib/types/admission/first-grade-assignment';
 import { AxiosRequestConfig } from 'axios';
 
 /**
@@ -48,6 +51,34 @@ export async function updatePreEnrollment(id: number, data: Partial<PreEnrollmen
 }
 
 /**
+ * Update only process fields for pre-enrollment.
+ */
+export async function updatePreEnrollmentProcess(
+        id: number,
+        data: Partial<Pick<PreEnrollmentApi, 'status' | 'documents_status' | 'payment_status' | 'admission_exam_score'>>
+): Promise<PreEnrollmentApi> {
+        const response = await apiClient.patch<PreEnrollmentApi>(
+                `${API_ENDPOINTS.ADMISSION.PRE_ENROLLMENTS}/${id}/process`,
+                data
+        );
+        return response.data;
+}
+
+/** Create student + enrollment from a ready pre-enrollment. */
+export async function convertPreEnrollmentToStudent(
+        id: number,
+        payload?: { academic_year_id?: number; class_group_id?: number }
+): Promise<{ student_id: number; enrollment_id: number }> {
+        const response = await apiClient.post<{
+                success: boolean;
+                data: { student_id: number; enrollment_id: number };
+                message?: string;
+        }>(`${API_ENDPOINTS.ADMISSION.PRE_ENROLLMENTS}/${id}/convert-student`, payload ?? {});
+
+        return response.data.data;
+}
+
+/**
  * Delete pre-enrollment
 */
 export async function deletePreEnrollment(id: number): Promise<void> {
@@ -89,4 +120,71 @@ export interface ResentPDFFolioResponse {
 export async function resentPDFFolio(id: number): Promise<ResentPDFFolioResponse> {
         const response= await apiClient.post<ResentPDFFolioResponse>(`${API_ENDPOINTS.ADMISSION.PRE_ENROLLMENTS}/${id}/resent-pdf-folio`);
         return response.data;
+}
+
+/**
+ * Fetch enrollments with pending final decision (approved/reproved).
+ */
+export async function getPendingPromotionDecisions(academicYearId?: number): Promise<PendingPromotionDecisionItem[]> {
+        const response = await apiClient.get<{ success: boolean; data: PendingPromotionDecisionItem[] }>(
+                API_ENDPOINTS.ADMISSION.ENROLLMENTS_PENDING_DECISIONS,
+                {
+                        params: academicYearId ? { academic_year_id: academicYearId } : undefined
+                }
+        );
+
+        return response.data.data ?? [];
+}
+
+/**
+ * Save final decision for one enrollment.
+ */
+export async function updatePromotionDecision(enrollmentId: number, isApproved: boolean): Promise<PromotionDecisionApiResponse> {
+        const response = await apiClient.patch<PromotionDecisionApiResponse>(
+                API_ENDPOINTS.ADMISSION.ENROLLMENT_PROMOTION_DECISION(enrollmentId),
+                { is_approved: isApproved }
+        );
+
+        return response.data;
+}
+
+/**
+ * Academic years list
+ */
+export async function getAcademicYears(): Promise<AcademicYearListItem[]> {
+        const response = await apiClient.get<{ success: boolean; data: AcademicYearListItem[] }>(
+                API_ENDPOINTS.ACADEMIC_YEARS.LIST
+        );
+        return response.data.data ?? [];
+}
+
+/**
+ * Run annual promotion (dry-run or real).
+ */
+export async function runAcademicYearPromotion(payload: {
+        from_academic_year_id: number;
+        to_academic_year_id: number;
+        dry_run?: boolean;
+}): Promise<PromoteAcademicYearSummary> {
+        const response = await apiClient.post<{ success: boolean; data: PromoteAcademicYearSummary }>(
+                API_ENDPOINTS.ACADEMIC_YEARS.PROMOTE,
+                payload
+        );
+        return response.data.data;
+}
+
+/**
+ * First-grade (new admission) group assignment with simulation/apply modes.
+ */
+export async function assignFirstGradeGroups(payload: {
+        academic_year_id: number;
+        score_source: ScoreSource;
+        dry_run?: boolean;
+        overrides?: Array<{ enrollment_id: number; class_group_id: number }>;
+}): Promise<FirstGradeAssignmentResult> {
+        const response = await apiClient.post<{ success: boolean; data: FirstGradeAssignmentResult }>(
+                API_ENDPOINTS.ADMISSION.FIRST_GRADE_GROUP_ASSIGNMENT,
+                payload
+        );
+        return response.data.data;
 }

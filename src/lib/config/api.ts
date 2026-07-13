@@ -94,7 +94,6 @@ export const API_ENDPOINTS = {
     PRE_ENROLLMENTS: 'admissions/pre-enrollments',
     PRE_ENROLLMENT_EXPORT: 'admissions/pre-enrollments/export',
   },
-  
   ACADEMIC_YEARS: {
     LIST: '/academic-years',
     DETAIL: (id: number) => `/academic-years/${id}`,
@@ -102,7 +101,22 @@ export const API_ENDPOINTS = {
     GENERATE_GROUPS: (id: number) => `/academic-years/${id}/generate-groups`,
     PROMOTE: '/academic-years/promote',
   },
-
+  SCHOOL: {
+    RE_ENROLLMENT: {
+      PERIODS: '/school/re-enrollment/periods',
+      PERIOD: (id: number) => `/school/re-enrollment/periods/${id}`,
+      PERIOD_OPEN: (id: number) => `/school/re-enrollment/periods/${id}/open`,
+      PERIOD_CLOSE: (id: number) => `/school/re-enrollment/periods/${id}/close`,
+      PERIOD_DASHBOARD: (id: number) => `/school/re-enrollment/periods/${id}/dashboard`,
+      PERIOD_HISTORY: (id: number) => `/school/re-enrollment/periods/${id}/history`,
+      PERIOD_ADVANCE: (id: number) => `/school/re-enrollment/periods/${id}/advance-step`,
+      PERIOD_PROMOTE: (id: number) => `/school/re-enrollment/periods/${id}/promote`,
+      PERIOD_FINALIZE: (id: number) => `/school/re-enrollment/periods/${id}/finalize`,
+      APPLICATIONS: (periodId: number) => `/school/re-enrollment/periods/${periodId}/applications`,
+      APPLICATION: (periodId: number, applicationId: number) =>
+        `/school/re-enrollment/periods/${periodId}/applications/${applicationId}`,
+    },
+  },
   USERS: {
     LIST: '/users',
     DETAIL: (id: number) => `/users/${id}`,
