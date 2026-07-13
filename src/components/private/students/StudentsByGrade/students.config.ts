@@ -54,8 +54,14 @@ export const studentsTableConfig: EnhancedTableConfig<Student> = {
     {
       label: '',
       icon: 'eye',
-      onClick: (student: Student) => `/admissions/${student.id}`,
       variant: 'secondary' as const,
+      href: (student: Student) => `/students/${student.id}`,
+    },
+    {
+      label: '',
+      icon: 'camera',
+      onClick: (student: Student) => student.id,
+      variant: 'primary' as const,
     },
     /*{
       label: '',
@@ -74,7 +80,7 @@ export const studentsTableConfig: EnhancedTableConfig<Student> = {
 
   features: {
     rowClickable: true,
-    rowClickRoute: (item: Student) => `/admissions/${item.id}`,
+    rowClickRoute: (item: Student) => `/students/${item.id}`,
     selectionEnabled: true,
     batchActions: [
       {

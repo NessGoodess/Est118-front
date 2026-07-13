@@ -78,6 +78,8 @@ export const API_ENDPOINTS = {
   },
   CLASS_STUDENTS: (scheduleId: number, date: string) => `/class/${scheduleId}/date/${date}`,
   STUDENTS: '/students',
+  STUDENT_PHOTO_STATUS: (id: number) => `/students/${id}/photo-status`,
+  STUDENT_PHOTO_UPLOAD: (id: number) => `/students/${id}/photo`,
   ALL_STUDENTS: '/all-students',
   GRADES: '/students/grades',
   STUDENTS_BY_GRADE: (grade_id: number) => `/students/grades/${grade_id}`,
