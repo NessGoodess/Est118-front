@@ -75,6 +75,9 @@ export const API_ENDPOINTS = {
   },
   READER: {
     STATUS: '/reader/status',
+    SLOTS: '/reader/slots',
+    SLOT_ARM: (id: number) => `/reader/slots/${id}/arm`,
+    SLOTS_ARM_ALL: '/reader/slots/arm-all',
   },
   CLASS_STUDENTS: (scheduleId: number, date: string) => `/class/${scheduleId}/date/${date}`,
   STUDENTS: '/students',

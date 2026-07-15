@@ -61,9 +61,10 @@ interface AttendanceRecordCardProps {
 }
 
 function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
+    const fallbackAvatar = record.gender === "F" ? "/avatar-f.svg" : "/avatar-m.svg";
     const photoUrl = record.photo_url
         ? getPrivateImageUrl(record.photo_url)
-        : "/avatar-m.svg";
+        : fallbackAvatar;
 
     const timeAgo = formatRelative(record.scannedAt);
 
@@ -80,7 +81,7 @@ function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
                             src={photoUrl}
                             alt={record.name}
                             className="w-full h-full object-cover"
-                            onError={(e) => ((e.target as HTMLImageElement).src = "/avatar-m.svg")}
+                            onError={(e) => ((e.target as HTMLImageElement).src = fallbackAvatar)}
                             width={64}
                             height={64}
                             unoptimized

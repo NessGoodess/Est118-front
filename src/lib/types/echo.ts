@@ -1,8 +1,11 @@
+import type { NfcReaderStatusItem, ReaderStatusData as NfcReaderStatusData } from '@/lib/types/nfc-reader';
+
 export interface CurrentStudent {
   id: number;
   credential_id: string;
   name: string;
-  photo_url: string;
+  photo_url: string | null;
+  gender?: string | null;
   grade: string;
   group: string;
   registered_at: string;
@@ -18,11 +21,13 @@ export interface CurrentData {
   timestamp: string;
 }
 
-/** Payload when the NFC reader connects or disconnects (broadcast by backend). */
+/** @deprecated Prefer ReaderStatusData from @/lib/types/nfc-reader */
 export interface ReaderStatusData {
   event: 'reader_status_changed';
   connected: boolean;
   ready: boolean;
-  readers: string[];
+  readers: Array<string | NfcReaderStatusItem>;
   timestamp: string;
 }
+
+export type { NfcReaderStatusData };

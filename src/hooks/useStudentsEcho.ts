@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { useEcho } from './echo/useEcho'
 import { useEchoConnection } from './echo/useEchoConnection'
 import { CurrentStudent, CurrentData, ReaderStatusData } from '@/lib/types/echo'
+import { NfcReaderStatusItem } from '@/lib/types/nfc-reader'
 import apiClient, { API_ENDPOINTS } from '@/lib/config/api'
 
 const INITIAL_READER_STATUS: ReaderStatusData = {
@@ -12,6 +13,15 @@ const INITIAL_READER_STATUS: ReaderStatusData = {
   ready: false,
   readers: [],
   timestamp: ''
+}
+
+function normalizeReaders(readers: ReaderStatusData['readers']): NfcReaderStatusItem[] {
+  return (readers ?? []).map((item) => {
+    if (typeof item === 'string') {
+      return { pcsc_name: item, connected: true, label: item, armed: true }
+    }
+    return item
+  })
 }
 
 export function useStudentEcho(
@@ -33,7 +43,7 @@ export function useStudentEcho(
           event: 'reader_status_changed',
           connected: data.connected ?? false,
           ready: data.ready ?? false,
-          readers: data.readers ?? [],
+          readers: normalizeReaders(data.readers),
           timestamp: data.timestamp ?? '',
         })
       })
@@ -49,7 +59,7 @@ export function useStudentEcho(
         event: 'reader_status_changed',
         connected: payload.connected ?? false,
         ready: payload.ready ?? false,
-        readers: payload.readers ?? [],
+        readers: normalizeReaders(payload.readers as ReaderStatusData['readers']),
         timestamp: payload.timestamp ?? ''
       })
       return
