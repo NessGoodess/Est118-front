@@ -40,13 +40,12 @@ export default function ReaderPanelGrid() {
   return (
     <div className={`grid grid-cols-1 gap-6 ${gridCols}`}>
       {activeSlots.map((slot) => {
-        const reader = readerMap.get(slot.code);
         return (
           <ReaderPanel
             key={slot.code}
             slot={slot}
-            connected={reader?.connected ?? readerStatus.connected}
-            armed={slot.is_armed && (reader?.armed ?? true)}
+            connected={readerMap.get(slot.code)?.connected ?? false}
+            armed={slot.is_armed && (readerMap.get(slot.code)?.armed ?? true)}
           />
         );
       })}

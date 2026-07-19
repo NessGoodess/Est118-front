@@ -173,11 +173,12 @@ export function MultiReaderEchoProvider({ children }: { children: ReactNode }) {
       const payload = data as NfcEventPayload;
       if (payload.event === 'reader_status_changed') {
         setReaderStatus(normalizeReaderStatus(payload as ReaderStatusData));
+        refreshSlots().catch(() => undefined);
         return;
       }
       routeToPanel(payload);
     },
-    [routeToPanel]
+    [routeToPanel, refreshSlots]
   );
 
   useEcho('credential-read-channel', '.credential-read-event', handleMessage);

@@ -3,6 +3,28 @@
 import { useEffect, useRef } from 'react'
 import { getEcho } from '@/lib/config/echo'
 
+/** Laravel/Reverb may deliver broadcast payload as a JSON string or nested in `data`. */
+function parseEchoPayload(raw: unknown): unknown {
+  if (typeof raw === 'string') {
+    try {
+      return JSON.parse(raw)
+    } catch {
+      return raw
+    }
+  }
+  if (raw && typeof raw === 'object' && 'data' in raw) {
+    const nested = (raw as { data: unknown }).data
+    if (typeof nested === 'string') {
+      try {
+        return JSON.parse(nested)
+      } catch {
+        return raw
+      }
+    }
+  }
+  return raw
+}
+
 export function useEcho(
   channelName: string,
   eventName: string,
@@ -19,7 +41,7 @@ export function useEcho(
     if (!echo) return
 
     const channel = echo.private(channelName)
-    const handler = (data: unknown) => onMessageRef.current(data)
+    const handler = (raw: unknown) => onMessageRef.current(parseEchoPayload(raw))
 
     channel.listen(eventName, handler)
 
@@ -29,120 +51,3 @@ export function useEcho(
     }
   }, [channelName, eventName])
 }
-
-
-/*
-'use client'
-import { useEffect, useRef } from 'react'
-import { getEcho } from '@/lib/config/echo'
-
-export function useEcho(
-  channelName: string,
-  eventName: string,
-  onMessage: (data: any) => void
-) {
-  const onMessageRef = useRef(onMessage)
-
-  useEffect(() => {
-    onMessageRef.current = onMessage
-  }, [onMessage])
-
-  useEffect(() => {
-    console.log('🧩 useEcho: iniciando suscripción...')
-    console.log('📡 Canal:', channelName)
-    console.log('🎯 Evento:', eventName)
-
-    const echo = getEcho()
-    if (!echo) {
-      console.error('❌ No se pudo crear instancia de Echo')
-      return
-    }
-
-    const channel = echo.channel(channelName)
-    console.log('🌀 Suscrito al canal:', channelName)
-
-    const handler = (raw: any) => {
-      console.log('📬 RAW recibido →', raw)
-      try {
-        // Laravel a veces envía `raw.data` como string JSON
-        const parsed = typeof raw === 'string'
-          ? JSON.parse(raw)
-          : typeof raw?.data === 'string'
-          ? JSON.parse(raw.data)
-          : raw
-
-        console.log('✅ Evento parseado correctamente:', parsed)
-        onMessageRef.current(parsed)
-      } catch (err) {
-        console.error('❌ Error al parsear evento:', err, raw)
-      }
-    }
-
-    channel.listen(eventName, handler)
-    console.log('👂 Escuchando evento:', eventName)
-
-    return () => {
-      console.log('🧹 Limpiando listener de', eventName)
-      channel.stopListening(eventName, handler)
-      echo.leave(channelName)
-    }
-  }, [channelName, eventName])
-}
-'use client'
-import { useEffect, useRef } from 'react'
-import { getEcho } from '@/lib/config/echo'
-
-export function useEcho(
-  channelName: string,
-  eventName: string,
-  onMessage: (data: any) => void
-) {
-  const onMessageRef = useRef(onMessage)
-
-  useEffect(() => {
-    onMessageRef.current = onMessage
-  }, [onMessage])
-
-  useEffect(() => {
-    console.log('🧩 useEcho: iniciando suscripción...')
-    console.log('📡 Canal:', channelName)
-    console.log('🎯 Evento:', eventName)
-
-    const echo = getEcho()
-    if (!echo) {
-      console.error('❌ No se pudo crear instancia de Echo')
-      return
-    }
-
-    const channel = echo.channel(channelName)
-    console.log('🌀 Suscrito al canal:', channelName)
-
-    const handler = (raw: any) => {
-      console.log('📬 RAW recibido →', raw)
-      try {
-        // Laravel a veces envía `raw.data` como string JSON
-        const parsed = typeof raw === 'string'
-          ? JSON.parse(raw)
-          : typeof raw?.data === 'string'
-          ? JSON.parse(raw.data)
-          : raw
-
-        console.log('✅ Evento parseado correctamente:', parsed)
-        onMessageRef.current(parsed)
-      } catch (err) {
-        console.error('❌ Error al parsear evento:', err, raw)
-      }
-    }
-
-    channel.listen(eventName, handler)
-    console.log('👂 Escuchando evento:', eventName)
-
-    return () => {
-      console.log('🧹 Limpiando listener de', eventName)
-      channel.stopListening(eventName, handler)
-      echo.leave(channelName)
-    }
-  }, [channelName, eventName])
-}
-
- */

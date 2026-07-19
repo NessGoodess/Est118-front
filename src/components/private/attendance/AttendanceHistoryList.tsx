@@ -17,24 +17,25 @@ export default function AttendanceHistoryList({ records, loading }: AttendanceHi
 
     useEffect(() => {
         if (listRef.current && records.length > 0) {
-            listRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+            const {scrollTop } = listRef.current;
+            if (scrollTop < 100) {
+                listRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
     }, [records.length]);
 
-    if (!loading && records.length === 0) {
+    if (loading) {
+        return <LoadingSkeleton />;
+    }
+    if (records.length === 0) {
         return (
             <div className="text-center py-12">
                 <div className="text-gray-400 text-lg">
-                    <p className="mb-2">Sin registros de asistencia</p>
+                    <p className="mb-2">Sin registros de asistencia recientes.</p>
                 </div>
             </div>
         );
-    } else if (loading) {
-        return (
-            <Loading />
-        );
     }
-
     return (
         <div ref={listRef} className="space-y-3 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
             <AnimatePresence initial={false}>
@@ -66,7 +67,7 @@ function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
         ? getPrivateImageUrl(record.photo_url)
         : fallbackAvatar;
 
-    const timeAgo = formatRelative(record.scannedAt);
+    const timeAgo = record.scannedAt ? formatRelative(record.scannedAt) : 'Fecha no disponible';
 
     return (
         <div
@@ -79,7 +80,7 @@ function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
                     <div className="aspect-3/4 overflow-hidden rounded-lg shadow-sm bg-gray-100">
                         <Image
                             src={photoUrl}
-                            alt={record.name}
+                            alt={record?.name ? `Foto de ${record.name}` : "Foto del Estudiante"}
                             className="w-full h-full object-cover"
                             onError={(e) => ((e.target as HTMLImageElement).src = fallbackAvatar)}
                             width={64}
@@ -93,10 +94,15 @@ function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
                     <h3 className="font-semibold text-gray-900 truncate text-lg">
                         {record.name}
                     </h3>
-                    <div className="flex items-center gap-3 mt-1">
+                    <div className="flex flex-wrap items-center gap-2 mt-1">
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                             {record.grade} {record.group}
                         </span>
+                        {(record.reader_label || record.reader_slot_code) && (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                                {record.reader_label || record.reader_slot_code}
+                            </span>
+                        )}
                         <span className="text-sm text-gray-500 flex items-center gap-1">
                             <IconByName name="timer" className="w-4 h-4" />
                             {timeAgo}
@@ -112,7 +118,7 @@ function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
 /**
  * Attendance history list skeleton
  */
-function Loading() {
+function LoadingSkeleton() {
     return (
         <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
             <AnimatePresence initial={false}>
@@ -139,7 +145,7 @@ function AttendanceRecordCardSkeleton() {
             <div className="flex items-center gap-4 p-4">
                 <div className="relative w-16 h-16 shrink-0">
                     <div className="aspect-3/4 overflow-hidden rounded-lg shadow-sm bg-gray-100">
-                        <Image src={"/avatar-m.svg"} alt={""} className="w-full h-full object-cover" width={64} height={64} />
+                        <Image src={"/avatar-m.svg"} alt={"avatar de estudiante"} className="w-full h-full object-cover" width={64} height={64} />
                     </div>
                 </div>
 
