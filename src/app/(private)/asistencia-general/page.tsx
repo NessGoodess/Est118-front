@@ -1,33 +1,29 @@
-"use client"
+"use client";
+
 import { useState } from "react";
-import StudentAttendanceCard from "@/components/private/attendance/StudentAttendanceCard";
-import StudentAttendanceList from "@/components/private/attendance/StudentAttendanceList";
+import StudentAttendanceCard from "@/components/private/attendance/general/attendance-card/StudentAttendanceCard";
+import StudentAttendanceList from "@/components/private/attendance/general/attendance-list/StudentAttendanceList";
+import ReaderOpsPage from "@/components/private/attendance/general/readers-config/ReaderOpsPage";
 import { GeneralAttendanceProvider } from "@/contexts/GeneralAttendanceContext";
+import { MultiReaderEchoProvider } from "@/contexts/MultiReaderEchoContext";
 import GenericHeader from "@/components/ui/GenericHeader";
+import TabButton from "@/components/ui/TabButton";
+import CycleHint from "@/components/private/attendance/CycleHint";
 
 const tabs = [
-  {
-    name: "Pase de Lista General",
-    component: <StudentAttendanceCard />,
-  },
-  {
-    name: "Lista de Estudiantes",
-    component: <StudentAttendanceList />,
-  },
+  { name: "Pase de Lista General", key: "live" as const },
+  { name: "Historial de Asistencia", key: "history" as const },
+  { name: "Lectores", key: "ops" as const },
 ];
 
 function GeneralAttendanceContent() {
   const [selectedTab, setSelectedTab] = useState(0);
 
-  const handleTabChange = (index: number) => {
-    setSelectedTab(index);
-  };
-
   return (
     <section className="space-y-6">
-      <GenericHeader title="Asistencia General" description=""/>
+      <GenericHeader title="Asistencia General" description="" />
+      <CycleHint />
       <div className="rounded-lg">
-
         <div className="border-b border-gray-200">
           <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-6 pb-1">
             <nav
@@ -36,23 +32,13 @@ function GeneralAttendanceContent() {
               role="tablist"
             >
               {tabs.map((tab, idx) => (
-                <button
-                  key={tab.name}
-                  id={`tab-${idx}`}
-                  className={`whitespace-nowrap py-3 sm:py-4 px-1 font-medium text-sm border-b-2 transition-colors duration-200 
-                      ${selectedTab === idx
-                      ? "border-blue-600 text-blue-600"
-                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"}
-                    `}
-                  onClick={() => handleTabChange(idx)}
-                  type="button"
-                  aria-selected={selectedTab === idx}
-                  aria-controls={`tabpanel-${idx}`}
-                  role="tab"
-                  tabIndex={selectedTab === idx ? 0 : -1}
-                >
-                  {tab.name}
-                </button>
+                <TabButton
+                  key={tab.key}
+                  tab={tab}
+                  idx={idx}
+                  selected={selectedTab}
+                  onClick={setSelectedTab}
+                />
               ))}
             </nav>
           </div>
@@ -62,8 +48,11 @@ function GeneralAttendanceContent() {
           role="tabpanel"
           id={`tabpanel-${selectedTab}`}
           aria-labelledby={`tab-${selectedTab}`}
+          className="pt-4"
         >
-          {tabs[selectedTab].component}
+          {selectedTab === 0 && <StudentAttendanceCard />}
+          {selectedTab === 1 && <StudentAttendanceList />}
+          {selectedTab === 2 && <ReaderOpsPage />}
         </div>
       </div>
     </section>
@@ -73,7 +62,9 @@ function GeneralAttendanceContent() {
 export default function GeneralAttendance() {
   return (
     <GeneralAttendanceProvider>
-      <GeneralAttendanceContent />
+      <MultiReaderEchoProvider>
+        <GeneralAttendanceContent />
+      </MultiReaderEchoProvider>
     </GeneralAttendanceProvider>
   );
 }

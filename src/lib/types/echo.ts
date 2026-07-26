@@ -9,6 +9,11 @@ export interface CurrentStudent {
   grade: string;
   group: string;
   registered_at: string;
+  reading_id?: number;
+  event?: string;
+  message?: string;
+  type?: 'entry' | 'exit' | 'identify' | string;
+  attendance_status?: string;
 }
 
 export interface CurrentData {

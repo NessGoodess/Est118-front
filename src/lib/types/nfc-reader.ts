@@ -27,12 +27,31 @@ export interface NfcReaderStatusItem {
   armed: boolean;
 }
 
+export interface NfcPairingSession {
+  slot_id: number;
+  slot_code: string;
+  slot_label: string;
+  started_at: string;
+  expires_at: string;
+}
+
 export interface ReaderStatusData {
   event: 'reader_status_changed';
   connected: boolean;
   ready: boolean;
   readers: NfcReaderStatusItem[];
+  connected_pcsc?: string[];
+  unbound_pcsc?: string[];
+  pairing?: NfcPairingSession | null;
   timestamp: string;
+}
+
+export interface NfcReaderConfigData {
+  slots: NfcReaderSlot[];
+  status: ReaderStatusData;
+  connected_pcsc: string[];
+  unbound_pcsc: string[];
+  pairing: NfcPairingSession | null;
 }
 
 export interface NfcEventPayload extends CurrentData {
@@ -43,7 +62,8 @@ export interface NfcEventPayload extends CurrentData {
   reader_audience?: NfcReaderAudience;
   reader_direction?: NfcReaderDirection;
   reader_armed?: boolean;
+  pairing_completed?: boolean;
   student?: CurrentStudent | null;
 }
 
-export type PanelScanStatus = 'waiting' | 'scanning' | 'success' | 'warning' | 'error';
+export type PanelScanStatus = 'waiting' | 'scanning' | 'success' | 'info' | 'warning' | 'error';

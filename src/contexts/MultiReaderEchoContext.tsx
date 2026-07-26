@@ -13,7 +13,7 @@ import {
 import { useEcho } from '@/hooks/echo/useEcho';
 import { useEchoConnection } from '@/hooks/echo/useEchoConnection';
 import apiClient, { API_ENDPOINTS } from '@/lib/config/api';
-import { armAllNfcReaderSlots, getNfcReaderSlots } from '@/lib/services/nfc-reader.service';
+import { armAllNfcReaderSlots, armNfcReaderSlot, getNfcReaderSlots } from '@/lib/services/nfc-reader.service';
 import {
   NfcEventPayload,
   NfcReaderSlot,
@@ -40,6 +40,7 @@ interface MultiReaderEchoContextValue {
   registerPanel: (slotCode: string, listener: PanelListener) => () => void;
   refreshSlots: () => Promise<void>;
   armAll: (armed: boolean) => Promise<void>;
+  armSlot: (slotId: number, armed: boolean) => Promise<void>;
 }
 
 const INITIAL_READER_STATUS: ReaderStatusData = {
@@ -76,6 +77,9 @@ function normalizeReaderStatus(data: Partial<ReaderStatusData>): ReaderStatusDat
     connected: data.connected ?? false,
     ready: data.ready ?? false,
     readers,
+    connected_pcsc: data.connected_pcsc ?? [],
+    unbound_pcsc: data.unbound_pcsc ?? [],
+    pairing: data.pairing ?? null,
     timestamp: data.timestamp ?? '',
   };
 }
@@ -141,9 +145,9 @@ export function MultiReaderEchoProvider({ children }: { children: ReactNode }) {
       listenersRef.current.get(slotCode)?.forEach((fn) => fn(payload));
 
       if (payload.event === 'card_inserted') {
-        if (payload.status === 'ok' && payload.student) {
+        if ((payload.status === 'ok' || payload.status === 'info') && payload.student) {
           updatePanelState(slotCode, {
-            scanStatus: 'success',
+            scanStatus: payload.status === 'ok' ? 'success' : 'info',
             displayStudent: payload.student,
             lastMessage: payload.message ?? null,
           });
@@ -188,6 +192,11 @@ export function MultiReaderEchoProvider({ children }: { children: ReactNode }) {
     setSlots(updated);
   }, []);
 
+  const armSlot = useCallback(async (slotId: number, armed: boolean) => {
+    const updated = await armNfcReaderSlot(slotId, armed);
+    setSlots((prev) => prev.map((slot) => (slot.id === updated.id ? updated : slot)));
+  }, []);
+
   const value = useMemo(
     () => ({
       slots,
@@ -199,8 +208,20 @@ export function MultiReaderEchoProvider({ children }: { children: ReactNode }) {
       registerPanel,
       refreshSlots,
       armAll,
+      armSlot,
     }),
-    [slots, readerStatus, panelStates, isConnected, isLoading, hasError, registerPanel, refreshSlots, armAll]
+    [
+      slots,
+      readerStatus,
+      panelStates,
+      isConnected,
+      isLoading,
+      hasError,
+      registerPanel,
+      refreshSlots,
+      armAll,
+      armSlot,
+    ]
   );
 
   return (

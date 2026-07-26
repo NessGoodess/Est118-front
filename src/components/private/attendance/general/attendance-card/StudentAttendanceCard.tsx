@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MultiReaderEchoProvider } from "@/contexts/MultiReaderEchoContext";
-import ReaderArmBar from "@/components/private/attendance/ReaderArmBar";
-import ReaderPanelGrid from "@/components/private/attendance/ReaderPanelGrid";
-import AttendanceHistoryList from "./AttendanceHistoryList";
+import ReaderArmBar from "@/components/private/attendance/general/attendance-card/ReaderArmBar";
+import ReaderPanelGrid from "@/components/private/attendance/general/attendance-card/ReaderPanelGrid";
+import ReaderLogList from "@/components/private/attendance/general/attendance-card/ReaderLogList";
 import { useAttendanceStore } from "@/stores/attendance-store";
-import { getAttendanceHistory, getCurrentStudent } from "@/lib/services/attendance.service";
+import { getRecentReadings, getCurrentStudent } from "@/lib/services/attendance.service";
 
-function StudentAttendanceCardContent() {
+export default function StudentAttendanceCard() {
   const [isLoadingInitial, setIsLoadingInitial] = useState(true);
   const { records, addRecord, setInitialRecords } = useAttendanceStore();
 
@@ -16,7 +15,7 @@ function StudentAttendanceCardContent() {
     async function loadInitialData() {
       setIsLoadingInitial(true);
       try {
-        const history = await getAttendanceHistory(20);
+        const history = await getRecentReadings(20);
         if (history.length > 0) {
           setInitialRecords(history);
         } else {
@@ -43,25 +42,19 @@ function StudentAttendanceCardContent() {
       <article className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
         <div className="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50 px-6 py-5 sm:px-8">
           <div className="flex items-center justify-between gap-2">
-            <h3 className="text-lg font-bold text-slate-900">Historial de asistencia</h3>
+            <h3 className="text-lg font-bold text-slate-900">Lecturas recientes</h3>
             <span className="rounded-full bg-blue-100 px-2 py-0 text-sm font-bold text-blue-900">
               {records.length}
             </span>
           </div>
-          <p className="text-sm text-slate-600">Registro cronológico de todas las lecturas</p>
+          <p className="text-sm text-slate-600">
+            Bitácora de eventos NFC (entrada, salida, ignoradas)
+          </p>
         </div>
         <div className="p-6 sm:p-8">
-          <AttendanceHistoryList records={records} loading={isLoadingInitial} />
+          <ReaderLogList records={records} loading={isLoadingInitial} />
         </div>
       </article>
     </div>
-  );
-}
-
-export default function StudentAttendanceCard() {
-  return (
-    <MultiReaderEchoProvider>
-      <StudentAttendanceCardContent />
-    </MultiReaderEchoProvider>
   );
 }

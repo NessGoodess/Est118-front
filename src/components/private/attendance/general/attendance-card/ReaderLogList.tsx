@@ -7,17 +7,17 @@ import { useEffect, useRef } from "react";
 import { formatRelative } from "@/lib/utils/dateFormatter";
 import { IconByName } from "@/components/ui/icons/attendenceCard.icons";
 
-interface AttendanceHistoryListProps {
+interface ReaderLogListProps {
     records: AttendanceRecord[];
     loading: boolean;
 }
 
-export default function AttendanceHistoryList({ records, loading }: AttendanceHistoryListProps) {
+export default function ReaderLogList({ records, loading }: ReaderLogListProps) {
     const listRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (listRef.current && records.length > 0) {
-            const {scrollTop } = listRef.current;
+            const { scrollTop } = listRef.current;
             if (scrollTop < 100) {
                 listRef.current.scrollTo({ top: 0, behavior: 'smooth' });
             }
@@ -41,7 +41,7 @@ export default function AttendanceHistoryList({ records, loading }: AttendanceHi
             <AnimatePresence initial={false}>
                 {records.map((record, index) => (
                     <motion.div
-                        key={`${record.id}-${record.scannedAt.getTime()}`}
+                        key={record.feed_id}
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.98 }}
@@ -101,6 +101,11 @@ function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
                         {(record.reader_label || record.reader_slot_code) && (
                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
                                 {record.reader_label || record.reader_slot_code}
+                            </span>
+                        )}
+                        {(record.message || record.event) && (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700">
+                                {record.message ?? record.event}
                             </span>
                         )}
                         <span className="text-sm text-gray-500 flex items-center gap-1">

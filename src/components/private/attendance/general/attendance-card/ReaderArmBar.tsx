@@ -1,13 +1,29 @@
 'use client';
 
+import { useMemo } from 'react';
 import { Button } from '@/components/ui/Button';
 import { useMultiReaderEcho } from '@/contexts/MultiReaderEchoContext';
 
 export default function ReaderArmBar() {
   const { slots, readerStatus, armAll } = useMultiReaderEcho();
   const anyArmed = slots.some((s) => s.is_armed);
-  const connectedCount = readerStatus.readers.filter((r) => r.connected && r.slot_code).length;
-  const systemOnline = readerStatus.connected && readerStatus.ready;
+
+  const livePcsc = useMemo(() => {
+    const names = new Set<string>();
+    for (const name of readerStatus.connected_pcsc ?? []) {
+      if (name) names.add(name);
+    }
+    for (const item of readerStatus.readers ?? []) {
+      if (typeof item === 'string') names.add(item);
+      else if (item.pcsc_name && item.connected) names.add(item.pcsc_name);
+    }
+    return names;
+  }, [readerStatus.connected_pcsc, readerStatus.readers]);
+
+  const connectedCount = slots.filter(
+    (s) => s.is_active && s.pcsc_name && livePcsc.has(s.pcsc_name)
+  ).length;
+  const systemOnline = livePcsc.size > 0 || (readerStatus.connected && readerStatus.ready);
 
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">

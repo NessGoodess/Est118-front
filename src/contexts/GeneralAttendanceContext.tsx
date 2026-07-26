@@ -1,22 +1,38 @@
 "use client";
-import React, { createContext, useContext, ReactNode } from 'react';
-import { Students } from '@/lib/types/general-attendance';
-import { useGeneralAttendance } from '@/hooks/useGeneralAttendance';
+import React, { createContext, useContext, ReactNode } from "react";
+import {
+  AcademicYearInfo,
+  DailyAttendanceRules,
+  DailyAttendanceStudent,
+  DailyAttendanceSummary,
+} from "@/lib/types/general-attendance";
+import { useGeneralAttendance } from "@/hooks/useGeneralAttendance";
 
 interface GeneralAttendanceContextType {
-  students: Students[];
+  selectedDate: string;
+  setSelectedDate: (date: string) => void;
+  students: DailyAttendanceStudent[];
+  summary: DailyAttendanceSummary;
+  rules: DailyAttendanceRules | null;
+  academicYear: AcademicYearInfo | null;
+  activeAcademicYear: AcademicYearInfo | null;
   loading: boolean;
+  statusesLoading: boolean;
   error: string | null;
   refetch: () => Promise<void>;
 }
 
-const GeneralAttendanceContext = createContext<GeneralAttendanceContextType | undefined>(undefined);
+const GeneralAttendanceContext = createContext<
+  GeneralAttendanceContextType | undefined
+>(undefined);
 
 interface GeneralAttendanceProviderProps {
   children: ReactNode;
 }
 
-export function GeneralAttendanceProvider({ children }: GeneralAttendanceProviderProps) {
+export function GeneralAttendanceProvider({
+  children,
+}: GeneralAttendanceProviderProps) {
   const attendanceData = useGeneralAttendance();
 
   return (
@@ -29,7 +45,9 @@ export function GeneralAttendanceProvider({ children }: GeneralAttendanceProvide
 export function useGeneralAttendanceContext(): GeneralAttendanceContextType {
   const context = useContext(GeneralAttendanceContext);
   if (context === undefined) {
-    throw new Error('useGeneralAttendanceContext must be used within a GeneralAttendanceProvider');
+    throw new Error(
+      "useGeneralAttendanceContext must be used within a GeneralAttendanceProvider"
+    );
   }
   return context;
 }
