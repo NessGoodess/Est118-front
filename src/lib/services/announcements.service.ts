@@ -1,4 +1,8 @@
-import apiClient, { handleApiError, API_ENDPOINTS, API_CONFIG } from '../config/api';
+import apiClient, {
+  handleApiError,
+  API_ENDPOINTS,
+  buildApiUrl,
+} from '@/lib/api';
 
 // For typing purposes, although the backend returns a flat model, 
 // the List uses whatever is returned via the index endpoint.
@@ -49,8 +53,7 @@ export async function getAnnouncements(): Promise<AnnouncementRawItem[]> {
  * Get all announcements (Public - Fetch for Next.js caching)
  */
 export async function getPublicAnnouncements(): Promise<AnnouncementRawItem[]> {
-    const url = `${API_CONFIG.API_FULL_URL}${API_ENDPOINTS.ANNOUNCEMENTS.GET_ALL}`;
-    const response = await fetch(url, {
+    const response = await fetch(buildApiUrl(API_ENDPOINTS.ANNOUNCEMENTS.GET_ALL), {
         next: { revalidate: 60 },
     });
 

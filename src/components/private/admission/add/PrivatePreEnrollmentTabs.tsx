@@ -9,7 +9,7 @@ import { createPreEnrollmentByAdmin } from "@/lib/services/admissions.service";
 import { TabEmail, TabApplicantInfo, TabAcademicInfo, TabAddressInfo, TabGuardianInfo, TabWorkshopSelect, TabTuitionVoucher } from "./tabs";
 import { globalToast } from '@/lib/toast';
 import axios from "axios";
-import { handleApiError } from "@/lib/config/api";
+import { handleApiError } from "@/lib/api";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { useConfirm } from "@/components/ui/confirm";

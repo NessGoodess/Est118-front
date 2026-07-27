@@ -1,7 +1,7 @@
 // hooks/useEcho.ts
 'use client'
 import { useEffect, useRef } from 'react'
-import { getEcho } from '@/lib/config/echo'
+import { getEcho } from '@/lib/realtime'
 
 /** Laravel/Reverb may deliver broadcast payload as a JSON string or nested in `data`. */
 function parseEchoPayload(raw: unknown): unknown {

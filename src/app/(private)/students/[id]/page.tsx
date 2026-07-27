@@ -6,7 +6,7 @@ import GenericHeader from "@/components/ui/GenericHeader";
 import { Button } from "@/components/ui/Button";
 import { getStudentDetail } from "@/lib/services/students.service";
 import Image from "next/image";
-import { handleApiError } from "@/lib/config/api";
+import { handleApiError } from "@/lib/api";
 import { StudentDetailPayload } from "@/lib/types/student-profile";
 import StudentPhotoModal from "@/components/private/students/StudentsByGrade/StudentPhotoModal";
 import StudentPhotoLightbox from "@/components/private/students/StudentPhotoLightbox";

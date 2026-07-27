@@ -11,7 +11,7 @@ import PreEnrollmentEditForm from '@/components/private/admission/pre-enrollment
 import { useEffect, useState } from 'react';
 import { PreEnrollmentApi } from '@/lib/types/admission/preEnrollmentApi';
 import Loading from '../../[id]/loading';
-import { handleApiError } from '@/lib/config/api';
+import { handleApiError } from '@/lib/api';
 import { globalToast } from '@/lib/toast/globalToast';
 import NewPreEnrollment from '../../new/page';
 

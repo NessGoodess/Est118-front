@@ -6,7 +6,7 @@ import { useToast } from "@/contexts/ToastContext";
 import { useConfirm } from "@/components/ui/confirm";
 import { useAcademicYears } from "@/hooks/academic-years/useAcademicYears";
 import { assignFirstGradeGroups } from "@/lib/services/admissions.service";
-import { handleApiError } from "@/lib/config/api";
+import { handleApiError } from "@/lib/api";
 import {
   FirstGradeAssignmentResult,
   ScoreSource,

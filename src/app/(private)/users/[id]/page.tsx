@@ -9,7 +9,7 @@ import { UserDetail } from '@/lib/types/user';
 import UserDetailView from '@/components/private/users/UserDetailView';
 import { globalToast } from '@/lib/toast';
 import { withPagePermission } from '@/components/guards/withPagePermission';
-import { formatError } from '@/lib/config/axios.config';
+import { formatError } from '@/lib/api';
 import { ApiError } from '@/lib/types/auth';
 
 function UserDetailPage({

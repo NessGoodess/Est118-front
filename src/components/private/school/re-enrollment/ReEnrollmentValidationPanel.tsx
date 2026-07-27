@@ -10,7 +10,7 @@ import {
 } from '@/lib/services/re-enrollment.service';
 import { ReEnrollmentApplicationRow } from '@/lib/types/school/re-enrollment';
 import { useToast } from '@/contexts/ToastContext';
-import { handleApiError } from '@/lib/config/api';
+import { handleApiError } from '@/lib/api';
 import { Button } from '@/components/ui/Button';
 
 const validationTableConfig: EnhancedTableConfig<ReEnrollmentApplicationRow> = {

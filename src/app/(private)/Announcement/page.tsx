@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import Image from "next/image"
 import { useSearchParams, useRouter } from "next/navigation"
 
-import apiClient, { API_ENDPOINTS, handleApiError } from "@/lib/config/api"
+import apiClient, { API_ENDPOINTS, handleApiError } from "@/lib/api"
 import { getAnnouncement, updateAnnouncement } from "@/lib/services/announcements.service"
 import {
   announcementSchema,

@@ -1,4 +1,4 @@
-import apiClient, { API_ENDPOINTS } from '@/lib/config/api';
+import apiClient, { API_ENDPOINTS } from '@/lib/api';
 import { PaginatedResponse } from '@/lib/types/paginated-response';
 import { PreEnrollmentListItem, PreEnrollmentApi, AdmissionCycle } from '@/lib/types/admission/preEnrollmentApi';
 import { PendingPromotionDecisionItem, PromotionDecisionApiResponse } from '@/lib/types/admission/promotion';

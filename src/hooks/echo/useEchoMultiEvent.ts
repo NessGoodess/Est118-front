@@ -1,7 +1,7 @@
 // hooks/useEchoMultiEvent.ts
 'use client'
 import { useEffect, useRef } from 'react'
-import { getEcho } from '@/lib/config/echo'
+import { getEcho } from '@/lib/realtime'
 
 interface EventHandler {
   [eventName: string]: (data: unknown) => void;

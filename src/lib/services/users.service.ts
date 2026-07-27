@@ -1,6 +1,5 @@
-import apiClient, { baseAxiosClient, handleApiError, API_ENDPOINTS } from '../config/api';
+import apiClient, { handleApiError, API_ENDPOINTS, ensureCsrfCookie } from '@/lib/api';
 import { RegisterUserData, User, UserDetail, UserListItem } from '../types/user';
-import { getCsrfCookie } from '../auth';
 import { PaginatedResponse } from '../types/paginated-response';
 
 /**
@@ -9,9 +8,9 @@ import { PaginatedResponse } from '../types/paginated-response';
  */
 export async function registerUser(userData: RegisterUserData): Promise<User> {
     try {
-        await getCsrfCookie();
+        await ensureCsrfCookie();
 
-        const response = await baseAxiosClient.post<{ user: User; message: string }>(
+        const response = await apiClient.post<{ user: User; message: string }>(
             API_ENDPOINTS.AUTH.REGISTER,
             userData
         );

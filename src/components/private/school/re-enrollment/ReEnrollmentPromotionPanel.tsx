@@ -5,7 +5,7 @@ import { useReEnrollment } from '@/contexts/ReEnrollmentContext';
 import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ui/confirm';
 import { Button } from '@/components/ui/Button';
-import { handleApiError } from '@/lib/config/api';
+import { handleApiError } from '@/lib/api';
 import { promoteReEnrollmentPeriod } from '@/lib/services/re-enrollment.service';
 import { PromoteAcademicYearSummary } from '@/lib/types/academic-year';
 import { ApiError } from '@/lib/types/auth';

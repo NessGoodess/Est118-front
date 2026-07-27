@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Student } from "@/lib/types/students";
 import { getStudentPhotoStatus, uploadStudentPhoto } from "@/lib/services/students.service";
 import { useToast } from "@/contexts/ToastContext";
-import { handleApiError } from "@/lib/config/api";
+import { handleApiError } from "@/lib/api";
 import Image from "next/image";
 
 /** Mínimo para abrir desde lista o desde expediente. */

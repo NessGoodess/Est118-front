@@ -1,6 +1,5 @@
 
-import apiClient, { baseAxiosClient, handleApiError, API_ENDPOINTS } from '../config/api';
-
+import apiClient, { handleApiError, API_ENDPOINTS } from '@/lib/api';
 
 /**
  * Resend email verification notification
@@ -8,7 +7,7 @@ import apiClient, { baseAxiosClient, handleApiError, API_ENDPOINTS } from '../co
  */
 export async function mailVerification(): Promise<{ message: string }> {
     try {
-        const response = await baseAxiosClient.post(API_ENDPOINTS.AUTH.VERIFICATION);
+        const response = await apiClient.post(API_ENDPOINTS.AUTH.VERIFICATION);
         return response.data;
     } catch (error) {
         throw handleApiError(error);

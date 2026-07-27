@@ -1,4 +1,4 @@
-import apiClient, { API_ENDPOINTS } from '@/lib/config/api';
+import apiClient, { API_ENDPOINTS } from '@/lib/api';
 import { GradesResponse, StudentsByGradeResponse } from '@/lib/types/students';
 import { StudentDetailPayload, StudentDetailResponse } from '@/lib/types/student-profile';
 

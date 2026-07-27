@@ -12,7 +12,7 @@ import {
 } from 'react';
 import { useEcho } from '@/hooks/echo/useEcho';
 import { useEchoConnection } from '@/hooks/echo/useEchoConnection';
-import apiClient, { API_ENDPOINTS } from '@/lib/config/api';
+import apiClient, { API_ENDPOINTS } from '@/lib/api';
 import { armAllNfcReaderSlots, armNfcReaderSlot, getNfcReaderSlots } from '@/lib/services/nfc-reader.service';
 import {
   NfcEventPayload,

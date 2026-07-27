@@ -1,4 +1,5 @@
 import type { AdmissionStatusResponse } from "../types/admission/admissionCycles";
+import { API_ENDPOINTS, buildApiUrl } from "@/lib/api";
 
 export async function getAdmissionStatus(): Promise<AdmissionStatusResponse> {
     const fallback: AdmissionStatusResponse = {
@@ -13,10 +14,9 @@ export async function getAdmissionStatus(): Promise<AdmissionStatusResponse> {
     };
 
     try {
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/admissions/status`,
-            { cache: "no-store" }
-        );
+        const res = await fetch(buildApiUrl(API_ENDPOINTS.ADMISSION.STATUS), {
+            cache: "no-store",
+        });
 
         if (!res.ok) {
             return {

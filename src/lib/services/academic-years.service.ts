@@ -1,4 +1,4 @@
-import apiClient, { API_ENDPOINTS } from '@/lib/config/api';
+import apiClient, { API_ENDPOINTS } from '@/lib/api';
 import { AcademicYearListItem } from '@/lib/types/academic-year';
 
 export async function getAcademicYearsList(): Promise<AcademicYearListItem[]> {

@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { Student, AttendanceRecord, ClassAttendanceResponse, AttendanceStats, MarkedDates, AttendanceStatus } from "@/lib/types/attendance";
-import apiClient, { API_ENDPOINTS } from "@/lib/config/api";
+import apiClient, { API_ENDPOINTS } from "@/lib/api";
 import { globalToast } from "@/lib/toast/globalToast";
 
 interface UseAttendanceResult {

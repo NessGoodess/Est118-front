@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { getApiBaseUrl } from "@/lib/config/api";
+import { getApiBaseUrl } from "@/lib/api";
 
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;

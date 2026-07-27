@@ -2,7 +2,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { AttendanceRecord } from "@/stores/attendance-store";
 import Image from "next/image";
-import { getPrivateImageUrl } from "@/lib/config/api";
+import { getPrivateImageUrl } from "@/lib/api";
 import { useEffect, useRef } from "react";
 import { formatRelative } from "@/lib/utils/dateFormatter";
 import { IconByName } from "@/components/ui/icons/attendenceCard.icons";

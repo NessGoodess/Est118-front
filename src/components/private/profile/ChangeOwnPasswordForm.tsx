@@ -8,7 +8,7 @@ import { SubmitButton } from '@/components/ui/SubmitButton';
 import { FloatingPassword } from '@/components/ui/FloatingInputs';
 import { IconByName } from '@/components/ui/icons/global.icons';
 import { globalToast } from '@/lib/toast';
-import { formatError } from '@/lib/config/axios.config';
+import { formatError } from '@/lib/api';
 import { ApiError } from '@/lib/types/auth';
 import { changeOwnPasswordSchema } from '@/lib/validations/user/changeOwnPassword.schema';
 import { z } from 'zod';

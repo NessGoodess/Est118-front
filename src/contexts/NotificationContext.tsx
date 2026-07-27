@@ -11,8 +11,8 @@ import {
   type ReactNode,
 } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { getEcho } from "@/lib/config/echo";
-import { handleApiError } from "@/lib/config/api";
+import { getEcho } from "@/lib/realtime";
+import { handleApiError } from "@/lib/api";
 import type { AppNotification } from "@/lib/types/notification";
 import {
   fetchNotifications,

@@ -10,7 +10,7 @@ import Modal from '@/components/ui/Modal';
 import UserDetailView from '@/components/private/users/UserDetailView';
 import { globalToast } from '@/lib/toast';
 import { ApiError } from 'next/dist/server/api-utils';
-import { formatError } from '@/lib/config/axios.config';
+import { formatError } from '@/lib/api';
 
 export default function UserDetailModal({
   params,

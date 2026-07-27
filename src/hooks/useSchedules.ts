@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Schedule } from "@/lib/types/attendance";
-import apiClient, { API_ENDPOINTS } from "@/lib/config/api";
+import apiClient, { API_ENDPOINTS } from "@/lib/api";
 
 interface UseSchedulesResult {
   schedules: Schedule[];

@@ -1,4 +1,4 @@
-import { AuthEvent } from './auth-event';
+import { AuthEvent } from './events';
 
 type AuthEventHandler = (payload?: unknown) => void;
 
@@ -17,7 +17,7 @@ class AuthEventBus {
   }
 
   emit(event: AuthEvent, payload?: unknown) {
-    this.listeners.get(event)?.forEach(handler => handler(payload));
+    this.listeners.get(event)?.forEach((handler) => handler(payload));
   }
 }
 

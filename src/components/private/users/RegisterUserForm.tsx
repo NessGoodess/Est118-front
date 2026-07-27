@@ -11,7 +11,7 @@ import { IconByName } from '@/components/ui/icons/global.icons';
 import { globalToast } from '@/lib/toast';
 import { useRouter } from 'next/navigation';
 import { ApiError } from '@/lib/types/auth';
-import { formatError } from '@/lib/config/axios.config';
+import { formatError } from '@/lib/api';
 
 export default function RegisterUserForm() {
     const [isSubmitting, setIsSubmitting] = useState(false);

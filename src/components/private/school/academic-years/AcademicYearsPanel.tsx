@@ -13,7 +13,7 @@ import {
   getAcademicYearsList,
 } from '@/lib/services/academic-years.service';
 import { AcademicYearListItem } from '@/lib/types/academic-year';
-import { handleApiError } from '@/lib/config/api';
+import { handleApiError } from '@/lib/api';
 
 export default function AcademicYearsPanel() {
   const { showError, showSuccess } = useToast();

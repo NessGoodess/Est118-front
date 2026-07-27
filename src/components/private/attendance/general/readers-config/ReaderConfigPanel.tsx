@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { useMultiReaderEcho } from "@/contexts/MultiReaderEchoContext";
-import apiClient, { API_ENDPOINTS } from "@/lib/config/api";
+import apiClient, { API_ENDPOINTS } from "@/lib/api";
 import {
   cancelNfcReaderPairing,
   getNfcReaderConfig,

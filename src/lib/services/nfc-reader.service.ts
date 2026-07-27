@@ -1,4 +1,4 @@
-import apiClient, { API_ENDPOINTS } from '@/lib/config/api';
+import apiClient, { API_ENDPOINTS } from '@/lib/api';
 import {
   NfcPairingSession,
   NfcReaderConfigData,

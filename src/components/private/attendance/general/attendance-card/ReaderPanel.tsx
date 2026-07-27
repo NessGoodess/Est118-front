@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useMultiReaderEcho } from '@/contexts/MultiReaderEchoContext';
 import { NfcReaderSlot } from '@/lib/types/nfc-reader';
-import { getPrivateImageUrl } from '@/lib/config/api';
+import { getPrivateImageUrl } from '@/lib/api';
 import { useAttendanceStore } from '@/stores/attendance-store';
 import { globalToast } from '@/lib/toast';
 import { IconByName } from '@/components/ui/icons/attendenceCard.icons';

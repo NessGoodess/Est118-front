@@ -1,5 +1,5 @@
-import apiClient from '@/lib/config/api';
-import { API_ENDPOINTS } from '@/lib/config/api';
+import apiClient from '@/lib/api';
+import { API_ENDPOINTS } from '@/lib/api';
 import { CurrentStudent } from '@/lib/types/echo';
 import {
   DailyAttendanceResponse,

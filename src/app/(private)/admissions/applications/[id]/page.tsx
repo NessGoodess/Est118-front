@@ -12,7 +12,7 @@ import PreEnrollmentDetail from '@/components/private/admission/pre-enrollment-d
 import PreEnrollmentEditForm from '@/components/private/admission/pre-enrollment-edit-form';
 import Loading from './loading';
 import GenericHeader from '@/components/ui/GenericHeader';
-import { handleApiError } from '@/lib/config/api';
+import { handleApiError } from '@/lib/api';
 import { globalToast } from '@/lib/toast/globalToast';
 
 export default function PreEnrollmentPage({

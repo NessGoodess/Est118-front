@@ -10,7 +10,7 @@ import EditUserForm from './EditUserForm';
 import ChangePasswordForm from './ChangePasswordForm';
 import { IconByName } from '@/components/ui/icons/global.icons';
 import { ApiError } from '@/lib/types/auth';
-import { formatError } from '@/lib/config/axios.config';
+import { formatError } from '@/lib/api';
 
 interface UserDetailViewProps {
     user: UserDetail;

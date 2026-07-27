@@ -1,7 +1,7 @@
 import { getGrades } from "@/lib/services/students.service";
 import { useEffect, useState } from "react";
 import { Grade, Totals } from "@/lib/types/students";
-import { handleApiError } from "@/lib/config/api";
+import { handleApiError } from "@/lib/api";
 import { ApiError } from "@/lib/types/auth";
 
 export default function useGrades() {

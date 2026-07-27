@@ -36,15 +36,15 @@ export default function ClientLayout({
 }) {
   return (
     <AuthProvider>
-      <NotificationProvider>
-        <PrivateGuard>
-          <SidebarProvider>
-            <ToastProvider>
-              <LayoutContent >{children}</LayoutContent>
-            </ToastProvider>
-          </SidebarProvider>
-        </PrivateGuard>
-      </NotificationProvider>
+      <ToastProvider>
+        <NotificationProvider>
+          <PrivateGuard>
+            <SidebarProvider>
+              <LayoutContent>{children}</LayoutContent>
+            </SidebarProvider>
+          </PrivateGuard>
+        </NotificationProvider>
+      </ToastProvider>
     </AuthProvider>
   );
 }

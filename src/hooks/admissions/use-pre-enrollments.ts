@@ -5,7 +5,7 @@ import { getPreEnrollments } from '@/lib/services/admissions.service';
 import { PaginatedResponse } from '@/lib/types/paginated-response';
 import { PreEnrollmentListItem } from '@/lib/types/admission/preEnrollmentApi';
 import { ApiError } from '@/lib/types/auth';
-import { handleApiError } from '@/lib/config/api';
+import { handleApiError } from '@/lib/api';
 
 export function usePreEnrollments() {
   const [data, setData] = useState<PaginatedResponse<PreEnrollmentListItem> | null>(null);

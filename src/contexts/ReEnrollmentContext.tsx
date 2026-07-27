@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, ReactNode } from 'react';
-import { handleApiError } from '@/lib/config/api';
+import { handleApiError } from '@/lib/api';
 import { ApiError } from '@/lib/types/auth';
 import {
   getReEnrollmentDashboard,

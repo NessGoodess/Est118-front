@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { useAcademicYears } from "@/hooks/academic-years/useAcademicYears";
 import { runAcademicYearPromotion } from "@/lib/services/admissions.service";
 import { ApiError } from "@/lib/types/auth";
-import { handleApiError } from "@/lib/config/api";
+import { handleApiError } from "@/lib/api";
 import { PromoteAcademicYearSummary } from "@/lib/types/academic-year";
 
 function formatSummary(s: PromoteAcademicYearSummary) {

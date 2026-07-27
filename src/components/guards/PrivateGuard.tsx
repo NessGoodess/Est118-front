@@ -3,6 +3,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
+import LoadingIcon from '@/components/ui/LoadingIcon';
 
 const PERFIL_EDITAR_PATH = '/profile/update';
 
@@ -35,12 +36,7 @@ export default function PrivateGuard({ children }: { children: React.ReactNode }
     // Show loading spinner while checking authentication
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100">
-                <div className="text-center">
-                    <div className="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600"></div>
-                    <p className="mt-4 text-gray-700 font-medium">Verificando autenticación...</p>
-                </div>
-            </div>
+            <LoadingIcon size="lg" />
         );
     }
 

@@ -4,7 +4,7 @@ import { useReEnrollment } from '@/contexts/ReEnrollmentContext';
 import { Button } from '@/components/ui/Button';
 import { advanceReEnrollmentStep, updateReEnrollmentPeriod } from '@/lib/services/re-enrollment.service';
 import { useToast } from '@/contexts/ToastContext';
-import { handleApiError } from '@/lib/config/api';
+import { handleApiError } from '@/lib/api';
 import { useState } from 'react';
 
 export default function ReEnrollmentGroupsPanel() {

@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/contexts/ToastContext";
 import { useConfirm } from "@/components/ui/confirm";
-import { handleApiError } from "@/lib/config/api";
+import { handleApiError } from "@/lib/api";
 
 const STATUS_OPTIONS = [
   { value: "pending", label: "Preinscrito (web)" },

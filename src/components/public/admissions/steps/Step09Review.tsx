@@ -2,7 +2,7 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { useAdmissionsForm } from "../context/AdmissionsFormContext";
-import apiClient, { API_ENDPOINTS } from "@/lib/config/api";
+import apiClient, { API_ENDPOINTS } from "@/lib/api";
 import { AxiosError } from "axios";
 import StepNavigation from "../content/StepNavigation";
 

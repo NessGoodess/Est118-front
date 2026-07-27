@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Student } from "@/lib/types/students";
 import { ApiError } from "@/lib/types/auth";
-import { handleApiError } from "@/lib/config/api";
+import { handleApiError } from "@/lib/api";
 import { getStudentsByGrade } from "@/lib/services/students.service";
 
 export default function useStudentsByGrade(grade_id: number | null) {

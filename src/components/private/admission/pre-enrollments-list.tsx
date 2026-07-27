@@ -13,7 +13,7 @@ import {
 } from "@/lib/services/admissions.service";
 import { globalToast } from "@/lib/toast";
 import { ApiError } from "@/lib/types/auth";
-import { handleApiError } from "@/lib/config/api";
+import { handleApiError } from "@/lib/api";
 import { useToast } from "@/contexts/ToastContext";
 import { useConfirm } from "@/components/ui/confirm";
 

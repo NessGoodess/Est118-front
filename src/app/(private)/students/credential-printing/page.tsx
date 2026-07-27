@@ -6,7 +6,7 @@ import GenericHeader from "@/components/ui/GenericHeader";
 import GradeLevelsCard from "@/components/private/students/gradeLevelsCard";
 import useGrades from "@/hooks/students/useGrades";
 import { globalToast } from "@/lib/toast";
-import { handleApiError } from "@/lib/config/api";
+import { handleApiError } from "@/lib/api";
 import type {
   ClassGroupOption,
   CredentialRow,

@@ -12,7 +12,7 @@ import {
   updateReEnrollmentPeriod,
   advanceReEnrollmentStep,
 } from '@/lib/services/re-enrollment.service';
-import { handleApiError } from '@/lib/config/api';
+import { handleApiError } from '@/lib/api';
 
 export default function ReEnrollmentSettingsPanel() {
   const { activePeriod, periods, refetch, setActivePeriodId } = useReEnrollment();

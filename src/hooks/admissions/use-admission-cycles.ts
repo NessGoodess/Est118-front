@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { getAdmissionCycles } from '@/lib/services/admissions.service';
 import { AdmissionCycle } from '@/lib/types/admission/preEnrollmentApi';
 import { ApiError } from '@/lib/types/auth';
-import { handleApiError } from '@/lib/config/api';
+import { handleApiError } from '@/lib/api';
 
 export function useAdmissionCycles() {
   const [data, setData] = useState<AdmissionCycle[]>([]);

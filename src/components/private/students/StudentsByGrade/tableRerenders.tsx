@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { formatShortWithTime } from "@/lib/utils/dateFormatter";
 import Image from "next/image";
-import { getPrivateImageUrl } from "@/lib/config/api";
+import { getPrivateImageUrl } from "@/lib/api";
 import { Student } from "@/lib/types/students";
 
 function StudentPhotoPlaceholder({ name }: { name: string }) {

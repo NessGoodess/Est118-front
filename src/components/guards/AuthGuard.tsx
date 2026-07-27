@@ -3,6 +3,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import LoadingIcon from '@/components/ui/LoadingIcon';
 
 /**
  * AuthGuard - Protects auth routes (login, register) from authenticated users
@@ -19,12 +20,10 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
         }
     }, [loading, authenticated, router]);
 
-    // Show minimal loading while checking (prevents flash)
+    // Show loading icon while checking (prevents flash)
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-pulse text-gray-400">Cargando...</div>
-            </div>
+            <LoadingIcon size="lg" />
         );
     }
 

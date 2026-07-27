@@ -8,7 +8,7 @@ import { tableRenderers } from './tableRerenders';
 import { TableConfig } from '@/lib/types/data-table';
 import { AnnouncementRawItem, deleteAnnouncement } from '@/lib/services/announcements.service';
 import { globalToast } from '@/lib/toast';
-import { handleApiError } from '@/lib/config/api';
+import { handleApiError } from '@/lib/api';
 import { useConfirm } from '@/components/ui/confirm';
 
 interface Props {

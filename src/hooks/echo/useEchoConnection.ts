@@ -1,7 +1,7 @@
 // hooks/useEchoConnection.ts
 'use client'
 import { useState, useEffect, useRef } from 'react'
-import { getEcho } from '@/lib/config/echo'
+import { getEcho } from '@/lib/realtime'
 
 interface EchoInstance {
   connector?: {

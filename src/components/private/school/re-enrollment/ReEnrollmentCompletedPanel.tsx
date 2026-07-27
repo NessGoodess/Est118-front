@@ -5,7 +5,7 @@ import { useReEnrollment } from '@/contexts/ReEnrollmentContext';
 import { finalizeReEnrollmentPeriod, getReEnrollmentHistory } from '@/lib/services/re-enrollment.service';
 import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ui/confirm';
-import { handleApiError } from '@/lib/config/api';
+import { handleApiError } from '@/lib/api';
 import { Button } from '@/components/ui/Button';
 import { ReEnrollmentEventItem, ReEnrollmentPeriod } from '@/lib/types/school/re-enrollment';
 
