@@ -176,7 +176,7 @@ export function MultiReaderEchoProvider({ children }: { children: ReactNode }) {
     (data: unknown) => {
       const payload = data as NfcEventPayload;
       if (payload.event === 'reader_status_changed') {
-        setReaderStatus(normalizeReaderStatus(payload as ReaderStatusData));
+        setReaderStatus(normalizeReaderStatus(data as Partial<ReaderStatusData>));
         refreshSlots().catch(() => undefined);
         return;
       }

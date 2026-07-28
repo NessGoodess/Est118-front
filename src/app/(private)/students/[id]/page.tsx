@@ -71,10 +71,8 @@ function formatApproval(v: unknown): string {
   return v === true ? "Aprobado" : "No aprobado";
 }
 
-/** Campos alineados con `profiles` + `students` (migrations) */
 function studentInfoCards(info: StudentDetailPayload["student_info"]): { key: string; label: string; value: unknown }[] {
-  const rec = info as Record<string, unknown>;
-  const order: Array<{ key: string; label: string }> = [
+  const order: Array<{ key: keyof StudentDetailPayload["student_info"]; label: string }> = [
     { key: "id", label: "ID alumno (students.id)" },
     { key: "credential_id", label: "Credencial / UID (students.credential_id)" },
     { key: "full_name", label: "Nombre completo" },
@@ -87,7 +85,7 @@ function studentInfoCards(info: StudentDetailPayload["student_info"]): { key: st
     { key: "profile_picture_filename", label: "Archivo de foto (profiles.profile_picture)" },
     { key: "profile_updated_at", label: "Última actualización del perfil" },
   ];
-  return order.map(({ key, label }) => ({ key, label, value: rec[key] }));
+  return order.map(({ key, label }) => ({ key, label, value: info[key] }));
 }
 
 function SectionCard({

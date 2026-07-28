@@ -13,7 +13,7 @@ export default function StudentsByGradeSection({grade_id}: {grade_id: number}) {
     const [photoStudent, setPhotoStudent] = useState<Student | null>(null);
     const tableConfig = useMemo(() => ({
       ...studentsTableConfig,
-      actions: studentsTableConfig.actions.map((action) => {
+      actions: (studentsTableConfig.actions ?? []).map((action) => {
         if (action.icon === "camera") {
           return {
             ...action,

@@ -79,7 +79,7 @@ export default function PreEnrollmentProcessPanel({
         documents_status: documentsStatus,
         payment_status: paymentStatus,
         admission_exam_score:
-          admissionExamScore.trim() === "" ? null : Number(admissionExamScore),
+          admissionExamScore.trim() === "" ? null : admissionExamScore.trim(),
       });
       onSaved(updated);
       showSuccess("Guardado", "Estado del proceso actualizado.");
