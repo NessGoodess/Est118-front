@@ -30,7 +30,7 @@ export default function ReaderLogList({ records, loading }: ReaderLogListProps) 
     if (records.length === 0) {
         return (
             <div className="text-center py-12">
-                <div className="text-gray-400 text-lg">
+                <div className="text-fg-muted text-lg">
                     <p className="mb-2">Sin registros de asistencia recientes.</p>
                 </div>
             </div>
@@ -72,12 +72,12 @@ function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
     return (
         <div
             className={`relative overflow-hidden rounded-xl shadow-md border-2 transition-all duration-300 hover:shadow-lg ${isLatest
-                ? 'border-blue-400 bg-linear-to-r from-blue-50 to-indigo-50'
-                : 'border-gray-200 bg-white hover:border-gray-300'
+                ? 'border-primary bg-linear-to-r from-primary-soft to-primary-soft'
+                : 'border-border bg-surface-elevated hover:border-border'
                 }`} >
             <div className="flex items-center gap-4 p-4">
                 <div className="relative w-16 h-16 shrink-0">
-                    <div className="aspect-3/4 overflow-hidden rounded-lg shadow-sm bg-gray-100">
+                    <div className="aspect-3/4 overflow-hidden rounded-lg shadow-sm bg-surface-muted">
                         <Image
                             src={photoUrl}
                             alt={record?.name ? `Foto de ${record.name}` : "Foto del Estudiante"}
@@ -91,24 +91,24 @@ function AttendanceRecordCard({ record, isLatest }: AttendanceRecordCardProps) {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-gray-900 truncate text-lg">
+                    <h3 className="font-semibold text-foreground truncate text-lg">
                         {record.name}
                     </h3>
                     <div className="flex flex-wrap items-center gap-2 mt-1">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-soft text-primary">
                             {record.grade} {record.group}
                         </span>
                         {(record.reader_label || record.reader_slot_code) && (
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success/15 text-success">
                                 {record.reader_label || record.reader_slot_code}
                             </span>
                         )}
                         {(record.message || record.event) && (
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-surface-muted text-foreground">
                                 {record.message ?? record.event}
                             </span>
                         )}
-                        <span className="text-sm text-gray-500 flex items-center gap-1">
+                        <span className="text-sm text-fg-muted flex items-center gap-1">
                             <IconByName name="timer" className="w-4 h-4" />
                             {timeAgo}
                         </span>
@@ -146,19 +146,19 @@ function LoadingSkeleton() {
 
 function AttendanceRecordCardSkeleton() {
     return (
-        <div className="relative overflow-hidden rounded-xl bg-slate-200 shadow-md border-2 transition-all duration-300 hover:shadow-lg animate-pulse" >
+        <div className="relative overflow-hidden rounded-xl bg-surface-muted shadow-md border-2 transition-all duration-300 hover:shadow-lg animate-pulse" >
             <div className="flex items-center gap-4 p-4">
                 <div className="relative w-16 h-16 shrink-0">
-                    <div className="aspect-3/4 overflow-hidden rounded-lg shadow-sm bg-gray-100">
+                    <div className="aspect-3/4 overflow-hidden rounded-lg shadow-sm bg-surface-muted">
                         <Image src={"/avatar-m.svg"} alt={"avatar de estudiante"} className="w-full h-full object-cover" width={64} height={64} />
                     </div>
                 </div>
 
                 <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold bg-slate-300 h-6 rounded-lg"></h3>
+                    <h3 className="font-semibold bg-loading-base h-6 rounded-lg"></h3>
                     <div className="flex items-center gap-3 mt-1">
-                        <div className="inline-flex items-center px-2.5 py-0.5 rounded-full font-medium bg-slate-300 h-6 w-6"></div>
-                        <div className="bg-slate-300 flex items-center gap-1 h-6 w-32 rounded-xl"></div>
+                        <div className="inline-flex items-center px-2.5 py-0.5 rounded-full font-medium bg-loading-base h-6 w-6"></div>
+                        <div className="bg-loading-base flex items-center gap-1 h-6 w-32 rounded-xl"></div>
                     </div>
                 </div>
             </div>

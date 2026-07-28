@@ -29,10 +29,10 @@ const validationTableConfig: EnhancedTableConfig<ReEnrollmentApplicationRow> = {
 
 const validationRenderers = {
   'status-badge': (value: unknown) => (
-    <span className="text-xs px-2 py-0.5 rounded-full border bg-slate-50">{String(value)}</span>
+    <span className="text-xs px-2 py-0.5 rounded-full border bg-surface-muted">{String(value)}</span>
   ),
   'bool-badge': (value: unknown) => (
-    <span className={`text-xs px-2 py-0.5 rounded-full ${value ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+    <span className={`text-xs px-2 py-0.5 rounded-full ${value ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>
       {value === null ? '—' : value ? 'Sí' : 'No'}
     </span>
   ),
@@ -104,21 +104,21 @@ export default function ReEnrollmentValidationPanel() {
 
   return (
     <div className="space-y-4">
-      <section className="bg-white border rounded-xl p-4 sm:p-6 space-y-3">
+      <section className="bg-surface-elevated border rounded-xl p-4 sm:p-6 space-y-3">
         <header>
           <h2 className="text-lg font-semibold">Validación</h2>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-fg-muted">
             Revisa por grado/grupo. No promuevas individualmente: primero valida, luego promueve en bloque.
           </p>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <select className="rounded-lg border px-3 py-2 text-sm bg-white" value={gradeFilter}
+          <select className="rounded-lg border px-3 py-2 text-sm bg-surface-elevated" value={gradeFilter}
             onChange={(e) => setGradeFilter(e.target.value)}>
             <option value="all">Todos los grados</option>
             {gradeOptions.map((g) => <option key={g} value={g!}>{g}</option>)}
           </select>
-          <select className="rounded-lg border px-3 py-2 text-sm bg-white" value={groupFilter}
+          <select className="rounded-lg border px-3 py-2 text-sm bg-surface-elevated" value={groupFilter}
             onChange={(e) => setGroupFilter(e.target.value)}>
             <option value="all">Todos los grupos</option>
             {groupOptions.map((g) => <option key={g} value={g!}>{g}</option>)}
@@ -137,7 +137,7 @@ export default function ReEnrollmentValidationPanel() {
       </section>
 
       {selected && (
-        <section className="bg-white border rounded-xl p-4 sm:p-6 space-y-4">
+        <section className="bg-surface-elevated border rounded-xl p-4 sm:p-6 space-y-4">
           <h3 className="font-semibold">{selected.student_name} · {selected.grade}{selected.group}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {CHECKLIST.map(({ key, label }) => (

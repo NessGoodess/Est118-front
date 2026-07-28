@@ -8,8 +8,8 @@ export default function TabEmail() {
     const { register, formState: { errors } } = useFormContext<FormData>();
     
     return (
-        <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h3 className="text-lg font-semibold mb-4 text-slate-700">Validación de Correo Electrónico</h3>
+        <div className="bg-surface-elevated p-6 rounded-lg shadow-sm">
+            <h3 className="text-lg font-semibold mb-4 text-foreground">Validación de Correo Electrónico</h3>
             <div className="grid lg:grid-cols-2 gap-4">
                 <FloatingInput
                     label="Correo Electrónico a Validar"

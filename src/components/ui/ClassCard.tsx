@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React from "react";
 
 interface ClassCardProps {
@@ -31,17 +31,17 @@ export default function ClassCard({
             className={`
         min-w-[200px] p-4 rounded-lg border-2 cursor-pointer transition-all
         ${isSelected
-                    ? 'border-blue-500 bg-blue-50 shadow-md'
-                    : 'border-gray-200 bg-white hover:border-gray-300'
+                    ? 'border-primary bg-primary-soft shadow-md'
+                    : 'border-border bg-surface-elevated hover:border-border'
                 }
       `}
             onClick={() => onClick(class_group_id)}
         >
             <h3 className="font-bold text-lg mb-2">{subject}</h3>
-            <p className="text-sm text-gray-600">Grado: {grade_level}</p>
-            <p className="text-sm text-gray-600">Grupo: {group}</p>
-            <p className="text-sm text-gray-600">Día: {day}</p>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-fg-muted">Grado: {grade_level}</p>
+            <p className="text-sm text-fg-muted">Grupo: {group}</p>
+            <p className="text-sm text-fg-muted">Día: {day}</p>
+            <p className="text-sm text-fg-muted">
                 Hora: {start_time} - {end_time}
             </p>
         </div>

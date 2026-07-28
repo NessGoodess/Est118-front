@@ -138,10 +138,10 @@ const FeatureItem = ({ feature }: { feature: Feature }) => {
 
             {/* Contenido */}
             <div className="flex-1">
-                <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                     {feature.title}
                 </h3>
-                <p className="text-slate-600 leading-relaxed">
+                <p className="text-fg-muted leading-relaxed">
                     {feature.description}
                 </p>
             </div>
@@ -177,7 +177,7 @@ const DecorativeImage = ({ imageSrc, imageAlt }: { imageSrc: string; imageAlt: s
             <div className="absolute -top-8 -right-12 w-32 h-[120%] bg-gradient-to-br from-pink-400 to-rose-400 rounded-3xl -z-10 transform rotate-12" />
 
             {/* Puntos decorativos */}
-            <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-blue-100 rounded-full blur-2xl opacity-60 -z-10" />
+            <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-primary-soft rounded-full blur-2xl opacity-60 -z-10" />
             <div className="absolute -top-6 -right-6 w-32 h-32 bg-pink-100 rounded-full blur-2xl opacity-60 -z-10" />
         </div>
     );
@@ -209,24 +209,24 @@ export default function FeaturesSection() {
     // Loading state
     if (loading) {
         return (
-            <section className="py-20 px-4 bg-slate-50">
+            <section className="py-20 px-4 bg-surface-muted">
                 <div className="max-w-7xl mx-auto">
                     <div className="animate-pulse">
-                        <div className="h-10 bg-slate-200 rounded w-2/3 mb-4"></div>
+                        <div className="h-10 bg-loading-base rounded w-2/3 mb-4"></div>
                         <div className="grid lg:grid-cols-2 gap-12">
                             <div className="space-y-6">
                                 {[1, 2, 3, 4].map(i => (
                                     <div key={i} className="flex gap-4">
-                                        <div className="w-16 h-16 bg-slate-200 rounded-2xl"></div>
+                                        <div className="w-16 h-16 bg-loading-base rounded-2xl"></div>
                                         <div className="flex-1 space-y-2">
-                                            <div className="h-6 bg-slate-200 rounded w-3/4"></div>
-                                            <div className="h-4 bg-slate-200 rounded w-full"></div>
-                                            <div className="h-4 bg-slate-200 rounded w-5/6"></div>
+                                            <div className="h-6 bg-loading-base rounded w-3/4"></div>
+                                            <div className="h-4 bg-loading-base rounded w-full"></div>
+                                            <div className="h-4 bg-loading-base rounded w-5/6"></div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
-                            <div className="h-96 bg-slate-200 rounded-3xl"></div>
+                            <div className="h-96 bg-loading-base rounded-3xl"></div>
                         </div>
                     </div>
                 </div>
@@ -245,15 +245,15 @@ export default function FeaturesSection() {
         .sort((a, b) => a.position - b.position);
 
     return (
-        <section className="py-20 px-4 bg-slate-50">
+        <section className="py-20 px-4 bg-surface-muted">
             <div className="max-w-7xl mx-auto">
                 {/* Título */}
                 <div className="mb-12">
-                    <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-3 tracking-tight">
+                    <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-3 tracking-tight">
                         {data.title}
                     </h2>
                     {data.subtitle && (
-                        <p className="text-xl text-slate-600">
+                        <p className="text-xl text-fg-muted">
                             {data.subtitle}
                         </p>
                     )}
@@ -289,15 +289,15 @@ export default function FeaturesSection() {
 
 export function ExamplePage() {
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-surface-elevated">
             {/* Otras secciones */}
-            <div className="h-20 bg-slate-900" />
+            <div className="h-20 bg-brand-900" />
 
             {/* Features Section */}
             <FeaturesSection />
 
             {/* Otras secciones */}
-            <div className="h-20 bg-slate-900" />
+            <div className="h-20 bg-brand-900" />
         </div>
     );
 }

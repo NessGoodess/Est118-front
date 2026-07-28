@@ -125,7 +125,7 @@ export default function AddressInfo({ nextStep, prevStep }: Props) {
   };
 
   return (
-    <div className="md:bg-white md:rounded-2xl md:shadow-xl p-6 md:p-12">
+    <div className="md:bg-surface-elevated md:rounded-2xl md:shadow-xl p-6 md:p-12">
       <Header title="Datos del Domicilio Actual del Aspirante" description="Información de dirección del aspirante" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -207,7 +207,7 @@ export default function AddressInfo({ nextStep, prevStep }: Props) {
                 href="https://www.correosdemexico.gob.mx/SSLServicios/ConsultaCP/Descarga.aspx"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 underline"
+                className="text-primary underline"
               >
                 Correos de México
               </a>

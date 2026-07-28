@@ -50,7 +50,7 @@ export default function ReEnrollmentStepGate({ step, children }: ReEnrollmentSte
 
   if (!activePeriod) {
     return (
-      <div className="rounded-xl border border-amber-200 bg-amber-50 p-6 text-sm text-amber-900">
+      <div className="rounded-xl border border-warning/30 bg-warning/10 p-6 text-sm text-warning-foreground">
         <p className="font-medium">No hay periodo activo</p>
         <p className="mt-2">
           <Link href="/school/re-enrollment/settings" className="underline">
@@ -75,7 +75,7 @@ export default function ReEnrollmentStepGate({ step, children }: ReEnrollmentSte
   return (
     <div className="space-y-4">
       {blockMessage && !readOnly && (
-        <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+        <div className="rounded-xl border border-warning/30 bg-warning/10 p-4 text-sm text-warning-foreground">
           <p className="font-medium">Paso bloqueado</p>
           <p className="mt-1">{blockMessage}</p>
         </div>
@@ -84,7 +84,7 @@ export default function ReEnrollmentStepGate({ step, children }: ReEnrollmentSte
         {children}
       </div>
       {readOnly && (
-        <p className="text-xs text-slate-500 text-center">
+        <p className="text-xs text-fg-muted text-center">
           Modo consulta — no se pueden guardar cambios.
         </p>
       )}

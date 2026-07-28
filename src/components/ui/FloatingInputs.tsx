@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useRef, useEffect, forwardRef, useCallback } from 'react';
 import { IconByName } from './icons/global.icons';
@@ -181,10 +181,10 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
           {icon && (
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none z-10">
               <div className={`transition-colors duration-200 ${isFocused
-                ? 'text-blue-600'
+                ? 'text-primary'
                 : error
-                  ? 'text-red-400'
-                  : 'text-slate-400'
+                  ? 'text-danger'
+                  : 'text-fg-muted'
                 }`}>
                 <div className="h-5 w-5">
                   {icon}
@@ -202,23 +202,23 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
               
               ${isFloating
                 ? error
-                  ? 'top-0 text-xs font-semibold bg-gradient-to-t from-red-50 to-white px-2 -translate-y-1/2'
-                  : 'top-0 text-xs font-semibold bg-white px-2 -translate-y-1/2'
+                  ? 'top-0 text-xs font-semibold bg-gradient-to-t from-danger/5 to-surface-elevated px-2 -translate-y-1/2'
+                  : 'top-0 text-xs font-semibold bg-surface-elevated px-2 -translate-y-1/2'
                 : 'top-1/2 -translate-y-1/2 text-base'
               }
 
               ${isFocused
-                ? 'text-blue-600 '
+                ? 'text-primary '
                 : error
-                  ? 'text-red-600'
+                  ? 'text-danger'
                   : isFloating
-                    ? 'text-slate-700'
-                    : 'text-slate-500'
+                    ? 'text-foreground'
+                    : 'text-fg-muted'
               }
             `}
           >
             {label}
-            {required && <span className="text-red-500 ml-1">*</span>}
+            {required && <span className="text-danger ml-1">*</span>}
           </label>
 
           {/* Input */}
@@ -236,18 +236,18 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
             onChange={handleChange}
             {...props}
             className={`
-              w-full rounded-xl border-2 transition-all duration-200 dark:text-black
+              w-full rounded-xl border-2 transition-all duration-200 text-foreground
               ${icon ? 'pl-11' : 'pl-4'}
               pt-6 pb-2
               pr-4 
               focus:outline-none
               ${error
-                ? 'border-red-300 bg-red-50 text-red-900 placeholder-red-400 focus:border-red-500'
+                ? 'border-danger/40 bg-danger/5 text-danger placeholder:text-danger/50 focus:border-danger'
                 : isFocused
-                  ? 'border-blue-500 bg-white shadow-lg shadow-blue-100 '
-                  : 'border-slate-300 bg-white hover:border-slate-400'
+                  ? 'border-ring bg-surface-elevated shadow-lg shadow-primary-soft '
+                  : 'border-border bg-surface-elevated hover:border-fg-muted/50'
               }
-              disabled:bg-slate-100 disabled:text-slate-500 disabled:cursor-not-allowed
+              disabled:bg-surface-muted disabled:text-fg-muted disabled:cursor-not-allowed
               ${shouldHideDatePlaceholder ? 'date-input-empty' : ''}
             `}
             style={shouldHideDatePlaceholder ? { color: 'transparent' } : undefined}
@@ -260,12 +260,12 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
             <div className="flex items-start gap-x-0.5">
               {error ? (
                 <>
-                  <IconByName name="error" className="w-3 h-3 text-red-500 flex-shrink-0 mt-0.5" />
-                  <p className="text-xs text-red-600 font-medium">{error}</p>
+                  <IconByName name="error" className="w-3 h-3 text-danger flex-shrink-0 mt-0.5" />
+                  <p className="text-xs text-danger font-medium">{error}</p>
                 </>
               ) : (
-                <> <IconByName name="info" className="w-3 h-3 text-slate-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-xs text-slate-500">{helperText}</p>
+                <> <IconByName name="info" className="w-3 h-3 text-fg-muted flex-shrink-0 mt-0.5" />
+                  <p className="text-xs text-fg-muted">{helperText}</p>
                 </>
               )}
             </div>
@@ -276,17 +276,17 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
           <div className="mt-2 flex items-start gap-1.5">
             {error ? (
               <>
-                <svg className="w-3 h-3 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-3 h-3 text-danger flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                 </svg>
-                <p className="text-xs text-red-600 font-medium">{error}</p>
+                <p className="text-xs text-danger font-medium">{error}</p>
               </>
             ) : (
               <>
-                <svg className="w-3 h-3 text-slate-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-3 h-3 text-fg-muted flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                 </svg>
-                <p className="text-xs text-slate-500">{helperText}</p>
+                <p className="text-xs text-fg-muted">{helperText}</p>
               </>
             )}
           </div>
@@ -376,10 +376,10 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
           {icon && (
             <div className="absolute top-3.5 left-0 pl-3.5 flex items-start pointer-events-none z-10">
               <div className={`transition-colors duration-200 ${isFocused
-                ? 'text-blue-600'
+                ? 'text-primary'
                 : error
-                  ? 'text-red-400'
-                  : 'text-slate-400'
+                  ? 'text-danger'
+                  : 'text-fg-muted'
                 }`}>
                 <div className="h-5 w-5">
                   {icon}
@@ -395,21 +395,21 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
               absolute transition-all duration-200 ease-out pointer-events-none z-10
               ${icon ? 'left-11' : 'left-4'}
               ${isFloating
-                ? 'top-0 text-xs font-semibold bg-white px-2 -translate-y-1/2'
+                ? 'top-0 text-xs font-semibold bg-surface-elevated px-2 -translate-y-1/2'
                 : 'top-3.5 text-base'
               }
               ${isFocused
-                ? 'text-blue-600'
+                ? 'text-primary'
                 : error
-                  ? 'text-red-600'
+                  ? 'text-danger'
                   : isFloating
-                    ? 'text-slate-700'
-                    : 'text-slate-500'
+                    ? 'text-foreground'
+                    : 'text-fg-muted'
               }
             `}
           >
             {label}
-            {required && <span className="text-red-500 ml-1">*</span>}
+            {required && <span className="text-danger ml-1">*</span>}
           </label>
 
           {/* Textarea */}
@@ -433,12 +433,12 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
               pr-4 text-base
               focus:outline-none
               ${error
-                ? 'border-red-300 bg-red-50 text-red-900 placeholder-red-400 focus:border-red-500'
+                ? 'border-danger/40 bg-danger/5 text-danger placeholder:text-danger/50 focus:border-danger'
                 : isFocused
-                  ? 'border-blue-500 bg-white shadow-lg shadow-blue-100'
-                  : 'border-slate-300 bg-white hover:border-slate-400'
+                  ? 'border-ring bg-surface-elevated shadow-lg shadow-primary-soft'
+                  : 'border-border bg-surface-elevated hover:border-fg-muted/50'
               }
-              disabled:bg-slate-100 disabled:text-slate-500 disabled:cursor-not-allowed
+              disabled:bg-surface-muted disabled:text-fg-muted disabled:cursor-not-allowed
             `}
           />
         </div>
@@ -448,13 +448,13 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
           <div className="mt-2 flex items-start gap-1.5">
             {error ? (
               <>
-                <IconByName name="error" className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-red-600 font-medium">{error}</p>
+                <IconByName name="error" className="w-4 h-4 text-danger flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-danger font-medium">{error}</p>
               </>
             ) : (
               <>
-                <IconByName name="info" className="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-slate-500">{helperText}</p>
+                <IconByName name="info" className="w-4 h-4 text-fg-muted flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-fg-muted">{helperText}</p>
               </>
             )}
           </div>
@@ -499,7 +499,7 @@ export const FloatingPassword = forwardRef<HTMLInputElement, FloatingInputProps>
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors p-1 z-20"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-fg-muted hover:text-foreground transition-colors p-1 z-20"
           tabIndex={-1}
         >
           {showPassword ? (
@@ -569,17 +569,17 @@ export function FloatingInputFormDemo() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-8">
+    <div className="min-h-screen bg-surface-app p-8">
       <div className="max-w-md mx-auto">
-        <div className="bg-white rounded-3xl shadow-2xl p-8">
+        <div className="bg-surface-elevated rounded-3xl shadow-card border border-border p-8">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-brand rounded-2xl flex items-center justify-center mx-auto mb-4">
               <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             </div>
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">Iniciar Sesión</h1>
-            <p className="text-slate-600">Ingresa tus credenciales para continuar</p>
+            <h1 className="text-3xl font-bold text-foreground mb-2">Iniciar Sesión</h1>
+            <p className="text-fg-muted">Ingresa tus credenciales para continuar</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -666,13 +666,13 @@ export function FloatingInputFormDemo() {
               <button
                 type="button"
                 onClick={() => reset()}
-                className="flex-1 border-2 border-slate-300 text-slate-700 py-3.5 rounded-xl font-bold text-lg hover:bg-slate-50 transition-all"
+                className="flex-1 border-2 border-border text-foreground py-3.5 rounded-xl font-bold text-lg hover:bg-surface-muted transition-all"
               >
                 Limpiar
               </button>
               <button
                 type="submit"
-                className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3.5 rounded-xl font-bold text-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+                className="flex-1 bg-primary text-primary-foreground py-3.5 rounded-xl font-bold text-lg hover:bg-primary-hover transition-all shadow-card hover:scale-[1.02] active:scale-[0.98]"
               >
                 Iniciar Sesión
               </button>

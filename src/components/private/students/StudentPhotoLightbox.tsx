@@ -44,7 +44,7 @@ export default function StudentPhotoLightbox({ isOpen, imageUrl, alt, onClose }:
       <button
         type="button"
         onClick={onClose}
-        className="absolute top-4 right-4 z-10 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/20 border border-white/20"
+        className="absolute top-4 right-4 z-10 rounded-full bg-surface-elevated/10 px-4 py-2 text-sm font-medium text-white hover:bg-surface-elevated/20 border border-white/20"
       >
         Cerrar (Esc)
       </button>

@@ -158,8 +158,8 @@ export default function AdmissionSettingsForm() {
 
     if (loading) {
         return (
-            <div className="bg-white rounded-xl shadow-sm border p-6 flex justify-center items-center h-40">
-                <div className="animate-pulse text-gray-500">Cargando periodos...</div>
+            <div className="bg-surface-elevated rounded-xl shadow-sm border p-6 flex justify-center items-center h-40">
+                <div className="animate-pulse text-fg-muted">Cargando periodos...</div>
             </div>
         );
     }
@@ -167,19 +167,19 @@ export default function AdmissionSettingsForm() {
     return (
         <div className="lg:flex lg:gap-6">
             {/* Main Content */}
-            <section className="bg-white rounded-xl shadow-sm border p-4 sm:p-6 space-y-6 lg:flex-1">
+            <section className="bg-surface-elevated rounded-xl shadow-sm border p-4 sm:p-6 space-y-6 lg:flex-1">
                 <header className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                     <div>
-                        <h2 className="text-lg font-semibold text-gray-900">
+                        <h2 className="text-lg font-semibold text-foreground">
                             Periodos de Preinscripción
                         </h2>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-fg-muted">
                             Crea, gestiona y controla los periodos de preinscripción.
                         </p>
                     </div>
                     <button
                         onClick={() => setShowCreate(!showCreate)}
-                        className="px-4 py-2 bg-blue-900 text-white text-sm rounded-md hover:bg-blue-800 transition-colors w-full sm:w-auto flex items-center justify-center gap-2"
+                        className="px-4 py-2 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary-hover transition-colors w-full sm:w-auto flex items-center justify-center gap-2"
                     >
                         <PlusIcon />
                         {showCreate ? "Cancelar" : "Nuevo Periodo"}
@@ -187,14 +187,14 @@ export default function AdmissionSettingsForm() {
                 </header>
 
                 {showCreate && (
-                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <div className="bg-surface-muted p-4 rounded-lg border border-border">
                         <h3 className="font-medium mb-3 flex items-center gap-2">
                             <CalendarIcon />
                             Crear Nuevo Periodo
                         </h3>
                         <form onSubmit={handleSubmitCreate} className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-foreground mb-1">
                                     Nombre del Periodo
                                 </label>
                                 <InputText
@@ -206,7 +206,7 @@ export default function AdmissionSettingsForm() {
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-foreground mb-1">
                                         Fecha Inicio
                                     </label>
                                     <InputDateTime
@@ -216,7 +216,7 @@ export default function AdmissionSettingsForm() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-foreground mb-1">
                                         Fecha Fin
                                     </label>
                                     <InputDateTime
@@ -230,7 +230,7 @@ export default function AdmissionSettingsForm() {
                                 <button
                                     type="submit"
                                     disabled={creating}
-                                    className="px-4 py-2 bg-blue-900 text-white text-sm rounded-md hover:bg-blue-800 disabled:opacity-50 flex items-center gap-2"
+                                    className="px-4 py-2 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary-hover disabled:opacity-50 flex items-center gap-2"
                                     onClick={() => setCreateAndActivate(false)}
                                 >
                                     {creating ? (
@@ -249,7 +249,7 @@ export default function AdmissionSettingsForm() {
                                     type="submit"
                                     disabled={creating}
                                     onClick={() => setCreateAndActivate(true)}
-                                    className="ml-2 px-4 py-2 bg-green-700 text-white text-sm rounded-md hover:bg-green-800 disabled:opacity-50 flex items-center gap-2"
+                                    className="ml-2 px-4 py-2 bg-success text-white text-sm rounded-md hover:opacity-90 disabled:opacity-50 flex items-center gap-2"
                                 >
                                     {creating ? (
                                         <>
@@ -270,17 +270,17 @@ export default function AdmissionSettingsForm() {
 
                 {/* Reopen with Date Modal */}
                 {showReopenDateInput && cycleToReopen && (
-                    <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
-                        <h3 className="font-medium text-orange-900 mb-2 flex items-center gap-2">
+                    <div className="bg-warning/10 p-4 rounded-lg border border-warning/30">
+                        <h3 className="font-medium text-warning-foreground mb-2 flex items-center gap-2">
                             <WarningIcon />
                             Periodo Expirado - Extender Fecha
                         </h3>
-                        <p className="text-sm text-orange-700 mb-4">
+                        <p className="text-sm text-warning-foreground mb-4">
                             El periodo <strong>{cycleToReopen.name}</strong> ha expirado. Para reabrirlo, debe proporcionar una nueva fecha de fin.
                         </p>
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-foreground mb-1">
                                     Nueva Fecha de Fin
                                 </label>
                                 <InputDateTime
@@ -296,14 +296,14 @@ export default function AdmissionSettingsForm() {
                                         setCycleToReopen(null);
                                         setReopenEndDate("");
                                     }}
-                                    className="px-4 py-2 bg-gray-200 text-gray-700 text-sm rounded-md hover:bg-gray-300"
+                                    className="px-4 py-2 bg-surface-muted text-foreground text-sm rounded-md hover:bg-surface-muted"
                                 >
                                     Cancelar
                                 </button>
                                 <button
                                     onClick={handleReopenWithDate}
                                     disabled={!reopenEndDate}
-                                    className="px-4 py-2 bg-blue-900 text-white text-sm rounded-md hover:bg-blue-800 disabled:opacity-50"
+                                    className="px-4 py-2 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary-hover disabled:opacity-50"
                                 >
                                     Reabrir con Nueva Fecha
                                 </button>
@@ -314,9 +314,9 @@ export default function AdmissionSettingsForm() {
 
                 <div className="space-y-4">
                     {cycles.length === 0 ? (
-                        <div className="text-center py-8 border-2 border-dashed border-gray-200 rounded-lg">
-                            <p className="text-gray-500">No hay periodos registrados.</p>
-                            <p className="text-sm text-gray-400 mt-1">Cree un nuevo periodo para comenzar</p>
+                        <div className="text-center py-8 border-2 border-dashed border-border rounded-lg">
+                            <p className="text-fg-muted">No hay periodos registrados.</p>
+                            <p className="text-sm text-fg-muted mt-1">Cree un nuevo periodo para comenzar</p>
                         </div>
                     ) : (
                         cycles.map((cycle) => {
@@ -325,26 +325,26 @@ export default function AdmissionSettingsForm() {
                             const isExpired = endDate < now && cycle.status === 'closed';
 
                             return (
-                                <div key={cycle.id} className="border rounded-lg p-4 hover:border-gray-300 transition-colors">
+                                <div key={cycle.id} className="border rounded-lg p-4 hover:border-border transition-colors">
                                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                         <div className="flex-1">
                                             <div className="flex flex-wrap items-center gap-2 mb-2">
-                                                <span className="font-medium text-gray-900 text-base">
+                                                <span className="font-medium text-foreground text-base">
                                                     {cycle.name}
                                                 </span>
                                                 <span className={`px-2 py-0.5 text-xs rounded-full font-medium
-                                                    ${cycle.status === 'active' ? 'bg-green-100 text-green-800' :
-                                                        cycle.status === 'closed' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'}`}>
+                                                    ${cycle.status === 'active' ? 'bg-success/15 text-success' :
+                                                        cycle.status === 'closed' ? 'bg-danger/15 text-danger' : 'bg-surface-muted text-foreground'}`}>
                                                     {cycle.status === 'active' ? 'ACTIVO' :
                                                         cycle.status === 'closed' ? 'CERRADO' : 'BORRADOR'}
                                                 </span>
                                                 {isExpired && (
-                                                    <span className="px-2 py-0.5 text-xs rounded-full font-medium bg-orange-100 text-orange-800">
+                                                    <span className="px-2 py-0.5 text-xs rounded-full font-medium bg-warning/15 text-warning-foreground">
                                                         EXPIRADO
                                                     </span>
                                                 )}
                                             </div>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600">
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-fg-muted">
                                                 <p className="flex items-center gap-1">
                                                     <span className="font-medium">Inicio:</span>
                                                     {formatWithoutYearWithTime(cycle.start_at)}
@@ -355,16 +355,16 @@ export default function AdmissionSettingsForm() {
                                                 </p>
                                             </div>
                                             <div>
-                                                <p className="flex items-center gap-1 text-sm text-gray-600">
+                                                <p className="flex items-center gap-1 text-sm text-fg-muted">
                                                     <span className="font-medium">Folio Actual:</span>
                                                     {cycle.last_folio_number}
                                                 </p>
-                                                <p className="flex items-center gap-1 text-sm text-gray-600">
+                                                <p className="flex items-center gap-1 text-sm text-fg-muted">
                                                     {cycle.preenrollments_count}
                                                     <span className="font-medium">Registros</span>
                                                 </p>
                                             </div>
-                                            <p className="text-xs text-gray-500 mt-2">ID: #{cycle.id}</p>
+                                            <p className="text-xs text-fg-muted mt-2">ID: #{cycle.id}</p>
                                         </div>
 
                                         <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
@@ -373,7 +373,7 @@ export default function AdmissionSettingsForm() {
                                                     <button
                                                         onClick={() => handleActivate(cycle.id, cycle.name, cycle.start_at, cycle.end_at)}
                                                         disabled={toggling === cycle.id}
-                                                        className="px-4 py-2 text-sm bg-green-50 text-green-700 hover:bg-green-100 rounded border border-green-200 disabled:opacity-50 flex items-center justify-center gap-2"
+                                                        className="px-4 py-2 text-sm bg-success/10 text-success hover:bg-success/15 rounded border border-success/30 disabled:opacity-50 flex items-center justify-center gap-2"
                                                     >
                                                         {toggling === cycle.id ? (
                                                             <>
@@ -387,7 +387,7 @@ export default function AdmissionSettingsForm() {
                                                     <button
                                                         onClick={() => handleDelete(cycle.id, cycle.name)}
                                                         disabled={toggling === cycle.id}
-                                                        className="px-4 py-2 text-sm bg-red-50 text-red-700 hover:bg-red-100 rounded border border-red-200 disabled:opacity-50 flex items-center justify-center gap-2"
+                                                        className="px-4 py-2 text-sm bg-danger/10 text-danger hover:bg-danger/15 rounded border border-danger/30 disabled:opacity-50 flex items-center justify-center gap-2"
                                                     >
                                                         <TrashIcon />
                                                         {toggling === cycle.id ? "Eliminando..." : "Eliminar"}
@@ -398,7 +398,7 @@ export default function AdmissionSettingsForm() {
                                                 <button
                                                     onClick={() => handleClose(cycle.id, cycle.name)}
                                                     disabled={toggling === cycle.id}
-                                                    className="px-4 py-2 text-sm bg-red-50 text-red-700 hover:bg-red-100 rounded border border-red-200 disabled:opacity-50 flex items-center justify-center gap-2"
+                                                    className="px-4 py-2 text-sm bg-danger/10 text-danger hover:bg-danger/15 rounded border border-danger/30 disabled:opacity-50 flex items-center justify-center gap-2"
                                                 >
                                                     {toggling === cycle.id ? (
                                                         <>
@@ -414,7 +414,7 @@ export default function AdmissionSettingsForm() {
                                                 <button
                                                     onClick={() => handleReopen(cycle)}
                                                     disabled={toggling === cycle.id}
-                                                    className="px-4 py-2 text-sm bg-blue-50 text-blue-700 hover:bg-blue-100 rounded border border-blue-200 disabled:opacity-50 flex items-center justify-center gap-2"
+                                                    className="px-4 py-2 text-sm bg-primary-soft text-primary hover:bg-primary-soft rounded border border-border disabled:opacity-50 flex items-center justify-center gap-2"
                                                 >
                                                     {toggling === cycle.id ? (
                                                         <>
@@ -440,74 +440,74 @@ export default function AdmissionSettingsForm() {
             {/* Sidebar for Messages/Info */}
             <aside className="mt-6 lg:mt-0 lg:w-80 space-y-4">
                 {/* Cycle Status Legend */}
-                <div className="bg-white rounded-xl shadow-sm border p-4">
-                    <h3 className="font-medium text-gray-900 mb-3 flex items-center gap-2">
+                <div className="bg-surface-elevated rounded-xl shadow-sm border p-4">
+                    <h3 className="font-medium text-foreground mb-3 flex items-center gap-2">
                         <InfoIcon />
                         Estados del periodo
                     </h3>
                     <div className="space-y-2">
                         <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                            <span className="text-sm text-gray-700">Activo - periodo en funcionamiento</span>
+                            <div className="w-3 h-3 rounded-full bg-success/100"></div>
+                            <span className="text-sm text-foreground">Activo - periodo en funcionamiento</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full bg-gray-400"></div>
-                            <span className="text-sm text-gray-700">Borrador - Configuración pendiente</span>
+                            <div className="w-3 h-3 rounded-full bg-fg-muted"></div>
+                            <span className="text-sm text-foreground">Borrador - Configuración pendiente</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                            <span className="text-sm text-gray-700">Cerrado - No disponible para preinscripción</span>
+                            <div className="w-3 h-3 rounded-full bg-danger/100"></div>
+                            <span className="text-sm text-foreground">Cerrado - No disponible para preinscripción</span>
                         </div>
                     </div>
                 </div>
 
                 {/* Important Information */}
-                <div className="bg-blue-50 rounded-xl border border-blue-200 p-4">
-                    <h3 className="font-medium text-blue-900 mb-2 flex items-center gap-2">
+                <div className="bg-primary-soft rounded-xl border border-border p-4">
+                    <h3 className="font-medium text-primary mb-2 flex items-center gap-2">
                         <InfoIcon />
                         Información Importante
                     </h3>
-                    <ul className="space-y-2 text-sm text-blue-800">
+                    <ul className="space-y-2 text-sm text-primary">
                         <li className="flex items-start gap-2">
-                            <span className="inline-block w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></span>
+                            <span className="inline-block w-1.5 h-1.5 bg-primary-soft0 rounded-full mt-1.5 flex-shrink-0"></span>
                             <span>Solo puede haber un periodo activo a la vez</span>
                         </li>
                         <li className="flex items-start gap-2">
-                            <span className="inline-block w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></span>
+                            <span className="inline-block w-1.5 h-1.5 bg-primary-soft0 rounded-full mt-1.5 flex-shrink-0"></span>
                             <span>Puede usar &quot;Crear y Activar&quot; para publicar el periodo en un solo paso</span>
                         </li>
                         <li className="flex items-start gap-2">
-                            <span className="inline-block w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></span>
+                            <span className="inline-block w-1.5 h-1.5 bg-primary-soft0 rounded-full mt-1.5 flex-shrink-0"></span>
                             <span>Los folios se reinician al activar un nuevo periodo</span>
                         </li>
                         <li className="flex items-start gap-2">
-                            <span className="inline-block w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></span>
+                            <span className="inline-block w-1.5 h-1.5 bg-primary-soft0 rounded-full mt-1.5 flex-shrink-0"></span>
                             <span>Al reabrir un periodo, los folios continúan secuencialmente</span>
                         </li>
                         <li className="flex items-start gap-2">
-                            <span className="inline-block w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></span>
+                            <span className="inline-block w-1.5 h-1.5 bg-primary-soft0 rounded-full mt-1.5 flex-shrink-0"></span>
                             <span>Los periodos expirados requieren nueva fecha de fin</span>
                         </li>
                     </ul>
                 </div>
 
                 {/* Cycle Guidelines */}
-                <div className="bg-gray-50 rounded-xl border border-gray-200 p-4">
-                    <h3 className="font-medium text-gray-900 mb-2">
+                <div className="bg-surface-muted rounded-xl border border-border p-4">
+                    <h3 className="font-medium text-foreground mb-2">
                         Buenas Prácticas
                     </h3>
-                    <div className="space-y-3 text-sm text-gray-700">
+                    <div className="space-y-3 text-sm text-foreground">
                         <div>
                             <p className="font-medium">Antes de Activar:</p>
-                            <p className="text-gray-600">Verifique que las fechas sean correctas y no se solapen con otros periodos.</p>
+                            <p className="text-fg-muted">Verifique que las fechas sean correctas y no se solapen con otros periodos.</p>
                         </div>
                         <div>
                             <p className="font-medium">Al Cerrar:</p>
-                            <p className="text-gray-600">Asegúrese de que no haya preinscripciones pendientes de procesar.</p>
+                            <p className="text-fg-muted">Asegúrese de que no haya preinscripciones pendientes de procesar.</p>
                         </div>
                         <div>
                             <p className="font-medium">Al Reabrir:</p>
-                            <p className="text-gray-600">Considere extender la fecha si el periodo ha expirado.</p>
+                            <p className="text-fg-muted">Considere extender la fecha si el periodo ha expirado.</p>
                         </div>
                     </div>
                 </div>

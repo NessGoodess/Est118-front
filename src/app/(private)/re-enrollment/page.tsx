@@ -6,17 +6,17 @@ export default function ReEnrollmentDashboardPage() {
   const { stats, activePeriod, loading } = useReEnrollment();
 
   if (loading) {
-    return <div className="text-sm text-gray-500">Cargando tablero...</div>;
+    return <div className="text-sm text-fg-muted">Cargando tablero...</div>;
   }
 
   return (
-    <section className="bg-white border rounded-xl p-6 space-y-4">
+    <section className="bg-surface-elevated border rounded-xl p-6 space-y-4">
       <h2 className="text-lg font-semibold">Tablero del proceso</h2>
       {!activePeriod ? (
-        <p className="text-sm text-gray-500">Crea y abre un periodo en Configuración para comenzar.</p>
+        <p className="text-sm text-fg-muted">Crea y abre un periodo en Configuración para comenzar.</p>
       ) : stats ? (
         <>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-fg-muted">
             {activePeriod.name} · Estado: <strong>{activePeriod.status}</strong> · Paso: <strong>{activePeriod.current_step}</strong>
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -25,7 +25,7 @@ export default function ReEnrollmentDashboardPage() {
             <StatCard label="Con adeudos" value={stats.with_debts} />
             <StatCard label="Listos para promover" value={stats.ready_for_promotion} />
           </div>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-fg-muted">
             Flujo recomendado: Configuración → Validación → Promoción → Grupos (opcional) → Finalizar.
           </p>
         </>
@@ -37,8 +37,8 @@ export default function ReEnrollmentDashboardPage() {
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
     <div className="border rounded-lg p-3">
-      <div className="text-2xl font-bold text-blue-900">{value}</div>
-      <div className="text-xs text-gray-500">{label}</div>
+      <div className="text-2xl font-bold text-primary">{value}</div>
+      <div className="text-xs text-fg-muted">{label}</div>
     </div>
   );
 }

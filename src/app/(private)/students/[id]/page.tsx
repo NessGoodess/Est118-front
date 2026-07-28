@@ -103,11 +103,11 @@ function SectionCard({
 }) {
   return (
     <section
-      className={`rounded-2xl border border-slate-200/80 bg-white shadow-sm shadow-slate-200/50 overflow-hidden ${className}`}
+      className={`rounded-2xl border border-border/80 bg-surface-elevated shadow-sm overflow-hidden ${className}`}
     >
-      <div className="border-b border-slate-100 bg-gradient-to-r from-slate-50 to-white px-5 py-4">
-        <h2 className="text-base font-semibold text-slate-900 tracking-tight">{title}</h2>
-        {description ? <p className="text-sm text-slate-500 mt-1">{description}</p> : null}
+      <div className="border-b border-border bg-surface-muted/70 px-5 py-4">
+        <h2 className="text-base font-semibold text-foreground tracking-tight">{title}</h2>
+        {description ? <p className="text-sm text-fg-muted mt-1">{description}</p> : null}
       </div>
       <div className="p-5 sm:p-6">{children}</div>
     </section>
@@ -116,9 +116,9 @@ function SectionCard({
 
 function InfoTile({ label, value }: { label: string; value: string }) {
   return (
-    <div className="group rounded-xl border border-slate-100 bg-slate-50/60 p-4 transition-colors hover:bg-slate-50 hover:border-slate-200/80">
-      <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">{label}</div>
-      <div className="mt-1.5 text-sm font-medium text-slate-900 break-words leading-snug">{value}</div>
+    <div className="group rounded-xl border border-border bg-surface-muted/60 p-4 transition-colors hover:bg-surface-muted hover:border-border/80">
+      <div className="text-[11px] font-semibold uppercase tracking-wider text-fg-muted">{label}</div>
+      <div className="mt-1.5 text-sm font-medium text-foreground break-words leading-snug">{value}</div>
     </div>
   );
 }
@@ -182,7 +182,7 @@ export default function StudentProfilePage() {
   }, [detail?.address_detail]);
 
   if (!Number.isFinite(id) || id < 1) {
-    return <div className="text-sm text-red-700">Identificador de alumno no válido.</div>;
+    return <div className="text-sm text-danger">Identificador de alumno no válido.</div>;
   }
 
   return (
@@ -190,7 +190,7 @@ export default function StudentProfilePage() {
       <button
         type="button"
         onClick={() => router.push("/students/all-students")}
-        className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-blue-900 hover:text-blue-600 transition-colors"
+        className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary-hover transition-colors"
       >
         <span aria-hidden>←</span> Volver a estudiantes
       </button>
@@ -201,31 +201,31 @@ export default function StudentProfilePage() {
       />
 
       {loading && (
-        <div className="mt-8 flex items-center gap-3 text-slate-500">
-          <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-blue-900" />
+        <div className="mt-8 flex items-center gap-3 text-fg-muted">
+          <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-border border-t-primary" />
           <span className="text-sm">Cargando expediente…</span>
         </div>
       )}
 
       {error && !loading && (
-        <div className="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{error}</div>
+        <div className="mt-6 rounded-xl border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">{error}</div>
       )}
 
       {detail && !loading && (
         <div className="mt-8 space-y-8">
           {/* Hero: foto + identificación */}
-          <div className="rounded-2xl border border-slate-200/80 bg-gradient-to-br from-white via-slate-50/30 to-blue-50/20 shadow-sm overflow-hidden">
+          <div className="rounded-2xl border border-border/80 bg-surface-elevated shadow-sm overflow-hidden">
             <div className="p-6 sm:p-8 flex flex-col lg:flex-row gap-8 lg:gap-10 lg:items-stretch">
               <div className="flex flex-col items-center sm:items-start shrink-0">
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-3">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-fg-muted mb-3">
                   Fotografía institucional
                 </span>
-                <div className="relative rounded-2xl overflow-hidden ring-2 ring-white shadow-lg shadow-slate-300/40 bg-slate-100">
+                <div className="relative rounded-2xl overflow-hidden ring-2 ring-border shadow-lg bg-surface-muted">
                   {bestPhotoUrl ? (
                     <button
                       type="button"
                       onClick={() => setLightboxOpen(true)}
-                      className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded-2xl"
+                      className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-elevated rounded-2xl"
                       title="Ver foto en grande"
                     >
                       <Image
@@ -239,7 +239,7 @@ export default function StudentProfilePage() {
                       />
                     </button>
                   ) : (
-                    <div className="w-[min(100vw-3rem,20rem)] h-[min(100vw-3rem,20rem)] sm:w-80 sm:h-80 grid place-items-center text-slate-500 text-sm text-center px-6 bg-slate-100">
+                    <div className="w-[min(100vw-3rem,20rem)] h-[min(100vw-3rem,20rem)] sm:w-80 sm:h-80 grid place-items-center text-fg-muted text-sm text-center px-6 bg-surface-muted">
                       Sin foto registrada. Usa Capturar para agregar una.
                     </div>
                   )}
@@ -258,8 +258,8 @@ export default function StudentProfilePage() {
 
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-6">
-                  <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">{displayName}</h1>
-                  <span className="text-sm text-slate-500 font-mono">ID {detail.student_info.id}</span>
+                  <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">{displayName}</h1>
+                  <span className="text-sm text-fg-muted font-mono">ID {detail.student_info.id}</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {studentInfoCards(detail.student_info).map(({ key, label, value }) => (
@@ -305,7 +305,7 @@ export default function StudentProfilePage() {
                 />
               </div>
             ) : (
-              <div className="rounded-xl border border-amber-200 bg-amber-50/80 px-4 py-3 text-sm text-amber-900">
+              <div className="rounded-xl border border-warning/30 bg-warning/10 px-4 py-3 text-sm text-warning-foreground">
                 No hay inscripción activa: el alumno no aparece enlazado a un grupo en este ciclo o falta completar la
                 matrícula.
               </div>
@@ -320,7 +320,7 @@ export default function StudentProfilePage() {
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-slate-500">Sin domicilio capturado para este perfil.</p>
+              <p className="text-sm text-fg-muted">Sin domicilio capturado para este perfil.</p>
             )}
           </SectionCard>
 
@@ -333,14 +333,14 @@ export default function StudentProfilePage() {
                 {detail.subjects.map((s, i) => (
                   <span
                     key={i}
-                    className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm text-slate-800"
+                    className="inline-flex items-center rounded-full border border-border bg-surface-muted px-3 py-1 text-sm text-foreground"
                   >
                     {s}
                   </span>
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-slate-500">Sin materias asociadas al grupo vigente.</p>
+              <p className="text-sm text-fg-muted">Sin materias asociadas al grupo vigente.</p>
             )}
           </SectionCard>
 
@@ -349,9 +349,9 @@ export default function StudentProfilePage() {
             description="Todas las filas de enrollments para este estudiante (orden descendente por id)."
           >
             {detail.all_enrollments && Array.isArray(detail.all_enrollments) && detail.all_enrollments.length > 0 ? (
-              <div className="overflow-x-auto rounded-xl border border-slate-100">
+              <div className="overflow-x-auto rounded-xl border border-border">
                 <table className="min-w-full text-sm">
-                  <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <thead className="bg-surface-muted text-left text-xs font-semibold uppercase tracking-wide text-fg-muted">
                     <tr>
                       <th className="px-3 py-3">ID</th>
                       <th className="px-3 py-3">Estado</th>
@@ -365,9 +365,9 @@ export default function StudentProfilePage() {
                       <th className="px-3 py-3">Actualizado</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-border">
                     {(detail.all_enrollments as Array<Record<string, unknown>>).map((row, idx: number) => (
-                      <tr key={idx} className="hover:bg-slate-50/80 transition-colors">
+                      <tr key={idx} className="hover:bg-surface-muted/80 transition-colors">
                         <td className="px-3 py-2.5 font-mono text-xs">{formatPlain(row.id)}</td>
                         <td className="px-3 py-2.5">{formatPlain(row.status)}</td>
                         <td className="px-3 py-2.5">{formatPlain(row.grade_level)}</td>
@@ -376,10 +376,10 @@ export default function StudentProfilePage() {
                         <td className="px-3 py-2.5">{formatPlain(row.is_new_admission)}</td>
                         <td className="px-3 py-2.5">{formatApproval(row.is_approved)}</td>
                         <td className="px-3 py-2.5">{formatPlain(row.promotion_result)}</td>
-                        <td className="px-3 py-2.5 whitespace-nowrap text-xs text-slate-600">
+                        <td className="px-3 py-2.5 whitespace-nowrap text-xs text-fg-muted">
                           {formatFieldValue("created_at", row.created_at)}
                         </td>
-                        <td className="px-3 py-2.5 whitespace-nowrap text-xs text-slate-600">
+                        <td className="px-3 py-2.5 whitespace-nowrap text-xs text-fg-muted">
                           {formatFieldValue("updated_at", row.updated_at)}
                         </td>
                       </tr>
@@ -388,7 +388,7 @@ export default function StudentProfilePage() {
                 </table>
               </div>
             ) : (
-              <p className="text-sm text-slate-500">Sin historial de inscripciones.</p>
+              <p className="text-sm text-fg-muted">Sin historial de inscripciones.</p>
             )}
           </SectionCard>
 
@@ -401,16 +401,16 @@ export default function StudentProfilePage() {
                 {detail.guardians.map((g, idx) => (
                   <li
                     key={idx}
-                    className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm ring-1 ring-slate-100/80"
+                    className="rounded-xl border border-border bg-surface-muted/40 p-4 shadow-sm"
                   >
-                    <div className="font-semibold text-slate-900">{formatPlain(g.name)}</div>
-                    <div className="mt-2 text-sm text-slate-600 space-y-1">
+                    <div className="font-semibold text-foreground">{formatPlain(g.name)}</div>
+                    <div className="mt-2 text-sm text-fg-muted space-y-1">
                       <div>
-                        <span className="text-slate-400">Parentesco: </span>
+                        <span className="text-fg-muted">Parentesco: </span>
                         {formatPlain(g.relationship)}
                       </div>
                       <div>
-                        <span className="text-slate-400">Teléfono: </span>
+                        <span className="text-fg-muted">Teléfono: </span>
                         {formatPlain(g.phone)}
                       </div>
                     </div>
@@ -418,7 +418,7 @@ export default function StudentProfilePage() {
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-slate-500">Sin tutores vinculados en guardian_student.</p>
+              <p className="text-sm text-fg-muted">Sin tutores vinculados en guardian_student.</p>
             )}
           </SectionCard>
         </div>

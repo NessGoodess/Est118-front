@@ -56,9 +56,9 @@ export default function ReEnrollmentCompletedPanel() {
   return (
     <div className="space-y-4">
       {activePeriod && activePeriod.status === 'open' && (
-        <section className="bg-white border rounded-xl p-4 sm:p-6 space-y-4">
+        <section className="bg-surface-elevated border rounded-xl p-4 sm:p-6 space-y-4">
           <h2 className="text-lg font-semibold">Finalizar proceso actual</h2>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-fg-muted">
             Cierra oficialmente {activePeriod.name}. Requiere promoción ejecutada previamente.
           </p>
 
@@ -72,7 +72,7 @@ export default function ReEnrollmentCompletedPanel() {
           )}
 
           {!stats?.promotion_executed_at && (
-            <p className="text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg p-3">
+            <p className="text-sm text-warning-foreground bg-warning/10 border border-warning/30 rounded-lg p-3">
               Debes ejecutar la promoción real antes de finalizar.
             </p>
           )}
@@ -98,37 +98,37 @@ export default function ReEnrollmentCompletedPanel() {
       )}
 
       {activePeriod && activePeriod.status === 'finalized' && (
-        <section className="bg-slate-100 border border-slate-300 rounded-xl p-4 sm:p-6">
-          <p className="font-semibold text-slate-800">🔒 Reinscripción finalizada — solo consulta</p>
-          <p className="text-sm text-slate-600 mt-1">{activePeriod.name}</p>
+        <section className="bg-surface-muted border border-border rounded-xl p-4 sm:p-6">
+          <p className="font-semibold text-foreground">🔒 Reinscripción finalizada — solo consulta</p>
+          <p className="text-sm text-fg-muted mt-1">{activePeriod.name}</p>
         </section>
       )}
 
-      <section className="bg-white border rounded-xl p-4 sm:p-6 space-y-3">
+      <section className="bg-surface-elevated border rounded-xl p-4 sm:p-6 space-y-3">
         <h2 className="text-lg font-semibold">Historial del periodo activo</h2>
         {history.length === 0 ? (
-          <p className="text-sm text-gray-500">Sin eventos registrados.</p>
+          <p className="text-sm text-fg-muted">Sin eventos registrados.</p>
         ) : (
           <ul className="space-y-2">
             {history.map((event) => (
               <li key={event.id} className="border rounded-lg p-3 text-sm">
                 <div className="flex justify-between gap-2">
                   <span className="font-medium">{actionLabel(event.action)}</span>
-                  <span className="text-gray-500 text-xs">
+                  <span className="text-fg-muted text-xs">
                     {event.created_at ? new Date(event.created_at).toLocaleString() : '—'}
                   </span>
                 </div>
-                <div className="text-gray-600 text-xs mt-1">Por: {event.user_name}</div>
+                <div className="text-fg-muted text-xs mt-1">Por: {event.user_name}</div>
               </li>
             ))}
           </ul>
         )}
       </section>
 
-      <section className="bg-white border rounded-xl p-4 sm:p-6 space-y-3">
+      <section className="bg-surface-elevated border rounded-xl p-4 sm:p-6 space-y-3">
         <h2 className="text-lg font-semibold">Procesos finalizados</h2>
         {finalized.length === 0 ? (
-          <p className="text-sm text-gray-500">Aún no hay procesos finalizados.</p>
+          <p className="text-sm text-fg-muted">Aún no hay procesos finalizados.</p>
         ) : (
           <ul className="space-y-2">
             {finalized.map((p) => (
@@ -144,8 +144,8 @@ export default function ReEnrollmentCompletedPanel() {
 function Metric({ label, value }: { label: string; value: number }) {
   return (
     <div className="border rounded-lg p-3">
-      <div className="text-xl font-bold text-blue-900">{value}</div>
-      <div className="text-xs text-gray-500">{label}</div>
+      <div className="text-xl font-bold text-primary">{value}</div>
+      <div className="text-xs text-fg-muted">{label}</div>
     </div>
   );
 }
@@ -154,10 +154,10 @@ function FinalizedCard({ period }: { period: ReEnrollmentPeriod }) {
   return (
     <li className="border rounded-lg p-3 text-sm">
       <div className="font-medium">{period.name}</div>
-      <div className="text-gray-500">
+      <div className="text-fg-muted">
         Finalizada: {period.finalized_at ? new Date(period.finalized_at).toLocaleString() : '—'}
       </div>
-      <div className="text-gray-500">{period.applications_count ?? 0} alumnos en el proceso</div>
+      <div className="text-fg-muted">{period.applications_count ?? 0} alumnos en el proceso</div>
     </li>
   );
 }

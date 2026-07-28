@@ -22,14 +22,14 @@ export default function SectionHeader({ text, title, description }: SectionHeade
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                 >
-                    <p className="font-sans text-[11px] font-bold uppercase tracking-[0.07em] text-slate-50">
+                    <p className="font-sans text-[11px] font-bold uppercase tracking-[0.07em] text-foreground">
                         {text}
                     </p>
-                    <h1 className="mt-1 font-[Syne,sans-serif] text-[clamp(28px,4vw,44px)] font-extrabold tracking-tight text-slate-100">
+                    <h1 className="mt-1 font-[Syne,sans-serif] text-[clamp(28px,4vw,44px)] font-extrabold tracking-tight text-foreground">
                         {title}
                     </h1>
                     <span className="mt-3 block h-[3px] w-12 rounded-full bg-red-500" />
-                    <p className="mt-4 max-w-2xl text-[clamp(14px,1.2vw,16px)] font-light text-slate-50">
+                    <p className="mt-4 max-w-2xl text-[clamp(14px,1.2vw,16px)] font-light text-foreground">
                         {description}
                     </p>
                 </motion.div>

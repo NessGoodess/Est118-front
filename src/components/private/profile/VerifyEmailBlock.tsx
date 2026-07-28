@@ -45,14 +45,14 @@ export default function VerifyEmailBlock({ email, onResent }: VerifyEmailBlockPr
     };
 
     return (
-        <div className="rounded-xl border border-amber-200 bg-amber-50 p-6">
+        <div className="rounded-xl border border-warning/30 bg-warning/10 p-6">
             <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100">
-                    <IconByName name="alert" className="h-5 w-5 text-amber-600" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-warning/15">
+                    <IconByName name="alert" className="h-5 w-5 text-warning-foreground" />
                 </div>
                 <div className="min-w-0 flex-1">
-                    <h3 className="text-sm font-semibold text-amber-900">Verifica tu correo</h3>
-                    <p className="mt-1 text-sm text-amber-800">
+                    <h3 className="text-sm font-semibold text-warning-foreground">Verifica tu correo</h3>
+                    <p className="mt-1 text-sm text-warning-foreground">
                         Tu correo <span className="font-medium">{email}</span> no está verificado.
                         Debes verificarlo para acceder al resto de la aplicación.
                     </p>
@@ -60,7 +60,7 @@ export default function VerifyEmailBlock({ email, onResent }: VerifyEmailBlockPr
                         type="button"
                         onClick={handleResend}
                         disabled={sending || cooldown > 0}
-                        className="mt-4 inline-flex items-center gap-2 rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="mt-4 inline-flex items-center gap-2 rounded-lg bg-warning px-4 py-2 text-sm font-medium text-warning-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {sending ? (
                             <>

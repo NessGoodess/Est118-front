@@ -41,8 +41,8 @@ export default function LazyStudentPhoto({ student }: LazyStudentPhotoProps) {
                     loading="lazy"
                 />
             ) : (
-                <div className="h-12 w-12 rounded-full bg-gray-300 flex items-center justify-center">
-                    <span className="text-sm font-medium text-gray-700">
+                <div className="h-12 w-12 rounded-full bg-surface-muted flex items-center justify-center">
+                    <span className="text-sm font-medium text-foreground">
                         {student.name.charAt(0).toUpperCase()}
                     </span>
                 </div>

@@ -4,8 +4,8 @@ import { boletas } from '@/lib/data/mockData';
 
 export default function BoletasSection() {
     const getCalificacionColor = (calificacion: number) => {
-        if (calificacion >= 9) return 'text-green-600 bg-green-50';
-        if (calificacion >= 8) return 'text-blue-600 bg-blue-50';
+        if (calificacion >= 9) return 'text-success bg-green-50';
+        if (calificacion >= 8) return 'text-primary bg-primary-soft';
         if (calificacion >= 7) return 'text-yellow-600 bg-yellow-50';
         return 'text-red-600 bg-red-50';
     };
@@ -25,10 +25,10 @@ export default function BoletasSection() {
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl mb-4">
                         <span className="text-3xl">📝</span>
                     </div>
-                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                    <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
                         Boletas y Calificaciones
                     </h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                    <p className="text-lg text-fg-muted max-w-2xl mx-auto">
                         Consulta tus calificaciones y boletas de evaluación
                     </p>
                 </div>
@@ -38,7 +38,7 @@ export default function BoletasSection() {
                     {boletas.map((boleta) => (
                         <div
                             key={boleta.id}
-                            className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100"
+                            className="bg-surface-elevated rounded-2xl shadow-xl overflow-hidden border border-border"
                         >
                             {/* Header Card */}
                             <div className={`p-6 bg-gradient-to-r ${getPromedioColor(boleta.promedio)} text-white`}>
@@ -71,10 +71,10 @@ export default function BoletasSection() {
                                     {boleta.calificaciones.map((cal, idx) => (
                                         <div
                                             key={idx}
-                                            className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
+                                            className="flex items-center justify-between p-4 bg-surface-muted rounded-xl hover:bg-surface-muted transition-colors"
                                         >
                                             <div className="flex-1">
-                                                <h4 className="font-semibold text-gray-900 text-sm">
+                                                <h4 className="font-semibold text-foreground text-sm">
                                                     {cal.materia}
                                                 </h4>
                                                 {cal.faltas > 0 && (
@@ -91,8 +91,8 @@ export default function BoletasSection() {
                                 </div>
 
                                 {/* Footer */}
-                                <div className="mt-6 pt-6 border-t border-gray-200">
-                                    <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
+                                <div className="mt-6 pt-6 border-t border-border">
+                                    <div className="flex items-center justify-between text-sm text-fg-muted mb-4">
                                         <span>Fecha de emisión:</span>
                                         <span className="font-medium">{boleta.fechaEmision}</span>
                                     </div>
@@ -109,18 +109,18 @@ export default function BoletasSection() {
                 </div>
 
                 {/* Info Box */}
-                <div className="mt-12 bg-blue-50 border border-blue-200 rounded-2xl p-6">
+                <div className="mt-12 bg-primary-soft border border-border rounded-2xl p-6">
                     <div className="flex items-start gap-4">
                         <div className="flex-shrink-0">
-                            <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center">
+                            <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
                                 <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </div>
                         </div>
                         <div className="flex-1">
-                            <h3 className="font-bold text-gray-900 mb-2">Información Importante</h3>
-                            <p className="text-gray-700 text-sm">
+                            <h3 className="font-bold text-foreground mb-2">Información Importante</h3>
+                            <p className="text-foreground text-sm">
                                 Las boletas están disponibles al finalizar cada bimestre. Si encuentras algún error en tus calificaciones,
                                 acude con tu profesor de la materia correspondiente dentro de los primeros 5 días hábiles posteriores a la publicación.
                             </p>

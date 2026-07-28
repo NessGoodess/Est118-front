@@ -36,7 +36,7 @@ export default function Carousel() {
 
     return (
         <section className="py-16 bg-transparent h-screen">
-            <div className=" px-6 mx-10 my-10 rounded-2xl bg-white shadow-2xl shadow-black/10">
+            <div className=" px-6 mx-10 my-10 rounded-2xl bg-surface-elevated shadow-2xl shadow-black/10">
 
                 <div className="relative overflow-hidden rounded-2xl shadow-2xl h-96">
                     <AnimatePresence mode="wait">
@@ -62,27 +62,27 @@ export default function Carousel() {
                         </motion.div>
                     </AnimatePresence>
                     <button
-                        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-3 transition-all z-10 cursor-pointer"
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-surface-elevated bg-opacity-80 hover:bg-opacity-100 rounded-full p-3 transition-all z-10 cursor-pointer"
                         onClick={handlePrev}
                         aria-label="Anterior"
                     >
                         <i className="fa-solid fa-arrow-left"></i>
                     </button>
                     <button
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-3 transition-all z-10 cursor-pointer"
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-surface-elevated bg-opacity-80 hover:bg-opacity-100 rounded-full p-3 transition-all z-10 cursor-pointer"
                         onClick={handleNext}
                         aria-label="Siguiente"
                     >
                         <i className="fa-solid fa-arrow-right"></i>
-                        <i className="fas fa-chevron-right text-gray-800"></i>
+                        <i className="fas fa-chevron-right text-foreground"></i>
                     </button>
                     <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
                         {slides.map((_, idx) => (
                             <button
                                 key={idx}
                                 className={`w-3 h-3 rounded-full transition-all hover:bg-grey-300 transform duration-300 hover:scale-150  cursor-pointer ${current === idx
-                                        ? "bg-blue-600 bg-opacity-100"
-                                        : "bg-white bg-opacity-60 hover:bg-grey-300"
+                                        ? "bg-primary bg-opacity-100"
+                                        : "bg-surface-elevated bg-opacity-60 hover:bg-grey-300"
                                     }`}
                                 onClick={() => setCurrent(idx)}
                                 aria-label={`Ir al slide ${idx + 1}`}

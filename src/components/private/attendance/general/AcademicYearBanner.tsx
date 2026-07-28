@@ -11,14 +11,14 @@ export default function AcademicYearBanner({ academicYear, activeAcademicYear }:
     const usingFallback = academicYear?.resolved_by === "active_fallback";
     const inactiveSelected = academicYear && academicYear.is_active === false;
   
-    let tone = "border-blue-200 bg-blue-50 text-blue-900";
+    let tone = "border-border bg-primary-soft text-primary";
     let title = `Tomando lista del ciclo ${academicYear?.description ?? "—"}`;
     let detail = activeAcademicYear
       ? `Ciclo activo del sistema: ${activeAcademicYear.description}`
       : null;
   
     if (inactiveSelected || usingFallback) {
-      tone = "border-amber-200 bg-amber-50 text-amber-950";
+      tone = "border-warning/30 bg-warning/10 text-warning-foreground";
       title = `Lista basada en ${academicYear?.description ?? "ciclo seleccionado"}`;
       detail = usingFallback
         ? "La fecha no coincide con un ciclo con padrón; se usa el ciclo activo."
@@ -28,7 +28,7 @@ export default function AcademicYearBanner({ academicYear, activeAcademicYear }:
     }
   
     if (!activeAcademicYear) {
-      tone = "border-red-200 bg-red-50 text-red-900";
+      tone = "border-danger/30 bg-danger/10 text-danger";
       title = "No hay ciclo escolar activo";
       detail = academicYear
         ? `Se está usando ${academicYear.description} para esta fecha.`

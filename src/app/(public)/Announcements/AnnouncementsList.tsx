@@ -16,11 +16,11 @@ const RATIO_CLASS: Record<NonNullable<AnnouncementMedia["ratio"]>, string> = {
 }
 
 const TYPE_STYLES: Record<string, { badge: string; dot: string }> = {
-  Informativo: { badge: "bg-blue-500/10 text-blue-600 border-blue-200", dot: "bg-blue-500" },
+  Informativo: { badge: "bg-primary-soft0/10 text-primary border-border", dot: "bg-primary-soft0" },
   Urgente: { badge: "bg-red-500/10 text-red-600 border-red-200", dot: "bg-red-500" },
   Recordatorio: { badge: "bg-amber-500/10 text-amber-600 border-amber-200", dot: "bg-amber-500" },
   Tarea: { badge: "bg-emerald-500/10 text-emerald-600 border-emerald-200", dot: "bg-emerald-500" },
-  General: { badge: "bg-gray-500/10 text-gray-600 border-gray-200", dot: "bg-gray-400" },
+  General: { badge: "bg-surface-muted0/10 text-fg-muted border-border", dot: "bg-fg-muted" },
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -59,11 +59,11 @@ function MediaThumb({ media }: { media: AnnouncementMedia }) {
 
   if (media.type === "video" && media.src) {
     return (
-      <div className={`relative w-full overflow-hidden bg-gray-200 ${ratioClass}`}>
+      <div className={`relative w-full overflow-hidden bg-surface-muted ${ratioClass}`}>
         <video src={media.src} className="h-full w-full object-cover" muted />
         <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent" />
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-[#0d1117] shadow-lg transition-transform duration-200 group-hover:scale-110">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-surface-elevated/90 text-[#0d1117] shadow-lg transition-transform duration-200 group-hover:scale-110">
             <svg className="h-5 w-5 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z" />
             </svg>
@@ -90,9 +90,9 @@ function MediaThumb({ media }: { media: AnnouncementMedia }) {
 
   // Fallback placeholder
   return (
-    <div className={`relative w-full bg-linear-to-br from-gray-100 to-gray-200 ${ratioClass}`}>
+    <div className={`relative w-full bg-linear-to-br from-surface-muted to-loading-base ${ratioClass}`}>
       <div className="absolute inset-0 flex items-center justify-center">
-        <svg className="h-10 w-10 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="h-10 w-10 text-fg-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
       </div>
@@ -125,24 +125,24 @@ function ImportantBadge() {
 
 function CardFooter({ announcement }: { announcement: AnnouncementExtended }) {
   return (
-    <div className="mt-4 flex items-center justify-between gap-2 border-t border-gray-100 pt-3 text-[11px] text-gray-400">
+    <div className="mt-4 flex items-center justify-between gap-2 border-t border-border pt-3 text-[11px] text-fg-muted">
       <div className="flex min-w-0 items-center gap-1.5">
         {announcement.autor && (
           <>
             <svg className="h-3 w-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
-            <span className="truncate font-medium text-gray-500">{announcement.autor}</span>
+            <span className="truncate font-medium text-fg-muted">{announcement.autor}</span>
           </>
         )}
         {announcement.autor && announcement.fecha && (
-          <span className="mx-0.5 text-gray-300">·</span>
+          <span className="mx-0.5 text-fg-muted">·</span>
         )}
         {announcement.fecha && (
           <span className="shrink-0">{announcement.fecha}</span>
         )}
       </div>
-      <span className="inline-flex shrink-0 items-center gap-1 font-semibold text-blue-600 transition-colors group-hover:text-blue-700">
+      <span className="inline-flex shrink-0 items-center gap-1 font-semibold text-primary transition-colors group-hover:text-primary-hover">
         Leer más
         <svg className="h-3 w-3 -translate-x-0.5 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
@@ -169,13 +169,13 @@ export default function AnnouncementsList({ Announcements }: { Announcements: An
   if (!Announcements.length) {
     return (
       <section className="flex flex-col items-center justify-center py-24 text-center">
-        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-100">
-          <svg className="h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-surface-muted">
+          <svg className="h-8 w-8 text-fg-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
           </svg>
         </div>
-        <h3 className="text-base font-semibold text-gray-600">Sin avisos disponibles</h3>
-        <p className="mt-1 text-sm text-gray-400">No hay comunicados publicados por el momento.</p>
+        <h3 className="text-base font-semibold text-fg-muted">Sin avisos disponibles</h3>
+        <p className="mt-1 text-sm text-fg-muted">No hay comunicados publicados por el momento.</p>
       </section>
     )
   }
@@ -194,7 +194,7 @@ export default function AnnouncementsList({ Announcements }: { Announcements: An
             >
               <Link
                 href={`/Announcements/${announcement.id}`}
-                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#0d1117]/6 bg-white shadow-[0_4px_24px_rgba(13,17,23,0.07)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(13,17,23,0.13)]"
+                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#0d1117]/6 bg-surface-elevated shadow-[0_4px_24px_rgba(13,17,23,0.07)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(13,17,23,0.13)]"
               >
                 {/* Media */}
                 <MediaThumb media={announcement.media} />
@@ -209,13 +209,13 @@ export default function AnnouncementsList({ Announcements }: { Announcements: An
 
                   {/* Header label */}
                   {announcement.header && (
-                    <p className="mb-0.5 font-sans text-[10px] font-bold uppercase tracking-[0.08em] text-blue-600">
+                    <p className="mb-0.5 font-sans text-[10px] font-bold uppercase tracking-[0.08em] text-primary">
                       {announcement.header}
                     </p>
                   )}
 
                   {/* Title */}
-                  <h2 className="font-[Syne,sans-serif] text-[1.05rem] font-extrabold leading-snug tracking-tight text-[#0d1117] line-clamp-2 transition-colors duration-200 group-hover:text-blue-700">
+                  <h2 className="font-[Syne,sans-serif] text-[1.05rem] font-extrabold leading-snug tracking-tight text-[#0d1117] line-clamp-2 transition-colors duration-200 group-hover:text-primary-hover">
                     {announcement.title}
                   </h2>
 
@@ -223,7 +223,7 @@ export default function AnnouncementsList({ Announcements }: { Announcements: An
                   <span className="mt-2 block h-[2px] w-8 rounded-full bg-red-500" />
 
                   {/* Extended content */}
-                  <div className="mt-3 flex-1 text-[13px] font-light leading-relaxed text-gray-500">
+                  <div className="mt-3 flex-1 text-[13px] font-light leading-relaxed text-fg-muted">
                     {announcement.content.type === "text" ? (
                       <p className="whitespace-pre-wrap">{announcement.content.text}</p>
                     ) : (

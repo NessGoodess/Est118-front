@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+﻿import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import { TableColumn, DataTableProps, TableConfig, EnhancedTableConfig } from "@/lib/types/data-table";
 import { useRouter } from "next/navigation";
@@ -196,9 +196,9 @@ export function DataTable<T>({
                                 setSearchQuery(e.target.value);
                                 setCurrentPage(1);
                             }}
-                            className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent text-slate-700"
+                            className="w-full pl-10 pr-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent text-foreground"
                         />
-                        <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-fg-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </div>
@@ -207,7 +207,7 @@ export function DataTable<T>({
                 <div className="flex items-center gap-4">
                     {exportable && exportFunction && (
                         <div className="flex items-center gap-2">
-                            <button className="px-3 py-2 border border-slate-300 rounded-lg text-sm text-slate-700 hover:bg-slate-50 focus:outline-none focus:border-transparent"
+                            <button className="px-3 py-2 border border-border rounded-lg text-sm text-foreground hover:bg-surface-muted focus:outline-none focus:border-transparent"
                             data-tooltip-target="tooltip-export"
                             data-tooltip-placement="top"
                             title="Exportar a Excel"
@@ -220,12 +220,12 @@ export function DataTable<T>({
                     
                     {/* Items per page selector */}
                     <div className="flex items-center gap-2">
-                        <label className="hidden md:block text-sm text-slate-600 ">Mostrar:</label>
+                        <label className="hidden md:block text-sm text-fg-muted ">Mostrar:</label>
                         <select
                             value={itemsPerPageSelected}
                             aria-label="Mostrar"
                             onChange={(e) => setItemsPerPageSelected(Number(e.target.value))}
-                            className="px-3 py-2 border border-slate-300 rounded-lg text-sm text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent"
+                            className="px-3 py-2 border border-border rounded-lg text-sm text-foreground bg-surface-elevated hover:bg-surface-muted focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
                         >
                             <option value={5}>5</option>
                             <option value={10}>10</option>
@@ -241,12 +241,12 @@ export function DataTable<T>({
                     <div className="relative">
                         <button
                             onClick={() => setShowColumnMenu(!showColumnMenu)}
-                            className="flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
+                            className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg hover:bg-surface-muted transition-colors"
                         >
-                            <svg className="w-5 h-5 text-slate-600 hover:text-blue-900" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <svg className="w-5 h-5 text-fg-muted hover:text-primary" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M13 5h8" /><path d="M13 12h8" /><path d="M13 19h8" /><path d="m3 17 2 2 4-4" /><rect x="3" y="4" width="6" height="6" rx="1" />
                             </svg>
-                            <span className="hidden md:block text-sm text-slate-700">Columnas</span>
+                            <span className="hidden md:block text-sm text-foreground">Columnas</span>
                         </button>
 
                         {showColumnMenu && (
@@ -255,22 +255,22 @@ export function DataTable<T>({
                                     className="fixed inset-0 z-10"
                                     onClick={() => setShowColumnMenu(false)}
                                 />
-                                <div className="absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-lg shadow-lg z-20 max-h-96 overflow-y-auto">
+                                <div className="absolute right-0 mt-2 w-56 bg-surface-elevated border border-border rounded-lg shadow-lg z-20 max-h-96 overflow-y-auto">
                                     <div className="p-2">
                                         {columns.map((column) => {
                                             const isVisible = visibleColumns.has(String(column.key));
                                             return (
                                                 <label
                                                     key={String(column.key)}
-                                                    className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 rounded cursor-pointer"
+                                                    className="flex items-center gap-2 px-3 py-2 hover:bg-surface-muted rounded cursor-pointer"
                                                 >
                                                     <input
                                                         type="checkbox"
                                                         checked={isVisible}
                                                         onChange={() => toggleColumn(String(column.key))}
-                                                        className="rounded border-slate-300 text-slate-900 focus:outline-none"
+                                                        className="rounded border-border text-foreground focus:outline-none"
                                                     />
-                                                    <span className="text-sm text-slate-700">{column.label}</span>
+                                                    <span className="text-sm text-foreground">{column.label}</span>
                                                 </label>
                                             );
                                         })}
@@ -281,7 +281,7 @@ export function DataTable<T>({
                     </div>
 
                     {selectedRows.length > 0 && (
-                        <div className="text-sm text-slate-600 ">
+                        <div className="text-sm text-fg-muted ">
                             {selectedRows.length} seleccionado{selectedRows.length > 1 ? 's' : ''}
                         </div>
                     )}
@@ -289,10 +289,10 @@ export function DataTable<T>({
             </div>
 
             {/* Table */}
-            <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+            <div className="bg-surface-elevated border border-border rounded-xl overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full">
-                        <thead className="bg-slate-50 border-b border-slate-200">
+                        <thead className="bg-surface-muted border-b border-border">
                             <tr>
                                 {selectable && (
                                     <th className="w-8 md:w-12 px-2 md:px-4 py-2 md:py-3">
@@ -301,14 +301,14 @@ export function DataTable<T>({
                                             aria-label="Seleccionar todos"
                                             checked={allSelected}
                                             onChange={(e) => handleSelectAll(e.target.checked)}
-                                            className="rounded w-3 md:w-4 border-slate-300 text-slate-900 focus:outline-none"
+                                            className="rounded w-3 md:w-4 border-border text-foreground focus:outline-none"
                                         />
                                     </th>
                                 )}
                                 {visibleColumnsList.map((column, index) => (
                                     <th
                                         key={index}
-                                        className={`px-1 py-1 md:px-2 md:py-2 text-${column.align || 'left'} md:text-sm text-xs font-semibold text-slate-400 ${(column.sortable !== false && sortable) ? 'cursor-pointer hover:bg-slate-100' : ''
+                                        className={`px-1 py-1 md:px-2 md:py-2 text-${column.align || 'left'} md:text-sm text-xs font-semibold text-fg-muted ${(column.sortable !== false && sortable) ? 'cursor-pointer hover:bg-surface-muted' : ''
                                             }`}
                                         style={{ width: column.width }}
                                         onClick={() => (column.sortable !== false && sortable) && handleSort(column.key as keyof T)}
@@ -319,8 +319,8 @@ export function DataTable<T>({
                                                 <div className="flex flex-col">
                                                     <svg
                                                         className={`w-3 h-3 ${sortConfig?.key === column.key && sortConfig?.direction === 'asc'
-                                                            ? 'text-slate-900'
-                                                            : 'text-slate-300'
+                                                            ? 'text-foreground'
+                                                            : 'text-fg-muted'
                                                             }`}
                                                         fill="currentColor"
                                                         viewBox="0 0 20 20"
@@ -329,8 +329,8 @@ export function DataTable<T>({
                                                     </svg>
                                                     <svg
                                                         className={`w-3 h-3 -mt-1 ${sortConfig?.key === column.key && sortConfig?.direction === 'desc'
-                                                            ? 'text-slate-900'
-                                                            : 'text-slate-300'
+                                                            ? 'text-foreground'
+                                                            : 'text-fg-muted'
                                                             }`}
                                                         fill="currentColor"
                                                         viewBox="0 0 20 20"
@@ -343,17 +343,17 @@ export function DataTable<T>({
                                     </th>
                                 ))}
                                 {actions.length > 0 && (
-                                    <th className="px-1 md:px-2 py-1 md:py-2 text-right text-xs md:text-sm font-semibold text-slate-400">
+                                    <th className="px-1 md:px-2 py-1 md:py-2 text-right text-xs md:text-sm font-semibold text-fg-muted">
                                         Acciones
                                     </th>
                                 )}
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-200">
+                        <tbody className="divide-y divide-border">
                             {loading ? (
                                 <tr>
                                     <td colSpan={visibleColumnsList.length + (selectable ? 1 : 0) + (actions.length > 0 ? 1 : 0)} className="md:px-4 px-2 py-12 text-center">
-                                        <div className="flex items-center justify-center gap-2 text-slate-500">
+                                        <div className="flex items-center justify-center gap-2 text-fg-muted">
                                             <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
                                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                                                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
@@ -364,7 +364,7 @@ export function DataTable<T>({
                                 </tr>
                             ) : paginatedData.length === 0 ? (
                                 <tr>
-                                    <td colSpan={visibleColumnsList.length + (selectable ? 1 : 0) + (actions.length > 0 ? 1 : 0)} className="md:px-4 px-2 md:py-12 py-6 text-center text-slate-500">
+                                    <td colSpan={visibleColumnsList.length + (selectable ? 1 : 0) + (actions.length > 0 ? 1 : 0)} className="md:px-4 px-2 md:py-12 py-6 text-center text-fg-muted">
                                         {emptyMessage}
                                     </td>
                                 </tr>
@@ -386,7 +386,7 @@ export function DataTable<T>({
                                     return (
                                         <tr
                                             key={rowIndex}
-                                            className={`transition-colors ${onRowClick ? 'cursor-pointer hover:bg-slate-50' : 'hover:bg-linear-to-r from-blue-100 via-slate-50 to-slate-100'}`}
+                                            className={`transition-colors ${onRowClick ? 'cursor-pointer hover:bg-surface-muted' : 'hover:bg-linear-to-r from-primary-soft via-surface-muted to-surface-muted'}`}
                                             onClick={(e) => handleRowClick(row, e)}
                                         >
                                             {selectable && (
@@ -396,14 +396,14 @@ export function DataTable<T>({
                                                         aria-label="Seleccionar"
                                                         checked={isRowSelected(row)}
                                                         onChange={(e) => handleSelectRow(row, e.target.checked)}
-                                                        className="rounded w-3 md:w-4 border-slate-300 text-slate-900 focus:outline-none"
+                                                        className="rounded w-3 md:w-4 border-border text-foreground focus:outline-none"
                                                     />
                                                 </td>
                                             )}
                                             {visibleColumnsList.map((column, colIndex) => (
                                                 <td
                                                     key={colIndex}
-                                                    className={`md:px-2 px-1 md:py-2 py-1 cursor-pointer text-${column.align || 'left'} md:text-sm text-xs text-slate-700`}
+                                                    className={`md:px-2 px-1 md:py-2 py-1 cursor-pointer text-${column.align || 'left'} md:text-sm text-xs text-foreground`}
                                                     style={{ width: column.width }}
                                                 >
                                                     {renderCell(row[column.key as keyof T], row, column)}
@@ -418,8 +418,8 @@ export function DataTable<T>({
                                                             const buttonClass = `inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${action.variant === 'danger'
                                                                 ? 'bg-red-50 text-red-700 hover:bg-red-100'
                                                                 : action.variant === 'primary'
-                                                                    ? 'bg-slate-900 text-white hover:bg-slate-800'
-                                                                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                                                                    ? 'bg-primary text-primary-foreground hover:bg-primary-hover'
+                                                                    : 'bg-surface-muted text-foreground hover:bg-surface-muted'
                                                                 }`;
 
                                                             if (action.href) {
@@ -459,8 +459,8 @@ export function DataTable<T>({
 
                 {/* Footer with pagination */}
                 {totalPages > 1 && (
-                    <div className="bg-slate-50 px-4 py-3 border-t border-slate-200 flex md:flex-row flex-col-reverse items-center justify-between">
-                        <div className="text-sm text-slate-600 mt-2 md:mt-0">
+                    <div className="bg-surface-muted px-4 py-3 border-t border-border flex md:flex-row flex-col-reverse items-center justify-between">
+                        <div className="text-sm text-fg-muted mt-2 md:mt-0">
                             Mostrando {startIndex + 1} a {Math.min(startIndex + itemsPerPageSelected, sortedData.length)} de {sortedData.length} resultados
                         </div>
 
@@ -468,7 +468,7 @@ export function DataTable<T>({
                             <button
                                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                                 disabled={currentPage === 1}
-                                className="px-3 py-1.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="px-3 py-1.5 text-sm font-medium text-foreground bg-surface-elevated border border-border rounded-lg hover:bg-surface-muted disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 <span className="hidden md:block">
                                     Anterior
@@ -498,8 +498,8 @@ export function DataTable<T>({
                                             key={i}
                                             onClick={() => setCurrentPage(pageNum)}
                                             className={`px-3 py-1.5 text-sm font-medium rounded-lg ${currentPage === pageNum
-                                                ? 'bg-slate-900 text-white'
-                                                : 'text-slate-700 bg-white border border-slate-300 hover:bg-slate-50'
+                                                ? 'bg-primary text-primary-foreground'
+                                                : 'text-foreground bg-surface-elevated border border-border hover:bg-surface-muted'
                                                 }`}
                                         >
                                             {pageNum}
@@ -511,7 +511,7 @@ export function DataTable<T>({
                             <button
                                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                                 disabled={currentPage === totalPages}
-                                className="px-3 py-1.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="px-3 py-1.5 text-sm font-medium text-foreground bg-surface-elevated border border-border rounded-lg hover:bg-surface-muted disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 <span className="hidden md:block">
                                     Siguiente

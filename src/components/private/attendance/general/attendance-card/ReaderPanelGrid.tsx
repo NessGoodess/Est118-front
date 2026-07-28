@@ -37,7 +37,7 @@ export default function ReaderPanelGrid() {
 
   if (activeSlots.length === 0) {
     return (
-      <div className="rounded-xl border border-amber-200 bg-amber-50 p-6 text-sm text-amber-900">
+      <div className="rounded-xl border border-warning/30 bg-warning/10 p-6 text-sm text-warning-foreground">
         <p className="font-medium">No hay paneles NFC activos</p>
         <p className="mt-1 opacity-90">
           Ve a la pestaña <strong>Lectores</strong> para activar paneles o asignar
@@ -92,13 +92,13 @@ export default function ReaderPanelGrid() {
       </div>
 
       {isFullscreen ? (
-        <div className="fixed inset-0 z-50 flex flex-col bg-slate-950 p-4 sm:p-6">
+        <div className="fixed inset-0 z-50 flex flex-col bg-surface-app p-4 sm:p-6">
           <div className="mb-4 flex items-center justify-between gap-3 text-white">
             <div>
               <p className="font-semibold">
                 {mode === 'all' ? 'Monitoreo de lectores' : visibleSlots[0]?.label ?? 'Lector'}
               </p>
-              <p className="text-xs text-slate-300">Esc para salir</p>
+              <p className="text-xs text-fg-muted">Esc para salir</p>
             </div>
             <div className="flex gap-2">
               {mode !== 'all' && activeSlots.length > 1 && (

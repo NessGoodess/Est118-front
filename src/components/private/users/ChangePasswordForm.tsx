@@ -86,16 +86,16 @@ export default function ChangePasswordForm({
             />
 
             {errorMessage && (
-                <div className="p-3 rounded-lg text-sm bg-red-50 text-red-800 border border-red-200">
+                <div className="p-3 rounded-lg text-sm bg-danger/10 text-danger border border-danger/30">
                     {errorMessage}
                 </div>
             )}
 
-            <div className="p-4 bg-blue-50 rounded-lg">
-                <p className="text-sm text-blue-800 font-medium mb-2">
+            <div className="p-4 bg-primary-soft rounded-lg">
+                <p className="text-sm text-primary font-medium mb-2">
                     Requisitos de contraseña:
                 </p>
-                <ul className="text-xs text-blue-700 space-y-1 list-disc list-inside">
+                <ul className="text-xs text-primary space-y-1 list-disc list-inside">
                     <li>Mínimo 8 caracteres</li>
                     <li>Al menos una letra mayúscula</li>
                     <li>Al menos una letra minúscula</li>
@@ -109,7 +109,7 @@ export default function ChangePasswordForm({
                         type="button"
                         onClick={onCancel}
                         disabled={isSubmitting}
-                        className="px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-4 py-2 text-sm font-medium text-foreground bg-surface-muted hover:bg-surface-muted rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         Cancelar
                     </button>

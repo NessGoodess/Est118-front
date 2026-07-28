@@ -28,8 +28,8 @@ export default function SearchBar({ scrolled }: SearchBarProps) {
                 onClick={() => setIsOpen(!isOpen)}
                 className={`p-2 rounded-full transition-all duration-300 ${
                     scrolled
-                        ? "text-gray-700 hover:bg-gray-100"
-                        : "text-white hover:bg-white/20"
+                        ? "text-foreground hover:bg-surface-muted"
+                        : "text-white hover:bg-surface-elevated/20"
                 }`}
             >
                 <svg
@@ -69,8 +69,8 @@ export default function SearchBar({ scrolled }: SearchBarProps) {
                                 autoFocus
                                 className={`h-10 px-4 rounded-full border-2 transition-all duration-300 focus:outline-none focus:ring-2 ${
                                     scrolled
-                                        ? "bg-white text-gray-900 border-gray-300 focus:border-blue-500 focus:ring-blue-200"
-                                        : "bg-white/90 backdrop-blur-sm text-gray-900 border-white/30 focus:border-white focus:ring-white/30"
+                                        ? "bg-surface-elevated text-foreground border-border focus:border-ring focus:ring-primary-soft"
+                                        : "bg-surface-elevated/90 backdrop-blur-sm text-foreground border-white/30 focus:border-white focus:ring-white/30"
                                 }`}
                                 style={{ minWidth: "250px" }}
                             />
@@ -79,8 +79,8 @@ export default function SearchBar({ scrolled }: SearchBarProps) {
                                 aria-label="Buscar"
                                 className={`ml-2 p-2 rounded-full transition-all ${
                                     scrolled
-                                        ? "bg-blue-600 hover:bg-blue-700 text-white"
-                                        : "bg-white/90 hover:bg-white text-gray-900"
+                                        ? "bg-primary hover:bg-primary-hover text-primary-foreground"
+                                        : "bg-surface-elevated/90 hover:bg-surface-elevated text-foreground"
                                 }`}
                             >
                                 <svg

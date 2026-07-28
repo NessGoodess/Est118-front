@@ -69,21 +69,21 @@ export default function Modal({
       }}
     >
       {/* Backdrop */}
-      <div className="fixed inset-0 bg-black/50 transition-opacity" />
+      <div className="fixed inset-0 bg-modal-overlay transition-opacity" />
 
       {/* Modal */}
       <div className="flex min-h-dvh items-center justify-center p-1 md:p-4">
         <div
-          className={`relative bg-gradient-to-br from-white via-blue-100 to-blue-50 rounded-xl shadow-xl w-full ${maxWidthClasses[maxWidth]} transform transition-all`}
+          className={`relative bg-surface-elevated text-foreground rounded-xl shadow-card border border-border w-full ${maxWidthClasses[maxWidth]} transform transition-all`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
           {title && (
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
-              <h2 className="md:text-xl text-md font-semibold text-slate-900">{title}</h2>
+            <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+              <h2 className="md:text-xl text-md font-semibold text-brand-strong">{title}</h2>
               <button
                 onClick={onClose}
-                className="text-slate-400 hover:text-slate-600 transition-colors"
+                className="text-fg-muted hover:text-foreground transition-colors"
                 aria-label="Cerrar"
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -98,7 +98,7 @@ export default function Modal({
             {children}
           </div>
           {footerActions && (
-            <div className="flex items-center justify-end px-4 py-4 border-t border-slate-200">
+            <div className="flex items-center justify-end px-4 py-4 border-t border-border">
               {footerActionsContent}
             </div>
           )}

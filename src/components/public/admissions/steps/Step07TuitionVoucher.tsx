@@ -67,7 +67,7 @@ export default function TuitionVoucher({ nextStep, prevStep }: Props) {
   };
 
   return (
-    <div className="md:bg-white md:rounded-2xl md:shadow-xl p-6 md:p-12">
+    <div className="md:bg-surface-elevated md:rounded-2xl md:shadow-xl p-6 md:p-12">
       <Header
         title="Datos de Vales Escolares"
         description="Información sobre vales escolares del aspirante"
@@ -104,23 +104,23 @@ export default function TuitionVoucher({ nextStep, prevStep }: Props) {
         )}
 
         {formData.tuitionVoucher.hasSchoolVoucher === false && (
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <p className="text-sm text-blue-900">
+          <div className="bg-primary-soft border border-border rounded-lg p-4">
+            <p className="text-sm text-primary">
               Marque la casilla si cuenta con vales escolares, si no puede continuar con el siguiente paso.
             </p>
           </div>
         )}
       </div>
 
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 m-8 max-w-2xl mx-auto">
-        <p className="text-sm text-blue-900">
+      <div className="bg-primary-soft border border-border rounded-lg p-4 m-8 max-w-2xl mx-auto">
+        <p className="text-sm text-primary">
           <strong>Importante: </strong>
           Si no lo conoces puedes consultarlo en el siguiente vínculo:{" "}
           <a
             href="http://pucsys.oaxaca.gob.mx/consultas"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 underline"
+            className="text-primary underline"
           >
             http://pucsys.oaxaca.gob.mx/consultas
           </a>

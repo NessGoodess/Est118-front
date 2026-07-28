@@ -140,22 +140,22 @@ export default function Review({ nextStep, prevStep }: Props) {
   };
 
   return (
-    <div className="md:bg-white md:rounded-2xl md:shadow-xl p-6 md:p-12 text-gray-900">
+    <div className="md:bg-surface-elevated md:rounded-2xl md:shadow-xl p-6 md:p-12 text-foreground">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2 font-merriweather">Revisión Final</h2>
-        <p className="text-gray-600">Por favor, revise cuidadosamente toda la información antes de confirmar</p>
+        <h2 className="text-3xl font-bold text-foreground mb-2 font-merriweather">Revisión Final</h2>
+        <p className="text-fg-muted">Por favor, revise cuidadosamente toda la información antes de confirmar</p>
       </motion.div>
 
       <div className="space-y-6">
         {/* Email */}
-        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-          <h3 className="font-bold text-gray-900 mb-4 text-lg">Correo Electrónico</h3>
-          <p className="text-gray-700">{formData.email.contactEmail}</p>
+        <div className="bg-surface-muted rounded-lg p-6 border border-border">
+          <h3 className="font-bold text-foreground mb-4 text-lg">Correo Electrónico</h3>
+          <p className="text-foreground">{formData.email.contactEmail}</p>
         </div>
 
         {/* Aplicant Information */}
-        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-          <h3 className="font-bold text-gray-900 mb-4 text-lg">Datos del Aspirante</h3>
+        <div className="bg-surface-muted rounded-lg p-6 border border-border">
+          <h3 className="font-bold text-foreground mb-4 text-lg">Datos del Aspirante</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div><span className="font-semibold">Nombre completo:</span> {formData.applicantInfo.firstName} {formData.applicantInfo.lastName} {formData.applicantInfo.secondLastName || ''}</div>
             <div><span className="font-semibold">CURP:</span> {formData.applicantInfo.curp}</div>
@@ -171,8 +171,8 @@ export default function Review({ nextStep, prevStep }: Props) {
         </div>
 
         {/* Academic Information */}
-        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-          <h3 className="font-bold text-gray-900 mb-4 text-lg">Datos Educativos</h3>
+        <div className="bg-surface-muted rounded-lg p-6 border border-border">
+          <h3 className="font-bold text-foreground mb-4 text-lg">Datos Educativos</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div><span className="font-semibold">Escuela de procedencia:</span> {formData.academicInfo.previousSchool}</div>
             <div>
@@ -186,8 +186,8 @@ export default function Review({ nextStep, prevStep }: Props) {
         </div>
 
         {/* Address */}
-        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-          <h3 className="font-bold text-gray-900 mb-4 text-lg">Domicilio</h3>
+        <div className="bg-surface-muted rounded-lg p-6 border border-border">
+          <h3 className="font-bold text-foreground mb-4 text-lg">Domicilio</h3>
           <div className="text-sm space-y-1">
             <p>{formData.addressInfo.streetType} {formData.addressInfo.streetName} {formData.addressInfo.houseNumber} {formData.addressInfo.unitNumber ? `Int. ${formData.addressInfo.unitNumber}` : ""}</p>
             <p>{formData.addressInfo.neighborhoodType} {formData.addressInfo.neighborhoodName}</p>
@@ -196,8 +196,8 @@ export default function Review({ nextStep, prevStep }: Props) {
         </div>
 
         {/* Guardian Information */}
-        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-          <h3 className="font-bold text-gray-900 mb-4 text-lg">Datos del Tutor</h3>
+        <div className="bg-surface-muted rounded-lg p-6 border border-border">
+          <h3 className="font-bold text-foreground mb-4 text-lg">Datos del Tutor</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div><span className="font-semibold">Nombre completo:</span> {formData.guardianInfo.guardianFirstName} {formData.guardianInfo.guardianLastName} {formData.guardianInfo.guardianSecondLastName || ''}</div>
             {formData.guardianInfo.guardianCurp && (
@@ -209,8 +209,8 @@ export default function Review({ nextStep, prevStep }: Props) {
         </div>
 
         {/* Workshop Selection */}
-        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-          <h3 className="font-bold text-gray-900 mb-4 text-lg">Taller Seleccionado</h3>
+        <div className="bg-surface-muted rounded-lg p-6 border border-border">
+          <h3 className="font-bold text-foreground mb-4 text-lg">Taller Seleccionado</h3>
           <div className="text-sm space-y-2">
             <p><span className="font-semibold">Opción favorita:</span> {formData.workshopSelect.workshopFirstChoice}</p>
             <p><span className="font-semibold">Segunda opción:</span> {formData.workshopSelect.workshopSecondChoice}</p>
@@ -219,15 +219,15 @@ export default function Review({ nextStep, prevStep }: Props) {
 
         {/* Tuition Voucher */}
         {formData.tuitionVoucher.hasSchoolVoucher && (
-          <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-            <h3 className="font-bold text-gray-900 mb-4 text-lg">Vales Escolares</h3>
+          <div className="bg-surface-muted rounded-lg p-6 border border-border">
+            <h3 className="font-bold text-foreground mb-4 text-lg">Vales Escolares</h3>
             <p className="text-sm"><span className="font-semibold">Folio:</span> {formData.tuitionVoucher.schoolVoucherFolio || 'No proporcionado'}</p>
           </div>
         )}
 
         {/* Warning */}
         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg">
-          <p className="text-sm text-gray-700">
+          <p className="text-sm text-foreground">
             <strong>Importante:</strong> Para concluir este trámite es requisito indispensable asistir al área de contraloría en las instalaciones de la escuela en horario de <strong>7:15 a 9:30 y de 10:00 a 13:30 horas de lunes a viernes</strong>, presentando el número de folio asignado (que recibirá en su correo electrónico) y cubrir la cuota de preinscripción.
           </p>
         </div>

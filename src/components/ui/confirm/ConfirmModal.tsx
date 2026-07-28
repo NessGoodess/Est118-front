@@ -1,13 +1,10 @@
-"use client";
+﻿"use client";
 
 import { useEffect } from "react";
 import { useConfirmContext } from "./ConfirmProvider";
 
 /**
- * Confirm Modal
- * 
- * Ui component for confirm modal
- * 
+ * Confirm Modal — token-based surfaces for light/dark
  */
 export const ConfirmModal = () => {
   const { state, close } = useConfirmContext();
@@ -64,17 +61,17 @@ export const ConfirmModal = () => {
       className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
       onClick={handleOverlayClick}
     >
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" />
+      <div className="absolute inset-0 bg-modal-overlay backdrop-blur-sm transition-opacity" />
 
       <div
-        className="relative bg-white dark:bg-slate-800 rounded-xl shadow-2xl max-w-md w-full p-6 transform transition-all"
+        className="relative bg-surface-elevated text-foreground rounded-xl shadow-card border border-border max-w-md w-full p-6 transform transition-all"
         onClick={(e) => e.stopPropagation()}
       >
         {isDanger && (
           <div className="flex justify-center mb-4">
-            <div className="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-danger/15 flex items-center justify-center">
               <svg
-                className="w-6 h-6 text-red-600 dark:text-red-400"
+                className="w-6 h-6 text-danger"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -90,33 +87,33 @@ export const ConfirmModal = () => {
           </div>
         )}
 
-        <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">
+        <h2 className="text-xl font-semibold text-brand-strong mb-2">
           {state.title}
         </h2>
         {state.description && (
-          <p className="text-slate-600 dark:text-slate-300 mb-6">
-            {state.description}
-          </p>
+          <p className="text-fg-muted mb-6">{state.description}</p>
         )}
 
         <div className="flex gap-3 justify-end">
           <button
+            type="button"
             onClick={handleCancel}
-            className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg transition-colors"
+            className="px-4 py-2 text-sm font-medium text-foreground bg-surface-muted hover:bg-border rounded-lg transition-colors"
           >
             {state.cancelLabel}
           </button>
 
           <button
+            type="button"
             onClick={handleConfirm}
             className={`
-              px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors
+              px-4 py-2 text-sm font-medium rounded-lg transition-colors
+              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface-elevated
               ${
                 isDanger
-                  ? "bg-red-600 hover:bg-red-700 focus:ring-red-500"
-                  : "bg-blue-600 hover:bg-blue-700 focus:ring-blue-500"
+                  ? "bg-danger text-danger-foreground hover:opacity-90 focus:ring-danger"
+                  : "bg-primary text-primary-foreground hover:bg-primary-hover focus:ring-ring"
               }
-              focus:outline-none focus:ring-2 focus:ring-offset-2
             `}
           >
             {state.confirmLabel}
@@ -126,4 +123,3 @@ export const ConfirmModal = () => {
     </div>
   );
 };
-

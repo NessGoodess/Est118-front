@@ -4,12 +4,12 @@ export const tableRenderers = {
   'pre-status': (value: unknown) => {
     const v = (value as string) || 'pending';
     const map: Record<string, { label: string; cls: string }> = {
-      pending: { label: 'Preinscrito', cls: 'bg-slate-100 text-slate-700 border-slate-200' },
-      in_review: { label: 'En revisión', cls: 'bg-amber-50 text-amber-800 border-amber-200' },
-      approved: { label: 'Aprobado', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-      rejected: { label: 'Rechazado', cls: 'bg-red-50 text-red-700 border-red-200' },
+      pending: { label: 'Preinscrito', cls: 'bg-surface-muted text-foreground border-border' },
+      in_review: { label: 'En revisión', cls: 'bg-warning/10 text-warning-foreground border-warning/30' },
+      approved: { label: 'Aprobado', cls: 'bg-success/10 text-success border-success/30' },
+      rejected: { label: 'Rechazado', cls: 'bg-danger/10 text-danger border-danger/30' },
     };
-    const cfg = map[v] ?? { label: v, cls: 'bg-slate-100 text-slate-600 border-slate-200' };
+    const cfg = map[v] ?? { label: v, cls: 'bg-surface-muted text-fg-muted border-border' };
     return (
       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${cfg.cls}`}>
         {cfg.label}
@@ -21,7 +21,7 @@ export const tableRenderers = {
     const isOk = v === 'complete';
     return (
       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-        isOk ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-100 text-slate-700 border-slate-200'
+        isOk ? 'bg-success/10 text-success border-success/30' : 'bg-surface-muted text-foreground border-border'
       }`}>
         {isOk ? 'Completos' : 'Pendientes'}
       </span>
@@ -32,7 +32,7 @@ export const tableRenderers = {
     const isOk = v === 'validated';
     return (
       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-        isOk ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-100 text-slate-700 border-slate-200'
+        isOk ? 'bg-success/10 text-success border-success/30' : 'bg-surface-muted text-foreground border-border'
       }`}>
         {isOk ? 'Validado' : 'Pendiente'}
       </span>
@@ -44,7 +44,7 @@ export const tableRenderers = {
     return (
       <span
         className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-          done ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : 'bg-slate-100 text-slate-600 border-slate-200'
+          done ? 'bg-success/10 text-success border-success/30' : 'bg-surface-muted text-fg-muted border-border'
         }`}
       >
         {done ? `Inscrito #${id}` : 'Sin inscribir'}
@@ -52,7 +52,7 @@ export const tableRenderers = {
     );
   },
   'email-link': (value: unknown) => (
-    <a href={`mailto:${value}`} className="text-blue-600 hover:underline text-sm">
+    <a href={`mailto:${value}`} className="text-primary hover:underline text-sm">
       {value as string}
     </a>
   ),

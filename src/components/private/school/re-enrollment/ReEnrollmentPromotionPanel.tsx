@@ -78,27 +78,27 @@ export default function ReEnrollmentPromotionPanel() {
   };
 
   return (
-    <section className="bg-white rounded-xl shadow-sm border p-4 sm:p-6 space-y-4">
+    <section className="bg-surface-elevated rounded-xl shadow-sm border p-4 sm:p-6 space-y-4">
       <header>
-        <h2 className="text-lg font-semibold text-gray-900">Promoción anual del periodo</h2>
-        <p className="text-sm text-gray-500">
+        <h2 className="text-lg font-semibold text-foreground">Promoción anual del periodo</h2>
+        <p className="text-sm text-fg-muted">
           Ejecuta la promoción vinculada a <strong>{activePeriod.name}</strong>. Los ciclos se toman del periodo configurado.
         </p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
         <div>
-          <span className="text-xs font-medium text-gray-600">Ciclo origen</span>
-          <div className="mt-1 rounded-lg border border-gray-200 px-3 py-2 bg-gray-50">{fromLabel}</div>
+          <span className="text-xs font-medium text-fg-muted">Ciclo origen</span>
+          <div className="mt-1 rounded-lg border border-border px-3 py-2 bg-surface-muted">{fromLabel}</div>
         </div>
         <div>
-          <span className="text-xs font-medium text-gray-600">Ciclo destino</span>
-          <div className="mt-1 rounded-lg border border-gray-200 px-3 py-2 bg-gray-50">{toLabel}</div>
+          <span className="text-xs font-medium text-fg-muted">Ciclo destino</span>
+          <div className="mt-1 rounded-lg border border-border px-3 py-2 bg-surface-muted">{toLabel}</div>
         </div>
       </div>
 
       {alreadyExecuted && (
-        <p className="text-sm text-green-800 bg-green-50 border border-green-200 rounded-lg p-3">
+        <p className="text-sm text-success bg-success/10 border border-success/30 rounded-lg p-3">
           Promoción ejecutada el{' '}
           {stats?.promotion_executed_at
             ? new Date(stats.promotion_executed_at).toLocaleString()
@@ -127,14 +127,14 @@ export default function ReEnrollmentPromotionPanel() {
       </div>
 
       {lastSummary && (
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-sm text-gray-800 whitespace-pre-line">
+        <div className="bg-surface-muted border border-border rounded-lg p-4 text-sm text-foreground whitespace-pre-line">
           <div className="font-medium mb-2">
             Resultado ({lastMode === 'dry' ? 'simulación' : 'ejecución'})
           </div>
           {formatSummary(lastSummary)}
 
           {lastSummary.errors && lastSummary.errors.length > 0 && (
-            <div className="mt-3 text-xs text-red-700">
+            <div className="mt-3 text-xs text-danger">
               <div className="font-medium mb-1">Errores (primeros 5)</div>
               <ul className="list-disc pl-5 space-y-1">
                 {lastSummary.errors.slice(0, 5).map((e, idx) => (

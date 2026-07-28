@@ -24,22 +24,22 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
     const config = {
       pending: {
         label: 'Pendiente',
-        className: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+        className: 'bg-warning/15 text-warning-foreground border-warning/30',
         icon: <GlobalIcons.clock className="w-4 h-4" />
       },
       in_review: {
         label: 'En revisión',
-        className: 'bg-blue-100 text-blue-800 border-blue-200',
+        className: 'bg-primary-soft text-primary border-border',
         icon: <GlobalIcons.clock className="w-4 h-4" />
       },
       approved: {
         label: 'Aprobado',
-        className: 'bg-green-100 text-green-800 border-green-200',
+        className: 'bg-success/15 text-success border-success/30',
         icon: <GlobalIcons.checkCircle className="w-4 h-4" />
       },
       rejected: {
         label: 'Rechazado',
-        className: 'bg-red-100 text-red-800 border-red-200',
+        className: 'bg-danger/15 text-danger border-danger/30',
         icon: <GlobalIcons.xCircle className="w-4 h-4" />
       }
 
@@ -67,11 +67,11 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
     <div className="space-y-4">
       <div className="flex items-center gap-2">
         {iconName && (
-          <div className="p-1.5 bg-gray-100 rounded-lg">
-            <IconByName name={iconName} className="w-5 h-5 text-gray-600" />
+          <div className="p-1.5 bg-surface-muted rounded-lg">
+            <IconByName name={iconName} className="w-5 h-5 text-fg-muted" />
           </div>
         )}
-        <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+        <h3 className="text-lg font-semibold text-foreground">{title}</h3>
       </div>
       <div className="space-y-4">
         {children}
@@ -90,18 +90,18 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
     iconName?: keyof typeof GlobalIcons;
     highlight?: boolean;
   }) => (
-    <div className={`p-4 rounded-lg ${highlight ? 'bg-blue-50 border border-blue-200' : 'bg-gray-50'}`}>
+    <div className={`p-4 rounded-lg ${highlight ? 'bg-primary-soft border border-border' : 'bg-surface-muted'}`}>
       <div className="flex items-start gap-3">
         {iconName && (
-          <div className="p-2 bg-white rounded-lg border border-gray-200">
-            <IconByName name={iconName} className="w-4 h-4 text-gray-600" />
+          <div className="p-2 bg-surface-elevated rounded-lg border border-border">
+            <IconByName name={iconName} className="w-4 h-4 text-fg-muted" />
           </div>
         )}
         <div className="flex-1">
-          <span className="text-xs font-medium text-gray-500 uppercase tracking-wide block mb-1">
+          <span className="text-xs font-medium text-fg-muted uppercase tracking-wide block mb-1">
             {label}
           </span>
-          <span className="text-sm text-gray-900 font-medium block">
+          <span className="text-sm text-foreground font-medium block">
             {value}
           </span>
         </div>
@@ -112,27 +112,27 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
   return (
     <div className="mx-auto space-y-6 max-h-[85dvh] overflow-y-auto">
       {/* Header */}
-      <div className="bg-gradient-to-br from-slate-50 to-white rounded-xl border border-slate-200 shadow-sm p-6">
+      <div className="bg-gradient-to-br from-slate-50 to-white rounded-xl border border-border shadow-sm p-6">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-surface-muted text-foreground border border-border">
                 Folio {data.folio}
               </span>
               {data.status && (
                 <StatusBadge status={data.status} />
               )}
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 mt-2 break-words">
+            <h1 className="text-xl sm:text-2xl font-bold text-foreground mt-2 break-words">
               {data.first_name} {data.last_name} {data.second_last_name}
             </h1>
-            <p className="text-sm text-slate-500 mt-1">Registrado el {formatLong(data.created_at)}</p>
+            <p className="text-sm text-fg-muted mt-1">Registrado el {formatLong(data.created_at)}</p>
           </div>
           {showResentPdfButton && onResentPdf && (
             <button
               type="button"
               onClick={onResentPdf}
-              className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-colors shrink-0"
+              className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-primary hover:bg-primary-hover rounded-lg shadow-sm transition-colors shrink-0"
             >
 
               Reenviar PDF
@@ -142,7 +142,7 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
             <button
               type="button"
               onClick={onEdit}
-              className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-colors shrink-0"
+              className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-primary hover:bg-primary-hover rounded-lg shadow-sm transition-colors shrink-0"
             >
               <GlobalIcons.edit className="w-4 h-4" />
               Editar
@@ -150,18 +150,18 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
           )}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-200">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-border">
           <div className="space-y-1">
-            <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">CURP</span>
-            <p className="text-sm font-mono text-slate-900 break-all">{data.curp}</p>
+            <span className="text-xs font-medium text-fg-muted uppercase tracking-wide">CURP</span>
+            <p className="text-sm font-mono text-foreground break-all">{data.curp}</p>
           </div>
           <div className="space-y-1">
-            <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">Teléfono</span>
-            <p className="text-sm text-slate-900">{data.phone}</p>
+            <span className="text-xs font-medium text-fg-muted uppercase tracking-wide">Teléfono</span>
+            <p className="text-sm text-foreground">{data.phone}</p>
           </div>
           <div className="space-y-1">
-            <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">Email</span>
-            <p className="text-sm text-slate-900 truncate" title={data.student_email}>{data.student_email}</p>
+            <span className="text-xs font-medium text-fg-muted uppercase tracking-wide">Email</span>
+            <p className="text-sm text-foreground truncate" title={data.student_email}>{data.student_email}</p>
           </div>
         </div>
       </div>
@@ -175,7 +175,7 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
         {/* Columna izquierda */}
         <div className="space-y-6">
           {/* Información Personal */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+          <div className="bg-surface-elevated rounded-xl border border-border shadow-sm p-6">
             <InfoSection title="Información Personal" iconName="user">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <InfoCard
@@ -203,7 +203,7 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
           </div>
 
           {/* Información del Tutor */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+          <div className="bg-surface-elevated rounded-xl border border-border shadow-sm p-6">
             <InfoSection title="Información del Tutor" iconName="users">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <InfoCard
@@ -236,7 +236,7 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
           </div>
 
           {/* Talleres */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+          <div className="bg-surface-elevated rounded-xl border border-border shadow-sm p-6">
             <InfoSection title="Talleres" iconName="palette">
               <div className="space-y-4">
                 <InfoCard
@@ -257,7 +257,7 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
         {/* Columna derecha */}
         <div className="space-y-6">
           {/* Información Académica */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+          <div className="bg-surface-elevated rounded-xl border border-border shadow-sm p-6">
             <InfoSection title="Información Académica" iconName="graduationCap">
               <div className="space-y-4">
                 <InfoCard
@@ -269,8 +269,8 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
                   label="Promedio Actual"
                   value={
                     <div className="flex items-baseline gap-1">
-                      <span className="text-lg font-bold text-blue-600">{data.current_average}</span>
-                      <span className="text-sm text-gray-500">/ 10</span>
+                      <span className="text-lg font-bold text-primary">{data.current_average}</span>
+                      <span className="text-sm text-fg-muted">/ 10</span>
                     </div>
                   }
                   iconName="star"
@@ -297,7 +297,7 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
           </div>
 
           {/* Dirección */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+          <div className="bg-surface-elevated rounded-xl border border-border shadow-sm p-6">
             <InfoSection title="Dirección" iconName="mapPin">
               <div className="space-y-4">
                 <InfoCard
@@ -332,15 +332,15 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
 
           </div>
           {/* Vales Escolares */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+          <div className="bg-surface-elevated rounded-xl border border-border shadow-sm p-6">
             <InfoSection title="Vales Escolares" iconName="ticket">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <InfoCard
                   label="Tiene Vale Escolar"
                   value={
                     <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${data.has_school_voucher
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-gray-100 text-gray-800'
+                        ? 'bg-success/15 text-success'
+                        : 'bg-surface-muted text-foreground'
                       }`}>
                       {formatBoolean(data.has_school_voucher)}
                     </span>

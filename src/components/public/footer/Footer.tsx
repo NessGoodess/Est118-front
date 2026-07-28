@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function Footer() {
     return (
-        <footer id="contacto" className="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white py-16">
+        <footer id="contacto" className="bg-surface-dark text-white py-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">

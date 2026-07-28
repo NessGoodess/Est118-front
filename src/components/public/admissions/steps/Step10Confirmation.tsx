@@ -58,33 +58,33 @@ export default function Confirmation() {
 
   return (
     <>
-      <div className="md:bg-white md:rounded-2xl md:shadow-xl p-6 md:p-12">
+      <div className="md:bg-surface-elevated md:rounded-2xl md:shadow-xl p-6 md:p-12">
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="text-center">
           <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, type: "spring", stiffness: 200 }} className="inline-flex items-center justify-center w-24 h-24 bg-green-100 rounded-full mb-6">
-            <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-12 h-12 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </motion.div>
 
-          <h2 className="text-4xl font-bold text-gray-900 mb-4 font-merriweather">
+          <h2 className="text-4xl font-bold text-foreground mb-4 font-merriweather">
             ¡Preinscripción Registrada!
           </h2>
 
           {/* Folio */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="bg-blue-50 border-2 border-blue-600 rounded-xl p-6 mb-6 max-w-md mx-auto">
-            <p className="text-sm text-gray-600 mb-2">Folio de Preinscripción</p>
-            <p className="text-3xl font-bold text-blue-600 font-mono">{folio}</p>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="bg-primary-soft border-2 border-primary rounded-xl p-6 mb-6 max-w-md mx-auto">
+            <p className="text-sm text-fg-muted mb-2">Folio de Preinscripción</p>
+            <p className="text-3xl font-bold text-primary font-mono">{folio}</p>
           </motion.div>
 
           {/*  Next steps*/}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg mb-6 text-left max-w-2xl mx-auto">
-            <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+            <h3 className="font-bold text-foreground mb-3 flex items-center gap-2">
               <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               Próximos Pasos:
             </h3>
-            <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700">
+            <ol className="list-decimal list-inside space-y-2 text-sm text-foreground">
               <li>Se ha enviado un correo electrónico a <strong>{formData.email.contactEmail}</strong> con su folio de preinscripción y las instrucciones completas.</li>
               <li>Asista al área de <strong>Contraloría</strong> en las instalaciones de la escuela con el folio impreso o en su dispositivo móvil.</li>
               <li><strong>Horario de atención:</strong> 7:15 a 9:30 y de 10:00 a 13:30 horas, de lunes a viernes.</li>
@@ -93,17 +93,17 @@ export default function Confirmation() {
           </motion.div>
 
           {/* Privacy note */}
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }} className="text-xs text-gray-500 max-w-2xl mx-auto mb-6">
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }} className="text-xs text-fg-muted max-w-2xl mx-auto mb-6">
             La información proporcionada es protegida por la Ley Federal de Transparencia y Acceso a la Información Pública Gubernamental, y solamente será utilizada para los fines requeridos por la institución.
           </motion.p>
 
           {/* Action button */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2 }} className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleOpenPdf} className="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-full font-semibold transition-all">
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleOpenPdf} className="px-6 py-3 bg-surface-muted hover:bg-surface-muted text-foreground rounded-full font-semibold transition-all">
               Ver Comprobante
             </motion.button>
             <Link href="/">
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold transition-all">
+              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-6 py-3 bg-primary hover:bg-primary-hover text-white rounded-full font-semibold transition-all">
                 Volver al Inicio
               </motion.button>
             </Link>
@@ -111,8 +111,8 @@ export default function Confirmation() {
           </motion.div>
           {showModal && (
             <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
-              <div className="bg-white w-[90%] h-[90%] rounded-xl overflow-hidden relative">
-                <button onClick={handleCloseModal} className="absolute top-3 right-3 z-10 bg-white px-3 py-1 rounded">✕</button>
+              <div className="bg-surface-elevated w-[90%] h-[90%] rounded-xl overflow-hidden relative">
+                <button onClick={handleCloseModal} className="absolute top-3 right-3 z-10 bg-surface-elevated px-3 py-1 rounded">✕</button>
                 {pdfError ? (
                   <div className="flex items-center justify-center h-full text-center p-6">
                     <p className="text-red-600 font-semibold">{pdfError}</p>

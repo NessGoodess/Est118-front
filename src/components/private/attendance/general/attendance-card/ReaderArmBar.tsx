@@ -26,12 +26,12 @@ export default function ReaderArmBar() {
   const systemOnline = livePcsc.size > 0 || (readerStatus.connected && readerStatus.ready);
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-      <div className="text-sm text-slate-600">
-        <span className={`mr-2 inline-block h-2.5 w-2.5 rounded-full ${systemOnline ? 'bg-emerald-500' : 'bg-red-400'}`} />
-        <span className="font-semibold text-slate-900">{connectedCount}</span> lector(es) conectado(s)
-        <span className="mx-2 text-slate-300">|</span>
-        <span className="font-semibold text-slate-900">{slots.filter((s) => s.is_armed).length}</span> activos
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-xl border border-border bg-surface-elevated p-4 shadow-sm">
+      <div className="text-sm text-fg-muted">
+        <span className={`mr-2 inline-block h-2.5 w-2.5 rounded-full ${systemOnline ? 'bg-success/100' : 'bg-danger'}`} />
+        <span className="font-semibold text-foreground">{connectedCount}</span> lector(es) conectado(s)
+        <span className="mx-2 text-fg-muted">|</span>
+        <span className="font-semibold text-foreground">{slots.filter((s) => s.is_armed).length}</span> activos
       </div>
       <div className="flex gap-2">
         <Button variant="secondary" onClick={() => armAll(false)} disabled={!anyArmed}>

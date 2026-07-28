@@ -29,7 +29,7 @@ export default function GaleriaModal({ params }: { params: Promise<{ id: string 
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
           onClick={(e) => e.stopPropagation()}
-          className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+          className="bg-surface-elevated rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
         >
           {/* Header */}
           <div className="relative h-96 overflow-hidden rounded-t-2xl">
@@ -41,14 +41,14 @@ export default function GaleriaModal({ params }: { params: Promise<{ id: string 
             />
             <button
               onClick={() => router.back()}
-              className="absolute top-4 right-4 bg-white/90 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center text-gray-800 shadow-lg transition-all"
+              className="absolute top-4 right-4 bg-surface-elevated/90 hover:bg-surface-elevated rounded-full w-10 h-10 flex items-center justify-center text-foreground shadow-lg transition-all"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-              <span className="inline-block bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold mb-2">
+              <span className="inline-block bg-yellow-400 text-foreground px-3 py-1 rounded-full text-xs font-semibold mb-2">
                 {item.category}
               </span>
               <h2 className="text-white text-3xl font-bold">{item.title}</h2>
@@ -57,7 +57,7 @@ export default function GaleriaModal({ params }: { params: Promise<{ id: string 
 
           {/* Content */}
           <div className="p-8">
-            <div className="flex items-center gap-4 mb-6 text-sm text-gray-600">
+            <div className="flex items-center gap-4 mb-6 text-sm text-fg-muted">
               <span>{item.date}</span>
               {item.author && (
                 <>
@@ -67,7 +67,7 @@ export default function GaleriaModal({ params }: { params: Promise<{ id: string 
               )}
             </div>
 
-            <p className="text-gray-700 text-lg leading-relaxed mb-6">
+            <p className="text-foreground text-lg leading-relaxed mb-6">
               {item.description}
             </p>
 
@@ -76,7 +76,7 @@ export default function GaleriaModal({ params }: { params: Promise<{ id: string 
                 {item.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
+                    className="bg-primary-soft text-primary px-3 py-1 rounded-full text-sm"
                   >
                     #{tag}
                   </span>

@@ -59,7 +59,7 @@ function UserDetailPage({
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -67,7 +67,7 @@ function UserDetailPage({
   if (!user) {
     return (
       <div className="container mx-auto py-8 px-4">
-        <div className="text-center py-12 text-slate-500">
+        <div className="text-center py-12 text-fg-muted">
           Usuario no encontrado
         </div>
       </div>
@@ -77,7 +77,7 @@ function UserDetailPage({
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+        <div className="bg-surface-elevated rounded-lg shadow-sm border border-border p-6">
           <UserDetailView user={user} onUpdate={handleUpdate} onDelete={handleDelete} />
         </div>
       </div>

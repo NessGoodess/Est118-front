@@ -85,7 +85,7 @@ export default function FeaturedAnnouncements({ data }: { data: AnnouncementCard
                 )}
                 <motion.p
                     variants={fadeUp}
-                    className="mb-3 font-sans text-[clamp(11px,1vw,13px)] font-bold uppercase tracking-[0.07em] text-blue-600"
+                    className="mb-3 font-sans text-[clamp(11px,1vw,13px)] font-bold uppercase tracking-[0.07em] text-primary"
                 >
                     {header}
                 </motion.p>
@@ -104,7 +104,7 @@ export default function FeaturedAnnouncements({ data }: { data: AnnouncementCard
                 {content.type === "text" && content.text && (
                     <motion.p
                         variants={fadeUp}
-                        className="mb-6 text-[clamp(15px,1.2vw,17px)] font-light leading-relaxed text-gray-500"
+                        className="mb-6 text-[clamp(15px,1.2vw,17px)] font-light leading-relaxed text-fg-muted"
                     >
                         {content.text}
                     </motion.p>
@@ -117,7 +117,7 @@ export default function FeaturedAnnouncements({ data }: { data: AnnouncementCard
                                 variants={listItem}
                                 className="flex items-center gap-2.5 text-[clamp(14px,1.1vw,16px)] text-[#0d1117]"
                             >
-                                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-600/10 text-blue-600">
+                                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                                     <IconByName name="Check" />
                                 </span>
                                 {item}
@@ -132,8 +132,8 @@ export default function FeaturedAnnouncements({ data }: { data: AnnouncementCard
                             whileTap={{ scale: 0.97 }}
                             transition={{ duration: 0.18 }}
                             className="inline-flex cursor-pointer items-center gap-2 rounded-md
-                                       bg-blue-950 px-6 py-3.5 font-sans text-[15px] font-medium
-                                       text-white transition-colors hover:bg-blue-900"
+                                       bg-primary px-6 py-3.5 font-sans text-[15px] font-medium
+                                       text-white transition-colors hover:bg-primary-hover"
                         >
                             Leer más
                             <IconByName name="rightArrowLink" />
@@ -141,7 +141,7 @@ export default function FeaturedAnnouncements({ data }: { data: AnnouncementCard
                     </Link>
                     {secondaryButton?.enabled && (
                         <Link href={secondaryButton.href} className="inline-flex items-center gap-1.5 border-b border-transparent
-                         pb-0.5 font-sans text-sm text-gray-400 transition-colors
+                         pb-0.5 font-sans text-sm text-fg-muted transition-colors
                          hover:border-[#0d1117] hover:text-[#0d1117]"
                         >
                             {secondaryButton.label}

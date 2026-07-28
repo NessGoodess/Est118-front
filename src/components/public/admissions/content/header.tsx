@@ -16,15 +16,15 @@ export default function Header({ icon, title, description }: Props) {
                 className="mb-8 flex"
             >
                 {icon && (
-                    <div className="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full m-0 mb-4">
+                    <div className="flex items-center justify-center w-10 h-10 bg-primary-soft rounded-full m-0 mb-4">
                         {icon}
                     </div>
                 )}
                 <div className="flex flex-col">
-                    <h2 className="text-3xl font-bold text-gray-900 mb-2 font-merriweather">
+                    <h2 className="text-3xl font-bold text-foreground mb-2 font-merriweather">
                         {title}
                     </h2>
-                    <p className="text-gray-600 max-w-2xl">
+                    <p className="text-fg-muted max-w-2xl">
                         {description}
                     </p>
                 </div>

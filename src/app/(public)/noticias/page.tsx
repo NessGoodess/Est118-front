@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function NoticiasPage() {
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+        <div className="min-h-screen bg-gradient-to-b from-surface-muted to-surface-elevated">
             {/* Header */}
             <section className="relative h-64 md:h-80 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 overflow-hidden">
                 <div className="absolute inset-0 bg-[url('/background4.png')] bg-cover bg-center opacity-20" />
@@ -39,7 +39,7 @@ export default function NoticiasPage() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             whileHover={{ y: -5 }}
-                            className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300"
+                            className="bg-surface-elevated rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300"
                         >
                             <Link href={`/noticias/${noticia.id}`} scroll={false}>
                                 <div className="relative h-48 overflow-hidden">
@@ -50,20 +50,20 @@ export default function NoticiasPage() {
                                         className="object-cover transition-transform duration-300 hover:scale-110"
                                     />
                                     <div className="absolute top-4 left-4">
-                                        <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                                        <span className="bg-primary text-white px-3 py-1 rounded-full text-xs font-semibold">
                                             {noticia.categoria}
                                         </span>
                                     </div>
                                 </div>
                                 <div className="p-6">
-                                    <p className="text-sm text-gray-500 mb-2">{noticia.fecha}</p>
-                                    <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+                                    <p className="text-sm text-fg-muted mb-2">{noticia.fecha}</p>
+                                    <h3 className="text-xl font-bold text-foreground mb-3 line-clamp-2">
                                         {noticia.titulo}
                                     </h3>
-                                    <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                                    <p className="text-fg-muted text-sm mb-4 line-clamp-3">
                                         {noticia.resumen}
                                     </p>
-                                    <span className="text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors">
+                                    <span className="text-primary font-semibold text-sm hover:text-primary-hover transition-colors">
                                         Leer más →
                                     </span>
                                 </div>

@@ -107,18 +107,18 @@ export default function ReEnrollmentSettingsPanel() {
   };
 
   return (
-    <section className="bg-white border rounded-xl p-4 sm:p-6 space-y-4">
+    <section className="bg-surface-elevated border rounded-xl p-4 sm:p-6 space-y-4">
       <header>
-        <h2 className="text-lg font-semibold text-gray-900">Configuración del periodo</h2>
-          <p className="text-sm text-gray-500">
+        <h2 className="text-lg font-semibold text-foreground">Configuración del periodo</h2>
+          <p className="text-sm text-fg-muted">
             Crea primero los ciclos en <strong>Escolar → Ciclos escolares</strong> si aún no existen origen/destino.
           </p>
       </header>
 
       <div className="flex flex-wrap gap-2 items-center">
-        <label className="text-sm text-gray-600">Periodo activo:</label>
+        <label className="text-sm text-fg-muted">Periodo activo:</label>
         <select
-          className="rounded-lg border border-gray-200 px-3 py-2 text-sm bg-white"
+          className="rounded-lg border border-border px-3 py-2 text-sm bg-surface-elevated"
           value={activePeriod?.id ?? ''}
           onChange={(e) => setActivePeriodId(Number(e.target.value))}
         >
@@ -134,7 +134,7 @@ export default function ReEnrollmentSettingsPanel() {
       </div>
 
       {showCreate && (
-        <form onSubmit={handleCreate} className="grid grid-cols-1 md:grid-cols-2 gap-3 bg-gray-50 border rounded-lg p-4">
+        <form onSubmit={handleCreate} className="grid grid-cols-1 md:grid-cols-2 gap-3 bg-surface-muted border rounded-lg p-4">
           <input
             className="rounded-lg border px-3 py-2 text-sm md:col-span-2"
             placeholder="Nombre (ej. Reinscripción 2026-2027)"
@@ -143,7 +143,7 @@ export default function ReEnrollmentSettingsPanel() {
             required
           />
           <select
-            className="rounded-lg border px-3 py-2 text-sm bg-white"
+            className="rounded-lg border px-3 py-2 text-sm bg-surface-elevated"
             value={form.from_academic_year_id}
             onChange={(e) => setForm({ ...form, from_academic_year_id: e.target.value })}
             required
@@ -154,7 +154,7 @@ export default function ReEnrollmentSettingsPanel() {
             ))}
           </select>
           <select
-            className="rounded-lg border px-3 py-2 text-sm bg-white"
+            className="rounded-lg border px-3 py-2 text-sm bg-surface-elevated"
             value={form.to_academic_year_id}
             onChange={(e) => setForm({ ...form, to_academic_year_id: e.target.value })}
             required

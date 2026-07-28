@@ -40,7 +40,7 @@ export default function RegisterUserForm() {
 
     return (
         <div className="max-w-2xl mx-auto">
-            <div className="bg-white dark:bg-gray-800 py-8 px-6 shadow-xl rounded-2xl">
+            <div className="bg-surface-elevated py-8 px-6 shadow-card border border-border rounded-2xl">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
 
                     <FloatingInput
@@ -94,11 +94,11 @@ export default function RegisterUserForm() {
                         </SubmitButton>
                     </div>
 
-                    <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                        <p className="text-sm text-blue-800 dark:text-blue-200 font-medium mb-2">
+                    <div className="mt-4 p-4 bg-primary-soft rounded-lg">
+                        <p className="text-sm text-primary font-medium mb-2">
                             Requisitos de contraseña:
                         </p>
-                        <ul className="text-xs text-blue-700 dark:text-blue-300 space-y-1 list-disc list-inside">
+                        <ul className="text-xs text-primary space-y-1 list-disc list-inside">
                             <li>Mínimo 8 caracteres</li>
                             <li>Al menos una letra mayúscula</li>
                             <li>Al menos una letra minúscula</li>

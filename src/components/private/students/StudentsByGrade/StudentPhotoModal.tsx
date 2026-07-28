@@ -173,18 +173,18 @@ export default function StudentPhotoModal({ student, isOpen, onClose, onSaved }:
     <Modal isOpen={isOpen} onClose={onClose} title="Fotografía del alumno" maxWidth="2xl">
       {!student ? null : (
         <div className="space-y-4">
-          <div className="text-sm text-gray-700">
+          <div className="text-sm text-foreground">
             <span className="font-medium">{student.name}</span>
             {" · "}
             {status?.actionLabel ?? "Capturar"}
           </div>
 
           {loading ? (
-            <div className="text-sm text-gray-500">Cargando estado de fotografía...</div>
+            <div className="text-sm text-fg-muted">Cargando estado de fotografía...</div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="rounded-lg border p-3 space-y-2">
-                <div className="text-xs text-gray-500">Foto actual</div>
+                <div className="text-xs text-fg-muted">Foto actual</div>
                 {status?.currentPhotoUrl ? (
                   <Image
                     src={status.currentPhotoUrl}
@@ -195,14 +195,14 @@ export default function StudentPhotoModal({ student, isOpen, onClose, onSaved }:
                     unoptimized
                   />
                 ) : (
-                  <div className="h-44 rounded-lg bg-gray-100 border grid place-items-center text-sm text-gray-500 px-3 text-center">
+                  <div className="h-44 rounded-lg bg-surface-muted border grid place-items-center text-sm text-fg-muted px-3 text-center">
                     Sin foto registrada
                   </div>
                 )}
               </div>
 
               <div className="rounded-lg border p-3 space-y-2">
-                <div className="text-xs text-gray-500">Vista previa nueva</div>
+                <div className="text-xs text-fg-muted">Vista previa nueva</div>
                 {previewUrl ? (
                   <>
                     {/* Vista previa desde blob; Next/Image no aporta aquí */}
@@ -216,7 +216,7 @@ export default function StudentPhotoModal({ student, isOpen, onClose, onSaved }:
                     />
                   </>
                 ) : (
-                  <div className="h-44 rounded-lg bg-gray-100 border grid place-items-center text-sm text-gray-500 px-3 text-center">
+                  <div className="h-44 rounded-lg bg-surface-muted border grid place-items-center text-sm text-fg-muted px-3 text-center">
                     Aún sin nueva foto seleccionada
                   </div>
                 )}
@@ -224,8 +224,8 @@ export default function StudentPhotoModal({ student, isOpen, onClose, onSaved }:
             </div>
           )}
 
-          <div className="rounded-lg border border-slate-200 p-3 space-y-2">
-            <div className="text-xs font-medium text-slate-600">Cámara (escritorio / compatible)</div>
+          <div className="rounded-lg border border-border p-3 space-y-2">
+            <div className="text-xs font-medium text-fg-muted">Cámara (escritorio / compatible)</div>
             <video
               ref={videoRef}
               className="w-full max-h-56 rounded-lg bg-black object-contain aspect-video border"
@@ -253,7 +253,7 @@ export default function StudentPhotoModal({ student, isOpen, onClose, onSaved }:
           </div>
 
           <div className="flex flex-col sm:flex-row flex-wrap gap-2">
-            <label className="inline-flex items-center justify-center px-4 py-2 rounded-lg border border-gray-300 text-sm cursor-pointer hover:bg-gray-50">
+            <label className="inline-flex items-center justify-center px-4 py-2 rounded-lg border border-border text-sm cursor-pointer hover:bg-surface-muted">
               Galería / móvil
               <input
                 type="file"
@@ -283,7 +283,7 @@ export default function StudentPhotoModal({ student, isOpen, onClose, onSaved }:
             </Button>
           </div>
           {!canUseCamera && (
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-fg-muted">
               Tu navegador no soporta getUserMedia; en móvil el botón de galería puede abrir directamente la cámara trasera.
             </p>
           )}

@@ -26,7 +26,7 @@ export default function UpdateProfilePage() {
     if (!user) {
         return (
             <div className="flex items-center justify-center py-12">
-                <div className="h-10 w-10 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+                <div className="h-10 w-10 animate-spin rounded-full border-2 border-primary border-t-transparent" />
             </div>
         );
     }
@@ -44,7 +44,7 @@ export default function UpdateProfilePage() {
             <div className="mt-8 space-y-10">
                 {emailUnverified && (
                     <section>
-                        <h2 className="text-lg font-semibold text-slate-800 mb-4">Verificación de correo</h2>
+                        <h2 className="text-lg font-semibold text-foreground mb-4">Verificación de correo</h2>
                         <VerifyEmailBlock
                             email={user.email}
                             onResent={refreshUser}
@@ -53,16 +53,16 @@ export default function UpdateProfilePage() {
                 )}
 
                 <section>
-                    <h2 className="text-lg font-semibold text-slate-800 mb-4">Cambiar contraseña</h2>
-                    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <h2 className="text-lg font-semibold text-foreground mb-4">Cambiar contraseña</h2>
+                    <div className="rounded-xl border border-border bg-surface-elevated p-6 shadow-sm">
                         <ChangeOwnPasswordForm onSuccess={refreshUser} />
                     </div>
                 </section>
 
                 {canCreateProfile && (
                     <section>
-                        <h2 className="text-lg font-semibold text-slate-800 mb-4">Crear perfil</h2>
-                        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                        <h2 className="text-lg font-semibold text-foreground mb-4">Crear perfil</h2>
+                        <div className="rounded-xl border border-border bg-surface-elevated p-6 shadow-sm">
                             <CreateProfileSection
                                 userId={user.id}
                                 currentRoleNames={user.roles ?? []}

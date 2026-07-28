@@ -40,8 +40,8 @@ export default function StudentsByGradeSection({grade_id}: {grade_id: number}) {
               />
         
               {selectedStudents.length > 0 && (
-                <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <p className="text-sm text-blue-900">
+                <div className="mt-4 bg-primary-soft border border-border rounded-lg p-4">
+                  <p className="text-sm text-primary">
                     Has seleccionado {selectedStudents.length} estudiante{selectedStudents.length > 1 ? 's' : ''}
                   </p>
                 </div>

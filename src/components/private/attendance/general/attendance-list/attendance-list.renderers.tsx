@@ -24,11 +24,11 @@ const STATUS_LABELS: Record<GeneralAttendanceStatus, string> = {
 };
 
 const STATUS_BADGE: Record<GeneralAttendanceStatus, string> = {
-  present: "bg-green-100 text-green-800 border-green-200",
-  late: "bg-amber-100 text-amber-900 border-amber-200",
-  absent: "bg-red-100 text-red-800 border-red-200",
-  excused: "bg-sky-100 text-sky-800 border-sky-200",
-  pending: "bg-gray-100 text-gray-700 border-gray-200",
+  present: "bg-success/15 text-success border-success/30",
+  late: "bg-warning/15 text-warning-foreground border-warning/30",
+  absent: "bg-danger/15 text-danger border-danger/30",
+  excused: "bg-info/15 text-info border-info/30",
+  pending: "bg-surface-muted text-foreground border-border",
 };
 
 const CREDENTIAL_LABELS: Record<CredentialLifecycleStatus, string> = {
@@ -49,7 +49,7 @@ function StudentPhotoCell({ student }: { student: AttendanceTableRow }) {
   return (
     <div className="flex items-center gap-3 min-w-0">
       {!url || error ? (
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-200 text-sm font-medium text-slate-600">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface-muted text-sm font-medium text-fg-muted">
           {initial}
         </div>
       ) : (
@@ -64,14 +64,14 @@ function StudentPhotoCell({ student }: { student: AttendanceTableRow }) {
           onError={() => setError(true)}
         />
       )}
-      <span className="truncate font-medium text-slate-900">{student.name}</span>
+      <span className="truncate font-medium text-foreground">{student.name}</span>
     </div>
   );
 }
 
 export const attendanceListRenderers = {
   "attendance-student": (_value: unknown, row?: AttendanceTableRow) =>
-    row ? <StudentPhotoCell student={row} /> : <span className="text-slate-300">—</span>,
+    row ? <StudentPhotoCell student={row} /> : <span className="text-fg-muted">—</span>,
 
   "attendance-status": (value: unknown) => {
     const status = (value as GeneralAttendanceStatus) ?? "pending";
@@ -94,7 +94,7 @@ export const attendanceListRenderers = {
       status === "lost" ||
       status === "replacement_pending";
     return (
-      <span className={`text-sm ${alert ? "font-medium text-orange-700" : "text-slate-600"}`}>
+      <span className={`text-sm ${alert ? "font-medium text-warning-foreground" : "text-fg-muted"}`}>
         {label}
       </span>
     );

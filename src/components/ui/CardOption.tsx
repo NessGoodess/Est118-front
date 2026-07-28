@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 export type CardStatus = "active" | "closed" | "upcoming";
 
@@ -30,8 +30,8 @@ const statusConfig: Record<
   },
   closed: {
     label: "Cerrado",
-    badgeClass: "bg-zinc-100 text-zinc-600 border border-zinc-200",
-    dotClass: "bg-zinc-400",
+    badgeClass: "bg-surface-muted text-fg-muted border border-border",
+    dotClass: "bg-fg-muted",
   },
   upcoming: {
     label: "Próximo",
@@ -49,23 +49,23 @@ export function CardOption({ data, selected = false, onClick }: CardOptionProps)
       onClick={() => onClick?.(data)}
       aria-pressed={selected}
       className={`relative w-full max-w-lg min-w-sm text-left rounded-xl border px-5 py-4 transition-all duration-200 cursor-pointer group focus-visible:outline-none  ${selected
-        ? "border-blue-900 border-2 bg-white -translate-y-1 -translate-x-1 shadow-xl active:translate-y-0 active:translate-x-0 active:shadow-none"
-        : "border-zinc-200 bg-white hover:-translate-y-1 hover:-translate-x-1 hover:shadow-xl hover:border-zinc-300 active:translate-y-0 active:translate-x-0 active:shadow-none"
+        ? "border-primary border-2 bg-surface-elevated -translate-y-1 -translate-x-1 shadow-xl active:translate-y-0 active:translate-x-0 active:shadow-none"
+        : "border-border bg-surface-elevated hover:-translate-y-1 hover:-translate-x-1 hover:shadow-xl hover:border-border active:translate-y-0 active:translate-x-0 active:shadow-none"
         }`}
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex items-center gap-3">
           <div
-            className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${selected ? "bg-sky-100" : "bg-zinc-100 group-hover:bg-sky-50"
+            className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${selected ? "bg-primary-soft" : "bg-surface-muted group-hover:bg-primary-soft"
               }`}
           >
           </div>
           <div>
-            <p className="text-sm font-semibold text-zinc-900 leading-tight">
+            <p className="text-sm font-semibold text-foreground leading-tight">
               {data.title}
             </p>
-            <p className="text-xs text-zinc-500 mt-0.5">{data.subtitle}</p>
+            <p className="text-xs text-fg-muted mt-0.5">{data.subtitle}</p>
           </div>
         </div>
 
@@ -80,27 +80,27 @@ export function CardOption({ data, selected = false, onClick }: CardOptionProps)
       </div>
 
       {/* Divider */}
-      <div className="border-t border-zinc-100 my-3" />
+      <div className="border-t border-border my-3" />
 
       {/* Metadata grid */}
       <div className="grid grid-cols-3 gap-3">
         <div>
-          <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-medium mb-0.5">
+          <p className="text-[10px] uppercase tracking-wider text-fg-muted font-medium mb-0.5">
             Fecha inicio
           </p>
-          <p className="text-sm font-medium text-zinc-800">{data.startDate}</p>
+          <p className="text-sm font-medium text-foreground">{data.startDate}</p>
         </div>
         <div>
-          <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-medium mb-0.5">
+          <p className="text-[10px] uppercase tracking-wider text-fg-muted font-medium mb-0.5">
             Fecha fin
           </p>
-          <p className="text-sm font-medium text-zinc-800">{data.endDate}</p>
+          <p className="text-sm font-medium text-foreground">{data.endDate}</p>
         </div>
         <div>
-          <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-medium mb-0.5">
+          <p className="text-[10px] uppercase tracking-wider text-fg-muted font-medium mb-0.5">
             Alumnos
           </p>
-          <p className="text-sm font-medium text-zinc-800">
+          <p className="text-sm font-medium text-foreground">
             {data.studentCount > 0 ? data.studentCount.toLocaleString("es-MX") : "Sin registros"}
           </p>
         </div>
@@ -108,10 +108,10 @@ export function CardOption({ data, selected = false, onClick }: CardOptionProps)
 
       {/* Last folio */}
       <div className="mt-3">
-        <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-medium mb-0.5">
+        <p className="text-[10px] uppercase tracking-wider text-fg-muted font-medium mb-0.5">
           Último folio
         </p>
-        <p className="text-xs font-mono font-medium text-zinc-700 tracking-wide">
+        <p className="text-xs font-mono font-medium text-foreground tracking-wide">
           {data.lastFolio || "0000"}
         </p>
       </div>

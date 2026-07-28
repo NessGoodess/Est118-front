@@ -5,7 +5,7 @@ export default function UbicacionSection() {
     const mapsUrl = "https://maps.app.goo.gl/K1ca1DwxrsoBiZLL6";
 
     return (
-        <section id="ubicacion" className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 py-20 relative overflow-hidden">
+        <section id="ubicacion" className="min-h-screen bg-surface-dark py-20 relative overflow-hidden">
             {/* Patrón de fondo */}
             <div className="absolute inset-0 opacity-10">
                 <div className="absolute inset-0" style={{

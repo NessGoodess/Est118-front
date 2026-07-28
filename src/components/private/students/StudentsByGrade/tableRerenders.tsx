@@ -10,7 +10,7 @@ function StudentPhotoPlaceholder({ name }: { name: string }) {
   const initial = name?.trim() ? name.trim().charAt(0).toUpperCase() : "?";
   return (
     <div
-      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-200 text-slate-600 text-sm font-medium"
+      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface-muted text-fg-muted text-sm font-medium"
       title={name}
     >
       {initial}
@@ -40,17 +40,17 @@ function StudentPhotoCell({ student }: { student: Student }) {
 
 export const tableRenderers = {
   'student-photo': (value: unknown, row: unknown) =>
-    row ? <StudentPhotoCell student={row as Student} /> : <span className="text-slate-300">—</span>,
+    row ? <StudentPhotoCell student={row as Student} /> : <span className="text-fg-muted">—</span>,
   'status-badge': (value: unknown) => (
     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${(value as string) === 'active'
-      ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-      : 'bg-slate-100 text-slate-600 border-slate-200'
+      ? 'bg-success/10 text-success border-success/30'
+      : 'bg-surface-muted text-fg-muted border-border'
       }`}>
       {(value as string) === 'active' ? 'Activo' : 'Inactivo'}
     </span>
   ),
   'email-link': (value: unknown) => (
-    <a href={`mailto:${value}`} className="text-blue-600 hover:underline text-sm">
+    <a href={`mailto:${value}`} className="text-primary hover:underline text-sm">
       {value as string}
     </a>
   ),

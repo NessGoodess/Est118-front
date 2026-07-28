@@ -1,59 +1,93 @@
 @import "tailwindcss";
 
+/*
+  Design tokens — Est. 118
+  Brand scale is fixed (logo #2d469b). Semantic roles flip in dark.
+  Prefer: bg-surface-*, text-foreground, text-fg-muted, bg-primary, border-border
+*/
+
 :root {
-  /* Brand scale */
+  color-scheme: light;
+
+  /* ── Brand scale (fixed; do not override in dark) ── */
   --brand-50: #eef1f8;
   --brand-100: #d5dced;
   --brand-200: #aab6d9;
   --brand-300: #7f90c5;
   --brand-400: #556ab1;
   --brand-500: #2d469b;
-  --brand-600: #222859;
-  --brand-700: #181d49;
+  /* logo / institutional */
+  --brand-600: #243a82;
+  --brand-700: #1b2c68;
   --brand-800: #0c1240;
   --brand-900: #000d44;
+  /* titles / headers (≈ blue-950) */
+  --brand-950: #000a36;
 
   --brand: var(--brand-500);
   --brand-strong: var(--brand-900);
   --accent: #4896b4;
   --accent-gold: #ffbd59;
 
-  /* Surfaces */
+  /* ── Surfaces ── */
   --background: #ffffff;
   --public-background: linear-gradient(to bottom, var(--brand-50), #ffffff);
   --surface-app: hsl(210, 33%, 97%);
-  --surface-panel: #f0f4fa;
+  --surface-panel: #e8eef6;
   --surface-elevated: #ffffff;
+  /* Private top chrome — distinct from cards so sticky header reads as shell */
+  --surface-header: #ffffff;
+  --surface-muted: #f0f4fa;
+  /*
+    Public dark band — origin:
+    Footer.tsx + UbicacionSection.tsx
+    class: bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900
+    Tailwind gray-900 = #111827 | gray-800 = #1f2937
+    Keep this look; do not remap to brand navy.
+  */
+  --surface-dark-900: #111827;
+  --surface-dark-800: #1f2937;
+  --surface-dark-gradient: linear-gradient(to bottom,
+      var(--surface-dark-900),
+      var(--surface-dark-800),
+      var(--surface-dark-900));
   --foreground: hsl(220, 25%, 12%);
   --foreground-app: hsl(220, 25%, 12%);
   --fg-muted: hsl(215, 16%, 47%);
-  --border: hsl(214, 20%, 90%);
-  --shadow-card: 0 8px 24px rgba(0, 13, 68, 0.12);
+  --border: hsl(214, 20%, 88%);
+  --ring: var(--brand-500);
+  --shadow-card: 0 8px 24px rgba(0, 13, 68, 0.1);
 
-  /* Semantic */
-  --color-primary: var(--brand-900);
-  --color-secondary: hsl(208, 7%, 63%);
-  --color-success: hsl(145, 60%, 40%);
-  --color-warning: hsl(45, 90%, 50%);
-  --color-danger: hsl(0, 80%, 55%);
-  --color-info: hsl(200, 70%, 45%);
+  /* ── Semantic actions ── */
+  --primary: var(--brand-900);
+  --primary-hover: var(--brand-950);
+  --primary-foreground: #ffffff;
+  --primary-soft: var(--brand-50);
+  --secondary: hsl(208, 7%, 63%);
+  --secondary-foreground: hsl(220, 25%, 12%);
+  --success: hsl(145, 60%, 40%);
+  --success-foreground: #ffffff;
+  --warning: hsl(45, 90%, 50%);
+  --warning-foreground: hsl(40, 90%, 12%);
+  --danger: hsl(0, 80%, 55%);
+  --danger-foreground: #ffffff;
+  --info: hsl(200, 70%, 45%);
+  --info-foreground: #ffffff;
 
-  /* Legacy aliases (prefer brand-* / accent) */
+  /* Legacy aliases (prefer brand-* / primary / accent) */
   --color-level-1: var(--brand-500);
   --color-level-2: var(--brand-600);
   --color-level-3: var(--brand-700);
   --color-level-4: var(--brand-900);
   --color-level-5: var(--accent);
   --color-level-6: var(--accent-gold);
-  --color-level-7: var(--color-danger);
+  --color-level-7: var(--danger);
 
-  /* Sidebar */
+  /* ── Sidebar ── */
   --sidebar-button-bg: var(--brand-500);
-  --sidebar-button-bg-active: linear-gradient(
-    to right,
-    var(--brand-500),
-    hsl(248, 61%, 45%)
-  );
+  --sidebar-button-bg-active: linear-gradient(to right,
+      var(--brand-500),
+      hsl(248, 61%, 45%));
   --sidebar-border: var(--border);
   --sidebar-button-bg-hover: var(--brand-900);
   --sidebar-button-text: #ffffff;
@@ -67,54 +101,201 @@
   --sidebar-group-border: var(--accent);
   --sidebar-group-hover: #ffffff;
   --sidebar-group-icon-active: hsl(210, 19%, 55%);
-  --sidebar-dropdown-bg: #ffffff;
+  --sidebar-dropdown-bg: var(--surface-elevated);
 
   --loading-base: hsl(220, 14%, 90%);
 
-  --color-gallery-bg: #fafafa;
-  --color-gallery-card: #ffffff;
-  --color-gallery-text: #1a1a1a;
+  /* Domain aliases → surfaces (one palette) */
+  --color-gallery-bg: var(--surface-muted);
+  --color-gallery-card: var(--surface-elevated);
+  --color-gallery-text: var(--foreground);
   --color-gallery-hover: color-mix(in srgb, var(--brand-500) 10%, transparent);
-  --color-news-bg: #f8f9fa;
-  --color-event-bg: #f0f4f8;
-  --color-modal-overlay: rgba(0, 0, 0, 0.5);
-  --color-modal-bg: #ffffff;
-  --color-modal-text: #1a1a1a;
+  --color-news-bg: var(--surface-muted);
+  --color-event-bg: var(--surface-panel);
+  --color-modal-overlay: rgba(0, 13, 68, 0.45);
+  --color-modal-bg: var(--surface-elevated);
+  --color-modal-text: var(--foreground);
+}
+
+/* Shared dark token values — applied via system preference and/or .dark */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    color-scheme: dark;
+    --background: #050a24;
+    --public-background: linear-gradient(to bottom, #050a24, #0a1030);
+    --surface-app: #050a24;
+    --surface-panel: #0a0a0a;
+    --surface-elevated: #161616;
+    --surface-header: #101010;
+    --surface-muted: var(--surface-dark-900);
+    --foreground: hsl(210, 40%, 96%);
+    --foreground-app: hsl(210, 40%, 96%);
+    --fg-muted: hsl(215, 20%, 70%);
+    --border: hsl(0, 0%, 18%);
+    --ring: var(--brand-300);
+    --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.4);
+
+    --primary: #8ba3e8;
+    --primary-hover: #a8baf0;
+    --primary-foreground: #050a24;
+    --primary-soft: color-mix(in srgb, var(--brand-500) 22%, transparent);
+    --secondary: hsl(229, 20%, 65%);
+    --secondary-foreground: hsl(210, 40%, 96%);
+    --success: hsl(145, 50%, 55%);
+    --success-foreground: #05140c;
+    --warning: hsl(45, 80%, 60%);
+    --warning-foreground: hsl(40, 90%, 12%);
+    --danger: hsl(0, 65%, 62%);
+    --danger-foreground: #1a0505;
+    --info: hsl(200, 60%, 62%);
+    --info-foreground: #041018;
+
+    --brand: var(--brand-400);
+    --brand-strong: var(--brand-200);
+
+    --sidebar-button-bg: var(--brand-500);
+    --sidebar-button-bg-active: linear-gradient(to right,
+        hsl(222, 77%, 45%),
+        hsl(248, 61%, 53%));
+
+    --sidebar-border: hsl(0, 0%, 18%);
+    --sidebar-button-bg-hover: hsl(0, 0%, 14%);
+    --sidebar-button-text: #ffffff;
+    --sidebar-button-hover-active: #ffffff;
+    --sidebar-button-icon: hsl(210, 19%, 66%);
+
+    --sidebar-group-bg: color-mix(in srgb, var(--brand-400) 22%, transparent);
+    --sidebar-group-bg-h: hsl(0, 0%, 14%);
+    --sidebar-group-text: var(--brand-200);
+    --sidebar-group-text-active: hsl(210, 19%, 66%);
+    --sidebar-group-border: var(--accent);
+    --sidebar-group-hover: #ffffff;
+    --sidebar-group-icon-active: #ffffff;
+    --sidebar-dropdown-bg: var(--surface-elevated);
+
+    --loading-base: hsl(0, 0%, 22%);
+
+    --color-gallery-hover: rgba(255, 255, 255, 0.08);
+    --color-modal-overlay: rgba(0, 0, 0, 0.72);
+  }
+}
+
+/* Manual override: <html class="dark"> (wins over system light) */
+html.dark {
+  color-scheme: dark;
+  --background: #050a24;
+  --public-background: linear-gradient(to bottom, #050a24, #0a1030);
+  --surface-app: #050a24;
+  --surface-panel: #0a0a0a;
+  --surface-elevated: #161616;
+  --surface-header: #101010;
+  --surface-muted: var(--surface-dark-900);
+  --foreground: hsl(210, 40%, 96%);
+  --foreground-app: hsl(210, 40%, 96%);
+  --fg-muted: hsl(215, 20%, 70%);
+  --border: hsl(0, 0%, 18%);
+  --ring: var(--brand-300);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.4);
+
+  --primary: #8ba3e8;
+  --primary-hover: #a8baf0;
+  --primary-foreground: #050a24;
+  --primary-soft: color-mix(in srgb, var(--brand-500) 22%, transparent);
+  --secondary: hsl(229, 20%, 65%);
+  --secondary-foreground: hsl(210, 40%, 96%);
+  --success: hsl(145, 50%, 55%);
+  --success-foreground: #05140c;
+  --warning: hsl(45, 80%, 60%);
+  --warning-foreground: hsl(40, 90%, 12%);
+  --danger: hsl(0, 65%, 62%);
+  --danger-foreground: #1a0505;
+  --info: hsl(200, 60%, 62%);
+  --info-foreground: #041018;
+
+  --brand: var(--brand-400);
+  --brand-strong: var(--brand-200);
+
+  --sidebar-button-bg: var(--brand-500);
+  --sidebar-button-bg-active: linear-gradient(to right,
+      hsl(222, 77%, 45%),
+      hsl(248, 61%, 53%));
+  --sidebar-border: hsl(0, 0%, 18%);
+  --sidebar-button-bg-hover: hsl(0, 0%, 14%);
+  --sidebar-button-text: #ffffff;
+  --sidebar-button-hover-active: #ffffff;
+  --sidebar-button-icon: hsl(210, 19%, 66%);
+
+  --sidebar-group-bg: color-mix(in srgb, var(--brand-400) 22%, transparent);
+  --sidebar-group-bg-h: hsl(0, 0%, 14%);
+  --sidebar-group-text: var(--brand-200);
+  --sidebar-group-text-active: hsl(210, 19%, 66%);
+  --sidebar-group-border: var(--accent);
+  --sidebar-group-hover: #ffffff;
+  --sidebar-group-icon-active: #ffffff;
+  --sidebar-dropdown-bg: var(--surface-elevated);
+
+  --loading-base: hsl(0, 0%, 22%);
+
+  --color-gallery-hover: rgba(255, 255, 255, 0.08);
+  --color-modal-overlay: rgba(0, 0, 0, 0.72);
 }
 
 @theme inline {
   --color-background: var(--background);
   --background-image-hero-gradient: var(--public-background);
+
   --color-surface-app: var(--surface-app);
   --color-surface-panel: var(--surface-panel);
   --color-surface-elevated: var(--surface-elevated);
+  --color-surface-header: var(--surface-header);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-dark-900: var(--surface-dark-900);
+  --color-surface-dark-800: var(--surface-dark-800);
+  --background-image-surface-dark: var(--surface-dark-gradient);
+
   --color-foreground: var(--foreground);
   --color-foreground-app: var(--foreground-app);
   --color-fg-muted: var(--fg-muted);
   --color-border: var(--border);
+  --color-ring: var(--ring);
+
   --color-brand: var(--brand);
   --color-brand-50: var(--brand-50);
   --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
   --color-brand-500: var(--brand-500);
   --color-brand-600: var(--brand-600);
   --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
   --color-brand-900: var(--brand-900);
+  --color-brand-950: var(--brand-950);
   --color-brand-strong: var(--brand-strong);
   --color-accent: var(--accent);
   --color-accent-gold: var(--accent-gold);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-foreground-hover: var(--fg-muted);
+
   --font-sans: var(--font-nunito-sans);
   --font-mono: var(--font-geist-mono);
   --font-montserrat: var(--font-montserrat);
   --font-merriweather: var(--font-merriweather);
   --shadow-card: var(--shadow-card);
-
-  --color-primary: var(--color-primary);
-  --color-secondary: var(--color-secondary);
-  --color-success: var(--color-success);
-  --color-warning: var(--color-warning);
-  --color-danger: var(--color-danger);
-  --color-info: var(--color-info);
-  --color-foreground-hover: var(--fg-muted);
 
   --color-level-1: var(--color-level-1);
   --color-level-2: var(--color-level-2);
@@ -148,64 +329,6 @@
   --color-modal-overlay: var(--color-modal-overlay);
   --color-modal-bg: var(--color-modal-bg);
   --color-modal-text: var(--color-modal-text);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #000d44;
-    --public-background: hsl(30 3.3% 11.8%);
-    --surface-app: #050a24;
-    --surface-panel: #0c1240;
-    --surface-elevated: #181d49;
-    --foreground: #ffffff;
-    --foreground-app: #f1f5f9;
-    --fg-muted: hsl(215, 16%, 65%);
-    --border: hsl(220, 25%, 25%);
-    --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.35);
-
-    --color-primary: hsl(225, 55%, 72%);
-    --color-secondary: hsl(229, 20%, 65%);
-    --color-success: hsl(145, 50%, 55%);
-    --color-warning: hsl(45, 80%, 60%);
-    --color-danger: hsl(0, 65%, 62%);
-    --color-info: hsl(200, 60%, 62%);
-
-    --brand: var(--brand-400);
-    --brand-strong: var(--brand-200);
-
-    --sidebar-button-bg: var(--brand-500);
-    --sidebar-button-bg-active: linear-gradient(
-      to right,
-      hsl(222, 77%, 45%),
-      hsl(248, 61%, 53%)
-    );
-    --sidebar-border: hsl(210, 19%, 35%);
-    --sidebar-button-bg-hover: hsl(210, 28%, 27%);
-    --sidebar-button-text: #ffffff;
-    --sidebar-button-hover-active: #ffffff;
-    --sidebar-button-icon: hsl(210, 19%, 66%);
-
-    --sidebar-group-bg: hsla(220, 90%, 61%, 0.2);
-    --sidebar-group-bg-h: hsl(210, 28%, 27%);
-    --sidebar-group-text: hsl(210, 95%, 76%);
-    --sidebar-group-text-active: hsl(210, 19%, 66%);
-    --sidebar-group-border: hsl(210, 95%, 64%);
-    --sidebar-group-hover: #ffffff;
-    --sidebar-group-icon-active: #ffffff;
-    --sidebar-dropdown-bg: #0c1240;
-
-    --loading-base: hsl(215, 19%, 35%);
-
-    --color-gallery-bg: #0a0a0a;
-    --color-gallery-card: #1a1a1a;
-    --color-gallery-text: #f5f5f5;
-    --color-gallery-hover: rgba(255, 255, 255, 0.1);
-    --color-news-bg: #0f0f0f;
-    --color-event-bg: #141414;
-    --color-modal-overlay: rgba(0, 0, 0, 0.8);
-    --color-modal-bg: #1a1a1a;
-    --color-modal-text: #f5f5f5;
-  }
 }
 
 body {

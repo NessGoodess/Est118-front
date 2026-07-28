@@ -32,26 +32,26 @@ const Toast: React.FC<ToastProps> = ({
     switch (type) {
       case 'success':
         return {
-          container: 'bg-green-100/50 border-green-500 border-2 text-green-900',
-          icon: 'text-green-600',
+          container: 'bg-success/15 border-success border-2 text-success',
+          icon: 'text-success',
           iconPath: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
         };
       case 'error':
         return {
-          container: 'bg-red-100/50 border-red-500',
-          icon: 'text-red-600',
+          container: 'bg-danger/15 border-danger border-2 text-danger',
+          icon: 'text-danger',
           iconPath: 'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z'
         };
       case 'warning':
         return {
-          container: 'bg-yellow-100/50 border-yellow-500',
-          icon: 'text-yellow-600',
+          container: 'bg-warning/15 border-warning border-2 text-warning-foreground',
+          icon: 'text-warning-foreground',
           iconPath: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z'
         };
       default:
         return {
-          container: 'bg-blue-100/50 border-blue-500',
-          icon: 'text-blue-600',
+          container: 'bg-primary-soft border-primary border-2 text-primary',
+          icon: 'text-primary',
           iconPath: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
         };
     }
@@ -66,19 +66,17 @@ const Toast: React.FC<ToastProps> = ({
       exit={{ opacity: 0, y: 50, scale: 0.5 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
       className={`
-        relative flex items-start p-4 mb-4 rounded-lg border-2 shadow-2xl max-w-md w-full
-        backdrop-blur-sm bg-opacity-90 text-black
+        relative flex items-start p-4 mb-4 rounded-lg shadow-card max-w-md w-full
+        backdrop-blur-sm
         ${styles.container}
       `}
     >
-      {/* Icon */}
       <div className={`flex-shrink-0 ${styles.icon}`}>
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={styles.iconPath} />
         </svg>
       </div>
 
-      {/* Content */}
       <div className="ml-3 flex-1">
         <h3 className="text-md font-semibold">
           {title}
@@ -90,10 +88,10 @@ const Toast: React.FC<ToastProps> = ({
         )}
       </div>
 
-      {/* Close button */}
       <button
+        type="button"
         onClick={() => onClose(id)}
-        className="flex-shrink-0 ml-4 text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 transition-colors hover:bg-gray-200/50 rounded-full p-1"
+        className="flex-shrink-0 ml-4 text-fg-muted hover:text-foreground focus:outline-none transition-colors hover:bg-surface-muted/50 rounded-full p-1"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

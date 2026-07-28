@@ -57,7 +57,7 @@ export default function CreateProfileSection({
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-fg-muted">
                 Puedes asignar roles y permisos ahora o dejarlo para que un administrador lo configure después.
             </p>
 
@@ -66,18 +66,18 @@ export default function CreateProfileSection({
                     type="checkbox"
                     checked={assignNow}
                     onChange={(e) => setAssignNow(e.target.checked)}
-                    className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                    className="h-4 w-4 rounded border-border text-primary focus:ring-ring"
                 />
-                <span className="text-sm font-medium text-slate-700">Asignar roles y permisos ahora</span>
+                <span className="text-sm font-medium text-foreground">Asignar roles y permisos ahora</span>
             </label>
 
             {assignNow && (
                 <>
                     <div>
-                        <label className="block text-sm font-semibold text-slate-700 mb-2">Roles</label>
+                        <label className="block text-sm font-semibold text-foreground mb-2">Roles</label>
                         {loadingRoles ? (
                             <div className="flex justify-center py-4">
-                                <div className="h-6 w-6 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+                                <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
                             </div>
                         ) : (
                             <div className="space-y-2">
@@ -86,8 +86,8 @@ export default function CreateProfileSection({
                                         key={role.id}
                                         className={`flex items-center gap-2 p-2 rounded-md cursor-pointer transition-colors border ${
                                             selectedRoles.includes(role.name)
-                                                ? 'bg-blue-50 border-blue-200'
-                                                : 'border-transparent hover:bg-slate-50'
+                                                ? 'bg-primary-soft border-border'
+                                                : 'border-transparent hover:bg-surface-muted'
                                         }`}
                                     >
                                         <input
@@ -100,9 +100,9 @@ export default function CreateProfileSection({
                                                     setSelectedRoles(selectedRoles.filter((r) => r !== role.name));
                                                 }
                                             }}
-                                            className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                                            className="h-4 w-4 rounded border-border text-primary focus:ring-ring"
                                         />
-                                        <span className="text-sm text-slate-700 capitalize">{role.name}</span>
+                                        <span className="text-sm text-foreground capitalize">{role.name}</span>
                                     </label>
                                 ))}
                             </div>
@@ -110,7 +110,7 @@ export default function CreateProfileSection({
                     </div>
 
                     <div>
-                        <label className="block text-sm font-semibold text-slate-700 mb-2">Permisos</label>
+                        <label className="block text-sm font-semibold text-foreground mb-2">Permisos</label>
                         <PermissionSelector
                             selectedPermissions={selectedPermissions}
                             onChange={setSelectedPermissions}
@@ -120,7 +120,7 @@ export default function CreateProfileSection({
             )}
 
             {errorMessage && (
-                <div className="p-3 rounded-lg text-sm bg-red-50 text-red-800 border border-red-200">
+                <div className="p-3 rounded-lg text-sm bg-danger/10 text-danger border border-danger/30">
                     {errorMessage}
                 </div>
             )}

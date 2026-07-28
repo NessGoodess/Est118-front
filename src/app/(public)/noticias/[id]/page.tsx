@@ -15,7 +15,7 @@ export default function NoticiaPage({ params }: { params: Promise<{ id: string }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-surface-muted to-surface-elevated">
       {/* Header */}
       <section className="relative h-96 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/background4.png')] bg-cover bg-center opacity-20" />
@@ -30,7 +30,7 @@ export default function NoticiaPage({ params }: { params: Promise<{ id: string }
             <Link href="/noticias" className="text-white/80 hover:text-white mb-4 inline-block">
               ← Volver a Noticias
             </Link>
-            <span className="inline-block bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold mb-4">
+            <span className="inline-block bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold mb-4">
               {item.categoria}
             </span>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 font-merriweather">
@@ -55,7 +55,7 @@ export default function NoticiaPage({ params }: { params: Promise<{ id: string }
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="bg-white rounded-2xl shadow-xl overflow-hidden"
+          className="bg-surface-elevated rounded-2xl shadow-xl overflow-hidden"
         >
           <div className="relative h-96 md:h-[500px]">
             <Image
@@ -67,20 +67,20 @@ export default function NoticiaPage({ params }: { params: Promise<{ id: string }
           </div>
 
           <div className="p-8 md:p-12">
-            <p className="text-gray-700 text-lg leading-relaxed mb-6 font-semibold">
+            <p className="text-foreground text-lg leading-relaxed mb-6 font-semibold">
               {item.resumen}
             </p>
 
             <div className="prose max-w-none">
-              <p className="text-gray-700 leading-relaxed text-base">
+              <p className="text-foreground leading-relaxed text-base">
                 {item.contenido}
               </p>
             </div>
 
-            <div className="pt-8 border-t border-gray-200 mt-8">
+            <div className="pt-8 border-t border-border mt-8">
               <Link
                 href="/noticias"
-                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold"
+                className="inline-flex items-center gap-2 text-primary hover:text-primary-hover font-semibold"
               >
                 ← Ver más noticias
               </Link>

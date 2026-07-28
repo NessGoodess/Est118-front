@@ -97,7 +97,7 @@ export default function StudentAttendanceList() {
             onDateClick={setSelectedDate}
           />
           {rules && (
-            <div className="rounded-lg border border-gray-200 bg-white p-3 text-xs text-gray-600 space-y-1">
+            <div className="rounded-lg border border-border bg-surface-elevated p-3 text-xs text-fg-muted space-y-1">
               <p>
                 Entrada: {rules.entry_time} · Tolerancia:{" "}
                 {rules.tolerance_minutes} min
@@ -111,11 +111,11 @@ export default function StudentAttendanceList() {
         <div className="space-y-4">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">
+              <h2 className="text-lg font-semibold text-foreground">
                 Asistencia del {formatLongWithoutTime(selectedDate)}
               </h2>
               {statusesLoading && (
-                <p className="text-xs text-blue-600">Actualizando estados…</p>
+                <p className="text-xs text-primary">Actualizando estados…</p>
               )}
             </div>
 
@@ -126,7 +126,7 @@ export default function StudentAttendanceList() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Buscar alumno…"
-                  className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm"
+                  className="rounded-lg border border-border px-3 py-1.5 text-sm"
                 />
               )}
               <select
@@ -134,7 +134,7 @@ export default function StudentAttendanceList() {
                 onChange={(e) =>
                   setStatusFilter(e.target.value as GeneralAttendanceStatus | "all")
                 }
-                className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm"
+                className="rounded-lg border border-border px-3 py-1.5 text-sm"
               >
                 <option value="all">Todos</option>
                 <option value="present">Presentes</option>
@@ -143,13 +143,13 @@ export default function StudentAttendanceList() {
                 <option value="excused">Justificados</option>
                 <option value="pending">Pendientes</option>
               </select>
-              <div className="inline-flex rounded-lg border border-slate-300 p-0.5">
+              <div className="inline-flex rounded-lg border border-border p-0.5">
                 <button
                   type="button"
                   onClick={() => setViewMode("cards")}
                   className={`rounded-md px-3 py-1.5 text-sm ${viewMode === "cards"
-                      ? "bg-blue-600 text-white"
-                      : "text-slate-600 hover:bg-slate-50"
+                      ? "bg-primary text-white"
+                      : "text-fg-muted hover:bg-surface-muted"
                     }`}
                 >
                   Cards
@@ -158,8 +158,8 @@ export default function StudentAttendanceList() {
                   type="button"
                   onClick={() => setViewMode("list")}
                   className={`rounded-md px-3 py-1.5 text-sm ${viewMode === "list"
-                      ? "bg-blue-600 text-white"
-                      : "text-slate-600 hover:bg-slate-50"
+                      ? "bg-primary text-white"
+                      : "text-fg-muted hover:bg-surface-muted"
                     }`}
                 >
                   Lista
@@ -168,7 +168,7 @@ export default function StudentAttendanceList() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 bg-white rounded-lg p-3 shadow-sm">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 bg-surface-elevated rounded-lg p-3 shadow-sm">
             <SummaryCard label="Total" value={summary.total} tone="neutral" />
             <SummaryCard label="Presentes" value={summary.present} tone="success" />
             <SummaryCard label="Retardos" value={summary.late} tone="warning" />
@@ -180,27 +180,27 @@ export default function StudentAttendanceList() {
           {loading && students.length === 0 && (
             <div className="flex items-center justify-center py-12">
               <div className="flex flex-col items-center space-y-4">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" />
-                <p className="text-gray-600">Cargando asistencia...</p>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+                <p className="text-fg-muted">Cargando asistencia...</p>
               </div>
             </div>
           )}
 
           {!loading && error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-              <h3 className="text-sm font-medium text-red-800">
+            <div className="bg-danger/10 border border-danger/30 rounded-lg p-6">
+              <h3 className="text-sm font-medium text-danger">
                 Error al cargar los datos
               </h3>
-              <p className="mt-1 text-sm text-red-700">{error}</p>
+              <p className="mt-1 text-sm text-danger">{error}</p>
             </div>
           )}
 
           {!loading && !error && viewMode === "cards" && cardFilteredStudents.length === 0 && (
             <div className="text-center py-12">
-              <h3 className="mt-2 text-sm font-medium text-gray-900">
+              <h3 className="mt-2 text-sm font-medium text-foreground">
                 Sin resultados
               </h3>
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-sm text-fg-muted">
                 {students.length === 0
                   ? "No hay inscripciones activas para esta fecha."
                   : "Ningún alumno coincide con la búsqueda o el filtro."}
@@ -210,7 +210,7 @@ export default function StudentAttendanceList() {
 
           {cardFilteredStudents.length > 0 && viewMode === "cards" && (
             <>
-              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3 bg-white rounded-lg p-3 shadow-sm">
+              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3 bg-surface-elevated rounded-lg p-3 shadow-sm">
                 {visibleStudents.map((student) => (
                   <StudentCard key={student.student_id} student={student} />
                 ))}
@@ -218,7 +218,7 @@ export default function StudentAttendanceList() {
               {visibleCount < cardFilteredStudents.length && (
                 <div
                   ref={loadMoreRef}
-                  className="py-4 text-center text-sm text-gray-500"
+                  className="py-4 text-center text-sm text-fg-muted"
                 >
                   Cargando más alumnos…
                 </div>

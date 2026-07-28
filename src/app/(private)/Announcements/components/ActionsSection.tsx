@@ -29,7 +29,7 @@ export function ActionsSection({ register, control, errors, secondaryButtonEnabl
       <Divider />
 
       <div className="mb-4 flex items-center gap-3">
-        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+        <p className="text-xs font-semibold uppercase tracking-wider text-fg-muted">
           Botón secundario
         </p>
         <Controller

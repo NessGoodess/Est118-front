@@ -27,7 +27,7 @@ export default function Hero() {
       <motion.div
         ref={blurRef}
         onMouseMove={handleMouseMove}
-        className={`absolute inset-0 bg-white/25 backdrop-blur-2xl ${styles.spotlight}`}
+        className={`absolute inset-0 bg-surface-elevated/25 backdrop-blur-2xl ${styles.spotlight}`}
       />
 
       {/* Contenido */}

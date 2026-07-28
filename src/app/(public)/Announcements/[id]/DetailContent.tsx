@@ -21,7 +21,7 @@ const RATIO_CLASS: Record<string, string> = {
 
 function BlockParagraph({ block }: { block: Extract<AnnouncementContentBlock, { type: "paragraph" }> }) {
   return (
-    <p className="text-[clamp(15px,1.3vw,17px)] font-light leading-relaxed text-gray-600">
+    <p className="text-[clamp(15px,1.3vw,17px)] font-light leading-relaxed text-fg-muted">
       {block.text}
     </p>
   )
@@ -35,7 +35,7 @@ function BlockList({ block }: { block: Extract<AnnouncementContentBlock, { type:
           key={i}
           className="flex items-center gap-2.5 text-[clamp(14px,1.2vw,16px)] text-[#0d1117]"
         >
-          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-600/10 text-blue-600">
+          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
               <path
                 d="M2 6.5L5 9.5L10 3.5"
@@ -66,7 +66,7 @@ function BlockImage({ block }: { block: Extract<AnnouncementContentBlock, { type
         />
       </div>
       {block.caption && (
-        <figcaption className="mt-2 text-center font-sans text-sm text-gray-500">
+        <figcaption className="mt-2 text-center font-sans text-sm text-fg-muted">
           {block.caption}
         </figcaption>
       )}
@@ -81,7 +81,7 @@ function BlockVideo({ block }: { block: Extract<AnnouncementContentBlock, { type
         <video src={block.src} controls className="h-full w-full object-contain" />
       </div>
       {block.caption && (
-        <figcaption className="mt-2 text-center font-sans text-sm text-gray-500">
+        <figcaption className="mt-2 text-center font-sans text-sm text-fg-muted">
           {block.caption}
         </figcaption>
       )}
@@ -102,7 +102,7 @@ function BlockYoutube({ block }: { block: Extract<AnnouncementContentBlock, { ty
         />
       </div>
       {block.caption && (
-        <figcaption className="mt-2 text-center font-sans text-sm text-gray-500">
+        <figcaption className="mt-2 text-center font-sans text-sm text-fg-muted">
           {block.caption}
         </figcaption>
       )}
@@ -178,11 +178,11 @@ function HeroMedia({ Announcement }: { Announcement: AnnouncementExtended }) {
 // ─── Type pill ────────────────────────────────────────────────────────────────
 
 const TYPE_COLORS: Record<string, string> = {
-  Informative: "border-blue-200 bg-blue-500/10 text-blue-600",
+  Informative: "border-border bg-primary-soft0/10 text-primary",
   Urgent: "border-red-200   bg-red-500/10   text-red-600",
   Reminder: "border-amber-200 bg-amber-500/10 text-amber-600",
   Task: "border-purple-200 bg-purple-500/10 text-purple-600",
-  General: "border-gray-200  bg-gray-500/10  text-gray-600",
+  General: "border-border  bg-surface-muted0/10  text-fg-muted",
 }
 
 // ─── Main export ──────────────────────────────────────────────────────────────
@@ -204,7 +204,7 @@ export default function AnnouncementDetailContent({ Announcement }: { Announceme
             Mobile: media top, description below.
           */}
           <div className="mb-10 flex flex-col gap-6 overflow-hidden rounded-2xl border border-[#0d1117]/06
-                          bg-white/80 p-6 shadow-[0_20px_60px_rgba(13,17,23,0.08)] backdrop-blur-sm
+                          bg-surface-elevated/80 p-6 shadow-[0_20px_60px_rgba(13,17,23,0.08)] backdrop-blur-sm
                           md:flex-row md:items-start md:gap-8 md:p-8">
             {/* LEFT — media */}
             <div className="w-full md:w-[45%] md:shrink-0">
@@ -228,7 +228,7 @@ export default function AnnouncementDetailContent({ Announcement }: { Announceme
               </div>
 
               {/* Meta */}
-              <div className="flex flex-wrap items-center gap-1.5 font-sans text-[13px] text-gray-400">
+              <div className="flex flex-wrap items-center gap-1.5 font-sans text-[13px] text-fg-muted">
                 {Announcement.fecha && <span>{Announcement.fecha}</span>}
                 {Announcement.autor && (
                   <>
@@ -239,14 +239,14 @@ export default function AnnouncementDetailContent({ Announcement }: { Announceme
               </div>
 
               {/* Short content */}
-              <div className="text-[clamp(15px,1.3vw,17px)] font-light leading-relaxed text-gray-600 space-y-4">
+              <div className="text-[clamp(15px,1.3vw,17px)] font-light leading-relaxed text-fg-muted space-y-4">
                 {Announcement.content?.type === "text" ? (
                   <p>{Announcement.content.text}</p>
                 ) : (
                   <ul className="flex flex-col gap-2">
                     {Announcement.content?.items?.map((item, i) => (
                       <li key={i} className="flex items-start gap-2.5">
-                        <span className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-blue-600/10 text-blue-600">
+                        <span className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                           <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
                             <path d="M2 6.5L5 9.5L10 3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
@@ -264,9 +264,9 @@ export default function AnnouncementDetailContent({ Announcement }: { Announceme
                 {Announcement.secondaryButton?.enabled && (
                   <Link
                     href={Announcement.secondaryButton.href}
-                    className="inline-flex w-fit items-center gap-2 rounded-md border border-gray-200
+                    className="inline-flex w-fit items-center gap-2 rounded-md border border-border
                                bg-transparent px-5 py-2.5 font-sans text-sm font-medium
-                               text-gray-700 transition-all hover:bg-gray-50 hover:text-[#0d1117] hover:border-gray-300"
+                               text-foreground transition-all hover:bg-surface-muted hover:text-[#0d1117] hover:border-border"
                   >
                     {Announcement.secondaryButton.label}
                   </Link>
@@ -287,7 +287,7 @@ export default function AnnouncementDetailContent({ Announcement }: { Announceme
           <div className="mt-10 flex justify-start pl-2">
             <Link
               href="/Announcements"
-              className="inline-flex items-center gap-2 font-sans text-sm font-medium text-[#0d1117] hover:text-blue-600 transition-colors"
+              className="inline-flex items-center gap-2 font-sans text-sm font-medium text-[#0d1117] hover:text-primary transition-colors"
             >
               ← Volver a los avisos
             </Link>

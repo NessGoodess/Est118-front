@@ -21,14 +21,14 @@ export function SubmitButton({
       type="submit"
       disabled={pending}
       className={`group relative w-full flex justify-center py-2.5 sm:py-3 px-4 border 
-        border-transparent text-xs sm:text-sm font-medium rounded-lg text-white bg-blue-950 
-        hover:bg-blue-850 focus:outline-none transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 
+        border-transparent text-xs sm:text-sm font-medium rounded-lg text-primary-foreground bg-primary 
+        hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 
         disabled:cursor-not-allowed cursor-pointer ${className || ''
         }`}
     >
       <span className="absolute left-0 inset-y-0 flex items-center pl-3">
         <svg
-          className="h-4 w-4 sm:h-5 sm:w-5 text-blue-950 group-hover:text-white"
+          className="h-4 w-4 sm:h-5 sm:w-5 text-primary-foreground/70 group-hover:text-primary-foreground"
           fill="currentColor"
           viewBox="0 0 20 20"
         >
@@ -42,7 +42,7 @@ export function SubmitButton({
       {pending ? (
         <div className="flex items-center justify-center">
           <svg
-            className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+            className="animate-spin -ml-1 mr-2 h-4 w-4 text-primary-foreground"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"

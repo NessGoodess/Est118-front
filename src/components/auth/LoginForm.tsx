@@ -48,10 +48,10 @@ export default function LoginForm() {
         <div className="w-16 h-16 rounded-full mx-auto">
           <Image src="/logo.PNG" alt="Logo" width={100} height={100} />
         </div>
-        <h1 className="text-xl font-semibold text-blue-950 hidden sm:block">Bienvenido</h1>
-        <p className="text-sm text-gray-500 md:block hidden">Ingresa tus credenciales para acceder</p>
+        <h1 className="text-xl font-semibold text-brand-strong hidden sm:block">Bienvenido</h1>
+        <p className="text-sm text-fg-muted md:block hidden">Ingresa tus credenciales para acceder</p>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white py-6 px-6 md:py-8 md:px-8 lg:px-10 shadow-xl rounded-xl sm:rounded-2xl text-sm space-y-2" noValidate>
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-surface-elevated text-foreground py-6 px-6 md:py-8 md:px-8 lg:px-10 shadow-card border border-border rounded-xl sm:rounded-2xl text-sm space-y-2" noValidate>
         <FloatingInput
           label="Correo electrónico"
           type="email"
@@ -78,7 +78,7 @@ export default function LoginForm() {
         <div className="flex items-center justify-end">
           <Link
             href="/forgot-password"
-            className="text-xs sm:text-sm text-blue-600 hover:text-blue-500 font-medium transition-colors duration-200"
+            className="text-xs sm:text-sm text-primary hover:text-primary-hover font-medium transition-colors duration-200"
           >
             ¿Olvidaste tu contraseña?
           </Link>

@@ -28,10 +28,10 @@ export default function FormatosSection() {
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-600 rounded-2xl mb-4">
                         <span className="text-3xl">📥</span>
                     </div>
-                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                    <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
                         Descarga de Formatos
                     </h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                    <p className="text-lg text-fg-muted max-w-2xl mx-auto">
                         Formatos y documentos oficiales disponibles para descarga
                     </p>
                 </div>
@@ -44,7 +44,7 @@ export default function FormatosSection() {
                             onClick={() => setSelectedCategory(category)}
                             className={`px-6 py-2.5 rounded-full font-medium transition-all duration-200 ${selectedCategory === category
                                     ? 'bg-orange-600 text-white shadow-lg shadow-orange-600/30'
-                                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                                    : 'bg-surface-elevated text-foreground hover:bg-surface-muted border border-border'
                                 }`}
                         >
                             {category}
@@ -57,13 +57,13 @@ export default function FormatosSection() {
                     {filteredFormatos.map((formato) => (
                         <div
                             key={formato.id}
-                            className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100"
+                            className="bg-surface-elevated rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group border border-border"
                         >
                             {/* Icon Header */}
                             <div className={`p-6 bg-gradient-to-r ${getCategoryColor(formato.categoria)} text-white`}>
                                 <div className="flex items-center justify-between mb-3">
                                     <span className="text-5xl">{formato.icono}</span>
-                                    <span className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium">
+                                    <span className="px-3 py-1 bg-surface-elevated/20 backdrop-blur-sm rounded-full text-xs font-medium">
                                         {formato.categoria}
                                     </span>
                                 </div>
@@ -74,24 +74,24 @@ export default function FormatosSection() {
 
                             {/* Content */}
                             <div className="p-6">
-                                <p className="text-sm text-gray-600 mb-4">
+                                <p className="text-sm text-fg-muted mb-4">
                                     {formato.descripcion}
                                 </p>
 
                                 {/* Stats */}
                                 <div className="grid grid-cols-2 gap-4 mb-6">
-                                    <div className="bg-gray-50 rounded-lg p-3">
-                                        <div className="text-xs text-gray-500 mb-1">Tamaño</div>
-                                        <div className="font-bold text-gray-900">{formato.tamano}</div>
+                                    <div className="bg-surface-muted rounded-lg p-3">
+                                        <div className="text-xs text-fg-muted mb-1">Tamaño</div>
+                                        <div className="font-bold text-foreground">{formato.tamano}</div>
                                     </div>
-                                    <div className="bg-gray-50 rounded-lg p-3">
-                                        <div className="text-xs text-gray-500 mb-1">Descargas</div>
-                                        <div className="font-bold text-gray-900">{formato.descargas.toLocaleString()}</div>
+                                    <div className="bg-surface-muted rounded-lg p-3">
+                                        <div className="text-xs text-fg-muted mb-1">Descargas</div>
+                                        <div className="font-bold text-foreground">{formato.descargas.toLocaleString()}</div>
                                     </div>
                                 </div>
 
                                 {/* Update Date */}
-                                <div className="flex items-center gap-2 text-xs text-gray-500 mb-4">
+                                <div className="flex items-center gap-2 text-xs text-fg-muted mb-4">
                                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                     </svg>
@@ -112,7 +112,7 @@ export default function FormatosSection() {
 
                 {filteredFormatos.length === 0 && (
                     <div className="text-center py-12">
-                        <p className="text-gray-500">No hay formatos en esta categoría</p>
+                        <p className="text-fg-muted">No hay formatos en esta categoría</p>
                     </div>
                 )}
 
@@ -127,8 +127,8 @@ export default function FormatosSection() {
                             </div>
                         </div>
                         <div className="flex-1">
-                            <h3 className="font-bold text-gray-900 mb-2">¿Necesitas ayuda?</h3>
-                            <p className="text-gray-700 text-sm mb-3">
+                            <h3 className="font-bold text-foreground mb-2">¿Necesitas ayuda?</h3>
+                            <p className="text-foreground text-sm mb-3">
                                 Si tienes dudas sobre cómo llenar algún formato o necesitas asistencia,
                                 acude al área de servicios escolares de lunes a viernes de 8:00 AM a 2:00 PM.
                             </p>

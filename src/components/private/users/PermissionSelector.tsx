@@ -66,7 +66,7 @@ export default function PermissionSelector({
     if (loading) {
         return (
             <div className="flex items-center justify-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             </div>
         );
     }
@@ -79,16 +79,16 @@ export default function PermissionSelector({
 
 
                 return (
-                    <div key={category} className="border border-slate-200 rounded-lg p-4">
+                    <div key={category} className="border border-border rounded-lg p-4">
                         <div className="flex items-center justify-between mb-3">
-                            <h4 className="text-sm font-semibold text-slate-700 capitalize">
+                            <h4 className="text-sm font-semibold text-foreground capitalize">
                                 {category}
                             </h4>
                             <button
                                 type="button"
                                 onClick={() => handleCategoryToggle(categoryPermissions)}
                                 disabled={disabled}
-                                className="text-xs text-blue-600 hover:text-blue-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="text-xs text-primary hover:text-primary-hover font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {allSelected ? 'Deseleccionar todos' : 'Seleccionar todos'}
                             </button>
@@ -100,8 +100,8 @@ export default function PermissionSelector({
                                     <label
                                         key={permission.id}
                                         className={`flex items-center gap-2 p-2 rounded-md cursor-pointer transition-colors ${isSelected
-                                            ? 'bg-blue-50 border border-blue-200'
-                                            : 'hover:bg-slate-50 border border-transparent'
+                                            ? 'bg-primary-soft border border-border'
+                                            : 'hover:bg-surface-muted border border-transparent'
                                             } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                                     >
                                         <input
@@ -109,9 +109,9 @@ export default function PermissionSelector({
                                             checked={isSelected}
                                             onChange={() => handlePermissionToggle(permission.name)}
                                             disabled={disabled}
-                                            className="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2"
+                                            className="w-4 h-4 text-primary border-border rounded focus:ring-ring focus:ring-2"
                                         />
-                                        <span className="text-sm text-slate-700">
+                                        <span className="text-sm text-foreground">
                                             {permission.name}
                                         </span>
                                     </label>

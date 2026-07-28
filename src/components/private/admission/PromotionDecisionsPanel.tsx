@@ -84,15 +84,15 @@ export default function PromotionDecisionsPanel() {
   };
 
   return (
-    <section className="bg-white rounded-xl shadow-sm border p-4 sm:p-6 space-y-4">
+    <section className="bg-surface-elevated rounded-xl shadow-sm border p-4 sm:p-6 space-y-4">
       <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">Cierre de ciclo</h2>
-          <p className="text-sm text-gray-500">Aprobado/Reprobado con casillas</p>
+          <h2 className="text-lg font-semibold text-foreground">Cierre de ciclo</h2>
+          <p className="text-sm text-fg-muted">Aprobado/Reprobado con casillas</p>
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-sm text-gray-600">
+          <span className="text-sm text-fg-muted">
             Pendientes: <strong>{items.length}</strong>
           </span>
           <Button variant="secondary" size="sm" onClick={refetch} loading={loading}>
@@ -103,9 +103,9 @@ export default function PromotionDecisionsPanel() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div>
-          <label className="text-xs font-medium text-gray-600">Grado</label>
+          <label className="text-xs font-medium text-fg-muted">Grado</label>
           <select
-            className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm bg-white"
+            className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface-elevated"
             value={gradeFilter}
             onChange={(e) => setGradeFilter(e.target.value)}
           >
@@ -119,9 +119,9 @@ export default function PromotionDecisionsPanel() {
         </div>
 
         <div>
-          <label className="text-xs font-medium text-gray-600">Grupo</label>
+          <label className="text-xs font-medium text-fg-muted">Grupo</label>
           <select
-            className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm bg-white"
+            className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface-elevated"
             value={groupFilter}
             onChange={(e) => setGroupFilter(e.target.value)}
           >
@@ -136,19 +136,19 @@ export default function PromotionDecisionsPanel() {
       </div>
 
       {loading ? (
-        <div className="text-sm text-gray-500 py-6">Cargando decisiones pendientes...</div>
+        <div className="text-sm text-fg-muted py-6">Cargando decisiones pendientes...</div>
       ) : items.length === 0 ? (
-        <div className="border rounded-lg p-4 text-sm text-green-700 bg-green-50 border-green-200">
+        <div className="border rounded-lg p-4 text-sm text-success bg-success/10 border-success/30">
           No hay decisiones pendientes. Ya puedes ejecutar la promoción anual.
         </div>
       ) : (
         <div className="space-y-3">
-          <div className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-lg p-3">
+          <div className="text-xs text-fg-muted bg-surface-muted border border-border rounded-lg p-3">
             Flujo rápido para administrativos: 1) filtra por grado/grupo, 2) marca casillas, 3) aplica aprobar/reprobar.
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-fg-muted">
               Vista: <strong>{filteredItems.length}</strong> · Seleccionados:{" "}
               <strong>{selectedRows.length}</strong>
             </span>

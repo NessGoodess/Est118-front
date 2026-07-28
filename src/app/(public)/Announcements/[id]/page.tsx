@@ -24,7 +24,7 @@ export default async function AnnouncementDetailPage({ params }: PageProps) {
       <section className="relative px-[clamp(20px,6vw,80px)] pt-[clamp(24px,5vw,48px)] pb-6">
         <div className="relative mx-auto max-w-4xl">
           
-          <p className="font-sans text-[11px] font-bold uppercase tracking-[0.07em] text-blue-600">
+          <p className="font-sans text-[11px] font-bold uppercase tracking-[0.07em] text-primary">
             {Announcement.header}
           </p>
           <h1 className="mt-1 font-[Syne,sans-serif] text-[clamp(26px,3.5vw,42px)] font-extrabold leading-tight tracking-tight text-[#0d1117]">

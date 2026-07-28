@@ -69,7 +69,7 @@ export default function EmailVerification({ nextStep, prevStep }: Props) {
   };
 
   return (
-    <div className="md:bg-white md:rounded-2xl md:shadow-xl p-6 md:p-12">
+    <div className="md:bg-surface-elevated md:rounded-2xl md:shadow-xl p-6 md:p-12">
       <Header icon={getIcon("email")}
         title="Correo Electrónico"
         description="Por favor, antes de continuar valide que el correo electrónico que ha escrito esté correctamente y que se tenga acceso a él, ya que en él se enviará el folio de preinscripción."
@@ -100,8 +100,8 @@ export default function EmailVerification({ nextStep, prevStep }: Props) {
           icon={getIcon("check")}
         />
 
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <p className="text-sm text-blue-900">
+        <div className="bg-primary-soft border border-border rounded-lg p-4">
+          <p className="text-sm text-primary">
             <strong>Importante:</strong> Asegúrese de tener acceso a este correo, ya que recibirá el folio de preinscripción y las instrucciones para continuar con el proceso.
           </p>
         </div>

@@ -93,14 +93,14 @@ export default function WorkshopSelection({ nextStep, prevStep }: Props) {
   const segundaOpcion = formData.workshopSelect.workshopSecondChoice;
 
   return (
-    <div className="md:bg-white md:rounded-2xl md:shadow-xl p-6 md:p-12">
+    <div className="md:bg-surface-elevated md:rounded-2xl md:shadow-xl p-6 md:p-12">
       <Header
         title="Selección de Tecnología"
         description="De las opciones de taller, marca tu opción favorita, enseguida, selecciona una segunda opción, que te será asignada en caso de no haber cupo en la primera."
       />
 
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">
+        <h3 className="text-xl font-semibold text-foreground mb-4">
           Taller Favorito
           {errors.workshopFirstChoice && (
             <span className="text-red-600 text-sm ml-2">{errors.workshopFirstChoice}</span>
@@ -115,10 +115,10 @@ export default function WorkshopSelection({ nextStep, prevStep }: Props) {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className={`relative p-6 rounded-xl border-2 transition-all text-left ${tallerFavorito === taller.id
-                ? "border-blue-600 bg-blue-50 shadow-lg"
+                ? "border-primary bg-primary-soft shadow-lg"
                 : errors.workshopFirstChoice
                   ? "border-red-300 bg-red-50"
-                  : "border-gray-200 bg-white hover:border-gray-300"
+                  : "border-border bg-surface-elevated hover:border-border"
                 }`}
             >
               <div className="flex items-start gap-4">
@@ -126,12 +126,12 @@ export default function WorkshopSelection({ nextStep, prevStep }: Props) {
                   {taller.icono}
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-bold text-gray-900 mb-1">{taller.nombre}</h4>
-                  <p className="text-sm text-gray-600">{taller.descripcion}</p>
+                  <h4 className="font-bold text-foreground mb-1">{taller.nombre}</h4>
+                  <p className="text-sm text-fg-muted">{taller.descripcion}</p>
                 </div>
                 {tallerFavorito === taller.id && (
                   <div className="absolute top-4 right-4">
-                    <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
+                    <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
                       <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
@@ -150,7 +150,7 @@ export default function WorkshopSelection({ nextStep, prevStep }: Props) {
           animate={{ opacity: 1, height: "auto" }}
           transition={{ duration: 0.3 }}
         >
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">
+          <h3 className="text-xl font-semibold text-foreground mb-4">
             Segunda Opción
             {errors.workshopSecondChoice && (
               <span className="text-red-600 text-sm ml-2">{errors.workshopSecondChoice}</span>
@@ -168,7 +168,7 @@ export default function WorkshopSelection({ nextStep, prevStep }: Props) {
                   ? "border-green-600 bg-green-50 shadow-lg"
                   : errors.workshopSecondChoice
                     ? "border-red-300 bg-red-50"
-                    : "border-gray-200 bg-white hover:border-gray-300"
+                    : "border-border bg-surface-elevated hover:border-border"
                   }`}
               >
                 <div className="flex items-start gap-4">
@@ -176,12 +176,12 @@ export default function WorkshopSelection({ nextStep, prevStep }: Props) {
                     {taller.icono}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-bold text-gray-900 mb-1">{taller.nombre}</h4>
-                    <p className="text-sm text-gray-600">{taller.descripcion}</p>
+                    <h4 className="font-bold text-foreground mb-1">{taller.nombre}</h4>
+                    <p className="text-sm text-fg-muted">{taller.descripcion}</p>
                   </div>
                   {segundaOpcion === taller.id && (
                     <div className="absolute top-4 right-4">
-                      <div className="w-6 h-6 bg-green-600 rounded-full flex items-center justify-center">
+                      <div className="w-6 h-6 bg-success rounded-full flex items-center justify-center">
                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>

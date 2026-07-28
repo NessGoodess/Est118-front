@@ -12,7 +12,7 @@ export default function ModernSidebar() {
     <>
       {isMobile && isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          className="fixed inset-0 bg-modal-overlay z-40 md:hidden"
           onClick={toggleSidebar}
           aria-hidden
         />

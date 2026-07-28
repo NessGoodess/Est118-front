@@ -38,21 +38,21 @@ export default function EventosPage() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: index * 0.1 }}
                             whileHover={{ scale: 1.02 }}
-                            className="bg-white rounded-2xl shadow-xl overflow-hidden border-l-4 border-blue-600"
+                            className="bg-surface-elevated rounded-2xl shadow-xl overflow-hidden border-l-4 border-primary"
                         >
                             <Link href={`/eventos/${evento.id}`} scroll={false}>
                                 <div className="p-8">
                                     <div className="flex items-start justify-between mb-4">
                                         <div>
-                                            <span className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mb-3">
+                                            <span className="inline-block bg-primary-soft text-primary px-3 py-1 rounded-full text-sm font-semibold mb-3">
                                                 {evento.tipo}
                                             </span>
-                                            <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                                            <h3 className="text-2xl font-bold text-foreground mb-3">
                                                 {evento.titulo}
                                             </h3>
                                         </div>
                                         <div className="text-right">
-                                            <div className="bg-yellow-400 text-gray-900 rounded-lg p-3 text-center min-w-[80px]">
+                                            <div className="bg-yellow-400 text-foreground rounded-lg p-3 text-center min-w-[80px]">
                                                 <p className="text-xs font-semibold uppercase">Fecha</p>
                                                 <p className="text-lg font-bold">{evento.fecha.split(' ')[0]}</p>
                                                 <p className="text-xs">{evento.fecha.split(' ').slice(1).join(' ')}</p>
@@ -60,32 +60,32 @@ export default function EventosPage() {
                                         </div>
                                     </div>
 
-                                    <p className="text-gray-600 mb-6 leading-relaxed">
+                                    <p className="text-fg-muted mb-6 leading-relaxed">
                                         {evento.descripcion}
                                     </p>
 
-                                    <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-200">
+                                    <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                                                <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <div className="w-10 h-10 bg-primary-soft rounded-lg flex items-center justify-center">
+                                                <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
                                             </div>
                                             <div>
-                                                <p className="text-xs text-gray-500">Hora</p>
-                                                <p className="text-sm font-semibold text-gray-900">{evento.hora}</p>
+                                                <p className="text-xs text-fg-muted">Hora</p>
+                                                <p className="text-sm font-semibold text-foreground">{evento.hora}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                                                <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <div className="w-10 h-10 bg-primary-soft rounded-lg flex items-center justify-center">
+                                                <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 </svg>
                                             </div>
                                             <div>
-                                                <p className="text-xs text-gray-500">Lugar</p>
-                                                <p className="text-sm font-semibold text-gray-900">{evento.lugar}</p>
+                                                <p className="text-xs text-fg-muted">Lugar</p>
+                                                <p className="text-sm font-semibold text-foreground">{evento.lugar}</p>
                                             </div>
                                         </div>
                                     </div>

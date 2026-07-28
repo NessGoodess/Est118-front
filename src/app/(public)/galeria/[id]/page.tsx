@@ -24,7 +24,7 @@ export default function GaleriaItemPage({ params }: { params: Promise<{ id: stri
   const ratioClass = RATIO_CLASS[item.ratio ?? "4/3"];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-surface-muted to-surface-elevated">
       {/* Slim top header */}
       <section className="relative h-40 md:h-52 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/background4.png')] bg-cover bg-center opacity-20" />
@@ -40,7 +40,7 @@ export default function GaleriaItemPage({ params }: { params: Promise<{ id: stri
               ← Back to Gallery
             </Link>
             <div className="flex items-center gap-3 mt-1">
-              <span className="inline-block bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-xs font-bold">
+              <span className="inline-block bg-yellow-400 text-foreground px-3 py-1 rounded-full text-xs font-bold">
                 {item.category}
               </span>
               <h1 className="text-2xl md:text-3xl font-bold font-merriweather line-clamp-2">
@@ -74,7 +74,7 @@ export default function GaleriaItemPage({ params }: { params: Promise<{ id: stri
           {/* RIGHT — description panel */}
           <div className="flex flex-1 flex-col gap-5">
             {/* Meta */}
-            <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
+            <div className="flex flex-wrap items-center gap-2 text-sm text-fg-muted">
               <span>{item.date}</span>
               {item.author && (
                 <>
@@ -88,7 +88,7 @@ export default function GaleriaItemPage({ params }: { params: Promise<{ id: stri
             <div className="h-[3px] w-10 rounded-full bg-yellow-400" />
 
             {/* Description */}
-            <p className="text-base leading-relaxed text-gray-700">
+            <p className="text-base leading-relaxed text-foreground">
               {item.description}
             </p>
 
@@ -98,7 +98,7 @@ export default function GaleriaItemPage({ params }: { params: Promise<{ id: stri
                 {item.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full bg-blue-50 border border-blue-200 px-3 py-1 text-xs font-medium text-blue-700"
+                    className="rounded-full bg-primary-soft border border-border px-3 py-1 text-xs font-medium text-primary"
                   >
                     #{tag}
                   </span>
@@ -107,10 +107,10 @@ export default function GaleriaItemPage({ params }: { params: Promise<{ id: stri
             )}
 
             {/* Back link */}
-            <div className="mt-auto pt-6 border-t border-gray-200">
+            <div className="mt-auto pt-6 border-t border-border">
               <Link
                 href="/galeria"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-700"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-hover"
               >
                 ← View more in gallery
               </Link>

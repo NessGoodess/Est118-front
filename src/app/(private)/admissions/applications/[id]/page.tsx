@@ -79,7 +79,7 @@ export default function PreEnrollmentPage({
       <button
         type="button"
         onClick={() => router.push('/admissions/applications')}
-        className="mb-4 text-blue-900 hover:text-blue-500 flex items-center gap-2 cursor-pointer"
+        className="mb-4 text-primary hover:text-primary-hover flex items-center gap-2 cursor-pointer"
       >
         <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />

@@ -98,7 +98,7 @@ export default function Header() {
                 role="banner"
                 className={`fixed inset-x-0 z-50 transition-all duration-500 ease-out 
                     ${scrolled
-                        ? "bg-white shadow-2xl shadow-black/10"
+                        ? "bg-surface-elevated shadow-2xl shadow-black/10"
                         : "transparent"
                     }
                     ${visible ? "translate-y-0" : "-translate-y-full"}
@@ -157,7 +157,7 @@ export default function Header() {
                         >
                             <motion.h1
                                 className={`font-bold transition-all duration-300 ${scrolled
-                                    ? "text-gray-900 text-lg md:text-xl"
+                                    ? "text-foreground text-lg md:text-xl"
                                     : "text-white text-xl md:text-3xl drop-shadow-lg"
                                     }`}
                                 id="school-name"
@@ -167,7 +167,7 @@ export default function Header() {
                             </motion.h1>
                             <motion.p
                                 className={`transition-all duration-300 ${scrolled
-                                    ? "text-gray-600 text-xs"
+                                    ? "text-fg-muted text-xs"
                                     : "text-white/90 text-sm md:text-base drop-shadow-md"
                                     }`}
                                 id="school-subtitle"
@@ -191,7 +191,7 @@ export default function Header() {
                                         <div className="flex items-center gap-6">
                                             <a
                                                 href="mailto:est188@est118.edu.mx"
-                                                className="flex items-center gap-2 hover:text-blue-300 transition-colors"
+                                                className="flex items-center gap-2 hover:text-brand-200 transition-colors"
                                                 aria-label="Enviar correo electrónico"
                                             >
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -201,7 +201,7 @@ export default function Header() {
                                             </a>
                                             <a
                                                 href="tel:+529512003147"
-                                                className="flex items-center gap-2 hover:text-blue-300 transition-colors"
+                                                className="flex items-center gap-2 hover:text-brand-200 transition-colors"
                                                 aria-label="Llamar por teléfono"
                                             >
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -212,7 +212,7 @@ export default function Header() {
                                             <a
                                                 href={mapsUrl}
                                                 target="_blank"
-                                                className="flex items-center gap-2 hover:text-blue-300 transition-colors"
+                                                className="flex items-center gap-2 hover:text-brand-200 transition-colors"
                                                 aria-label="Nuestra Ubicacion"
                                             >
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -221,7 +221,7 @@ export default function Header() {
                                                 <span>Oaxaca</span>
                                             </a>
                                             <a
-                                                className="flex items-center gap-2 hover:text-blue-300 transition-colors"
+                                                className="flex items-center gap-2 hover:text-brand-200 transition-colors"
                                                 aria-label="Hora de Atencion"
                                             >
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" >
@@ -280,7 +280,7 @@ export default function Header() {
                                         >
                                             <a
                                                 href={link.href}
-                                                className={`flex items-center gap-2 transition-all duration-300 font-semibold relative group ${scrolled ? "text-gray-800 px-3 py-1.5" : "text-white px-4 py-2"}`}
+                                                className={`flex items-center gap-2 transition-all duration-300 font-semibold relative group ${scrolled ? "text-foreground px-3 py-1.5" : "text-white px-4 py-2"}`}
                                                 aria-label={`Ir a ${link.label}`}
                                             >
                                                 <span className="relative z-10 flex items-center gap-2">
@@ -292,7 +292,7 @@ export default function Header() {
                                                     <span>{link.label}</span>
                                                 </span>
                                                 <motion.span
-                                                    className={`absolute bottom-0 left-0 right-0 h-0.5 ${scrolled ? "bg-blue-600" : "bg-white"}`}
+                                                    className={`absolute bottom-0 left-0 right-0 h-0.5 ${scrolled ? "bg-primary" : "bg-surface-elevated"}`}
                                                     initial={{ scaleX: 0 }}
                                                     whileHover={{ scaleX: 1 }}
                                                     transition={{ duration: 0.3 }}
@@ -314,8 +314,8 @@ export default function Header() {
                                     aria-expanded={mobileOpen}
                                     onClick={() => setMobileOpen(!mobileOpen)}
                                     className={`lg:hidden p-2 rounded-lg transition-all duration-300 ${scrolled
-                                        ? "text-gray-800 hover:bg-gray-100"
-                                        : "text-white hover:bg-white/20"
+                                        ? "text-foreground hover:bg-surface-muted"
+                                        : "text-white hover:bg-surface-elevated/20"
                                         }`}
                                     whileTap={{ scale: 0.9 }}
                                 >
@@ -362,7 +362,7 @@ export default function Header() {
                             aria-label="Menú móvil"
                         >
                             <div className={`px-6 py-4 space-y-2 ${scrolled
-                                ? "bg-white"
+                                ? "bg-surface-elevated"
                                 : "bg-[#2b459c]"
                                 }`}>
                                 {navLinks.map((link) => (
@@ -370,8 +370,8 @@ export default function Header() {
                                         key={link.href}
                                         href={link.href}
                                         className={`flex items-center gap-3 py-3 px-4 rounded-lg font-medium transition-all ${scrolled
-                                            ? "text-gray-800 hover:bg-gray-100 hover:text-blue-600"
-                                            : "text-white hover:bg-white/20"
+                                            ? "text-foreground hover:bg-surface-muted hover:text-primary"
+                                            : "text-white hover:bg-surface-elevated/20"
                                             }`}
                                         onClick={() => setMobileOpen(false)}
                                         initial={{ opacity: 0, x: -20 }}

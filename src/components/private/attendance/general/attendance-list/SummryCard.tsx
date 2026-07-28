@@ -10,15 +10,15 @@ export default function SummaryCard({
   tone,
 }: SummaryCardProps) {
   const tones = {
-    neutral: "bg-white text-gray-900",
-    success: "bg-green-50 text-green-800",
-    warning: "bg-amber-50 text-amber-900",
-    danger: "bg-red-50 text-red-800",
-    info: "bg-sky-50 text-sky-800",
+    neutral: "bg-surface-elevated text-foreground",
+    success: "bg-success/10 text-success",
+    warning: "bg-warning/10 text-warning-foreground",
+    danger: "bg-danger/10 text-danger",
+    info: "bg-primary-soft text-info",
   };
 
   return (
-    <div className={`rounded-lg border-2 border-blue-900 p-3 ${tones[tone]}`}>
+    <div className={`rounded-lg border-2 border-primary p-3 ${tones[tone]}`}>
       <p className="text-2xl font-semibold">{value}</p>
       <p className="text-xs font-medium opacity-80">{label}</p>
     </div>

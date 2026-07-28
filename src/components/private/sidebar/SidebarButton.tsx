@@ -57,7 +57,7 @@ export function SidebarButton({
     ${
       active
         ? 'bg-brand text-sidebar-button-hover-active shadow-md'
-        : 'text-primary hover:bg-sidebar-button-bg-hover hover:text-sidebar-button-text'
+        : 'text-foreground hover:bg-sidebar-button-bg-hover hover:text-sidebar-button-text'
     }
   `;
 

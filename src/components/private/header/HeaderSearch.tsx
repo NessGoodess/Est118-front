@@ -134,10 +134,10 @@ export function HeaderSearch() {
   };
 
   return (
-    <div className="relative w-full max-w-md text-slate-900">
+    <div className="relative w-full max-w-md text-foreground">
       <div className="relative">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon className="w-5 h-5 text-gray-400" />
+          <SearchIcon className="w-5 h-5 text-fg-muted" />
         </div>
         <input
           ref={inputRef}
@@ -146,11 +146,12 @@ export function HeaderSearch() {
           onChange={(e) => setQuery(e.target.value)}
           onFocus={handleFocus}
           placeholder="Buscar páginas..."
-          className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 
-               focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-900 focus:border-blue-900 text-sm"
+          className="block w-full pl-10 pr-3 py-2 border border-border rounded-lg leading-5 bg-surface-elevated text-foreground placeholder:text-fg-muted
+               focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring text-sm"
         />
         {query && (
           <button
+            type="button"
             onClick={() => {
               setQuery('');
               setIsOpen(false);
@@ -159,7 +160,7 @@ export function HeaderSearch() {
             className="absolute inset-y-0 right-0 pr-3 flex items-center"
           >
             <svg
-              className="w-4 h-4 text-gray-400 hover:text-gray-600"
+              className="w-4 h-4 text-fg-muted hover:text-foreground"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -178,21 +179,23 @@ export function HeaderSearch() {
       {isOpen && results.length > 0 && (
         <div
           ref={dropdownRef}
-          className="absolute z-50 mt-1 w-full bg-white rounded-lg shadow-lg border border-gray-200 max-h-96 overflow-auto"
+          className="absolute z-50 mt-1 w-full bg-surface-elevated text-foreground rounded-lg shadow-card border border-border max-h-96 overflow-auto"
         >
           <div className="py-1">
             {results.map((result, index) => (
               <button
                 key={`${result.href}-${index}`}
+                type="button"
                 onClick={() => handleSelectResult(result)}
-                className={`w-full text-left px-4 py-2 text-sm transition-colors duration-150 ${index === selectedIndex
-                    ? 'bg-blue-50 text-blue-900'
-                    : 'text-gray-700 hover:bg-gray-50'
-                  }`}
+                className={`w-full text-left px-4 py-2 text-sm transition-colors duration-150 ${
+                  index === selectedIndex
+                    ? 'bg-primary-soft text-primary'
+                    : 'text-foreground hover:bg-surface-muted'
+                }`}
               >
                 <div className="flex items-center space-x-2">
-                  <span className="text-gray-400">
-                    {result.type === 'section' ? '📁' : '📄'}
+                  <span className="text-fg-muted text-xs">
+                    {result.type === 'section' ? 'Sección' : 'Página'}
                   </span>
                   <span className="font-medium">{result.label}</span>
                 </div>
@@ -203,8 +206,8 @@ export function HeaderSearch() {
       )}
 
       {query.trim() && results.length === 0 && isOpen && (
-        <div className="absolute z-50 mt-1 w-full bg-white rounded-lg shadow-lg border border-gray-200">
-          <div className="px-4 py-3 text-sm text-gray-500 text-center">
+        <div className="absolute z-50 mt-1 w-full bg-surface-elevated rounded-lg shadow-card border border-border">
+          <div className="px-4 py-3 text-sm text-fg-muted text-center">
             No se encontraron resultados para &quot;{query}&quot;
           </div>
         </div>
@@ -212,4 +215,3 @@ export function HeaderSearch() {
     </div>
   );
 }
-

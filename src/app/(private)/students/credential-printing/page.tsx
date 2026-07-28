@@ -33,7 +33,7 @@ function BoolCell({
   return (
     <input
       type="checkbox"
-      className="h-4 w-4 rounded border-gray-300"
+      className="h-4 w-4 rounded border-border"
       checked={checked ?? false}
       disabled={disabled}
       onChange={(e) => onChange(e.target.checked)}
@@ -178,10 +178,10 @@ export default function CredentialPrintingPage() {
         description="Por grupo: verificar foto y datos, exportar Excel con nombre de archivo de foto y seguimiento (impreso, NFC, entrega, pago, perdido, repuestos). Las fotos se pueden descargar en ZIP (compatible con Windows)."
       />
 
-      <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-        <h2 className="mb-3 text-sm font-semibold text-slate-800">1. Grado</h2>
+      <section className="rounded-lg border border-border bg-surface-elevated p-4 shadow-sm">
+        <h2 className="mb-3 text-sm font-semibold text-foreground">1. Grado</h2>
         {gradesLoading ? (
-          <p className="text-sm text-gray-500">Cargando grados…</p>
+          <p className="text-sm text-fg-muted">Cargando grados…</p>
         ) : (
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
             {grades.map((g) => (
@@ -190,7 +190,7 @@ export default function CredentialPrintingPage() {
                 type="button"
                 onClick={() => setSelectedGrade(g.grade_id)}
                 className={`text-left transition hover:-translate-y-0.5 hover:shadow-md ${
-                  selectedGrade === g.grade_id ? "ring-2 ring-blue-500" : ""
+                  selectedGrade === g.grade_id ? "ring-2 ring-primary" : ""
                 }`}
               >
                 <GradeLevelsCard {...g} isSelected={selectedGrade === g.grade_id} />
@@ -201,15 +201,15 @@ export default function CredentialPrintingPage() {
       </section>
 
       {selectedGrade && (
-        <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-          <h2 className="mb-3 text-sm font-semibold text-slate-800">2. Grupo</h2>
+        <section className="rounded-lg border border-border bg-surface-elevated p-4 shadow-sm">
+          <h2 className="mb-3 text-sm font-semibold text-foreground">2. Grupo</h2>
           {loadingGroups ? (
-            <p className="text-sm text-gray-500">Cargando grupos…</p>
+            <p className="text-sm text-fg-muted">Cargando grupos…</p>
           ) : classGroups.length === 0 ? (
-            <p className="text-sm text-amber-700">No hay grupos registrados para este grado.</p>
+            <p className="text-sm text-warning-foreground">No hay grupos registrados para este grado.</p>
           ) : (
             <select
-              className="w-full max-w-xl rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900"
+              className="w-full max-w-xl rounded-md border border-border bg-surface-elevated px-3 py-2 text-sm text-foreground"
               value={selectedGroupId === "" ? "" : String(selectedGroupId)}
               onChange={(e) => {
                 const v = e.target.value;
@@ -228,11 +228,11 @@ export default function CredentialPrintingPage() {
       )}
 
       {typeof selectedGroupId === "number" && selectedGroupId > 0 && (
-        <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm space-y-4">
+        <section className="rounded-lg border border-border bg-surface-elevated p-4 shadow-sm space-y-4">
           <div className="flex flex-col gap-3 md:flex-row md:flex-wrap md:items-center md:justify-between">
             <div>
-              <h2 className="text-sm font-semibold text-slate-800">3. Descargas</h2>
-              <p className="text-xs text-gray-600 mt-1">
+              <h2 className="text-sm font-semibold text-foreground">3. Descargas</h2>
+              <p className="text-xs text-fg-muted mt-1">
                 El Excel incluye columnas de seguimiento. El archivo comprimido de fotos es{" "}
                 <strong>ZIP</strong> (no RAR: el servidor no genera RAR).
               </p>
@@ -242,7 +242,7 @@ export default function CredentialPrintingPage() {
                 type="button"
                 disabled={downloadingExcel || loadingRows || !payload}
                 onClick={onDownloadExcel}
-                className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
               >
                 {downloadingExcel ? "Descargando…" : "Descargar Excel"}
               </button>
@@ -250,7 +250,7 @@ export default function CredentialPrintingPage() {
                 type="button"
                 disabled={downloadingZip || loadingRows || !payload}
                 onClick={onDownloadZip}
-                className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 disabled:opacity-50"
+                className="rounded-md border border-border bg-surface-elevated px-4 py-2 text-sm font-medium text-foreground disabled:opacity-50"
               >
                 {downloadingZip ? "Generando…" : "Descargar fotos (ZIP)"}
               </button>
@@ -258,27 +258,27 @@ export default function CredentialPrintingPage() {
           </div>
 
           {loadingRows ? (
-            <p className="text-sm text-gray-500">Cargando alumnos…</p>
+            <p className="text-sm text-fg-muted">Cargando alumnos…</p>
           ) : payload ? (
             <>
-              <div className="flex flex-wrap gap-3 text-xs text-slate-700">
-                <span className="rounded-full bg-slate-100 px-3 py-1">Total: {stats.total}</span>
-                <span className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-900">
+              <div className="flex flex-wrap gap-3 text-xs text-foreground">
+                <span className="rounded-full bg-surface-muted px-3 py-1">Total: {stats.total}</span>
+                <span className="rounded-full bg-success/10 px-3 py-1 text-success">
                   Con foto: {stats.withPhoto}
                 </span>
-                <span className="rounded-full bg-amber-50 px-3 py-1 text-amber-900">
+                <span className="rounded-full bg-warning/10 px-3 py-1 text-warning-foreground">
                   Datos completos: {stats.complete}
                 </span>
                 {payload.meta.academic_year ? (
-                  <span className="rounded-full bg-slate-100 px-3 py-1">
+                  <span className="rounded-full bg-surface-muted px-3 py-1">
                     Ciclo: {payload.meta.academic_year}
                   </span>
                 ) : null}
               </div>
 
-              <div className="overflow-x-auto rounded-md border border-slate-100">
+              <div className="overflow-x-auto rounded-md border border-border">
                 <table className="min-w-[1400px] w-full border-collapse text-left text-xs">
-                  <thead className="sticky top-0 z-10 bg-slate-100 text-slate-800">
+                  <thead className="sticky top-0 z-10 bg-surface-muted text-foreground">
                     <tr>
                       <th className="whitespace-nowrap px-2 py-2 font-semibold">Alumno</th>
                       <th className="px-2 py-2 font-semibold">Foto</th>
@@ -330,9 +330,9 @@ function CredentialTableRow({
 }) {
   const t = row.tracking;
   return (
-    <tr className="border-t border-slate-100 odd:bg-white even:bg-slate-50/60">
-      <td className="whitespace-nowrap px-2 py-2 font-medium text-slate-900">
-        <Link href={`/students/${row.student_id}`} className="text-blue-700 hover:underline">
+    <tr className="border-t border-border odd:bg-surface-elevated even:bg-surface-muted/60">
+      <td className="whitespace-nowrap px-2 py-2 font-medium text-foreground">
+        <Link href={`/students/${row.student_id}`} className="text-primary hover:underline">
           {row.full_name}
         </Link>
       </td>
@@ -344,7 +344,7 @@ function CredentialTableRow({
       <td className="max-w-[120px] truncate px-2 py-2 font-mono text-[11px]" title={row.curp}>
         {row.curp || "—"}
       </td>
-      <td className="max-w-[220px] px-2 py-2 text-[11px] text-slate-700" title={row.address}>
+      <td className="max-w-[220px] px-2 py-2 text-[11px] text-foreground" title={row.address}>
         {row.address || "—"}
       </td>
       <td className="max-w-[120px] truncate px-2 py-2" title={row.tutor_name}>
@@ -354,7 +354,7 @@ function CredentialTableRow({
       <td className="max-w-[120px] truncate px-2 py-2 font-mono text-[11px]" title={row.photo_filename || ""}>
         {row.photo_filename || "—"}
       </td>
-      <td className="max-w-[260px] px-2 py-2 text-[10px] leading-snug text-slate-600" title={row.linea_impresion}>
+      <td className="max-w-[260px] px-2 py-2 text-[10px] leading-snug text-fg-muted" title={row.linea_impresion}>
         {row.linea_impresion}
       </td>
       <td className="px-2 py-2 text-center">
@@ -385,7 +385,7 @@ function CredentialTableRow({
       </td>
       <td className="px-2 py-2">
         <select
-          className="w-16 rounded border border-gray-300 bg-white px-1 py-0.5 text-[11px]"
+          className="w-16 rounded border border-border bg-surface-elevated px-1 py-0.5 text-[11px]"
           disabled={disabled}
           value={t.replacement_count ?? 0}
           onChange={(e) => onPatch({ replacement_count: Number(e.target.value) })}

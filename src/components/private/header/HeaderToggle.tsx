@@ -17,13 +17,11 @@ export function HeaderToggle() {
     <button
       type="button"
       onClick={toggleSidebar}
-      className="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none 
-      active:text-black transition-all duration-200"
+      className="p-2 rounded-lg text-fg-muted hover:text-foreground hover:bg-surface-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-ring active:text-foreground transition-all duration-200"
       title={isCollapsed ? "Expandir menú" : "Contraer menú"}
       aria-label={isCollapsed ? "Expandir menú" : "Contraer menú"}
     >
-      <MenuIcon className='active:text-blue-900'/>
+      <MenuIcon className="active:text-primary" />
     </button>
   );
 }
-

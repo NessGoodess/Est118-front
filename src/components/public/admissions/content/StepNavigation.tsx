@@ -30,14 +30,14 @@ export default function StepNavigation({
   const isSubmit = variant === "submit";
 
   return (
-    <div className="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
+    <div className="flex justify-between items-center mt-8 pt-6 border-t border-border">
       <button
         type="button"
         onClick={onBack}
         disabled={isSubmitting}
-        className={`px-4 py-2 md:px-6 md:py-3 text-sm md:text-lg hover:bg-slate-600 rounded-full hover:text-white font-semibold transition-colors ${isSubmitting
-          ? "text-gray-400 cursor-not-allowed"
-          : "text-gray-700 hover:text-gray-900"
+        className={`px-4 py-2 md:px-6 md:py-3 text-sm md:text-lg hover:bg-brand-600 rounded-full hover:text-white font-semibold transition-colors ${isSubmitting
+          ? "text-fg-muted cursor-not-allowed"
+          : "text-foreground hover:text-foreground"
           }`}
       >
         {backLabel}
@@ -50,10 +50,10 @@ export default function StepNavigation({
         whileHover={!isSubmitting ? { scale: 1.02 } : undefined}
         whileTap={!isSubmitting ? { scale: 0.98 } : undefined}
         className={`px-4 py-2 md:px-8 md:py-3 rounded-full font-bold text-sm md:text-lg transition-all flex items-center gap-2 ${isSubmitting
-            ? "bg-gray-400 text-gray-600 cursor-not-allowed"
+            ? "bg-fg-muted text-fg-muted cursor-not-allowed"
             : isSubmit
-              ? "bg-green-600 hover:bg-green-700 text-white shadow-lg hover:shadow-xl"
-              : "bg-blue-600 hover:bg-blue-900 text-white shadow-lg hover:shadow-xl"
+              ? "bg-success hover:bg-green-700 text-white shadow-lg hover:shadow-xl"
+              : "bg-primary hover:bg-primary-hover text-white shadow-lg hover:shadow-xl"
           }`}
       >
         {isSubmitting ? (

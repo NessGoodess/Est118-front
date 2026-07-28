@@ -25,7 +25,7 @@ export default function AllStudentsPage() {
     return (
         <div className="space-y-6">
             <GenericHeader title="Todos Los Estudiantes" description="Lista de todos los estudiantes" />
-            <article className="text-black gap-2 md:gap-6 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3">
+            <article className="text-foreground gap-2 md:gap-6 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3">
                 {grades.map((grade) => (
                     <button
                         type="button"
@@ -40,7 +40,7 @@ export default function AllStudentsPage() {
             </article>
 
             {selectedGrade && (
-                <section className="bg-white rounded-lg shadow-md text-black p-4">
+                <section className="bg-surface-elevated rounded-lg shadow-md text-foreground p-4">
                     <StudentsByGradeSection grade_id={selectedGrade} />
                 </section>
             )}

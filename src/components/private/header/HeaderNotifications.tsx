@@ -32,16 +32,16 @@ function NotificationItem({
     <button
       type="button"
       onClick={() => onOpen(item)}
-      className={`w-full rounded-lg px-3 py-2.5 text-left transition hover:bg-slate-50 ${
-        unread ? "bg-blue-50/60" : "bg-white"
+      className={`w-full rounded-lg px-3 py-2.5 text-left transition hover:bg-surface-muted ${
+        unread ? "bg-primary-soft" : "bg-surface-elevated"
       }`}
     >
       <div className="flex items-start justify-between gap-2">
-        <p className="text-sm font-medium text-slate-900">{item.title}</p>
-        {unread && <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-blue-500" />}
+        <p className="text-sm font-medium text-foreground">{item.title}</p>
+        {unread && <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-info" />}
       </div>
-      <p className="mt-0.5 line-clamp-2 text-xs text-slate-600">{item.message}</p>
-      <p className="mt-1 text-[10px] text-slate-400">{formatRelativeTime(item.created_at)}</p>
+      <p className="mt-0.5 line-clamp-2 text-xs text-fg-muted">{item.message}</p>
+      <p className="mt-1 text-[10px] text-fg-muted">{formatRelativeTime(item.created_at)}</p>
     </button>
   );
 }
@@ -76,13 +76,13 @@ export function HeaderNotifications() {
           setIsOpen((v) => !v);
           if (!isOpen) refresh();
         }}
-        className="relative rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="relative rounded-lg px-3 py-2 text-sm font-medium text-fg-muted transition-colors duration-200 hover:bg-surface-muted hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         aria-label="Notificaciones"
       >
         <NotificationIcon className="mr-2 inline h-4 w-4" />
         Notificaciones
         {unreadCount > 0 && (
-          <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+          <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-danger text-xs font-bold text-danger-foreground">
             {unreadCount > 9 ? "9+" : unreadCount}
           </span>
         )}
@@ -91,14 +91,14 @@ export function HeaderNotifications() {
       {isOpen && (
         <>
           <div className="fixed inset-0 z-10" onClick={() => setIsOpen(false)} />
-          <div className="absolute right-0 z-20 mt-2 w-96 max-w-[calc(100vw-2rem)] rounded-lg border border-gray-200 bg-white shadow-xl">
-            <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-              <h3 className="text-sm font-semibold text-gray-900">Notificaciones</h3>
+          <div className="absolute right-0 z-20 mt-2 w-96 max-w-[calc(100vw-2rem)] rounded-lg border border-border bg-surface-elevated text-foreground shadow-card">
+            <div className="flex items-center justify-between border-b border-border px-4 py-3">
+              <h3 className="text-sm font-semibold text-foreground">Notificaciones</h3>
               {unreadCount > 0 && (
                 <button
                   type="button"
                   onClick={markAllAsRead}
-                  className="text-xs font-medium text-blue-600 hover:text-blue-800"
+                  className="text-xs font-medium text-primary hover:text-primary-hover"
                 >
                   Marcar todas leídas
                 </button>
@@ -106,9 +106,9 @@ export function HeaderNotifications() {
             </div>
             <div className="max-h-80 overflow-y-auto p-2">
               {loading ? (
-                <p className="py-6 text-center text-sm text-gray-500">Cargando…</p>
+                <p className="py-6 text-center text-sm text-fg-muted">Cargando…</p>
               ) : notifications.length === 0 ? (
-                <p className="py-6 text-center text-sm text-gray-500">
+                <p className="py-6 text-center text-sm text-fg-muted">
                   No hay notificaciones nuevas
                 </p>
               ) : (
@@ -119,11 +119,11 @@ export function HeaderNotifications() {
                 </div>
               )}
             </div>
-            <div className="border-t border-gray-100 px-4 py-2 text-center">
+            <div className="border-t border-border px-4 py-2 text-center">
               <Link
                 href="/admissions/applications"
                 onClick={() => setIsOpen(false)}
-                className="text-xs font-medium text-blue-600 hover:underline"
+                className="text-xs font-medium text-primary hover:underline"
               >
                 Ver preinscripciones
               </Link>

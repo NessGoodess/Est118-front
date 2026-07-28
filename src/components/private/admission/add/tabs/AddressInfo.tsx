@@ -7,8 +7,8 @@ export default function TabAddressInfo() {
     const { register, formState: { errors } } = useFormContext<FormData>();
     
     return (
-        <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h3 className="text-lg font-semibold mb-4 text-slate-700">Domicilio</h3>
+        <div className="bg-surface-elevated p-6 rounded-lg shadow-sm">
+            <h3 className="text-lg font-semibold mb-4 text-foreground">Domicilio</h3>
             <div className="grid lg:grid-cols-3 gap-4 mb-4">
                 <FloatingInput
                     label="Código Postal"

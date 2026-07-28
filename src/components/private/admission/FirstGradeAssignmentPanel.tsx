@@ -189,10 +189,10 @@ export default function FirstGradeAssignmentPanel() {
   };
 
   return (
-    <section className="bg-white rounded-xl shadow-sm border p-4 sm:p-6 space-y-4">
+    <section className="bg-surface-elevated rounded-xl shadow-sm border p-4 sm:p-6 space-y-4">
       <header>
-        <h2 className="text-lg font-semibold text-gray-900">Asignación grupos 1° (A-H)</h2>
-        <p className="text-sm text-gray-500">
+        <h2 className="text-lg font-semibold text-foreground">Asignación grupos 1° (A-H)</h2>
+        <p className="text-sm text-fg-muted">
           Reparte nuevos ingresos de primer grado por balance y puntaje; detecta posibles conflictos
           para revisión manual (misma escuela/apellido).
         </p>
@@ -200,9 +200,9 @@ export default function FirstGradeAssignmentPanel() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div>
-          <label className="text-xs font-medium text-gray-600">Ciclo escolar</label>
+          <label className="text-xs font-medium text-fg-muted">Ciclo escolar</label>
           <select
-            className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm bg-white"
+            className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface-elevated"
             disabled={yearsLoading || running}
             value={academicYearId ?? ""}
             onChange={(e) => setAcademicYearId(Number(e.target.value))}
@@ -219,9 +219,9 @@ export default function FirstGradeAssignmentPanel() {
         </div>
 
         <div>
-          <label className="text-xs font-medium text-gray-600">Puntaje para repartir</label>
+          <label className="text-xs font-medium text-fg-muted">Puntaje para repartir</label>
           <select
-            className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm bg-white"
+            className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface-elevated"
             disabled={running}
             value={scoreSource}
             onChange={(e) => setScoreSource(e.target.value as ScoreSource)}
@@ -243,27 +243,27 @@ export default function FirstGradeAssignmentPanel() {
 
       {result && (
         <div className="space-y-3">
-          <div className="text-xs bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-600">
+          <div className="text-xs bg-surface-muted border border-border rounded-lg p-3 text-fg-muted">
             Fuente: <strong>{scoreSourceLabel[result.score_source]}</strong> · Candidatos:{" "}
             <strong>{result.summary.total_candidates}</strong> · Conflictos:{" "}
             <strong>{result.summary.with_conflicts}</strong> · Fallback de puntaje:{" "}
             <strong>{result.summary.fallback_scores}</strong>
           </div>
 
-          <div className="text-xs text-gray-500">
+          <div className="text-xs text-fg-muted">
             Cambia el grupo sugerido en filas con conflicto si deseas separar casos manualmente antes
             de aplicar.
           </div>
-          <div className="text-xs text-gray-500">
+          <div className="text-xs text-fg-muted">
             Mostrando <strong>{filteredAssignments.length}</strong> de{" "}
             <strong>{result.assignments.length}</strong> alumnos.
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:justify-between">
-            <label className="inline-flex items-center gap-2 text-sm text-gray-700">
+            <label className="inline-flex items-center gap-2 text-sm text-foreground">
               <input
                 type="checkbox"
-                className="rounded border-gray-300"
+                className="rounded border-border"
                 checked={onlyConflicts}
                 onChange={(e) => setOnlyConflicts(e.target.checked)}
               />
@@ -289,9 +289,9 @@ export default function FirstGradeAssignmentPanel() {
             </div>
           </div>
 
-          <div className="overflow-x-auto border border-gray-200 rounded-lg">
+          <div className="overflow-x-auto border border-border rounded-lg">
             <table className="min-w-full text-sm">
-              <thead className="bg-gray-50 text-gray-600">
+              <thead className="bg-surface-muted text-fg-muted">
                 <tr>
                   <th className="text-left px-3 py-2">Alumno</th>
                   <th className="text-left px-3 py-2">Escuela</th>
@@ -305,30 +305,30 @@ export default function FirstGradeAssignmentPanel() {
                   const selectedGroup =
                     overrides[item.enrollment_id] ?? item.suggested_group_id;
                   return (
-                    <tr key={item.enrollment_id} className="border-t border-gray-100">
+                    <tr key={item.enrollment_id} className="border-t border-border">
                       <td className="px-3 py-2">
-                        <div className="font-medium text-gray-900">{item.student_name}</div>
-                        <div className="text-xs text-gray-500">ID matrícula {item.enrollment_id}</div>
+                        <div className="font-medium text-foreground">{item.student_name}</div>
+                        <div className="text-xs text-fg-muted">ID matrícula {item.enrollment_id}</div>
                       </td>
                       <td className="px-3 py-2">{item.previous_school || "—"}</td>
                       <td className="px-3 py-2">
                         <span className="font-medium">{item.score_used.toFixed(2)}</span>
                         {item.fallback_used && (
-                          <span className="ml-2 text-xs text-amber-700">(fallback)</span>
+                          <span className="ml-2 text-xs text-warning-foreground">(fallback)</span>
                         )}
                       </td>
                       <td className="px-3 py-2">
                         {item.flags.length === 0 ? (
-                          <span className="text-xs text-green-700">Sin banderas</span>
+                          <span className="text-xs text-success">Sin banderas</span>
                         ) : (
-                          <span className="text-xs text-amber-700">
+                          <span className="text-xs text-warning-foreground">
                             {item.flags.map(flagLabel).join(" · ")}
                           </span>
                         )}
                       </td>
                       <td className="px-3 py-2">
                         <select
-                          className="rounded-lg border border-gray-200 px-2 py-1 text-xs bg-white"
+                          className="rounded-lg border border-border px-2 py-1 text-xs bg-surface-elevated"
                           value={selectedGroup}
                           onChange={(e) =>
                             setOverrides((prev) => ({

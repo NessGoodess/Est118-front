@@ -57,11 +57,11 @@ export default function Announcementsection({ Announcements }: Announcementsecti
         transition={{ duration: 0.8 }}
         className="text-center mb-16"
       >
-        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 font-merriweather">
-          Noticias y <span className="text-blue-600">Avisos</span>
+        <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 font-merriweather">
+          Noticias y <span className="text-primary">Avisos</span>
         </h2>
         <div className="w-24 h-1 bg-yellow-400 mx-auto mb-4" />
-        <p className="hidden lg:block text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="hidden lg:block text-lg text-fg-muted max-w-2xl mx-auto">
           Mantente informado sobre los comunicados importantes de nuestra institución.
         </p>
       </motion.header>
@@ -80,7 +80,7 @@ export default function Announcementsection({ Announcements }: Announcementsecti
         "
       >
         {/* Notice counter */}
-        <span className="font-sans text-xs font-medium text-gray-400 select-none lg:mr-2">
+        <span className="font-sans text-xs font-medium text-fg-muted select-none lg:mr-2">
           {selectedIndex + 1} / {Announcements.length}
         </span>
 
@@ -99,8 +99,8 @@ export default function Announcementsection({ Announcements }: Announcementsecti
           disabled={!canGoPrev}
           aria-label="Previous notice"
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border
-                     border-[#0d1117]/15 bg-white/90 text-[#0d1117] shadow-sm backdrop-blur-sm
-                     transition-all hover:bg-white hover:shadow-md
+                     border-[#0d1117]/15 bg-surface-elevated/90 text-[#0d1117] shadow-sm backdrop-blur-sm
+                     transition-all hover:bg-surface-elevated hover:shadow-md
                      disabled:pointer-events-none disabled:opacity-30"
         >
           <IconByName name="leftArrow" />
@@ -113,8 +113,8 @@ export default function Announcementsection({ Announcements }: Announcementsecti
           disabled={!canGoNext}
           aria-label="Next notice"
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border
-                     border-[#0d1117]/15 bg-white/90 text-[#0d1117] shadow-sm backdrop-blur-sm
-                     transition-all hover:bg-white hover:shadow-md
+                     border-[#0d1117]/15 bg-surface-elevated/90 text-[#0d1117] shadow-sm backdrop-blur-sm
+                     transition-all hover:bg-surface-elevated hover:shadow-md
                      disabled:pointer-events-none disabled:opacity-30"
         >
           <IconByName name="rightArrow" />

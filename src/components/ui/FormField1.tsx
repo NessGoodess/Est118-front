@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useRef, useEffect, forwardRef } from 'react';
 
@@ -145,12 +145,12 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>(({
             icon ? 'left-8 sm:left-10' : 'left-3 sm:left-4'
           } ${
             isLabelFloating
-              ? 'top-0 text-xs text-blue-600 font-semibold bg-white px-1.5 -translate-y-1/2 scale-100'
+              ? 'top-0 text-xs text-primary font-semibold bg-surface-elevated px-1.5 -translate-y-1/2 scale-100'
               : 'top-1/2 -translate-y-1/2 text-sm sm:text-base text-gray-500 scale-100'
-          } ${isFocused && !isLabelFloating ? 'text-blue-600' : ''}`}
+          } ${isFocused && !isLabelFloating ? 'text-primary' : ''}`}
         >
           {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
+          {required && <span className="text-danger ml-1">*</span>}
         </label>
 
         <input
@@ -169,9 +169,9 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>(({
             icon ? 'pl-8 sm:pl-10' : 'pl-3 sm:pl-4'
           } ${
             isLabelFloating ? 'pt-5 sm:pt-6 pb-2 sm:pb-2.5' : 'py-2.5 sm:py-3'
-          } pr-3 sm:pr-4 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-offset-0 focus:border-blue-500 transition-all duration-300 bg-white shadow-sm ${
+          } pr-3 sm:pr-4 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-offset-0 focus:border-ring transition-all duration-300 bg-surface-elevated shadow-sm ${
             error
-              ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
+              ? 'border-danger/40 focus:ring-red-500 focus:border-danger'
               : 'border-gray-300'
           } ${type === 'date' && !isFocused && !hasValue ? 'date-input-empty' : ''}`}
           style={
@@ -184,7 +184,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>(({
         />
       </div>
       {error && (
-        <p className="mt-1 text-xs text-red-600 absolute" role="alert">
+        <p className="mt-1 text-xs text-danger absolute" role="alert">
           {error}
         </p>
       )}
@@ -304,12 +304,12 @@ export const TextAreaField = forwardRef<HTMLTextAreaElement, TextAreaFieldProps>
             icon ? 'left-8 sm:left-10' : 'left-3 sm:left-4'
           } ${
             isLabelFloating
-              ? 'top-0 text-xs text-blue-600 font-semibold bg-white px-1.5 -translate-y-1/2 scale-100'
+              ? 'top-0 text-xs text-primary font-semibold bg-surface-elevated px-1.5 -translate-y-1/2 scale-100'
               : 'top-3 text-sm sm:text-base text-gray-500 scale-100'
-          } ${isFocused && !isLabelFloating ? 'text-blue-600' : ''}`}
+          } ${isFocused && !isLabelFloating ? 'text-primary' : ''}`}
         >
           {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
+          {required && <span className="text-danger ml-1">*</span>}
         </label>
 
         <textarea
@@ -326,15 +326,15 @@ export const TextAreaField = forwardRef<HTMLTextAreaElement, TextAreaFieldProps>
             icon ? 'pl-8 sm:pl-10' : 'pl-3 sm:pl-4'
           } ${
             isLabelFloating ? 'pt-5 sm:pt-6 pb-2 sm:pb-2.5' : 'pt-3 sm:pt-3.5 pb-2.5 sm:pb-3'
-          } pr-3 sm:pr-4 text-sm sm:text-base border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 bg-white shadow-sm resize-vertical ${
+          } pr-3 sm:pr-4 text-sm sm:text-base border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-ring transition-all duration-300 bg-surface-elevated shadow-sm resize-vertical ${
             error
-              ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
+              ? 'border-danger/40 focus:ring-red-500 focus:border-danger'
               : 'border-gray-300'
           }`}
         />
       </div>
       {error && (
-        <p className="mt-1 text-xs text-red-600" role="alert">
+        <p className="mt-1 text-xs text-danger" role="alert">
           {error}
         </p>
       )}

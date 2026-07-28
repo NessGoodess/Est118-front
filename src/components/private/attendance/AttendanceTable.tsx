@@ -25,7 +25,7 @@ export default function AttendanceTable({ students, onAttendanceChange }: Attend
       width: "80px",
       align: "center",
       render: (value: unknown) => (
-        <span className="text-gray-500 font-mono">{value as Student["student_id"]}</span>
+        <span className="text-fg-muted font-mono">{value as Student["student_id"]}</span>
       ),
     },
 
@@ -34,7 +34,7 @@ export default function AttendanceTable({ students, onAttendanceChange }: Attend
       header: "Apellidos",
       render: (value: unknown, row: Student) => (
         <div>
-          <div className="font-medium text-gray-900">{row.last_name}</div>
+          <div className="font-medium text-foreground">{row.last_name}</div>
         </div>
       ),
     },
@@ -43,7 +43,7 @@ export default function AttendanceTable({ students, onAttendanceChange }: Attend
       header: "Nombre",
       render: (value: unknown, row: Student) => (
         <div>
-          <div className="font-medium text-gray-900">{row.name}</div>
+          <div className="font-medium text-foreground">{row.name}</div>
         </div>
       ),
     },
@@ -53,7 +53,7 @@ export default function AttendanceTable({ students, onAttendanceChange }: Attend
       render: (value: unknown) => {
         const attendance = value as Student["current_attendance"];
         return (
-          <span className="text-blue-600 text-sm">
+          <span className="text-primary text-sm">
             {attendance?.status ?? "Sin registrar"}
           </span>
         );
@@ -75,7 +75,7 @@ export default function AttendanceTable({ students, onAttendanceChange }: Attend
                   value={item.status}
                   checked={row.current_attendance?.status === item.status}
                   onChange={() => onAttendanceChange(row.student_id, item.status)}
-                  className="text-blue-600 focus:ring-blue-500"
+                  className="text-primary focus:ring-ring"
                 />
                 <span className={`text-${item.color}-600 font-medium`}>
                   {item.label}

@@ -126,9 +126,9 @@ export default function AcademicYearsPanel() {
         description="Crea el ciclo escolar de la institución antes de junio para poder usarlo en reinscripciones y poder generar matriculas de nuevo ingreso."
       />
 
-      <section className="bg-white border rounded-xl p-4 sm:p-6 space-y-4">
+      <section className="bg-surface-elevated border rounded-xl p-4 sm:p-6 space-y-4">
         <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-fg-muted">
             Esto no es preinscripción. Aquí defines el calendario escolar de la institución.
           </p>
           <Button variant="secondary" size="sm" onClick={() => setShowCreate(!showCreate)}>
@@ -137,9 +137,9 @@ export default function AcademicYearsPanel() {
         </header>
 
         {showCreate && (
-          <form onSubmit={handleCreate} className="bg-gray-50 border rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+          <form onSubmit={handleCreate} className="bg-surface-muted border rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
-              <label className="text-xs text-gray-600">Año inicio</label>
+              <label className="text-xs text-fg-muted">Año inicio</label>
               <input
                 className="mt-1 w-full rounded-lg border px-3 py-2 text-sm"
                 placeholder="2026"
@@ -150,7 +150,7 @@ export default function AcademicYearsPanel() {
               />
             </div>
             <div>
-              <label className="text-xs text-gray-600">Año fin</label>
+              <label className="text-xs text-fg-muted">Año fin</label>
               <input
                 className="mt-1 w-full rounded-lg border px-3 py-2 text-sm"
                 placeholder="2027"
@@ -175,21 +175,21 @@ export default function AcademicYearsPanel() {
         )}
 
         {loading ? (
-          <p className="text-sm text-gray-500">Cargando ciclos...</p>
+          <p className="text-sm text-fg-muted">Cargando ciclos...</p>
         ) : years.length === 0 ? (
-          <p className="text-sm text-gray-500">No hay ciclos escolares. Crea el primero para habilitar reinscripciones.</p>
+          <p className="text-sm text-fg-muted">No hay ciclos escolares. Crea el primero para habilitar reinscripciones.</p>
         ) : (
           <ul className="space-y-3">
             {years.map((year) => (
               <li key={year.id} className="border rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                 <div>
-                  <div className="font-medium text-gray-900 flex items-center gap-2">
+                  <div className="font-medium text-foreground flex items-center gap-2">
                     {year.description}
                     {year.is_active && (
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-800">ACTIVO</span>
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-success/15 text-success">ACTIVO</span>
                     )}
                   </div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-fg-muted">
                     {year.year_start}–{year.year_end} · Grupos: {year.class_groups_count ?? 0}
                   </div>
                 </div>
@@ -214,7 +214,7 @@ export default function AcademicYearsPanel() {
         )}
       </section>
 
-      <section className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-sm text-blue-900">
+      <section className="bg-primary-soft border border-border rounded-xl p-4 text-sm text-primary">
         <strong>Flujo recomendado:</strong> crea el ciclo destino (ej. 2026-2027) antes de junio → en Reinscripciones usa origen=activo y destino=nuevo → al finalizar promoción, activa el nuevo ciclo.
       </section>
     </div>

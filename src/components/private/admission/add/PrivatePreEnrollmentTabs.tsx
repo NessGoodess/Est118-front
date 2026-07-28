@@ -214,10 +214,10 @@ export default function PrivatePreEnrollmentTabs() {
             <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-6" noValidate>
 
                 {/* Save Draft Header / Global Actions */}
-                <div className="flex flex-col gap-4 bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                <div className="flex flex-col gap-4 bg-surface-elevated p-4 rounded-lg shadow-sm border border-border">
                     <div className="flex justify-between items-center">
-                        <p className="text-sm text-gray-500">
-                            {Object.keys(errors).length > 0 && <span className="text-red-500 font-semibold">Existen errores en el formulario. </span>}
+                        <p className="text-sm text-fg-muted">
+                            {Object.keys(errors).length > 0 && <span className="text-danger font-semibold">Existen errores en el formulario. </span>}
                             {Object.keys(errors).length === 0 ? "Completa la información necesaria." : "Revisa las pestañas marcadas para corregirlos."}
                         </p>
                         <div className="flex gap-2">
@@ -238,12 +238,12 @@ export default function PrivatePreEnrollmentTabs() {
                 </div>
 
                 {/* Professional Tabs Layout */}
-                <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-blue-900 h-1 rounded-full transition-all duration-500 ease-out"
+                <div className="bg-surface-elevated rounded-lg shadow-sm border border-border overflow-hidden">
+                    <div className="w-full bg-surface-muted rounded-full h-2">
+                        <div className="bg-primary h-1 rounded-full transition-all duration-500 ease-out"
                             style={{ width: `${completionPercentage}%` }} />
                     </div>
-                    <div className="flex border-b border-gray-200 bg-gray-50 justify-between">
+                    <div className="flex border-b border-border bg-surface-muted justify-between">
                         <div className="flex overflow-x-auto hide-scrollbar">
                             {tabs.map((tab) => (
                                 <button
@@ -251,19 +251,19 @@ export default function PrivatePreEnrollmentTabs() {
                                     type="button"
                                     onClick={() => handleTabChange(tab.id)}
                                     className={`px-6 py-3 text-sm font-medium whitespace-nowrap transition-colors border-b-2 flex items-center gap-2 cursor-pointer ${activeTab === tab.id
-                                        ? "border-blue-500 text-blue-900 bg-white"
-                                        : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                                        } ${hasErrorsInTab(tab.id) ? 'border-red-500 text-red-600 font-bold bg-red-50' : ''}`}
+                                        ? "border-primary text-primary bg-surface-elevated"
+                                        : "border-transparent text-fg-muted hover:text-foreground hover:border-border"
+                                        } ${hasErrorsInTab(tab.id) ? 'border-danger text-danger font-bold bg-danger/10' : ''}`}
                                 >
                                     {tab.label}
-                                    {hasErrorsInTab(tab.id) && <span className="text-red-500" title="Contiene errores">*</span>}
+                                    {hasErrorsInTab(tab.id) && <span className="text-danger" title="Contiene errores">*</span>}
                                 </button>
                             ))}
                         </div>
-                        <span className="px-6 py-3 text-xs text-gray-500 mt-1 inline-block">{completionPercentage}% completado</span>
+                        <span className="px-6 py-3 text-xs text-fg-muted mt-1 inline-block">{completionPercentage}% completado</span>
                     </div>
 
-                    <div className="p-2 md:p-4 lg:p-6 bg-gray-100">
+                    <div className="p-2 md:p-4 lg:p-6 bg-surface-muted">
                         {activeTab === 0 && <TabEmail />}
                         {activeTab === 1 && <TabApplicantInfo />}
                         {activeTab === 2 && <TabAcademicInfo />}
@@ -288,22 +288,22 @@ export default function PrivatePreEnrollmentTabs() {
 
                 {/* Success Block */}
                 {successResult && (
-                    <div className="mt-8 bg-white border-2 border-blue-900 rounded-xl p-6 md:p-8 relative">
+                    <div className="mt-8 bg-surface-elevated border-2 border-primary rounded-xl p-6 md:p-8 relative">
                         <button
                             type="button"
                             onClick={() => { setSuccessResult(null); setPreviewUrl(null); }}
-                            className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-white rounded-full text-gray-500 hover:text-gray-800 shadow-sm"
+                            className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-surface-elevated rounded-full text-fg-muted hover:text-foreground shadow-sm"
                         >
                             ✕
                         </button>
-                        <h3 className="text-2xl font-bold text-gray-900 mb-2 font-merriweather text-center">
+                        <h3 className="text-2xl font-bold text-foreground mb-2 font-merriweather text-center">
                             ¡Preinscripción Completada!
                         </h3>
-                        <p className="text-center text-sm text-gray-600 mb-6">{successResult.message}</p>
+                        <p className="text-center text-sm text-fg-muted mb-6">{successResult.message}</p>
 
-                        <div className="bg-white rounded-lg p-4 mb-6 text-center mx-auto max-w-sm shadow-sm border border-blue-100">
-                            <p className="text-sm text-gray-500 mb-1">Folio de Preinscripción</p>
-                            <p className="text-3xl font-bold text-blue-900 font-mono tracking-wider">{successResult.folio}</p>
+                        <div className="bg-surface-elevated rounded-lg p-4 mb-6 text-center mx-auto max-w-sm shadow-sm border border-blue-100">
+                            <p className="text-sm text-fg-muted mb-1">Folio de Preinscripción</p>
+                            <p className="text-3xl font-bold text-primary font-mono tracking-wider">{successResult.folio}</p>
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -317,20 +317,20 @@ export default function PrivatePreEnrollmentTabs() {
                                 href={successResult.downloadUrl}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="px-6 py-2 bg-blue-900 text-white text-sm rounded-lg hover:bg-blue-950 font-medium transition-colors text-center shadow-sm cursor-pointer active:bg-black"
+                                className="px-6 py-2 bg-primary text-primary-foreground text-sm rounded-lg hover:bg-primary-hover font-medium transition-colors text-center shadow-sm cursor-pointer active:bg-brand-950"
                             >
                                 Descargar PDF Comprobante
                             </Link>
                         </div>
 
-                        {pdfError && <p className="text-center text-red-500 font-medium mt-4 bg-red-50 p-2 rounded">{pdfError}</p>}
+                        {pdfError && <p className="text-center text-danger font-medium mt-4 bg-danger/10 p-2 rounded">{pdfError}</p>}
 
                         {previewUrl && !pdfError && (
-                            <div className="mt-6 bg-white p-2 rounded-lg shadow-sm border border-gray-200 h-[600px] md:h-[800px]">
+                            <div className="mt-6 bg-surface-elevated p-2 rounded-lg shadow-sm border border-border h-[600px] md:h-[800px]">
                                 <object data={previewUrl} type="application/pdf" className="w-full h-full rounded">
-                                    <div className="flex flex-col items-center justify-center p-8 text-center bg-gray-50 h-full">
-                                        <p className="mb-2 text-gray-600 font-medium">Tu navegador no puede previsualizar PDFs incrustados.</p>
-                                        <a href={successResult.downloadUrl} target="_blank" rel="noreferrer" className="text-blue-600 hover:text-blue-800 underline font-medium">Descargar el archivo PDF aquí</a>
+                                    <div className="flex flex-col items-center justify-center p-8 text-center bg-surface-muted h-full">
+                                        <p className="mb-2 text-fg-muted font-medium">Tu navegador no puede previsualizar PDFs incrustados.</p>
+                                        <a href={successResult.downloadUrl} target="_blank" rel="noreferrer" className="text-primary hover:text-primary-hover underline font-medium">Descargar el archivo PDF aquí</a>
                                     </div>
                                 </object>
                             </div>

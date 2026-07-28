@@ -107,12 +107,12 @@ export default function EditUserForm({ user, onSuccess, onCancel }: EditUserForm
             />
 
             <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                <label className="block text-sm font-semibold text-foreground mb-2">
                     Roles
                 </label>
                 {loadingRoles ? (
                     <div className="flex items-center justify-center py-4">
-                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
                     </div>
                 ) : (
                     <div className="space-y-2">
@@ -120,8 +120,8 @@ export default function EditUserForm({ user, onSuccess, onCancel }: EditUserForm
                             <label
                                 key={role.id}
                                 className={`flex items-center gap-2 p-2 rounded-md cursor-pointer transition-colors ${selectedRoles.includes(role.name)
-                                        ? 'bg-blue-50 border border-blue-200'
-                                        : 'hover:bg-slate-50 border border-transparent'
+                                        ? 'bg-primary-soft border border-border'
+                                        : 'hover:bg-surface-muted border border-transparent'
                                     }`}
                             >
                                 <input
@@ -134,9 +134,9 @@ export default function EditUserForm({ user, onSuccess, onCancel }: EditUserForm
                                             setSelectedRoles(selectedRoles.filter(r => r !== role.name));
                                         }
                                     }}
-                                    className="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2"
+                                    className="w-4 h-4 text-primary border-border rounded focus:ring-ring focus:ring-2"
                                 />
-                                <span className="text-sm text-slate-700 capitalize">
+                                <span className="text-sm text-foreground capitalize">
                                     {role.name}
                                 </span>
                             </label>
@@ -146,7 +146,7 @@ export default function EditUserForm({ user, onSuccess, onCancel }: EditUserForm
             </div>
 
             <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                <label className="block text-sm font-semibold text-foreground mb-2">
                     Permisos
                 </label>
                 <PermissionSelector
@@ -156,7 +156,7 @@ export default function EditUserForm({ user, onSuccess, onCancel }: EditUserForm
             </div>
 
             {errorMessage && (
-                <div className="p-3 rounded-lg text-sm bg-red-50 text-red-800 border border-red-200">
+                <div className="p-3 rounded-lg text-sm bg-danger/10 text-danger border border-danger/30">
                     {errorMessage}
                 </div>
             )}
@@ -167,7 +167,7 @@ export default function EditUserForm({ user, onSuccess, onCancel }: EditUserForm
                         type="button"
                         onClick={onCancel}
                         disabled={isSubmitting}
-                        className="px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-4 py-2 text-sm font-medium text-foreground bg-surface-muted hover:bg-surface-muted rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         Cancelar
                     </button>

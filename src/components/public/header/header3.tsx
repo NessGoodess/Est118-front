@@ -134,8 +134,8 @@ export default function Header() {
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 
   const navItemClass = scrolled
-    ? "text-gray-700 hover:text-blue-700 hover:bg-gray-50"
-    : "text-white hover:bg-white/10";
+    ? "text-foreground hover:text-primary-hover hover:bg-surface-muted"
+    : "text-white hover:bg-surface-elevated/10";
 
   const handleScrollTo = useCallback((href: string) => {
     if (!href.startsWith("#")) return;
@@ -153,7 +153,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className={`sticky top-0 z-50 transition-all ${scrolled ? "bg-white shadow-md" : "bg-[#181d49]"}`}>
+    <header className={`sticky top-0 z-50 transition-all ${scrolled ? "bg-surface-elevated shadow-md" : "bg-[#181d49]"}`}>
       {/* Header principal */}
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex h-20 items-center justify-between">
@@ -167,10 +167,10 @@ export default function Header() {
               priority
             />
             <div className="leading-tight">
-              <h1 className={`font-bold ${scrolled ? "text-gray-900" : "text-white"}`}>
+              <h1 className={`font-bold ${scrolled ? "text-foreground" : "text-white"}`}>
                 Técnica 118
               </h1>
-              <p className={`text-xs ${scrolled ? "text-gray-600" : "text-white/80"}`}>
+              <p className={`text-xs ${scrolled ? "text-fg-muted" : "text-white/80"}`}>
                 Escuela Secundaria Técnica
               </p>
             </div>
@@ -204,8 +204,8 @@ export default function Header() {
               </button>
 
               {desktopServicesOpen && (
-                <div className="absolute right-0 mt-2 w-80 rounded-xl bg-white shadow-xl overflow-hidden">
-                  <div className="px-4 py-3 bg-blue-700 text-white">
+                <div className="absolute right-0 mt-2 w-80 rounded-xl bg-surface-elevated shadow-xl overflow-hidden">
+                  <div className="px-4 py-3 bg-primary-hover text-white">
                     <p className="font-semibold text-sm">Servicios Académicos</p>
                     <p className="text-xs opacity-90">Acceso institucional</p>
                   </div>
@@ -214,10 +214,10 @@ export default function Header() {
                       <button
                         key={s.href}
                         onClick={() => handleScrollTo(s.href)}
-                        className="w-full text-left px-4 py-3 hover:bg-blue-50"
+                        className="w-full text-left px-4 py-3 hover:bg-primary-soft"
                       >
-                        <p className="text-sm font-medium text-gray-900">{s.label}</p>
-                        <p className="text-xs text-gray-500">{s.description}</p>
+                        <p className="text-sm font-medium text-foreground">{s.label}</p>
+                        <p className="text-xs text-fg-muted">{s.description}</p>
                       </button>
                     ))}
                   </div>

@@ -11,25 +11,25 @@ interface StatCardProps {
 
 function StatCard({ title, value, change, changeType, icon, color }: StatCardProps) {
   const colorClasses = {
-    blue: 'bg-blue-50 text-blue-600 border-blue-200',
-    green: 'bg-green-50 text-green-600 border-green-200',
-    yellow: 'bg-yellow-50 text-yellow-600 border-yellow-200',
-    red: 'bg-red-50 text-red-600 border-red-200',
-    purple: 'bg-purple-50 text-purple-600 border-purple-200',
+    blue: 'bg-primary-soft text-primary border-border',
+    green: 'bg-success/10 text-success border-success/20',
+    yellow: 'bg-warning/10 text-warning-foreground border-warning/20',
+    red: 'bg-danger/10 text-danger border-danger/20',
+    purple: 'bg-primary-soft text-brand border-border',
   };
 
   const changeClasses = {
-    positive: 'text-green-600 bg-green-50',
-    negative: 'text-red-600 bg-red-50',
-    neutral: 'text-gray-600 bg-gray-50',
+    positive: 'text-success bg-success/10',
+    negative: 'text-danger bg-danger/10',
+    neutral: 'text-fg-muted bg-surface-muted',
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+    <div className="bg-surface-elevated rounded-xl shadow-card border border-border p-6 hover:shadow-md transition-shadow">
       <div className="flex items-center justify-between">
         <div className="flex-1">
-          <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
-          <p className="text-2xl font-bold text-gray-900">{value}</p>
+          <p className="text-sm font-medium text-fg-muted mb-1">{title}</p>
+          <p className="text-2xl font-bold text-foreground">{value}</p>
           <div className="flex items-center mt-2">
             <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${changeClasses[changeType]}`}>
               {change}
@@ -104,6 +104,3 @@ export default function DashboardStats() {
     </div>
   );
 }
-
-
-

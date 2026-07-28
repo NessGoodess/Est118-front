@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useRef, useEffect, useCallback } from 'react';
+﻿import React, { forwardRef, useState, useRef, useEffect, useCallback } from 'react';
 import { IconByName } from './icons/global.icons';
 
 interface BaseFloatingInputProps {
@@ -105,7 +105,7 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
           {icon && (
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none z-10">
               <div
-                className={`transition-colors duration-200 ${isFocused ? 'text-blue-600' : error ? 'text-red-400' : 'text-slate-400'
+                className={`transition-colors duration-200 ${isFocused ? 'text-primary' : error ? 'text-danger' : 'text-fg-muted'
                   }`}
               >
                 <div className="h-5 w-5">{icon}</div>
@@ -120,22 +120,22 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
               ${icon ? 'left-11' : 'left-4'}
               ${isFloating
                 ? error
-                  ? 'top-0 text-xs font-semibold bg-gradient-to-t from-red-50 to-white px-2 -translate-y-1/2'
-                  : 'top-0 text-xs font-semibold bg-white px-2 -translate-y-1/2'
+                  ? 'top-0 text-xs font-semibold bg-gradient-to-t from-danger/5 to-surface-elevated px-2 -translate-y-1/2'
+                  : 'top-0 text-xs font-semibold bg-surface-elevated px-2 -translate-y-1/2'
                 : 'top-1/2 -translate-y-1/2 text-base'
               }
               ${isFocused
-                ? 'text-blue-600'
+                ? 'text-primary'
                 : error
-                  ? 'text-red-600'
+                  ? 'text-danger'
                   : isFloating
-                    ? 'text-slate-700'
-                    : 'text-slate-500'
+                    ? 'text-foreground'
+                    : 'text-fg-muted'
               }
             `}
           >
             {label}
-            {required && <span className="text-red-500 ml-1">*</span>}
+            {required && <span className="text-danger ml-1">*</span>}
           </label>
 
           {/* Select */}
@@ -156,13 +156,13 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
     pt-6 pb-2 pr-10
     focus:outline-none
     ${error
-                ? 'border-red-300 bg-red-50 text-red-900 focus:border-red-500'
+                ? 'border-danger/40 bg-danger/5 text-danger focus:border-danger'
                 : isFocused
-                  ? 'border-blue-500 bg-white shadow-lg shadow-blue-100'
-                  : 'border-slate-300 bg-white hover:border-slate-400'
+                  ? 'border-ring bg-surface-elevated shadow-lg shadow-primary-soft'
+                  : 'border-border bg-surface-elevated hover:border-fg-muted/50'
               }
-    disabled:bg-slate-100 disabled:text-slate-500 disabled:cursor-not-allowed
-    text-base text-black  /* ← Quitamos la condición y siempre usamos text-black */
+    disabled:bg-surface-muted disabled:text-fg-muted disabled:cursor-not-allowed
+    text-base text-foreground  /* ← Quitamos la condición y siempre usamos text-foreground */
   `}
           >
             <option value="" disabled hidden>
@@ -173,7 +173,7 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
 
           <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none">
             <svg
-              className={`w-5 h-5 transition-transform duration-200 ${isFocused ? 'text-blue-600 rotate-180' : 'text-slate-400'
+              className={`w-5 h-5 transition-transform duration-200 ${isFocused ? 'text-primary rotate-180' : 'text-fg-muted'
                 }`}
               fill="none"
               stroke="currentColor"
@@ -190,13 +190,13 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
             <>
               {error ? (
                 <>
-                  <IconByName name="error" className="w-3.5 h-3.5 text-red-500 mt-0.5" />
-                  <p className="text-xs text-red-600 font-medium">{error}</p>
+                  <IconByName name="error" className="w-3.5 h-3.5 text-danger mt-0.5" />
+                  <p className="text-xs text-danger font-medium">{error}</p>
                 </>
               ) : (
                 <>
-                  <IconByName name="info" className="w-3.5 h-3.5 text-slate-400 mt-0.5" />
-                  <p className="text-xs text-slate-500">{helperText}</p>
+                  <IconByName name="info" className="w-3.5 h-3.5 text-fg-muted mt-0.5" />
+                  <p className="text-xs text-fg-muted">{helperText}</p>
                 </>
               )}
             </>

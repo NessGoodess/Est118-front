@@ -38,10 +38,10 @@ export function SidebarUser() {
         {!isCollapsed && (
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-loading-base rounded-full flex items-center justify-center">
-              <span className="text-sm font-bold text-primary">?</span>
+              <span className="text-sm font-bold text-fg-muted">?</span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-primary">No autenticado</p>
+              <p className="text-sm font-medium text-foreground">No autenticado</p>
             </div>
           </div>
         )}
@@ -70,7 +70,7 @@ export function SidebarUser() {
 
   return (
     <div
-      className="relative z-10 shrink-0 border-t border-sidebar-border bg-surface-app md:bg-transparent text-primary"
+      className="relative z-10 shrink-0 border-t border-sidebar-border bg-surface-app md:bg-transparent text-foreground"
       ref={dropdownRef}
     >
       <div className="relative py-4 px-3 w-64 min-w-[16rem]">
@@ -89,7 +89,7 @@ export function SidebarUser() {
               <p className="text-sm font-medium truncate">{user.name || 'Usuario'}</p>
             </div>
             <ChevronDownIcon
-              className={`ml-2 w-4 h-4 shrink-0 text-primary transition-transform duration-200 ${
+              className={`ml-2 w-4 h-4 shrink-0 text-fg-muted group-hover:text-sidebar-button-text transition-transform duration-200 ${
                 isDropdownOpen ? 'rotate-180' : ''
               }`}
             />

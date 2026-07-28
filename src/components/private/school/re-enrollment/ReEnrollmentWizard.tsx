@@ -89,33 +89,33 @@ export default function ReEnrollmentWizard() {
   return (
     <div className="space-y-4">
       <ReEnrollmentStatusBanner />
-      <div className="bg-white border rounded-xl p-4 sm:p-6">
+      <div className="bg-surface-elevated border rounded-xl p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h1 className="text-xl font-bold text-gray-900">
+            <h1 className="text-xl font-bold text-foreground">
               {activePeriod?.name ?? 'Reinscripciones'}
             </h1>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-fg-muted">
               Proceso guiado para control escolar. No promuevas alumno por alumno: valida, promueve y cierra.
             </p>
           </div>
           {stats && (
             <div className="text-right">
-              <div className="text-2xl font-bold text-blue-900">{stats.progress_percent}%</div>
-              <div className="text-xs text-gray-500">listos para promover</div>
+              <div className="text-2xl font-bold text-primary">{stats.progress_percent}%</div>
+              <div className="text-xs text-fg-muted">listos para promover</div>
             </div>
           )}
         </div>
 
         {stats && (
           <div className="mt-4">
-            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div className="h-2 bg-surface-muted rounded-full overflow-hidden">
               <div
-                className="h-full bg-blue-900 transition-all"
+                className="h-full bg-primary transition-all"
                 style={{ width: `${stats.progress_percent}%` }}
               />
             </div>
-            <div className="mt-2 grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs text-gray-600">
+            <div className="mt-2 grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs text-fg-muted">
               <span>{stats.total_students} alumnos</span>
               <span>{stats.validated} validados</span>
               <span>{stats.with_debts} con adeudos</span>
@@ -131,8 +131,8 @@ export default function ReEnrollmentWizard() {
           href="/re-enrollment"
           className={`px-3 py-2 rounded-lg text-sm border ${
             pathname === '/re-enrollment'
-              ? 'bg-blue-900 text-white border-blue-900'
-              : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
+              ? 'bg-primary text-white border-primary'
+              : 'bg-surface-elevated text-foreground border-border hover:bg-surface-muted'
           }`}
         >
           Tablero
@@ -150,12 +150,12 @@ export default function ReEnrollmentWizard() {
               onClick={(e) => isLocked && e.preventDefault()}
               className={`px-3 py-2 rounded-lg text-sm border transition-colors ${
                 isActive
-                  ? 'bg-blue-900 text-white border-blue-900'
+                  ? 'bg-primary text-white border-primary'
                   : isDone
-                    ? 'bg-green-50 text-green-800 border-green-200'
+                    ? 'bg-success/10 text-success border-success/30'
                     : isLocked
-                      ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
-                      : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
+                      ? 'bg-surface-muted text-fg-muted border-border cursor-not-allowed'
+                      : 'bg-surface-elevated text-foreground border-border hover:bg-surface-muted'
               }`}
               title={step.description}
             >

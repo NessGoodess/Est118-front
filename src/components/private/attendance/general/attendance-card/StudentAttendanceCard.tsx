@@ -39,15 +39,15 @@ export default function StudentAttendanceCard() {
       <ReaderArmBar />
       <ReaderPanelGrid />
 
-      <article className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
-        <div className="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50 px-6 py-5 sm:px-8">
+      <article className="overflow-hidden rounded-3xl border border-border bg-surface-elevated shadow-2xl">
+        <div className="border-b border-border bg-gradient-to-r from-surface-muted to-primary-soft px-6 py-5 sm:px-8">
           <div className="flex items-center justify-between gap-2">
-            <h3 className="text-lg font-bold text-slate-900">Lecturas recientes</h3>
-            <span className="rounded-full bg-blue-100 px-2 py-0 text-sm font-bold text-blue-900">
+            <h3 className="text-lg font-bold text-foreground">Lecturas recientes</h3>
+            <span className="rounded-full bg-primary-soft px-2 py-0 text-sm font-bold text-primary">
               {records.length}
             </span>
           </div>
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-fg-muted">
             Bitácora de eventos NFC (entrada, salida, ignoradas)
           </p>
         </div>

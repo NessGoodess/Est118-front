@@ -65,14 +65,14 @@ interface PreEnrollmentEditFormProps {
 }
 
 const FormSection = ({ title, iconName, children }: { title: string; iconName?: keyof typeof GlobalIcons; children: React.ReactNode }) => (
-  <div className="space-y-6  bg-white rounded-xl shadow-xl p-5 lg:p-10">
-    <div className="flex items-center gap-2 pb-2 border-b border-slate-200">
+  <div className="space-y-6  bg-surface-elevated rounded-xl shadow-xl p-5 lg:p-10">
+    <div className="flex items-center gap-2 pb-2 border-b border-border">
       {iconName && (
-        <div className="p-1.5 bg-slate-100 rounded-lg">
-          <IconByName name={iconName} className="w-4 h-4 text-slate-500" />
+        <div className="p-1.5 bg-surface-muted rounded-lg">
+          <IconByName name={iconName} className="w-4 h-4 text-fg-muted" />
         </div>
       )}
-      <h3 className="text-sm font-semibold text-slate-500">{title}</h3>
+      <h3 className="text-sm font-semibold text-fg-muted">{title}</h3>
     </div>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
       {children}
@@ -141,8 +141,8 @@ export default function PreEnrollmentEditForm({ data, onSuccess, onCancel }: Pre
         <FloatingInput label="Escuela anterior" {...register('previous_school')} error={errors.previous_school?.message} className="sm:col-span-2" icon={<GlobalIcons.school />} />
         <FloatingInput label="Promedio" {...register('current_average')} error={errors.current_average?.message} icon={<GlobalIcons.star />} />
         <div className="flex items-center gap-2">
-          <input type="checkbox" id="has_siblings" {...register('has_siblings')} className="w-4 h-4 rounded border-slate-300 text-blue-600" />
-          <label htmlFor="has_siblings" className="text-sm text-slate-700">Tiene hermanos</label>
+          <input type="checkbox" id="has_siblings" {...register('has_siblings')} className="w-4 h-4 rounded border-border text-primary" />
+          <label htmlFor="has_siblings" className="text-sm text-foreground">Tiene hermanos</label>
         </div>
         {hasSiblings && (
           <FloatingTextarea label="Detalles de hermanos" {...register('siblings_details')} error={errors.siblings_details?.message} className='md:col-span-2' />
@@ -189,8 +189,8 @@ export default function PreEnrollmentEditForm({ data, onSuccess, onCancel }: Pre
 
         <FormSection title="Vales escolares" iconName="ticket">
           <div className="flex items-center gap-2 md:col-span-2 p-5">
-            <input type="checkbox" id="has_school_voucher" {...register('has_school_voucher')} className="w-4 h-4 rounded border-slate-300 text-blue-600" />
-            <label htmlFor="has_school_voucher" className="text-sm text-slate-700">Tiene vale escolar</label>
+            <input type="checkbox" id="has_school_voucher" {...register('has_school_voucher')} className="w-4 h-4 rounded border-border text-primary" />
+            <label htmlFor="has_school_voucher" className="text-sm text-foreground">Tiene vale escolar</label>
           </div>
           {hasSchoolVoucher && (
             <>
@@ -200,13 +200,13 @@ export default function PreEnrollmentEditForm({ data, onSuccess, onCancel }: Pre
         </FormSection>
       </div>
 
-      <div className="flex gap-3 justify-end pt-4 border-t border-slate-200">
+      <div className="flex gap-3 justify-end pt-4 border-t border-border">
         {onCancel && (
           <button
             type="button"
             onClick={onCancel}
             disabled={isSubmitting}
-            className="px-4 py-2.5 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors disabled:opacity-50"
+            className="px-4 py-2.5 text-sm font-medium text-foreground bg-surface-muted hover:bg-surface-muted rounded-lg transition-colors disabled:opacity-50"
           >
             Cancelar
           </button>

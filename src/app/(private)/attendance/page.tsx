@@ -57,18 +57,18 @@ export default function AsistenciaPage() {
       {/* ====================== COLUMNA PRINCIPAL ====================== */}
       <section className="col-span-3 flex flex-col gap-4">
         {/* Horarios de clases */}
-        <article className="bg-white p-4 rounded-lg shadow">
+        <article className="bg-surface-elevated p-4 rounded-lg shadow">
           <h2 className="text-xl font-bold mb-4">Horarios de Clases</h2>
           {schedulesError && (
-            <div className="text-red-600 mb-4 p-3 bg-red-50 rounded">
+            <div className="text-danger mb-4 p-3 bg-danger/10 rounded">
               Error: {schedulesError}
             </div>
           )}
           <div className="flex gap-4 overflow-x-auto pb-2">
             {schedulesLoading ? (
-              <div className="text-gray-500 text-center w-full">Cargando horarios...</div>
+              <div className="text-fg-muted text-center w-full">Cargando horarios...</div>
             ) : schedules.length === 0 ? (
-              <div className="text-gray-500 text-center w-full">No hay horarios disponibles</div>
+              <div className="text-fg-muted text-center w-full">No hay horarios disponibles</div>
             ) : (
               schedules.map((schedule) => (
                 <ClassCard
@@ -83,7 +83,7 @@ export default function AsistenciaPage() {
         </article>
 
         {/* Lista de estudiantes */}
-        <article className="bg-white flex-1 p-4 rounded-lg shadow overflow-auto">
+        <article className="bg-surface-elevated flex-1 p-4 rounded-lg shadow overflow-auto">
           <header className="mb-4">
             <h2 className="text-xl font-bold">
               Asistencia {selectedClass && `- Grupo ${selectedClass}`}
@@ -91,7 +91,7 @@ export default function AsistenciaPage() {
           </header>
 
           {attendanceError && (
-            <div className="text-red-600 mb-4 p-3 bg-red-50 rounded">
+            <div className="text-danger mb-4 p-3 bg-danger/10 rounded">
               Error: {attendanceError}
             </div>
           )}
@@ -116,11 +116,11 @@ export default function AsistenciaPage() {
               </h2>
 
               {attendanceLoading ? (
-                <div className="text-gray-500 text-center py-8">
+                <div className="text-fg-muted text-center py-8">
                   Cargando estudiantes...
                 </div>
               ) : students.length === 0 && selectedClass ? (
-                <div className="text-gray-500 text-center py-8">
+                <div className="text-fg-muted text-center py-8">
                   No hay estudiantes en este grupo para la fecha seleccionada
                 </div>
               ) : (
@@ -137,7 +137,7 @@ export default function AsistenciaPage() {
       {/* ====================== COLUMNA LATERAL DERECHA ====================== */}
       <aside className="col-span-1 flex flex-col gap-4">
         {/* Calendario */}
-        <article className="bg-white p-4 rounded-lg shadow">
+        <article className="bg-surface-elevated p-4 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-4">Calendario</h2>
           <MonthlyCalendar 
             markedDates={markedDates}
@@ -151,9 +151,9 @@ export default function AsistenciaPage() {
         </article>
 
         {/* Panel extra o resumen */}
-        <article className="bg-white p-4 rounded-lg shadow flex-1">
+        <article className="bg-surface-elevated p-4 rounded-lg shadow flex-1">
           <h2 className="text-lg font-semibold mb-2">Resumen</h2>
-          <div className="text-gray-600 space-y-2">
+          <div className="text-fg-muted space-y-2">
             <p>Total estudiantes: {attendanceStats.total}</p>
             <p>Presentes: {attendanceStats.present}</p>
             <p>Ausentes: {attendanceStats.absent}</p>
@@ -163,7 +163,7 @@ export default function AsistenciaPage() {
 
           {attendanceStats.total > 0 && (
             <div className="mt-4 pt-4 border-t">
-              <div className="text-sm text-gray-500">
+              <div className="text-sm text-fg-muted">
                 Porcentaje de asistencia: {Math.round((attendanceStats.present / attendanceStats.total) * 100)}%
               </div>
             </div>

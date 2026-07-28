@@ -84,9 +84,9 @@ export default function ChangeOwnPasswordForm({
                 icon={<IconByName name="password" className="h-5 w-5" />}
             />
 
-            <div className="p-4 bg-blue-50 rounded-lg">
-                <p className="text-sm text-blue-800 font-medium mb-2">Requisitos de contraseña:</p>
-                <ul className="text-xs text-blue-700 space-y-1 list-disc list-inside">
+            <div className="p-4 bg-primary-soft rounded-lg">
+                <p className="text-sm text-primary font-medium mb-2">Requisitos de contraseña:</p>
+                <ul className="text-xs text-primary space-y-1 list-disc list-inside">
                     <li>Mínimo 8 caracteres</li>
                     <li>Al menos una letra mayúscula</li>
                     <li>Al menos una letra minúscula</li>

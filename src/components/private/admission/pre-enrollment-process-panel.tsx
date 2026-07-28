@@ -113,19 +113,19 @@ export default function PreEnrollmentProcessPanel({
   };
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-5">
+    <div className="bg-surface-elevated rounded-xl border border-border shadow-sm p-6 space-y-5">
       <div>
-        <h3 className="text-lg font-semibold text-gray-900">
+        <h3 className="text-lg font-semibold text-foreground">
           Proceso de admisión
         </h3>
-        <p className="text-sm text-gray-500 mt-1">
+        <p className="text-sm text-fg-muted mt-1">
           Actualiza estado presencial: documentación, validación del pago y
           decisión antes de crear el alumno en el sistema escolar.
         </p>
       </div>
 
       {isConverted && (
-        <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
+        <div className="rounded-lg border border-success/30 bg-success/10 px-4 py-3 text-sm text-success">
           <span className="font-medium">
             Este aspirante ya fue inscrito como estudiante
           </span>
@@ -134,7 +134,7 @@ export default function PreEnrollmentProcessPanel({
           {" · "}
           <Link
             href="/students/list-students"
-            className="text-emerald-800 underline underline-offset-2 hover:text-emerald-950"
+            className="text-success underline underline-offset-2 hover:text-success"
           >
             Ver estudiantes
           </Link>
@@ -143,11 +143,11 @@ export default function PreEnrollmentProcessPanel({
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div>
-          <label className="text-xs font-medium text-gray-600 block mb-1">
+          <label className="text-xs font-medium text-fg-muted block mb-1">
             Etapa
           </label>
           <select
-            className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm bg-white disabled:opacity-60"
+            className="w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface-elevated disabled:opacity-60"
             value={status}
             disabled={saving || isConverted}
             onChange={(e) => setStatus(e.target.value)}
@@ -161,11 +161,11 @@ export default function PreEnrollmentProcessPanel({
         </div>
 
         <div>
-          <label className="text-xs font-medium text-gray-600 block mb-1">
+          <label className="text-xs font-medium text-fg-muted block mb-1">
             Documentación
           </label>
           <select
-            className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm bg-white disabled:opacity-60"
+            className="w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface-elevated disabled:opacity-60"
             value={documentsStatus}
             disabled={saving || isConverted}
             onChange={(e) => setDocumentsStatus(e.target.value)}
@@ -179,11 +179,11 @@ export default function PreEnrollmentProcessPanel({
         </div>
 
         <div>
-          <label className="text-xs font-medium text-gray-600 block mb-1">
+          <label className="text-xs font-medium text-fg-muted block mb-1">
             Pago
           </label>
           <select
-            className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm bg-white disabled:opacity-60"
+            className="w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface-elevated disabled:opacity-60"
             value={paymentStatus}
             disabled={saving || isConverted}
             onChange={(e) => setPaymentStatus(e.target.value)}
@@ -197,7 +197,7 @@ export default function PreEnrollmentProcessPanel({
         </div>
 
         <div>
-          <label className="text-xs font-medium text-gray-600 block mb-1">
+          <label className="text-xs font-medium text-fg-muted block mb-1">
             Examen admisión (0-10)
           </label>
           <input
@@ -205,7 +205,7 @@ export default function PreEnrollmentProcessPanel({
             min={0}
             max={10}
             step="0.01"
-            className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm bg-white disabled:opacity-60"
+            className="w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface-elevated disabled:opacity-60"
             value={admissionExamScore}
             disabled={saving || isConverted}
             onChange={(e) => setAdmissionExamScore(e.target.value)}
@@ -230,7 +230,7 @@ export default function PreEnrollmentProcessPanel({
         )}
 
         {!isConverted && !canEnroll && (
-          <span className="text-xs text-gray-500">
+          <span className="text-xs text-fg-muted">
             Para inscribir: documentos completos, pago validado y estado distinto de
             rechazado (luego usar el botón o la lista).
           </span>

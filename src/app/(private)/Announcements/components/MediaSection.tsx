@@ -142,9 +142,9 @@ export function MediaSection({
             )}
           />
           <div className="flex items-center gap-3">
-            <div className="h-px flex-1 bg-gray-200" />
-            <span className="text-xs font-medium text-gray-400">o usa una URL</span>
-            <div className="h-px flex-1 bg-gray-200" />
+            <div className="h-px flex-1 bg-surface-muted" />
+            <span className="text-xs font-medium text-fg-muted">o usa una URL</span>
+            <div className="h-px flex-1 bg-surface-muted" />
           </div>
           <FloatingInput
             label="URL del video (enlace externo)"
@@ -168,7 +168,7 @@ export function MediaSection({
             {...register("mediaYoutubeId")}
           />
           {mediaYoutubeId && (
-            <div className="mt-2 overflow-hidden rounded-xl border border-gray-200">
+            <div className="mt-2 overflow-hidden rounded-xl border border-border">
               <Image
                 src={`https://img.youtube.com/vi/${mediaYoutubeId}/mqdefault.jpg`}
                 alt="Vista previa YouTube"

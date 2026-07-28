@@ -79,12 +79,12 @@ export default function UserDetailModal({
     >
       {loading ? (
         <div className="flex items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
       ) : user ? (
         <UserDetailView user={user} onUpdate={handleUpdate} onDelete={handleDelete} />
       ) : (
-        <div className="text-center py-12 text-slate-500">
+        <div className="text-center py-12 text-fg-muted">
           Usuario no encontrado
         </div>
       )}

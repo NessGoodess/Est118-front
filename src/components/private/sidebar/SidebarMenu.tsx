@@ -209,7 +209,7 @@ export function SidebarMenu() {
                 <button
                   type="button"
                   onClick={() => toggleSection(sectionKey)}
-                  className="w-full flex items-center justify-between gap-2 px-3 mb-1.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wider text-fg-muted hover:bg-sidebar-button-bg-hover/40 hover:text-primary transition-colors"
+                  className="w-full flex items-center justify-between gap-2 px-3 mb-1.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wider text-fg-muted hover:bg-surface-muted hover:text-foreground transition-colors"
                   aria-expanded={!isSectionCollapsed}
                   title={
                     isSectionCollapsed

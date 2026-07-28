@@ -102,19 +102,19 @@ export default function PromotionRunPanel() {
   };
 
   return (
-    <section className="bg-white rounded-xl shadow-sm border p-4 sm:p-6 space-y-4">
+    <section className="bg-surface-elevated rounded-xl shadow-sm border p-4 sm:p-6 space-y-4">
       <header>
-        <h2 className="text-lg font-semibold text-gray-900">Promoción anual</h2>
-        <p className="text-sm text-gray-500">
+        <h2 className="text-lg font-semibold text-foreground">Promoción anual</h2>
+        <p className="text-sm text-fg-muted">
           Ejecuta el proceso anual: 1°→2°, 2°→3°, 3° egresa. Reprobados conservan grado y grupo.
         </p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div>
-          <label className="text-xs font-medium text-gray-600">Ciclo origen</label>
+          <label className="text-xs font-medium text-fg-muted">Ciclo origen</label>
           <select
-            className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm bg-white"
+            className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface-elevated"
             disabled={yearsLoading || running}
             value={fromId ?? ""}
             onChange={(e) => setFromId(Number(e.target.value))}
@@ -131,9 +131,9 @@ export default function PromotionRunPanel() {
         </div>
 
         <div>
-          <label className="text-xs font-medium text-gray-600">Ciclo destino</label>
+          <label className="text-xs font-medium text-fg-muted">Ciclo destino</label>
           <select
-            className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm bg-white"
+            className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface-elevated"
             disabled={yearsLoading || running}
             value={toId ?? ""}
             onChange={(e) => setToId(Number(e.target.value))}
@@ -160,14 +160,14 @@ export default function PromotionRunPanel() {
       </div>
 
       {lastSummary && (
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-sm text-gray-800 whitespace-pre-line">
+        <div className="bg-surface-muted border border-border rounded-lg p-4 text-sm text-foreground whitespace-pre-line">
           <div className="font-medium mb-2">
             Resultado ({lastMode === "dry" ? "simulación" : "ejecución"})
           </div>
           {formatSummary(lastSummary)}
 
           {lastSummary.errors.length > 0 && (
-            <div className="mt-3 text-xs text-red-700">
+            <div className="mt-3 text-xs text-danger">
               <div className="font-medium mb-1">Errores (primeros 5)</div>
               <ul className="list-disc pl-5 space-y-1">
                 {lastSummary.errors.slice(0, 5).map((e, idx) => (

@@ -23,7 +23,7 @@ export default function GaleriaPage() {
         : galleryItems.filter(item => item.category === selectedCategory);
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50">
+        <div className="min-h-screen bg-gradient-to-b from-surface-muted via-surface-elevated to-surface-muted">
             {/* Hero header */}
             <section className="relative h-64 md:h-80 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 overflow-hidden">
                 <div className="absolute inset-0 bg-[url('/background4.png')] bg-cover bg-center opacity-20" />
@@ -46,7 +46,7 @@ export default function GaleriaPage() {
             </section>
 
             {/* Category filters */}
-            <section className="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-200">
+            <section className="sticky top-0 z-40 bg-surface-elevated/95 backdrop-blur-md shadow-sm border-b border-border">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex flex-wrap gap-2 justify-center">
                         {categories.map((category) => (
@@ -56,8 +56,8 @@ export default function GaleriaPage() {
                                 whileHover={{ scale: 1.04 }}
                                 whileTap={{ scale: 0.96 }}
                                 className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${selectedCategory === category
-                                        ? "bg-blue-600 text-white shadow-md"
-                                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                                        ? "bg-primary text-white shadow-md"
+                                        : "bg-surface-muted text-foreground hover:bg-surface-muted"
                                     }`}
                             >
                                 {category}
@@ -122,7 +122,7 @@ export default function GaleriaPage() {
                                       transition-all duration-300">
                                                 {/* Category pill */}
                                                 <span className="mb-2 w-fit rounded-full bg-yellow-400 px-2.5 py-0.5
-                                         text-[11px] font-bold uppercase text-gray-900">
+                                         text-[11px] font-bold uppercase text-foreground">
                                                     {item.category}
                                                 </span>
                                                 <h3 className="text-white text-base font-bold leading-snug line-clamp-2 mb-1">
@@ -146,7 +146,7 @@ export default function GaleriaPage() {
 
                 {filteredItems.length === 0 && (
                     <div className="text-center py-20">
-                        <p className="text-gray-500 text-lg">No items in this category.</p>
+                        <p className="text-fg-muted text-lg">No items in this category.</p>
                     </div>
                 )}
             </section>

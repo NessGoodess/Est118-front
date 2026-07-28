@@ -30,7 +30,7 @@ export default function EventoPage({ params }: { params: Promise<{ id: string }>
             <Link href="/eventos" className="text-white/80 hover:text-white mb-4 inline-block">
               ← Volver a Eventos
             </Link>
-            <span className="inline-block bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-sm font-semibold mb-4">
+            <span className="inline-block bg-yellow-400 text-foreground px-3 py-1 rounded-full text-sm font-semibold mb-4">
               {item.tipo}
             </span>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 font-merriweather">
@@ -51,7 +51,7 @@ export default function EventoPage({ params }: { params: Promise<{ id: string }>
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="bg-white rounded-2xl shadow-xl overflow-hidden"
+          className="bg-surface-elevated rounded-2xl shadow-xl overflow-hidden"
         >
           {item.imagen && (
             <div className="relative h-96 md:h-[500px]">
@@ -66,34 +66,34 @@ export default function EventoPage({ params }: { params: Promise<{ id: string }>
 
           <div className="p-8 md:p-12">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-              <div className="bg-blue-50 rounded-lg p-4">
-                <p className="text-xs text-gray-600 mb-1">Fecha</p>
-                <p className="font-semibold text-gray-900">{item.fecha}</p>
+              <div className="bg-primary-soft rounded-lg p-4">
+                <p className="text-xs text-fg-muted mb-1">Fecha</p>
+                <p className="font-semibold text-foreground">{item.fecha}</p>
               </div>
-              <div className="bg-blue-50 rounded-lg p-4">
-                <p className="text-xs text-gray-600 mb-1">Hora</p>
-                <p className="font-semibold text-gray-900">{item.hora}</p>
+              <div className="bg-primary-soft rounded-lg p-4">
+                <p className="text-xs text-fg-muted mb-1">Hora</p>
+                <p className="font-semibold text-foreground">{item.hora}</p>
               </div>
-              <div className="bg-blue-50 rounded-lg p-4">
-                <p className="text-xs text-gray-600 mb-1">Lugar</p>
-                <p className="font-semibold text-gray-900">{item.lugar}</p>
+              <div className="bg-primary-soft rounded-lg p-4">
+                <p className="text-xs text-fg-muted mb-1">Lugar</p>
+                <p className="font-semibold text-foreground">{item.lugar}</p>
               </div>
             </div>
 
-            <p className="text-gray-700 text-lg leading-relaxed mb-6 font-semibold">
+            <p className="text-foreground text-lg leading-relaxed mb-6 font-semibold">
               {item.descripcion}
             </p>
 
             <div className="prose max-w-none">
-              <p className="text-gray-700 leading-relaxed text-base">
+              <p className="text-foreground leading-relaxed text-base">
                 {item.contenido}
               </p>
             </div>
 
-            <div className="pt-8 border-t border-gray-200 mt-8">
+            <div className="pt-8 border-t border-border mt-8">
               <Link
                 href="/eventos"
-                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold"
+                className="inline-flex items-center gap-2 text-primary hover:text-primary-hover font-semibold"
               >
                 ← Ver más eventos
               </Link>

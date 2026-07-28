@@ -11,12 +11,12 @@ import { IconByName } from '@/components/ui/icons/attendenceCard.icons';
 import { Button } from '@/components/ui/Button';
 
 const STATUS_STYLES = {
-  waiting: 'border-slate-300 bg-gradient-to-br from-slate-50 to-slate-100 text-slate-600',
-  scanning: 'border-blue-500 bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600',
-  success: 'border-emerald-500 bg-gradient-to-br from-emerald-50 to-green-100 text-emerald-600',
-  info: 'border-sky-500 bg-gradient-to-br from-sky-50 to-blue-50 text-sky-700',
-  warning: 'border-yellow-500 bg-gradient-to-br from-yellow-50 to-yellow-100 text-yellow-700',
-  error: 'border-red-500 bg-gradient-to-br from-red-50 to-rose-100 text-red-600',
+  waiting: 'border-border bg-gradient-to-br from-surface-muted to-surface-muted text-fg-muted',
+  scanning: 'border-primary bg-gradient-to-br from-primary-soft to-primary-soft text-primary',
+  success: 'border-success bg-gradient-to-br from-success/10 to-success/15 text-success',
+  info: 'border-info bg-gradient-to-br from-info/10 to-primary-soft text-info',
+  warning: 'border-warning bg-gradient-to-br from-warning/10 to-warning/15 text-warning-foreground',
+  error: 'border-danger bg-gradient-to-br from-danger/10 to-danger/15 text-danger',
 } as const;
 
 interface ReaderPanelProps {
@@ -115,34 +115,34 @@ export default function ReaderPanel({
 
   const badge =
     state.scanStatus === 'success'
-      ? { className: 'bg-emerald-100 text-emerald-800', label: state.lastMessage ?? 'Registrado' }
+      ? { className: 'bg-success/15 text-success', label: state.lastMessage ?? 'Registrado' }
       : state.scanStatus === 'info'
-        ? { className: 'bg-sky-100 text-sky-800', label: state.lastMessage ?? 'Identificado' }
+        ? { className: 'bg-info/15 text-info', label: state.lastMessage ?? 'Identificado' }
         : state.scanStatus === 'warning'
-          ? { className: 'bg-yellow-100 text-yellow-800', label: state.lastMessage ?? 'Atención' }
+          ? { className: 'bg-warning/15 text-warning-foreground', label: state.lastMessage ?? 'Atención' }
           : null;
 
   return (
     <article
       className={`relative flex h-full flex-col overflow-hidden rounded-2xl border-4 shadow-lg transition-all duration-500 ${statusClass} ${pulse ? 'animate-pulse' : ''} ${compact ? 'min-h-[280px]' : 'min-h-[320px]'}`}
     >
-      <header className="flex items-center justify-between gap-2 border-b border-white/60 bg-blue-950 px-4 py-3 text-white">
+      <header className="flex items-center justify-between gap-2 border-b border-white/60 bg-primary px-4 py-3 text-white">
         <div className="min-w-0">
           <h3 className="font-bold text-sm sm:text-base truncate">{slot.label}</h3>
-          <p className="text-xs text-blue-100">
+          <p className="text-xs text-brand-100">
             {slot.audience === 'boys' ? 'Niños' : slot.audience === 'girls' ? 'Niñas' : 'Mixto'}
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <span className="flex items-center gap-1.5 text-xs">
-            <span className={`h-2.5 w-2.5 rounded-full ${connected ? 'bg-emerald-400 animate-pulse' : 'bg-red-400'}`} />
+            <span className={`h-2.5 w-2.5 rounded-full ${connected ? 'bg-success animate-pulse' : 'bg-danger'}`} />
             {!connected ? 'Sin lector' : armed ? 'Activo' : 'Pausado'}
           </span>
           {onRequestFullscreen && (
             <button
               type="button"
               onClick={() => onRequestFullscreen(slot.code)}
-              className="rounded p-1 hover:bg-white/10"
+              className="rounded p-1 hover:bg-surface-elevated/10"
               title="Pantalla completa"
               aria-label={`Pantalla completa ${slot.label}`}
             >
@@ -168,13 +168,13 @@ export default function ReaderPanel({
               />
             </div>
             <div className="space-y-2 text-sm">
-              <p className={`font-bold text-slate-900 ${compact ? 'text-2xl' : 'text-lg'}`}>
+              <p className={`font-bold text-foreground ${compact ? 'text-2xl' : 'text-lg'}`}>
                 {state.displayStudent.name}
               </p>
-              <p className="text-slate-600">
+              <p className="text-fg-muted">
                 {state.displayStudent.grade} · Grupo {state.displayStudent.group}
               </p>
-              <p className="text-slate-500">ID: {state.displayStudent.credential_id}</p>
+              <p className="text-fg-muted">ID: {state.displayStudent.credential_id}</p>
               {badge && (
                 <div className={`inline-flex items-center gap-2 rounded-lg px-3 py-1 ${badge.className}`}>
                   <IconByName name="success" />
@@ -185,15 +185,15 @@ export default function ReaderPanel({
           </div>
         ) : (
           <div className="py-10 text-center">
-            <p className={`font-semibold text-slate-700 ${compact ? 'text-xl' : 'text-lg'}`}>
+            <p className={`font-semibold text-foreground ${compact ? 'text-xl' : 'text-lg'}`}>
               {armed && connected ? 'Esperando credencial' : 'Lector no listo'}
             </p>
-            {state.lastMessage && <p className="mt-2 text-sm text-slate-500">{state.lastMessage}</p>}
+            {state.lastMessage && <p className="mt-2 text-sm text-fg-muted">{state.lastMessage}</p>}
           </div>
         )}
       </div>
 
-      <footer className="border-t border-white/50 bg-white/40 px-4 py-2 flex justify-end">
+      <footer className="border-t border-white/50 bg-surface-elevated/40 px-4 py-2 flex justify-end">
         <Button
           size="sm"
           variant={armed ? 'secondary' : 'primary'}

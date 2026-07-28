@@ -18,7 +18,7 @@ export default function ReEnrollmentGroupsPanel() {
 
   if (activePeriod.keep_current_groups) {
     return (
-      <section className="bg-green-50 border border-green-200 rounded-xl p-6 text-sm text-green-800">
+      <section className="bg-success/10 border border-success/30 rounded-xl p-6 text-sm text-success">
         <h2 className="font-semibold text-lg mb-2">Asignación de grupos omitida</h2>
         <p>
           Este periodo está configurado para <strong>conservar el grupo actual</strong>.
@@ -55,10 +55,10 @@ export default function ReEnrollmentGroupsPanel() {
   };
 
   return (
-    <section className="bg-white border rounded-xl p-4 sm:p-6 space-y-4">
+    <section className="bg-surface-elevated border rounded-xl p-4 sm:p-6 space-y-4">
       <header>
         <h2 className="text-lg font-semibold">Asignación de grupos</h2>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-fg-muted">
           Solo aplica si necesitas mover alumnos de grupo. Si conservas grupo, este paso se omite automáticamente.
         </p>
       </header>
@@ -75,7 +75,7 @@ export default function ReEnrollmentGroupsPanel() {
         </Button>
       </div>
 
-      <p className="text-xs text-gray-500">
+      <p className="text-xs text-fg-muted">
         La reasignación visual (arrastrar/seleccionar varios) se conectará aquí en la siguiente iteración.
         Por ahora el flujo respeta la regla institucional: conservar grupo por defecto.
       </p>

@@ -15,15 +15,15 @@ function LayoutContent({
   const { isCollapsed, isMobile } = useSidebar();
 
   return (
-    <div className="flex h-dvh bg-surface-app overflow-x-hidden min-w-0">
+    <div className="flex h-dvh bg-surface-app text-foreground overflow-x-hidden min-w-0">
       <ModernSidebar />
       <div
-        className={`flex-1 flex flex-col min-w-0 min-h-0 transition-all duration-400 ease-in-out rounded-l-2xl rounded-r-none shadow-card bg-surface-panel
+        className={`flex-1 flex flex-col min-w-0 min-h-0 transition-all duration-400 ease-in-out rounded-l-2xl rounded-r-none shadow-card bg-surface-panel border border-border border-r-0
         ${isMobile ? 'ml-0 my-1' : isCollapsed ? 'md:ml-16 my-4' : 'md:ml-64 my-4'}`}
       >
-        <main className="flex-1 min-h-0 overflow-y-auto rounded-l-2xl flex flex-col">
+        <main className="flex-1 min-h-0 overflow-y-auto rounded-l-2xl flex flex-col bg-surface-panel text-foreground">
           <WelcomeHeader />
-          <div className="flex-1 p-2 md:p-6">{children}</div>
+          <div className="flex-1 p-2 md:p-6 min-w-0">{children}</div>
         </main>
       </div>
     </div>

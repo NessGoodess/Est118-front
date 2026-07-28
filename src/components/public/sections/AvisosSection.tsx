@@ -17,7 +17,7 @@ export default function AvisosSection() {
 
     const getTipoColor = (tipo: Aviso['tipo']) => {
         const colors = {
-            'Informativo': 'bg-blue-100 text-blue-700 border-blue-200',
+            'Informativo': 'bg-primary-soft text-primary border-border',
             'Urgente': 'bg-red-100 text-red-700 border-red-200',
             'Recordatorio': 'bg-yellow-100 text-yellow-700 border-yellow-200',
             'Tarea': 'bg-green-100 text-green-700 border-green-200'
@@ -43,20 +43,20 @@ export default function AvisosSection() {
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-cyan-600 rounded-2xl mb-4">
                         <span className="text-3xl">📌</span>
                     </div>
-                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                    <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
                         Avisos por Grupo / Grado
                     </h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                    <p className="text-lg text-fg-muted max-w-2xl mx-auto">
                         Avisos, tareas y notificaciones importantes para estudiantes
                     </p>
                 </div>
 
                 {/* Filters */}
-                <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+                <div className="bg-surface-elevated rounded-2xl shadow-lg p-6 mb-8">
                     <div className="grid md:grid-cols-2 gap-6">
                         {/* Grado Filter */}
                         <div>
-                            <label className="block text-sm font-bold text-gray-700 mb-3">
+                            <label className="block text-sm font-bold text-foreground mb-3">
                                 Filtrar por Grado
                             </label>
                             <div className="flex flex-wrap gap-2">
@@ -66,7 +66,7 @@ export default function AvisosSection() {
                                         onClick={() => setSelectedGrado(grado)}
                                         className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${selectedGrado === grado
                                             ? 'bg-cyan-600 text-white shadow-md'
-                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                            : 'bg-surface-muted text-foreground hover:bg-surface-muted'
                                             }`}
                                     >
                                         {grado === 'Todos' ? 'Todos' : `${grado}° Grado`}
@@ -77,7 +77,7 @@ export default function AvisosSection() {
 
                         {/* Tipo Filter */}
                         <div>
-                            <label className="block text-sm font-bold text-gray-700 mb-3">
+                            <label className="block text-sm font-bold text-foreground mb-3">
                                 Filtrar por Tipo
                             </label>
                             <div className="flex flex-wrap gap-2">
@@ -87,7 +87,7 @@ export default function AvisosSection() {
                                         onClick={() => setSelectedTipo(tipo)}
                                         className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${selectedTipo === tipo
                                             ? 'bg-cyan-600 text-white shadow-md'
-                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                            : 'bg-surface-muted text-foreground hover:bg-surface-muted'
                                             }`}
                                     >
                                         {tipo}
@@ -103,7 +103,7 @@ export default function AvisosSection() {
                     {filteredAvisos.map((aviso) => (
                         <div
                             key={aviso.id}
-                            className={`bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-l-4 ${aviso.importante ? 'border-red-500' : 'border-cyan-500'
+                            className={`bg-surface-elevated rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-l-4 ${aviso.importante ? 'border-red-500' : 'border-cyan-500'
                                 } ${!aviso.leido ? 'ring-2 ring-cyan-200' : ''}`}
                         >
                             <div className="p-6">
@@ -115,7 +115,7 @@ export default function AvisosSection() {
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-center gap-2 mb-2 flex-wrap">
-                                                <h3 className="text-lg font-bold text-gray-900">
+                                                <h3 className="text-lg font-bold text-foreground">
                                                     {aviso.titulo}
                                                 </h3>
                                                 {!aviso.leido && (
@@ -129,7 +129,7 @@ export default function AvisosSection() {
                                                     </span>
                                                 )}
                                             </div>
-                                            <p className="text-gray-700 mb-4">
+                                            <p className="text-foreground mb-4">
                                                 {aviso.contenido}
                                             </p>
                                         </div>
@@ -137,8 +137,8 @@ export default function AvisosSection() {
                                 </div>
 
                                 {/* Footer */}
-                                <div className="flex items-center justify-between flex-wrap gap-4 pt-4 border-t border-gray-200">
-                                    <div className="flex items-center gap-4 text-sm text-gray-600">
+                                <div className="flex items-center justify-between flex-wrap gap-4 pt-4 border-t border-border">
+                                    <div className="flex items-center gap-4 text-sm text-fg-muted">
                                         <span className="flex items-center gap-1">
                                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -152,7 +152,7 @@ export default function AvisosSection() {
                                             {aviso.fecha}
                                         </span>
                                         {aviso.grado && (
-                                            <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg font-medium">
+                                            <span className="px-3 py-1 bg-surface-muted text-foreground rounded-lg font-medium">
                                                 {aviso.grado}° {aviso.grupo ? `- Grupo ${aviso.grupo}` : 'Grado'}
                                             </span>
                                         )}
@@ -167,9 +167,9 @@ export default function AvisosSection() {
                 </div>
 
                 {filteredAvisos.length === 0 && (
-                    <div className="text-center py-12 bg-white rounded-2xl">
+                    <div className="text-center py-12 bg-surface-elevated rounded-2xl">
                         <span className="text-6xl mb-4 block">📭</span>
-                        <p className="text-gray-500 text-lg">
+                        <p className="text-fg-muted text-lg">
                             No hay avisos con los filtros seleccionados
                         </p>
                     </div>
@@ -177,29 +177,29 @@ export default function AvisosSection() {
 
                 {/* Stats */}
                 <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="bg-white rounded-xl p-6 shadow-lg text-center">
+                    <div className="bg-surface-elevated rounded-xl p-6 shadow-lg text-center">
                         <div className="text-3xl font-bold text-cyan-600 mb-1">
                             {avisos.length}
                         </div>
-                        <div className="text-sm text-gray-600">Total Avisos</div>
+                        <div className="text-sm text-fg-muted">Total Avisos</div>
                     </div>
-                    <div className="bg-white rounded-xl p-6 shadow-lg text-center">
+                    <div className="bg-surface-elevated rounded-xl p-6 shadow-lg text-center">
                         <div className="text-3xl font-bold text-red-600 mb-1">
                             {avisos.filter(a => a.importante).length}
                         </div>
-                        <div className="text-sm text-gray-600">Importantes</div>
+                        <div className="text-sm text-fg-muted">Importantes</div>
                     </div>
-                    <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-                        <div className="text-3xl font-bold text-green-600 mb-1">
+                    <div className="bg-surface-elevated rounded-xl p-6 shadow-lg text-center">
+                        <div className="text-3xl font-bold text-success mb-1">
                             {avisos.filter(a => a.tipo === 'Tarea').length}
                         </div>
-                        <div className="text-sm text-gray-600">Tareas</div>
+                        <div className="text-sm text-fg-muted">Tareas</div>
                     </div>
-                    <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-                        <div className="text-3xl font-bold text-blue-600 mb-1">
+                    <div className="bg-surface-elevated rounded-xl p-6 shadow-lg text-center">
+                        <div className="text-3xl font-bold text-primary mb-1">
                             {avisos.filter(a => !a.leido).length}
                         </div>
-                        <div className="text-sm text-gray-600">No Leídos</div>
+                        <div className="text-sm text-fg-muted">No Leídos</div>
                     </div>
                 </div>
             </div>

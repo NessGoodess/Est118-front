@@ -86,7 +86,7 @@ export default function HeroWelcome() {
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 px-8 py-4 rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-xl"
+                                    className="bg-yellow-400 hover:bg-yellow-500 text-primary px-8 py-4 rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-xl"
                                 >
                                     Preinscripciones 2026
                                 </motion.button>
@@ -95,7 +95,7 @@ export default function HeroWelcome() {
                                 href="#noticias"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="border-2 border-white text-white hover:bg-white hover:text-blue-900 px-8 py-4 rounded-full font-semibold text-lg transition-all inline-block text-center"
+                                className="border-2 border-white text-white hover:bg-surface-elevated hover:text-primary px-8 py-4 rounded-full font-semibold text-lg transition-all inline-block text-center"
                             >
                                 Conoce Más
                             </motion.a>
@@ -108,19 +108,19 @@ export default function HeroWelcome() {
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.8, delay: 0.6 }}
                         >
-                            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                            <div className="bg-surface-elevated/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
                                 <p className="text-3xl font-bold text-yellow-300">40+</p>
                                 <p className="text-sm text-white/80">Años de experiencia</p>
                             </div>
-                            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                            <div className="bg-surface-elevated/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
                                 <p className="text-3xl font-bold text-yellow-300">4</p>
                                 <p className="text-sm text-white/80">Talleres técnicos</p>
                             </div>
-                            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                            <div className="bg-surface-elevated/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
                                 <p className="text-3xl font-bold text-yellow-300">100%</p>
                                 <p className="text-sm text-white/80">Educación pública</p>
                             </div>
-                            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                            <div className="bg-surface-elevated/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
                                 <p className="text-3xl font-bold text-yellow-300">CCT</p>
                                 <p className="text-sm text-white/80">09DST0118V</p>
                             </div>

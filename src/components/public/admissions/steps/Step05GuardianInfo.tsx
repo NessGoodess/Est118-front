@@ -93,7 +93,7 @@ export default function GuardianInfo({ nextStep, prevStep }: Props) {
   };
 
   return (
-    <div className="md:bg-white md:rounded-2xl md:shadow-xl p-6 md:p-12">
+    <div className="md:bg-surface-elevated md:rounded-2xl md:shadow-xl p-6 md:p-12">
       <Header title="Datos del Tutor" description="Información del tutor o responsable del aspirante" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -196,13 +196,13 @@ export default function GuardianInfo({ nextStep, prevStep }: Props) {
         transition={{ duration: 0.6, delay: 0.7 }}
         className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg mb-8 mt-6"
       >
-        <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+        <h3 className="font-bold text-foreground mb-3 flex items-center gap-2">
           <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           Notas importantes:
         </h3>
-        <ul className="space-y-2 text-gray-700">
+        <ul className="space-y-2 text-foreground">
           <li className="flex items-start gap-2">
             <span className="text-yellow-600 mt-1">•</span>
             <span>

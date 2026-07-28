@@ -63,7 +63,7 @@ function WizardFormContent() {
     <section className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <HeaderMain />
       {currentStep > 0 && currentStep < 9 && (
-        <div className="bg-blue-600 text-white py-3">
+        <div className="bg-primary text-white py-3">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium">
@@ -73,7 +73,7 @@ function WizardFormContent() {
                 {Math.round((currentStep / (TOTAL_STEPS - 2)) * 100)}% completado
               </span>
             </div>
-            <div className="w-full bg-blue-700 rounded-full h-2">
+            <div className="w-full bg-primary-hover rounded-full h-2">
               <motion.div
                 className="bg-yellow-400 h-2 rounded-full"
                 initial={{ width: 0 }}
@@ -86,7 +86,7 @@ function WizardFormContent() {
       )}
 
       {currentStep > 0 && currentStep < 9 && (
-        <div className="hidden lg:block bg-gray-50 border-b border-gray-200">
+        <div className="hidden lg:block bg-surface-muted border-b border-border">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
               {steps.slice(1, 9).map((step, index) => {
@@ -105,25 +105,25 @@ function WizardFormContent() {
                       disabled={!isCompleted && stepNumber > currentStep}
                       className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all 
                         ${isCurrent
-                          ? "bg-blue-600 text-white font-semibold"
+                          ? "bg-primary text-white font-semibold"
                           : isCompleted
                             ? "bg-green-100 text-green-700 hover:bg-green-200"
-                            : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                            : "bg-surface-muted text-fg-muted hover:bg-surface-muted"
                         }`}
                     >
                       <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold 
                       ${isCurrent
-                          ? "bg-white text-blue-600"
+                          ? "bg-surface-elevated text-primary"
                           : isCompleted
-                            ? "bg-green-600 text-white"
-                            : "bg-gray-300 text-gray-600"
+                            ? "bg-success text-white"
+                            : "bg-surface-muted text-fg-muted"
                         }`}>
                         {isCompleted ? "✓" : stepNumber}
                       </div>
                       <span className="text-xs hidden xl:inline">{step.title}</span>
                     </button>
                     {index < steps.slice(1, 9).length - 1 && (
-                      <div className={`flex-1 h-0.5 mx-2 ${stepNumber < currentStep ? "bg-green-600" : "bg-gray-300"
+                      <div className={`flex-1 h-0.5 mx-2 ${stepNumber < currentStep ? "bg-success" : "bg-surface-muted"
                         }`} />
                     )}
                   </div>

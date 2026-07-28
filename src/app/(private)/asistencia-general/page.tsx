@@ -24,7 +24,7 @@ function GeneralAttendanceContent() {
       <GenericHeader title="Asistencia General" description="" />
       <CycleHint />
       <div className="rounded-lg">
-        <div className="border-b border-gray-200">
+        <div className="border-b border-border">
           <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-6 pb-1">
             <nav
               className="flex gap-4 sm:gap-6 min-w-max"

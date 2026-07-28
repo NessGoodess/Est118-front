@@ -1,5 +1,5 @@
 export default function LoadingStudentProfile() {
   return (
-    <div className="animate-pulse text-slate-500 text-sm py-12">Cargando expediente…</div>
+    <div className="animate-pulse text-fg-muted text-sm py-12">Cargando expediente…</div>
   );
 }

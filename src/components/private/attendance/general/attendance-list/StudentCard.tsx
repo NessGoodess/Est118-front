@@ -20,28 +20,28 @@ const CREDENTIAL_LABELS: Record<CredentialLifecycleStatus, string> = {
   { card: string; badge: string; label: string }
 > = {
   present: {
-    card: "bg-green-50",
-    badge: "bg-green-100 text-green-800",
+    card: "bg-success/10",
+    badge: "bg-success/15 text-success",
     label: "Presente",
   },
   late: {
-    card: "bg-amber-50",
-    badge: "bg-amber-100 text-amber-900",
+    card: "bg-warning/10",
+    badge: "bg-warning/15 text-warning-foreground",
     label: "Retardo",
   },
   absent: {
-    card: "bg-red-50",
-    badge: "bg-red-100 text-red-800",
+    card: "bg-danger/10",
+    badge: "bg-danger/15 text-danger",
     label: "Ausente",
   },
   excused: {
-    card: "bg-sky-50",
-    badge: "bg-sky-100 text-sky-800",
+    card: "bg-primary-soft",
+    badge: "bg-info/15 text-info",
     label: "Justificado",
   },
   pending: {
-    card: "bg-white",
-    badge: "bg-gray-100 text-gray-700",
+    card: "bg-surface-elevated",
+    badge: "bg-surface-muted text-foreground",
     label: "Pendiente",
   },
 };
@@ -58,14 +58,14 @@ export default function StudentCard({ student }: StudentCardProps ) {
   
     return (
       <div
-        className={`border rounded-lg p-4 transition-shadow hover:shadow-md border-blue-900 ${style.card}`}
+        className={`border rounded-lg p-4 transition-shadow hover:shadow-md border-primary ${style.card}`}
       >
         <div className="flex items-start gap-3">
           <LazyStudentPhoto student={student} />
   
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
-              <p className="text-sm font-medium text-gray-900 truncate">
+              <p className="text-sm font-medium text-foreground truncate">
                 {student.name}
               </p>
               <span
@@ -76,13 +76,13 @@ export default function StudentCard({ student }: StudentCardProps ) {
             </div>
   
             {(student.group || student.grade) && (
-              <p className="mt-0.5 text-sm text-gray-500">
+              <p className="mt-0.5 text-sm text-fg-muted">
                 {[student.grade, student.group].filter(Boolean).join(" · ")}
               </p>
             )}
   
             {(entry || exit) && (
-              <p className="mt-1 text-xs text-gray-600">
+              <p className="mt-1 text-xs text-fg-muted">
                 {entry && `Entrada ${entry}`}
                 {entry && exit && " · "}
                 {exit && `Salida ${exit}`}
@@ -90,7 +90,7 @@ export default function StudentCard({ student }: StudentCardProps ) {
             )}
   
             {showCredentialAlert && (
-              <p className="mt-1 text-xs font-medium text-orange-700">
+              <p className="mt-1 text-xs font-medium text-warning-foreground">
                 {credentialLabel}
               </p>
             )}

@@ -41,7 +41,7 @@ export default function TopBar({ scrolled }: TopBarProps) {
             <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-900 border-b border-blue-700/30">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-wrap items-center justify-between py-2.5">
-                        <div className="flex items-center gap-4 text-blue-100 text-xs">
+                        <div className="flex items-center gap-4 text-brand-100 text-xs">
                             <div className="flex items-center gap-1.5">
                                 <IconByName name="clock" className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
                                 <span className="font-medium">Lunes - Viernes: 7:00 - 14:00</span>
@@ -55,7 +55,7 @@ export default function TopBar({ scrolled }: TopBarProps) {
                                     href={link.href}
                                     target={link.external ? "_blank" : undefined}
                                     rel={link.external ? "noopener noreferrer" : undefined}
-                                    className="flex items-center gap-1.5 text-blue-100 hover:text-white transition-colors text-xs group"
+                                    className="flex items-center gap-1.5 text-brand-100 hover:text-white transition-colors text-xs group"
                                 >
                                     <IconByName name={link.icon} className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
                                     <span className="font-medium">{link.name}</span>

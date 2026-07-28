@@ -5,16 +5,16 @@ export default function CycleHint() {
     if (!academicYear && !activeAcademicYear) return null;
   
     return (
-      <p className="text-sm text-gray-600">
+      <p className="text-sm text-fg-muted">
         Ciclo en uso:{" "}
-        <span className="font-medium text-gray-900">
+        <span className="font-medium text-foreground">
           {academicYear?.description ?? "—"}
         </span>
         {academicYear?.is_active === false && (
-          <span className="ml-2 text-amber-700">(no es el ciclo activo)</span>
+          <span className="ml-2 text-warning-foreground">(no es el ciclo activo)</span>
         )}
         {activeAcademicYear && academicYear?.id !== activeAcademicYear.id && (
-          <span className="ml-2 text-gray-500">
+          <span className="ml-2 text-fg-muted">
             · Activo: {activeAcademicYear.description}
           </span>
         )}

@@ -10,7 +10,6 @@ interface BreadcrumbItem {
   href: string;
 }
 
-// Función para encontrar el item del menú por href
 function findMenuItemByHref(href: string, items: MenuItem[]): MenuItem | null {
   for (const item of items) {
     if (item.href === href) return item;
@@ -22,31 +21,27 @@ function findMenuItemByHref(href: string, items: MenuItem[]): MenuItem | null {
   return null;
 }
 
-// Función para generar breadcrumbs desde el pathname
 function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
   const breadcrumbs: BreadcrumbItem[] = [];
   const segments = pathname.split('/').filter(Boolean);
 
-  // Construir breadcrumbs progresivamente
   let currentPath = '';
   for (let i = 0; i < segments.length; i++) {
     currentPath += `/${segments[i]}`;
-    
-    // Buscar el item en el menú
+
     const menuItem = findMenuItemByHref(currentPath, menuItems);
-    
+
     if (menuItem) {
       breadcrumbs.push({
         label: menuItem.name,
         href: currentPath,
       });
     } else {
-      // Si no está en el menú, generar label desde el segmento
       const label = segments[i]
         .split('-')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
-      
+
       breadcrumbs.push({
         label,
         href: currentPath,
@@ -62,7 +57,7 @@ export function HeaderBreadcrumbs() {
   const breadcrumbs = generateBreadcrumbs(pathname);
 
   if (breadcrumbs.length === 0) {
-    return null; // No mostrar breadcrumbs si no hay ninguno
+    return null;
   }
 
   return (
@@ -70,12 +65,12 @@ export function HeaderBreadcrumbs() {
       <ol className="flex items-center space-x-2">
         {breadcrumbs.map((crumb, index) => {
           const isLast = index === breadcrumbs.length - 1;
-          
+
           return (
             <li key={crumb.href} className="flex items-center">
               {index > 0 && (
                 <svg
-                  className="w-4 h-4 text-gray-400 mx-2"
+                  className="w-4 h-4 text-fg-muted mx-2"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -89,11 +84,11 @@ export function HeaderBreadcrumbs() {
                 </svg>
               )}
               {isLast ? (
-                <span className="text-gray-900 font-medium">{crumb.label}</span>
+                <span className="text-foreground font-medium">{crumb.label}</span>
               ) : (
                 <Link
                   href={crumb.href}
-                  className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
+                  className="text-fg-muted hover:text-foreground transition-colors duration-200"
                 >
                   {crumb.label}
                 </Link>
@@ -105,4 +100,3 @@ export function HeaderBreadcrumbs() {
     </nav>
   );
 }
-

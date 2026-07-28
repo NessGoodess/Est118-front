@@ -17,7 +17,7 @@ export function SidebarHeader() {
         </div>
 
         <div className="min-w-0 flex-1 overflow-hidden">
-          <h1 className="text-lg font-bold text-foreground truncate">Técnica 118</h1>
+          <h1 className="text-lg font-bold text-brand-strong truncate">Técnica 118</h1>
           <p className="text-xs text-fg-muted truncate">Escuela Secundaria</p>
         </div>
       </div>

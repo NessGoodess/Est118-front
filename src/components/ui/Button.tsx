@@ -56,38 +56,38 @@ function Spinner({ className }: { className?: string }) {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary: [
-    "bg-blue-900 text-white",
-    "hover:bg-blue-950",
-    "active:bg-black active:scale-[0.97]",
-    "focus-visible:ring-blue-700",
-    "disabled:bg-blue-900/50",
+    "bg-primary text-primary-foreground",
+    "hover:bg-primary-hover",
+    "active:scale-[0.97]",
+    "focus-visible:ring-ring",
+    "disabled:opacity-50",
     "cursor-pointer",
   ].join(" "),
 
   secondary: [
-    "bg-white text-blue-900 border border-blue-900",
-    "hover:bg-blue-50 hover:border-blue-950 hover:text-blue-950",
-    "active:bg-blue-100 active:scale-[0.97]",
-    "focus-visible:ring-blue-700",
+    "bg-surface-elevated text-primary border border-primary",
+    "hover:bg-primary-soft hover:border-primary-hover hover:text-primary-hover",
+    "active:scale-[0.97]",
+    "focus-visible:ring-ring",
     "disabled:opacity-50",
     "cursor-pointer",
   ].join(" "),
 
   ghost: [
-    "bg-transparent text-blue-900",
-    "hover:bg-blue-50 hover:text-blue-950",
-    "active:bg-blue-100 active:scale-[0.97]",
-    "focus-visible:ring-blue-700",
+    "bg-transparent text-primary",
+    "hover:bg-primary-soft hover:text-primary-hover",
+    "active:scale-[0.97]",
+    "focus-visible:ring-ring",
     "disabled:opacity-50",
     "cursor-pointer",
   ].join(" "),
 
   danger: [
-    "bg-red-600 text-white",
-    "hover:bg-red-700",
-    "active:bg-red-900 active:scale-[0.97]",
-    "focus-visible:ring-red-500",
-    "disabled:bg-red-600/50",
+    "bg-danger text-danger-foreground",
+    "hover:opacity-90",
+    "active:scale-[0.97]",
+    "focus-visible:ring-danger",
+    "disabled:opacity-50",
     "cursor-pointer",
   ].join(" "),
 };
@@ -124,7 +124,7 @@ export function Button({
         // Base
         "relative inline-flex items-center justify-center rounded-lg font-medium",
         "transition-all duration-150 ease-in-out",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-app",
         "disabled:cursor-not-allowed",
         "select-none",
         // Variant + size
