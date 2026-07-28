@@ -51,9 +51,8 @@ export function SidebarGroup({
       >
         <ChevronIcon
           className={`
-            w-4 h-4 ml-2
-            transition-[opacity,transform] duration-200 ease-in-out
-            ${isCollapsed ? "opacity-0" : "opacity-100"}
+            w-4 h-4 ml-2 shrink-0
+            transition-transform duration-200 ease-in-out
             ${isExpanded ? "rotate-90" : ""}
           `}
         />

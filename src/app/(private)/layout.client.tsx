@@ -17,13 +17,14 @@ function LayoutContent({
   return (
     <div className="flex h-dvh bg-surface-app overflow-x-hidden min-w-0">
       <ModernSidebar />
-      <div className={`flex-1 flex flex-col min-w-0 transition-all duration-400 ease-in-out rounded-l-2xl rounded-r-none shadow-card bg-gradient-to-br from-blue-100 to-indigo-100
-        ${isMobile ? 'ml-0 my-1' : isCollapsed ? 'md:ml-16 my-4' : 'md:ml-64 my-4'}`}>
-        <main className="flex-1 overflow-y-auto rounded-l-2xl">
+      <div
+        className={`flex-1 flex flex-col min-w-0 min-h-0 transition-all duration-400 ease-in-out rounded-l-2xl rounded-r-none shadow-card bg-surface-panel
+        ${isMobile ? 'ml-0 my-1' : isCollapsed ? 'md:ml-16 my-4' : 'md:ml-64 my-4'}`}
+      >
+        <main className="flex-1 min-h-0 overflow-y-auto rounded-l-2xl flex flex-col">
           <WelcomeHeader />
-          <div className="min-h-dvh p-2 md:p-6">{children}</div>
+          <div className="flex-1 p-2 md:p-6">{children}</div>
         </main>
-
       </div>
     </div>
   );

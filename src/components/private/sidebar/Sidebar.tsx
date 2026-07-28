@@ -12,19 +12,26 @@ export default function ModernSidebar() {
     <>
       {isMobile && isOpen && (
         <div
-          className="fixed inset-0 bg-opacity-50 z-40 md:hidden"
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
           onClick={toggleSidebar}
+          aria-hidden
         />
       )}
 
-
-      <aside className={`bg-surface-app dark:bg-gradient-to-b from-[#000D44] to-[#000000]  md:bg-transparent fixed left-0 top-0 h-full z-50 transition-all duration-400 ease-in-out border-r border-sidebar-border md:border-none
-          ${isMobile 
-          ? (isOpen ? 'translate-x-0 w-64' : '-translate-x-full w-64')
-          : (isCollapsed ? 'w-16 overflow-visible' : 'w-64 overflow-hidden')
-        } `}
+      <aside
+        className={`bg-surface-app md:bg-transparent fixed left-0 top-0 h-full z-50 transition-[width,transform] duration-400 ease-in-out border-r border-sidebar-border md:border-none overflow-hidden
+          ${
+            isMobile
+              ? isOpen
+                ? 'translate-x-0 w-64'
+                : '-translate-x-full w-64'
+              : isCollapsed
+                ? 'w-16'
+                : 'w-64'
+          }`}
       >
-        <div className="flex flex-col h-full overflow-x-visible">
+        {/* Grid keeps user footer pinned; inner w-64 preserves icon alignment when collapsed */}
+        <div className="grid h-full min-h-0 w-64 grid-rows-[auto_1fr_auto]">
           <SidebarHeader />
           <SidebarMenu />
           <SidebarUser />

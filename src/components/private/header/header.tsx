@@ -8,10 +8,9 @@ import { HeaderMobileMenu } from './HeaderMobileMenu';
 
 export default function WelcomeHeader() {
   return (
-    <header className="bg-background border-b border-gray-200 block top-0 z-30">
-
-      <div className="bg-white px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <header className="sticky top-0 z-30 bg-surface-elevated border-b border-border shrink-0">
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-14 md:h-16">
           <div className="flex items-center space-x-4 flex-shrink-0">
             <HeaderToggle />
           </div>
@@ -21,22 +20,19 @@ export default function WelcomeHeader() {
           </div>
 
           <div className="flex items-center space-x-4 flex-shrink-0">
-
             <div className="hidden md:block">
               <HeaderNotifications />
             </div>
-            
             <HeaderMobileMenu />
           </div>
         </div>
       </div>
 
-      <div className="bg-gradient-to-t from-blue-100 to-white hidden md:block px-4 sm:px-6 lg:px-8">
-        <div className="h-10 flex items-center">
+      <div className="hidden md:block px-4 sm:px-6 lg:px-8 border-t border-border/60 bg-surface-panel/80">
+        <div className="h-9 flex items-center">
           <HeaderBreadcrumbs />
         </div>
       </div>
-
     </header>
   );
 }

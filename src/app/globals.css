@@ -1,74 +1,107 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --public-background: linear-gradient(to bottom, var(--color-blue-50), var(--color-white));
-  --foreground: #171717;
-  --surface-app: hsl(210, 33%, 97%);
-  --foreground-app: hsl(220, 25%, 12%);
-  --color-foreground-hover: hsl(215, 16%, 47%);
-  --shadow-card: 8px 8px 20px rgba(0, 0, 0, 0.2);
+  /* Brand scale */
+  --brand-50: #eef1f8;
+  --brand-100: #d5dced;
+  --brand-200: #aab6d9;
+  --brand-300: #7f90c5;
+  --brand-400: #556ab1;
+  --brand-500: #2d469b;
+  --brand-600: #222859;
+  --brand-700: #181d49;
+  --brand-800: #0c1240;
+  --brand-900: #000d44;
 
-  --color-primary: hsl(229, 100%, 13%);
+  --brand: var(--brand-500);
+  --brand-strong: var(--brand-900);
+  --accent: #4896b4;
+  --accent-gold: #ffbd59;
+
+  /* Surfaces */
+  --background: #ffffff;
+  --public-background: linear-gradient(to bottom, var(--brand-50), #ffffff);
+  --surface-app: hsl(210, 33%, 97%);
+  --surface-panel: #f0f4fa;
+  --surface-elevated: #ffffff;
+  --foreground: hsl(220, 25%, 12%);
+  --foreground-app: hsl(220, 25%, 12%);
+  --fg-muted: hsl(215, 16%, 47%);
+  --border: hsl(214, 20%, 90%);
+  --shadow-card: 0 8px 24px rgba(0, 13, 68, 0.12);
+
+  /* Semantic */
+  --color-primary: var(--brand-900);
   --color-secondary: hsl(208, 7%, 63%);
   --color-success: hsl(145, 60%, 40%);
   --color-warning: hsl(45, 90%, 50%);
   --color-danger: hsl(0, 80%, 55%);
   --color-info: hsl(200, 70%, 45%);
 
+  /* Legacy aliases (prefer brand-* / accent) */
+  --color-level-1: var(--brand-500);
+  --color-level-2: var(--brand-600);
+  --color-level-3: var(--brand-700);
+  --color-level-4: var(--brand-900);
+  --color-level-5: var(--accent);
+  --color-level-6: var(--accent-gold);
+  --color-level-7: var(--color-danger);
 
-  --color-level-1: #2d469b;
-  --color-level-2: #222859;
-  --color-level-3: #181d49;
-  --color-level-4: #000D44;
-  --color-level-5: #4896b4;
-  --color-level-6: #ffbd59;
-  --color-level-7: #db4444;
+  /* Sidebar */
+  --sidebar-button-bg: var(--brand-500);
+  --sidebar-button-bg-active: linear-gradient(
+    to right,
+    var(--brand-500),
+    hsl(248, 61%, 45%)
+  );
+  --sidebar-border: var(--border);
+  --sidebar-button-bg-hover: var(--brand-900);
+  --sidebar-button-text: #ffffff;
+  --sidebar-button-hover-active: #ffffff;
+  --sidebar-button-icon: hsl(210, 19%, 55%);
 
-  /**
-   * Sidebar Button and Group Variables
-   * ----------------------------------
-   * These CSS variables control the colors, gradients, text, and icons for
-   * the sidebar buttons and groups, including hover and active states.
-   */
-  --sidebar-button-bg: linear-gradient(to right, hsl(222, 77%, 45%), hsl(248, 61%, 53%));
-  --sidebar-border: hsl(0, 0%, 92.2%);
-  --sidebar-button-bg-hover: hsl(210, 100%, 4%);
-  --sidebar-button-text: hsl(0, 0%, 100%);
-  --sidebar-button-hover-active: hsl(0, 0%, 100%);
-  --sidebar-button-icon: hsl(210, 19%, 66%);
-
-  --sidebar-group-bg: hsla(220, 90%, 61%, 0.2);
+  --sidebar-group-bg: color-mix(in srgb, var(--brand-500) 18%, transparent);
   --sidebar-group-bg-h: hsl(210, 28%, 27%);
-  --sidebar-group-text: hsl(229, 100%, 13%);
-  --sidebar-group-text-active: hsl(210, 19%, 66%);
-  --sidebar-group-border: hsl(210, 95%, 64%);
-  --sidebar-group-hover: hsl(0, 0%, 100%);
-
-  --sidebar-group-icon-active: hsl(210, 19%, 66%);
-
-  --sidebar-dropdown-bg: #fff;
+  --sidebar-group-text: var(--brand-900);
+  --sidebar-group-text-active: hsl(210, 19%, 45%);
+  --sidebar-group-border: var(--accent);
+  --sidebar-group-hover: #ffffff;
+  --sidebar-group-icon-active: hsl(210, 19%, 55%);
+  --sidebar-dropdown-bg: #ffffff;
 
   --loading-base: hsl(220, 14%, 90%);
 
-  /* Additional colors for light mode */
   --color-gallery-bg: #fafafa;
   --color-gallery-card: #ffffff;
   --color-gallery-text: #1a1a1a;
-  --color-gallery-hover: rgba(45, 70, 155, 0.1);
+  --color-gallery-hover: color-mix(in srgb, var(--brand-500) 10%, transparent);
   --color-news-bg: #f8f9fa;
   --color-event-bg: #f0f4f8;
   --color-modal-overlay: rgba(0, 0, 0, 0.5);
   --color-modal-bg: #ffffff;
   --color-modal-text: #1a1a1a;
-
 }
 
 @theme inline {
   --color-background: var(--background);
   --background-image-hero-gradient: var(--public-background);
   --color-surface-app: var(--surface-app);
+  --color-surface-panel: var(--surface-panel);
+  --color-surface-elevated: var(--surface-elevated);
   --color-foreground: var(--foreground);
+  --color-foreground-app: var(--foreground-app);
+  --color-fg-muted: var(--fg-muted);
+  --color-border: var(--border);
+  --color-brand: var(--brand);
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-900: var(--brand-900);
+  --color-brand-strong: var(--brand-strong);
+  --color-accent: var(--accent);
+  --color-accent-gold: var(--accent-gold);
   --font-sans: var(--font-nunito-sans);
   --font-mono: var(--font-geist-mono);
   --font-montserrat: var(--font-montserrat);
@@ -76,11 +109,13 @@
   --shadow-card: var(--shadow-card);
 
   --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
   --color-success: var(--color-success);
   --color-warning: var(--color-warning);
   --color-danger: var(--color-danger);
   --color-info: var(--color-info);
-  --color-foreground-hover: var(--foreground-hover);
+  --color-foreground-hover: var(--fg-muted);
+
   --color-level-1: var(--color-level-1);
   --color-level-2: var(--color-level-2);
   --color-level-3: var(--color-level-3);
@@ -88,21 +123,12 @@
   --color-level-5: var(--color-level-5);
   --color-level-6: var(--color-level-6);
   --color-level-7: var(--color-level-7);
-  --color-level-8: var(--color-level-8);
 
-  /**
-   * Sidebar Button and Group Variables
-   * ----------------------------------
-   * These CSS variables control the colors, gradients, text, and icons for
-   * the sidebar buttons and groups, including hover and active states.
-   */
-  --color-sidebar-button-bg: var(--color-sidebar-button-bg);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-button-bg-hover: var(--sidebar-button-bg-hover);
   --color-sidebar-button-text: var(--sidebar-button-text);
   --color-sidebar-button-hover-active: var(--sidebar-button-hover-active);
   --color-sidebar-button-icon: var(--sidebar-button-icon);
-
   --color-sidebar-group-bg: var(--sidebar-group-bg);
   --color-sidebar-group-bg-h: var(--sidebar-group-bg-h);
   --color-sidebar-group-text: var(--sidebar-group-text);
@@ -110,12 +136,9 @@
   --color-sidebar-group-border: var(--sidebar-group-border);
   --color-sidebar-group-hover: var(--sidebar-group-hover);
   --color-sidebar-group-icon-active: var(--sidebar-group-icon-active);
-
   --color-sidebar-dropdown-bg: var(--sidebar-dropdown-bg);
   --color-loading-base: var(--loading-base);
-  --color-secondary: var(--color-secondary);
 
-  /* Additional theme colors for light mode */
   --color-gallery-bg: var(--color-gallery-bg);
   --color-gallery-card: var(--color-gallery-card);
   --color-gallery-text: var(--color-gallery-text);
@@ -129,53 +152,50 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: linear-gradient(to bottom, #000D44, #000000);
+    --background: #000d44;
     --public-background: hsl(30 3.3% 11.8%);
-    --surface-app: linear-gradient(to bottom, #000D44, #000000);
+    --surface-app: #050a24;
+    --surface-panel: #0c1240;
+    --surface-elevated: #181d49;
     --foreground: #ffffff;
-    --foreground-hover: hsl(215, 16%, 47%);
-    --shadow-card: '0 4px 6px rgba(45,70,155,0.2), 0 2px 4px rgba(45,70,155,0.1)';
+    --foreground-app: #f1f5f9;
+    --fg-muted: hsl(215, 16%, 65%);
+    --border: hsl(220, 25%, 25%);
+    --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.35);
 
-    --color-primary: hsl(225, 55%, 65%);
-    --color-secundary: hsl(229, 40%, 65%);
-    --color-success: hsl(145, 50%, 65%);
-    --color-warning: hsl(45, 80%, 65%);
-    --color-danger: hsl(0, 65%, 65%);
-    --color-info: hsl(200, 60%, 65%);
+    --color-primary: hsl(225, 55%, 72%);
+    --color-secondary: hsl(229, 20%, 65%);
+    --color-success: hsl(145, 50%, 55%);
+    --color-warning: hsl(45, 80%, 60%);
+    --color-danger: hsl(0, 65%, 62%);
+    --color-info: hsl(200, 60%, 62%);
 
-    /**
-      * Sidebar Button and Group Variables
-      * ----------------------------------
-      * These CSS variables control the colors, gradients, text, and icons for
-      * the sidebar buttons and groups, including hover and active states.
-     */
-    --sidebar-button-bg: linear-gradient(to right, hsl(222, 77%, 45%), hsl(248, 61%, 53%));
-    --sidebar-border: hsl(210, 19%, 66%);
+    --brand: var(--brand-400);
+    --brand-strong: var(--brand-200);
 
+    --sidebar-button-bg: var(--brand-500);
+    --sidebar-button-bg-active: linear-gradient(
+      to right,
+      hsl(222, 77%, 45%),
+      hsl(248, 61%, 53%)
+    );
+    --sidebar-border: hsl(210, 19%, 35%);
     --sidebar-button-bg-hover: hsl(210, 28%, 27%);
-    --sidebar-button-text: hsl(0, 0%, 100%);
-    --sidebar-button-hover-active: hsl(0, 0%, 100%);
+    --sidebar-button-text: #ffffff;
+    --sidebar-button-hover-active: #ffffff;
     --sidebar-button-icon: hsl(210, 19%, 66%);
 
-    /*blue-500/20	*/
     --sidebar-group-bg: hsla(220, 90%, 61%, 0.2);
-    /*blue-500/20	*/
     --sidebar-group-bg-h: hsl(210, 28%, 27%);
-    /*blue-300	#93c5fd*/
     --sidebar-group-text: hsl(210, 95%, 76%);
-    /*slate-400	#94a3b8*/
     --sidebar-group-text-active: hsl(210, 19%, 66%);
-    /*blue-400	#60a5fa*/
     --sidebar-group-border: hsl(210, 95%, 64%);
+    --sidebar-group-hover: #ffffff;
+    --sidebar-group-icon-active: #ffffff;
+    --sidebar-dropdown-bg: #0c1240;
 
-    --sidebar-group-hover: hsl(0, 0%, 100%);
-
-    --sidebar-group-icon-active: hsl(0, 0%, 100%);
-
-    --sidebar-dropdown-bg: linear-gradient(to bottom, #000D44, #000000);
     --loading-base: hsl(215, 19%, 35%);
 
-    /* Additional colors for dark mode */
     --color-gallery-bg: #0a0a0a;
     --color-gallery-card: #1a1a1a;
     --color-gallery-text: #f5f5f5;
@@ -185,7 +205,6 @@
     --color-modal-overlay: rgba(0, 0, 0, 0.8);
     --color-modal-bg: #1a1a1a;
     --color-modal-text: #f5f5f5;
-
   }
 }
 
@@ -193,7 +212,9 @@ body {
   background: var(--background);
   background-attachment: fixed;
   color: var(--foreground);
-  font-family: var(--font-nunito-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: var(--font-nunito-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -209,28 +230,35 @@ input:-webkit-autofill {
   transition: background-color 9999s ease-in-out 0s;
 }
 
-/* Custom Scrollbar for Attendance History */
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: var(--surface-app);
   border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #60a5fa, #3b82f6);
+  background: var(--brand-500);
   border-radius: 10px;
-  transition: background 0.3s ease;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #3b82f6, #2563eb);
+  background: var(--brand-600);
 }
 
-/* Firefox scrollbar */
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #60a5fa #f1f5f9;
+  scrollbar-color: var(--brand-500) var(--surface-app);
+}
+
+/* Hide scrollbar but keep scroll (sidebar) */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }

@@ -19,7 +19,7 @@ export function SidebarUser() {
 
   if (loading) {
     return (
-      <div className="p-4 border-t border-sidebar-border">
+      <div className="relative z-10 shrink-0 border-t border-sidebar-border bg-surface-app md:bg-transparent p-4">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-loading-base rounded-full animate-pulse"></div>
           {!isCollapsed && (
@@ -34,7 +34,7 @@ export function SidebarUser() {
 
   if (!authenticated || !user) {
     return (
-      <div className="p-4 border-t border-slate-700">
+      <div className="relative z-10 shrink-0 border-t border-sidebar-border bg-surface-app md:bg-transparent p-4">
         {!isCollapsed && (
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-loading-base rounded-full flex items-center justify-center">
@@ -69,24 +69,31 @@ export function SidebarUser() {
   };
 
   return (
-    <div className="flex border-t border-sidebar-border text-primary" ref={dropdownRef}>
-      <div className={`relative py-4 ${isCollapsed ? ' justify-start px-2' : ' justify-center px-4'}`}>
-        <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          className={`flex items-center  hover:bg-sidebar-button-bg-hover hover:text-sidebar-button-text rounded-lg p-2 transition-all duration-200 group
-          ${isCollapsed ? 'text-sidebar-group-text hover:text-sidebar-button-text' : 'w-full'} `}
-          title={isCollapsed ? "Menú de usuario" : undefined}
+    <div
+      className="relative z-10 shrink-0 border-t border-sidebar-border bg-surface-app md:bg-transparent text-primary"
+      ref={dropdownRef}
+    >
+      <div className="relative py-4 px-3 w-64 min-w-[16rem]">
+        <button
+          type="button"
+          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          className="flex items-center w-full min-w-0 overflow-hidden hover:bg-sidebar-button-bg-hover hover:text-sidebar-button-text rounded-lg p-2 transition-colors duration-200 group"
+          title={isCollapsed ? 'Menú de usuario' : undefined}
         >
-          <UserAvatar size={isCollapsed ? "sm" : "md"} name={user.name} />
+          <span className="shrink-0">
+            <UserAvatar size="md" name={user.name} />
+          </span>
 
-          <div className={`flex overflow-hidden transition-all duration-400 ${isCollapsed ? ' max-w-0' : ' ml-3 max-w-full'}`}>
-            <div className={`flex-1 min-w-0 text-left max-w-32`}>
-              <p className=" text-sm font-medium truncate">
-                {user.name || 'Usuario'}
-              </p>
+          <div className="flex ml-3 min-w-0 flex-1 overflow-hidden">
+            <div className="flex-1 min-w-0 text-left max-w-32">
+              <p className="text-sm font-medium truncate">{user.name || 'Usuario'}</p>
             </div>
-            <ChevronDownIcon className={`ml-2 w-4 h-4 text-primary transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+            <ChevronDownIcon
+              className={`ml-2 w-4 h-4 shrink-0 text-primary transition-transform duration-200 ${
+                isDropdownOpen ? 'rotate-180' : ''
+              }`}
+            />
           </div>
-
         </button>
 
         {isDropdownOpen && (

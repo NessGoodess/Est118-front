@@ -1,36 +1,26 @@
 "use client";
 
-import { useSidebar } from '@/contexts/SidebarContext';
 import Image from 'next/image';
 
 export function SidebarHeader() {
-  const { isCollapsed } = useSidebar();
-
   return (
-    <div className="flex items-center  border-b border-sidebar-border">
-      <div className={`flex items-center space-x-3 px-4 max-w-64 justify-center py-4 transition-[padding] duration-400 ease-in-out
-      ${isCollapsed
-          ? ''
-          : ''}
-      `}>
-
-        <div className="w-10 h-10  rounded-xl flex items-center justify-center shadow-lg relative">
-          <Image src="/logo.PNG" alt="Logo tecnica 118" width={40} height={40} className="drop-shadow-2xl" />
+    <div className="flex items-center border-b border-sidebar-border shrink-0 overflow-hidden">
+      <div className="flex items-center gap-3 px-3 py-4 w-64 min-w-[16rem]">
+        <div className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center relative">
+          <Image
+            src="/logo.PNG"
+            alt="Logo tecnica 118"
+            width={40}
+            height={40}
+            className="drop-shadow-2xl"
+          />
         </div>
 
-
-        <div className={`overflow-hidden whitespace-nowrap transition-[max-width] duration-400 ease-in-out
-          ${isCollapsed
-            ? 'max-w-0'
-            : 'max-w-64'}
-          `}>
-          <h1 className="text-lg font-bold text-foreground">Técnica 118</h1>
-          <p className="text-xs text-foreground-app">Escuela Secundaria</p>
+        <div className="min-w-0 flex-1 overflow-hidden">
+          <h1 className="text-lg font-bold text-foreground truncate">Técnica 118</h1>
+          <p className="text-xs text-fg-muted truncate">Escuela Secundaria</p>
         </div>
-
-
       </div>
     </div>
   );
 }
-
