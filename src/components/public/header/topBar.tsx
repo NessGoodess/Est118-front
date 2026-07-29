@@ -38,7 +38,7 @@ export default function TopBar({ scrolled }: TopBarProps) {
             className={`hidden lg:block transition-all duration-300 overflow-hidden ${scrolled ? "max-h-0 opacity-0" : "max-h-20 opacity-100"
                 }`}
         >
-            <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-900 border-b border-blue-700/30">
+            <div className="bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900 border-b border-brand-700/30">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-wrap items-center justify-between py-2.5">
                         <div className="flex items-center gap-4 text-brand-100 text-xs">

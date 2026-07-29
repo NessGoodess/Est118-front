@@ -28,7 +28,7 @@ export default function GaleriaSection() {
                     <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 font-merriweather">
                         Visual <span className="text-primary">Gallery</span>
                     </h2>
-                    <div className="w-24 h-1 bg-yellow-400 mx-auto mb-4" />
+                    <div className="w-24 h-1 bg-accent-gold mx-auto mb-4" />
                     <p className="text-lg text-fg-muted max-w-2xl mx-auto">
                         Discover the most memorable moments of our school community.
                     </p>
@@ -64,7 +64,7 @@ export default function GaleriaSection() {
                                     opacity-0 translate-y-3
                                     group-hover:opacity-100 group-hover:translate-y-0
                                     transition-all duration-300">
-                                            <span className="mb-2 w-fit rounded-full bg-yellow-400 px-2.5 py-0.5 text-[11px] font-bold text-foreground">
+                                            <span className="mb-2 w-fit rounded-full bg-accent-gold px-2.5 py-0.5 text-[11px] font-bold text-foreground">
                                                 {item.category}
                                             </span>
                                             <h3 className="text-white text-base font-bold line-clamp-2 mb-1">{item.title}</h3>
@@ -89,7 +89,7 @@ export default function GaleriaSection() {
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-full font-semibold transition-all shadow-lg"
+                            className="bg-primary hover:bg-primary-hover text-primary-foreground px-8 py-4 rounded-full font-semibold transition-all shadow-lg"
                         >
                             View Full Gallery
                         </motion.button>

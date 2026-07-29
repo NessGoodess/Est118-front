@@ -205,7 +205,7 @@ export default function Header() {
 
               {desktopServicesOpen && (
                 <div className="absolute right-0 mt-2 w-80 rounded-xl bg-surface-elevated shadow-xl overflow-hidden">
-                  <div className="px-4 py-3 bg-primary-hover text-white">
+                  <div className="px-4 py-3 bg-primary-hover text-primary-foreground">
                     <p className="font-semibold text-sm">Servicios Académicos</p>
                     <p className="text-xs opacity-90">Acceso institucional</p>
                   </div>

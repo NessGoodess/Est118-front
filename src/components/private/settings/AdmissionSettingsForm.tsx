@@ -377,7 +377,7 @@ export default function AdmissionSettingsForm() {
                                                     >
                                                         {toggling === cycle.id ? (
                                                             <>
-                                                                <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-green-700"></div>
+                                                                <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-success"></div>
                                                                 Activando...
                                                             </>
                                                         ) : (
@@ -402,7 +402,7 @@ export default function AdmissionSettingsForm() {
                                                 >
                                                     {toggling === cycle.id ? (
                                                         <>
-                                                            <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-red-700"></div>
+                                                            <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-danger"></div>
                                                             Cerrando...
                                                         </>
                                                     ) : (
@@ -418,7 +418,7 @@ export default function AdmissionSettingsForm() {
                                                 >
                                                     {toggling === cycle.id ? (
                                                         <>
-                                                            <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-blue-700"></div>
+                                                            <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-primary"></div>
                                                             Reabriendo...
                                                         </>
                                                     ) : isExpired ? (

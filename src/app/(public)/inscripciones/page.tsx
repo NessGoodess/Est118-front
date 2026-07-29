@@ -14,24 +14,24 @@ export default async function InscripcionesPage() {
     console.log(status);
     if (!status.enabled) {
         return (
-            <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:bg-gradient-to-b dark:from-transparent dark:to-transparent flex flex-col items-center justify-center p-4 text-center">
+            <div className="min-h-screen bg-surface-app dark:bg-surface-app flex flex-col items-center justify-center p-4 text-center">
                 <div className="bg-surface-elevated p-8 rounded-2xl shadow-xl max-w-2xl w-full space-y-6">
                     {/* Ícono más amigable según el estado */}
                     <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto ${status.status === 'not_started' ? 'bg-primary-soft' :
                         status.status === 'ended' ? 'bg-warning/15' : 'bg-surface-muted'
                         }`}>
                         {status.status === 'not_started' && (
-                            <svg className="w-10 h-10 text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" >
+                            <svg className="w-10 h-10 text-foreground" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" >
                                 <path d="M8 2v4" /><path d="M16 2v4" /><rect width="18" height="18" x="3" y="4" rx="2" /><path d="M3 10h18" /><path d="M8 14h.01" /><path d="M12 14h.01" /><path d="M16 14h.01" /><path d="M8 18h.01" /><path d="M12 18h.01" /><path d="M16 18h.01" />
                             </svg>
                         )}
                         {status.status === 'ended' && (
-                            <svg className="w-10 h-10 text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <svg className="w-10 h-10 text-foreground" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M12 6v6l4 2" /><circle cx="12" cy="12" r="10" />
                             </svg>
                         )}
                         {status.status === 'not_available' && (
-                            <svg className="w-10 h-10 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="w-10 h-10 text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         )}

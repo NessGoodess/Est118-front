@@ -29,7 +29,8 @@
   --accent: #4896b4;
   --accent-gold: #ffbd59;
 
-  /* ── Surfaces ── */
+  /* ── Surfaces ──
+     Hierarchy: app → panel → header → elevated → muted */
   --background: #ffffff;
   --public-background: linear-gradient(to bottom, var(--brand-50), #ffffff);
   --surface-app: hsl(210, 33%, 97%);
@@ -105,6 +106,13 @@
 
   --loading-base: hsl(220, 14%, 90%);
 
+  /* ── NFC attendance reader panels ── */
+  --nfc-panel: #ffffff;
+  --nfc-panel-footer: #ffffff;
+  --nfc-panel-title: var(--brand-900);;
+  --nfc-panel-title-fg: #ffffff;
+  --nfc-panel-title-muted: #b8dce6;
+
   /* Domain aliases → surfaces (one palette) */
   --color-gallery-bg: var(--surface-muted);
   --color-gallery-card: var(--surface-elevated);
@@ -175,6 +183,12 @@
 
     --loading-base: hsl(0, 0%, 22%);
 
+    --nfc-panel: #000000;
+    --nfc-panel-footer: #000000;
+    --nfc-panel-title: #000000;;
+    --nfc-panel-title-fg: #ffffff;
+    --nfc-panel-title-muted: #8ba3e8;
+
     --color-gallery-hover: rgba(255, 255, 255, 0.08);
     --color-modal-overlay: rgba(0, 0, 0, 0.72);
   }
@@ -236,6 +250,12 @@ html.dark {
 
   --loading-base: hsl(0, 0%, 22%);
 
+  --nfc-panel: #000000;
+  --nfc-panel-footer: #000000;
+  --nfc-panel-title: #000000;;
+  --nfc-panel-title-fg: #ffffff;
+  --nfc-panel-title-muted: #8ba3e8;
+
   --color-gallery-hover: rgba(255, 255, 255, 0.08);
   --color-modal-overlay: rgba(0, 0, 0, 0.72);
 }
@@ -252,6 +272,12 @@ html.dark {
   --color-surface-dark-900: var(--surface-dark-900);
   --color-surface-dark-800: var(--surface-dark-800);
   --background-image-surface-dark: var(--surface-dark-gradient);
+
+  --color-nfc-panel: var(--nfc-panel);
+  --color-nfc-panel-footer: var(--nfc-panel-footer);
+  --color-nfc-panel-title: var(--nfc-panel-title);
+  --color-nfc-panel-title-fg: var(--nfc-panel-title-fg);
+  --color-nfc-panel-title-muted: var(--nfc-panel-title-muted);
 
   --color-foreground: var(--foreground);
   --color-foreground-app: var(--foreground-app);

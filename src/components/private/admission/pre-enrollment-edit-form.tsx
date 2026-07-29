@@ -117,7 +117,7 @@ export default function PreEnrollmentEditForm({ data, onSuccess, onCancel }: Pre
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 text-black">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 text-foreground">
       <FormSection title="Datos personales" iconName="user">
         <FloatingInput label="Nombre" {...register('first_name')} error={errors.first_name?.message} icon={<GlobalIcons.user />} />
         <FloatingInput label="Apellido paterno" {...register('last_name')} error={errors.last_name?.message} />

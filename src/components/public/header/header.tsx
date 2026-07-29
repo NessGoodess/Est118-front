@@ -36,7 +36,7 @@ export default function Header() {
         <header
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
                 ? "bg-surface-elevated shadow-lg"
-                : "bg-gradient-to-b from-slate-900/95 via-slate-900/90 to-transparent backdrop-blur-md"
+                : "bg-gradient-to-b from-brand-900/95 via-brand-900/90 to-transparent backdrop-blur-md"
                 }`}
         >
             {/* Top Bar - Contact Information */}
@@ -48,7 +48,7 @@ export default function Header() {
                     <div className="flex items-center gap-4">
                         <div className={`relative flex-shrink-0 transition-all duration-300 ${scrolled ? "w-14 h-14" : "w-20 h-20"
                             }`}>
-                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl opacity-20 blur-lg"></div>
+                            <div className="absolute inset-0 bg-gradient-to-br from-brand-400 to-brand-600 rounded-xl opacity-20 blur-lg"></div>
                             <Image
                                 src="/Logo_EST118.png"
                                 alt="Logo EST 118"
@@ -88,7 +88,7 @@ export default function Header() {
                             >
                                 {IconByName({name:link.icon, className:"w-4 h-4 transition-transform group-hover:scale-110"})}
                                 <span>{link.label}</span>
-                                <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 group-hover:w-3/4 transition-all duration-300`}></div>
+                                <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-brand-400 to-brand-500 group-hover:w-3/4 transition-all duration-300`}></div>
                             </Link>
                         ))}
 
@@ -121,8 +121,8 @@ export default function Header() {
                             {/* Dropdown Menu */}
                             <div className={`absolute top-full right-0 mt-3 w-80 transition-all duration-200 ${servicesOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'
                                 }`}>
-                                <div className="bg-surface-elevated rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
-                                    <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 p-4">
+                                <div className="bg-surface-elevated rounded-2xl shadow-2xl overflow-hidden border border-border">
+                                    <div className="bg-gradient-to-r from-brand-600 via-brand-700 to-brand-600 p-4">
                                         <h3 className="font-bold text-white text-lg">Servicios Estudiantiles</h3>
                                         <p className="text-brand-100 text-sm mt-1">Plataforma de recursos académicos</p>
                                     </div>
@@ -131,14 +131,14 @@ export default function Header() {
                                             <button
                                                 key={service.href}
                                                 onClick={() => handleScrollTo(service.href)}
-                                                className="w-full px-4 py-3 flex items-start gap-3 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-150 text-left group"
+                                                className="w-full px-4 py-3 flex items-start gap-3 hover:bg-primary-soft transition-all duration-150 text-left group"
                                             >
                                                 <span className="text-2xl flex-shrink-0 group-hover:scale-110 transition-transform">{service.icon}</span>
                                                 <div className="flex-1 min-w-0">
                                                     <div className="font-semibold text-foreground text-sm group-hover:text-primary transition-colors">
                                                         {service.label}
                                                     </div>
-                                                    <div className="text-xs text-foreground0 mt-0.5">
+                                                    <div className="text-xs text-fg-muted mt-0.5">
                                                         {service.description}
                                                     </div>
                                                 </div>
@@ -159,7 +159,7 @@ export default function Header() {
                         <button
                             onClick={() => setSearchOpen(!searchOpen)}
                             className={`hidden lg:flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 ${scrolled
-                                ? "text-foreground hover:text-primary hover:bg-primary-soft border border-slate-300"
+                                ? "text-foreground hover:text-primary hover:bg-primary-soft border border-border"
                                 : "text-white hover:bg-surface-elevated/10 border border-white/20"
                                 }`}
                         >
@@ -194,7 +194,7 @@ export default function Header() {
             {/* Mobile Menu */}
             <div className={`xl:hidden transition-all duration-300 overflow-hidden ${mobileOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
                 }`}>
-                <div className={`border-t ${scrolled ? "bg-surface-elevated border-slate-200" : "bg-brand-900/95 border-slate-700/50 backdrop-blur-md"
+                <div className={`border-t ${scrolled ? "bg-surface-elevated border-border" : "bg-brand-900/95 border-brand-700/50 backdrop-blur-md"
                     }`}>
                     <nav className="px-4 py-4 space-y-1 max-h-[calc(100vh-200px)] overflow-y-auto">
                         {navLinks.map((link) => (
@@ -219,7 +219,7 @@ export default function Header() {
                         ))}
 
                         {/* Mobile Services Section */}
-                        <div className={`pt-2 mt-2 border-t ${scrolled ? "border-slate-200" : "border-slate-700/50"}`}>
+                        <div className={`pt-2 mt-2 border-t ${scrolled ? "border-border" : "border-brand-700/50"}`}>
                             <button
                                 onClick={() => setServicesOpen(!servicesOpen)}
                                 className={`w-full flex items-center justify-between px-4 py-3 rounded-xl font-medium transition-all duration-200 ${scrolled
@@ -255,7 +255,7 @@ export default function Header() {
                                             <span className="text-lg">{service.icon}</span>
                                             <div className="flex-1">
                                                 <div className="font-medium">{service.label}</div>
-                                                <div className={`text-xs mt-0.5 ${scrolled ? "text-foreground0" : "text-white/60"}`}>
+                                                <div className={`text-xs mt-0.5 ${scrolled ? "text-fg-muted" : "text-white/60"}`}>
                                                     {service.description}
                                                 </div>
                                             </div>

@@ -239,19 +239,19 @@ export default function Review({ nextStep, prevStep }: Props) {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg mt-6"
+          className="bg-danger/10 border-l-4 border-danger p-4 rounded-lg mt-6"
         >
           <div className="flex items-start gap-3">
-            <svg className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-5 h-5 text-danger flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
             </svg>
             <div className="flex-1">
-              <h4 className="font-semibold text-red-900 mb-1">Error al enviar formulario</h4>
-              <p className="text-sm text-red-700">{errorMessage}</p>
+              <h4 className="font-semibold text-danger mb-1">Error al enviar formulario</h4>
+              <p className="text-sm text-danger">{errorMessage}</p>
             </div>
             <button
               onClick={() => setErrorMessage(null)}
-              className="text-red-600 hover:text-red-800 flex-shrink-0"
+              className="text-danger hover:text-danger flex-shrink-0"
               aria-label="Cerrar mensaje de error"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

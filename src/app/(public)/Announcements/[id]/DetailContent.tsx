@@ -33,7 +33,7 @@ function BlockList({ block }: { block: Extract<AnnouncementContentBlock, { type:
       {block.items.map((item, i) => (
         <li
           key={i}
-          className="flex items-center gap-2.5 text-[clamp(14px,1.2vw,16px)] text-[#0d1117]"
+          className="flex items-center gap-2.5 text-[clamp(14px,1.2vw,16px)] text-foreground"
         >
           <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
@@ -179,9 +179,9 @@ function HeroMedia({ Announcement }: { Announcement: AnnouncementExtended }) {
 
 const TYPE_COLORS: Record<string, string> = {
   Informative: "border-border bg-primary-soft0/10 text-primary",
-  Urgent: "border-red-200   bg-red-500/10   text-red-600",
+  Urgent: "border-danger/30   bg-danger/10   text-danger",
   Reminder: "border-amber-200 bg-amber-500/10 text-amber-600",
-  Task: "border-purple-200 bg-purple-500/10 text-purple-600",
+  Task: "border-info/30 bg-info/10 text-info",
   General: "border-border  bg-surface-muted0/10  text-fg-muted",
 }
 
@@ -203,7 +203,7 @@ export default function AnnouncementDetailContent({ Announcement }: { Announceme
             Desktop: image LEFT (≈ 45% width), description RIGHT.
             Mobile: media top, description below.
           */}
-          <div className="mb-10 flex flex-col gap-6 overflow-hidden rounded-2xl border border-[#0d1117]/06
+          <div className="mb-10 flex flex-col gap-6 overflow-hidden rounded-2xl border border-foreground/6
                           bg-surface-elevated/80 p-6 shadow-[0_20px_60px_rgba(13,17,23,0.08)] backdrop-blur-sm
                           md:flex-row md:items-start md:gap-8 md:p-8">
             {/* LEFT — media */}
@@ -221,7 +221,7 @@ export default function AnnouncementDetailContent({ Announcement }: { Announceme
                   </span>
                 )}
                 {Announcement.importante && (
-                  <span className="rounded-full border border-red-200 bg-red-500/10 px-2.5 py-0.5 font-sans text-[11px] font-semibold uppercase text-red-600">
+                  <span className="rounded-full border border-danger/30 bg-danger/10 px-2.5 py-0.5 font-sans text-[11px] font-semibold uppercase text-danger">
                     Importante
                   </span>
                 )}
@@ -266,7 +266,7 @@ export default function AnnouncementDetailContent({ Announcement }: { Announceme
                     href={Announcement.secondaryButton.href}
                     className="inline-flex w-fit items-center gap-2 rounded-md border border-border
                                bg-transparent px-5 py-2.5 font-sans text-sm font-medium
-                               text-foreground transition-all hover:bg-surface-muted hover:text-[#0d1117] hover:border-border"
+                               text-foreground transition-all hover:bg-surface-muted hover:text-foreground hover:border-border"
                   >
                     {Announcement.secondaryButton.label}
                   </Link>
@@ -287,7 +287,7 @@ export default function AnnouncementDetailContent({ Announcement }: { Announceme
           <div className="mt-10 flex justify-start pl-2">
             <Link
               href="/Announcements"
-              className="inline-flex items-center gap-2 font-sans text-sm font-medium text-[#0d1117] hover:text-primary transition-colors"
+              className="inline-flex items-center gap-2 font-sans text-sm font-medium text-foreground hover:text-primary transition-colors"
             >
               ← Volver a los avisos
             </Link>

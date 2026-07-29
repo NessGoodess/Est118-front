@@ -98,7 +98,7 @@ export default function LoginForm() {
             <div
               className={`w-full p-3 rounded-lg text-sm border text-center ${
                 displayError
-                  ? 'bg-red-50 text-red-800 border-red-200'
+                  ? 'bg-danger/10 text-danger border-danger/30'
                   : 'bg-amber-50 text-amber-900 border-amber-200'
               }`}
               style={{ fontSize: 'clamp(0.75rem, 2.5vw, 0.875rem)' }}

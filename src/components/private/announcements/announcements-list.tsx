@@ -69,7 +69,7 @@ export default function AnnouncementsList({ data: initialData }: Props) {
         </div>
         <button
           onClick={() => router.push('/Announcement')}
-          className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-xl transition-colors font-medium text-sm shadow-sm"
+          className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-primary-foreground px-4 py-2 rounded-xl transition-colors font-medium text-sm shadow-sm"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

@@ -15,8 +15,8 @@ export default function GenericHeader(
 ) {
 
     return (
-        <header className="mb-4 md:mb-6">
-            <div className="flex items-center gap-4 mb-3">
+        <header className="mb-2 2xl:mb-4">
+            <div className="flex items-center gap-4 mb-1 2xl:mb-3">
                 {icon && (
                     <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center text-fg-muted">
                         <Icon name={icon} />

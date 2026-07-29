@@ -48,11 +48,11 @@ export default function VerifyEmailBlock({ email, onResent }: VerifyEmailBlockPr
         <div className="rounded-xl border border-warning/30 bg-warning/10 p-6">
             <div className="flex items-start gap-4">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-warning/15">
-                    <IconByName name="alert" className="h-5 w-5 text-warning-foreground" />
+                    <IconByName name="alert" className="h-5 w-5 text-foreground" />
                 </div>
                 <div className="min-w-0 flex-1">
-                    <h3 className="text-sm font-semibold text-warning-foreground">Verifica tu correo</h3>
-                    <p className="mt-1 text-sm text-warning-foreground">
+                    <h3 className="text-sm font-semibold text-foreground">Verifica tu correo</h3>
+                    <p className="mt-1 text-sm text-foreground">
                         Tu correo <span className="font-medium">{email}</span> no está verificado.
                         Debes verificarlo para acceder al resto de la aplicación.
                     </p>

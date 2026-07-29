@@ -1,4 +1,4 @@
-﻿import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import { TableColumn, DataTableProps, TableConfig, EnhancedTableConfig } from "@/lib/types/data-table";
 import { useRouter } from "next/navigation";
@@ -416,7 +416,7 @@ export function DataTable<T>({
                                                             if (action.show && !action.show(row)) return null;
 
                                                             const buttonClass = `inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${action.variant === 'danger'
-                                                                ? 'bg-red-50 text-red-700 hover:bg-red-100'
+                                                                ? 'bg-danger/10 text-danger hover:bg-danger/15'
                                                                 : action.variant === 'primary'
                                                                     ? 'bg-primary text-primary-foreground hover:bg-primary-hover'
                                                                     : 'bg-surface-muted text-foreground hover:bg-surface-muted'

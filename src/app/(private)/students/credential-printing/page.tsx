@@ -242,7 +242,7 @@ export default function CredentialPrintingPage() {
                 type="button"
                 disabled={downloadingExcel || loadingRows || !payload}
                 onClick={onDownloadExcel}
-                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
               >
                 {downloadingExcel ? "Descargando…" : "Descargar Excel"}
               </button>

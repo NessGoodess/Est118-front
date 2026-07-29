@@ -26,9 +26,9 @@ export default function GaleriaItemPage({ params }: { params: Promise<{ id: stri
   return (
     <div className="min-h-screen bg-gradient-to-b from-surface-muted to-surface-elevated">
       {/* Slim top header */}
-      <section className="relative h-40 md:h-52 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 overflow-hidden">
+      <section className="relative h-40 md:h-52 bg-gradient-to-r from-brand-900 via-brand-700 to-brand-900 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/background4.png')] bg-cover bg-center opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 to-blue-700/70" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-900/90 to-brand-700/70" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -40,7 +40,7 @@ export default function GaleriaItemPage({ params }: { params: Promise<{ id: stri
               ← Back to Gallery
             </Link>
             <div className="flex items-center gap-3 mt-1">
-              <span className="inline-block bg-yellow-400 text-foreground px-3 py-1 rounded-full text-xs font-bold">
+              <span className="inline-block bg-accent-gold text-foreground px-3 py-1 rounded-full text-xs font-bold">
                 {item.category}
               </span>
               <h1 className="text-2xl md:text-3xl font-bold font-merriweather line-clamp-2">
@@ -85,7 +85,7 @@ export default function GaleriaItemPage({ params }: { params: Promise<{ id: stri
             </div>
 
             {/* Decorative rule */}
-            <div className="h-[3px] w-10 rounded-full bg-yellow-400" />
+            <div className="h-[3px] w-10 rounded-full bg-accent-gold" />
 
             {/* Description */}
             <p className="text-base leading-relaxed text-foreground">

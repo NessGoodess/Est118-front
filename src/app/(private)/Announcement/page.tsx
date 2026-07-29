@@ -410,7 +410,7 @@ export default function AnnouncementsPage() {
         {/* Page header */}
         <div className="mb-8 flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-white shadow-md">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-md">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
               </svg>
@@ -434,8 +434,8 @@ export default function AnnouncementsPage() {
         </div>
 
         {/* Card */}
-        <div className="rounded-2xl bg-surface-elevated shadow-[0_4px_32px_rgba(0,0,0,0.07)] text-black">
-          <form onSubmit={handleSubmit(onSubmit)} className="divide-y divide-gray-100">
+        <div className="rounded-2xl bg-surface-elevated shadow-[0_4px_32px_rgba(0,0,0,0.07)] text-foreground">
+          <form onSubmit={handleSubmit(onSubmit)} className="divide-y divide-border">
 
             {/* ── SECTION 1: General ─────────────────────────────────────────── */}
             <div className="px-6 py-7 md:px-8">
@@ -825,7 +825,7 @@ export default function AnnouncementsPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-2.5 text-sm font-semibold text-white shadow-md transition-all hover:bg-primary hover:shadow-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-2.5 text-sm font-semibold text-primary-foreground shadow-md transition-all hover:bg-primary hover:shadow-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isSubmitting ? (
                     <>

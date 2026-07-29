@@ -148,7 +148,7 @@ export default function StudentAttendanceList() {
                   type="button"
                   onClick={() => setViewMode("cards")}
                   className={`rounded-md px-3 py-1.5 text-sm ${viewMode === "cards"
-                      ? "bg-primary text-white"
+                      ? "bg-primary text-primary-foreground"
                       : "text-fg-muted hover:bg-surface-muted"
                     }`}
                 >
@@ -158,7 +158,7 @@ export default function StudentAttendanceList() {
                   type="button"
                   onClick={() => setViewMode("list")}
                   className={`rounded-md px-3 py-1.5 text-sm ${viewMode === "list"
-                      ? "bg-primary text-white"
+                      ? "bg-primary text-primary-foreground"
                       : "text-fg-muted hover:bg-surface-muted"
                     }`}
                 >

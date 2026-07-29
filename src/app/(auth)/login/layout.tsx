@@ -8,7 +8,7 @@ export default function LoginLayout({ children, }: Readonly<{ children: React.Re
     return (
         <AuthProvider>
             <AuthGuard>
-                <main className="min-h-dvh flex items-center justify-center">
+                <main className="min-h-dvh flex items-center justify-center bg-surface-app">
                     {children}
                 </main>
             </AuthGuard>

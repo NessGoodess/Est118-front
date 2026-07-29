@@ -41,7 +41,7 @@ export default function EventoModal({ params }: { params: Promise<{ id: string }
                 className="object-cover"
               />
             ) : (
-              <div className="w-full h-full bg-gradient-to-br from-blue-600 to-blue-800" />
+              <div className="w-full h-full bg-gradient-to-br from-brand-600 to-brand-800" />
             )}
             <button
               onClick={() => router.back()}

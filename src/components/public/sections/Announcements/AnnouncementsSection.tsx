@@ -60,7 +60,7 @@ export default function Announcementsection({ Announcements }: Announcementsecti
         <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 font-merriweather">
           Noticias y <span className="text-primary">Avisos</span>
         </h2>
-        <div className="w-24 h-1 bg-yellow-400 mx-auto mb-4" />
+        <div className="w-24 h-1 bg-accent-gold mx-auto mb-4" />
         <p className="hidden lg:block text-lg text-fg-muted max-w-2xl mx-auto">
           Mantente informado sobre los comunicados importantes de nuestra institución.
         </p>
@@ -87,7 +87,7 @@ export default function Announcementsection({ Announcements }: Announcementsecti
         {/* See all link */}
         <Link
           href="/Announcements"
-          className="font-sans text-xs font-medium text-[#0d1117] underline-offset-2 hover:underline lg:mr-4"
+          className="font-sans text-xs font-medium text-foreground underline-offset-2 hover:underline lg:mr-4"
         >
           Ver todos los avisos
         </Link>
@@ -99,7 +99,7 @@ export default function Announcementsection({ Announcements }: Announcementsecti
           disabled={!canGoPrev}
           aria-label="Previous notice"
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border
-                     border-[#0d1117]/15 bg-surface-elevated/90 text-[#0d1117] shadow-sm backdrop-blur-sm
+                     border-border bg-surface-elevated/90 text-foreground shadow-sm backdrop-blur-sm
                      transition-all hover:bg-surface-elevated hover:shadow-md
                      disabled:pointer-events-none disabled:opacity-30"
         >
@@ -113,7 +113,7 @@ export default function Announcementsection({ Announcements }: Announcementsecti
           disabled={!canGoNext}
           aria-label="Next notice"
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border
-                     border-[#0d1117]/15 bg-surface-elevated/90 text-[#0d1117] shadow-sm backdrop-blur-sm
+                     border-border bg-surface-elevated/90 text-foreground shadow-sm backdrop-blur-sm
                      transition-all hover:bg-surface-elevated hover:shadow-md
                      disabled:pointer-events-none disabled:opacity-30"
         >

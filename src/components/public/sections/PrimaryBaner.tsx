@@ -132,7 +132,7 @@ const FeatureItem = ({ feature }: { feature: Feature }) => {
     return (
         <div className="flex items-start gap-4 group">
             {/* Icono */}
-            <div className="flex-shrink-0 w-16 h-16 bg-[#0a1f44] rounded-2xl flex items-center justify-center text-white group-hover:bg-gradient-to-br group-hover:from-blue-600 group-hover:to-indigo-600 transition-all duration-300 group-hover:scale-110 shadow-lg">
+            <div className="flex-shrink-0 w-16 h-16 bg-brand-900 rounded-2xl flex items-center justify-center text-white group-hover:bg-gradient-to-br group-hover:from-brand-600 group-hover:to-brand-700 transition-all duration-300 group-hover:scale-110 shadow-lg">
                 <FeatureIcon type={feature.icon} />
             </div>
 
@@ -167,11 +167,11 @@ const DecorativeImage = ({ imageSrc, imageAlt }: { imageSrc: string; imageAlt: s
                 />
 
                 {/* Overlay sutil */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-600/10 to-transparent pointer-events-none" />
             </div>
 
             {/* Decoración de fondo - Barra azul */}
-            <div className="absolute -top-8 -left-12 w-32 h-[120%] bg-[#0a1f44] rounded-3xl -z-10 transform -rotate-12" />
+            <div className="absolute -top-8 -left-12 w-32 h-[120%] bg-brand-900 rounded-3xl -z-10 transform -rotate-12" />
 
             {/* Decoración de fondo - Barra coral */}
             <div className="absolute -top-8 -right-12 w-32 h-[120%] bg-gradient-to-br from-pink-400 to-rose-400 rounded-3xl -z-10 transform rotate-12" />

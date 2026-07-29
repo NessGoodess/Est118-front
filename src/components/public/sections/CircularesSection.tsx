@@ -13,9 +13,9 @@ export default function CircularesSection() {
     const getCategoryColor = (categoria: Circular['categoria']) => {
         const colors = {
             'General': 'bg-primary-soft text-primary border-border',
-            'Académico': 'bg-green-100 text-green-700 border-green-200',
-            'Administrativo': 'bg-purple-100 text-purple-700 border-purple-200',
-            'Urgente': 'bg-red-100 text-red-700 border-red-200'
+            'Académico': 'bg-success/10 text-success border-success/30',
+            'Administrativo': 'bg-info/10 text-info border-info/30',
+            'Urgente': 'bg-danger/10 text-danger border-danger/30'
         };
         return colors[categoria];
     };
@@ -43,7 +43,7 @@ export default function CircularesSection() {
                             key={category}
                             onClick={() => setSelectedCategory(category)}
                             className={`px-6 py-2.5 rounded-full font-medium transition-all duration-200 ${selectedCategory === category
-                                    ? 'bg-primary text-white shadow-lg shadow-blue-600/30'
+                                    ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/30'
                                     : 'bg-surface-elevated text-foreground hover:bg-surface-muted border border-border'
                                 }`}
                         >
@@ -60,7 +60,7 @@ export default function CircularesSection() {
                             className="bg-surface-elevated rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group border border-border"
                         >
                             {/* Header */}
-                            <div className={`p-4 border-b-2 ${circular.importante ? 'bg-gradient-to-r from-red-50 to-orange-50 border-red-200' : 'bg-surface-muted border-border'
+                            <div className={`p-4 border-b-2 ${circular.importante ? 'bg-danger/10 border-danger/30' : 'bg-surface-muted border-border'
                                 }`}>
                                 <div className="flex items-start justify-between">
                                     <div>
@@ -68,7 +68,7 @@ export default function CircularesSection() {
                                             Circular {circular.numero}
                                         </span>
                                         {circular.importante && (
-                                            <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                                            <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-danger/10 text-danger">
                                                 ⚠️ Importante
                                             </span>
                                         )}
@@ -102,7 +102,7 @@ export default function CircularesSection() {
                                         </span>
                                     ))}
                                 </div>
-                                <button className="w-full py-2.5 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                                <button className="w-full py-2.5 bg-primary hover:bg-primary-hover text-primary-foreground font-medium rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />

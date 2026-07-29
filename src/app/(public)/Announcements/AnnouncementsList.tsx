@@ -17,7 +17,7 @@ const RATIO_CLASS: Record<NonNullable<AnnouncementMedia["ratio"]>, string> = {
 
 const TYPE_STYLES: Record<string, { badge: string; dot: string }> = {
   Informativo: { badge: "bg-primary-soft0/10 text-primary border-border", dot: "bg-primary-soft0" },
-  Urgente: { badge: "bg-red-500/10 text-red-600 border-red-200", dot: "bg-red-500" },
+  Urgente: { badge: "bg-danger/10 text-danger border-danger/30", dot: "bg-danger" },
   Recordatorio: { badge: "bg-amber-500/10 text-amber-600 border-amber-200", dot: "bg-amber-500" },
   Tarea: { badge: "bg-emerald-500/10 text-emerald-600 border-emerald-200", dot: "bg-emerald-500" },
   General: { badge: "bg-surface-muted0/10 text-fg-muted border-border", dot: "bg-fg-muted" },
@@ -44,7 +44,7 @@ function MediaThumb({ media }: { media: AnnouncementMedia }) {
         <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
         {/* Play button */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-red-600/90 shadow-lg backdrop-blur-sm transition-transform duration-200 group-hover:scale-110">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-danger/90 shadow-lg backdrop-blur-sm transition-transform duration-200 group-hover:scale-110">
             <svg className="h-5 w-5 translate-x-0.5 text-white" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z" />
             </svg>
@@ -63,7 +63,7 @@ function MediaThumb({ media }: { media: AnnouncementMedia }) {
         <video src={media.src} className="h-full w-full object-cover" muted />
         <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent" />
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-surface-elevated/90 text-[#0d1117] shadow-lg transition-transform duration-200 group-hover:scale-110">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-surface-elevated/90 text-foreground shadow-lg transition-transform duration-200 group-hover:scale-110">
             <svg className="h-5 w-5 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z" />
             </svg>
@@ -113,10 +113,10 @@ function TypeBadge({ type }: { type?: AnnouncementExtended["type"] }) {
 
 function ImportantBadge() {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-red-500/10 px-2.5 py-0.5 font-sans text-[10px] font-bold uppercase tracking-wide text-red-600">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-danger/30 bg-danger/10 px-2.5 py-0.5 font-sans text-[10px] font-bold uppercase tracking-wide text-danger">
       <span className="relative flex h-2 w-2">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
-        <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-danger opacity-75" />
+        <span className="relative inline-flex h-2 w-2 rounded-full bg-danger" />
       </span>
       Importante
     </span>
@@ -194,7 +194,7 @@ export default function AnnouncementsList({ Announcements }: { Announcements: An
             >
               <Link
                 href={`/Announcements/${announcement.id}`}
-                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#0d1117]/6 bg-surface-elevated shadow-[0_4px_24px_rgba(13,17,23,0.07)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(13,17,23,0.13)]"
+                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-foreground/6 bg-surface-elevated shadow-[0_4px_24px_rgba(13,17,23,0.07)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(13,17,23,0.13)]"
               >
                 {/* Media */}
                 <MediaThumb media={announcement.media} />
@@ -215,12 +215,12 @@ export default function AnnouncementsList({ Announcements }: { Announcements: An
                   )}
 
                   {/* Title */}
-                  <h2 className="font-[Syne,sans-serif] text-[1.05rem] font-extrabold leading-snug tracking-tight text-[#0d1117] line-clamp-2 transition-colors duration-200 group-hover:text-primary-hover">
+                  <h2 className="font-merriweather text-[1.05rem] font-extrabold leading-snug tracking-tight text-foreground line-clamp-2 transition-colors duration-200 group-hover:text-primary-hover">
                     {announcement.title}
                   </h2>
 
                   {/* Accent rule */}
-                  <span className="mt-2 block h-[2px] w-8 rounded-full bg-red-500" />
+                  <span className="mt-2 block h-[2px] w-8 rounded-full bg-danger" />
 
                   {/* Extended content */}
                   <div className="mt-3 flex-1 text-[13px] font-light leading-relaxed text-fg-muted">

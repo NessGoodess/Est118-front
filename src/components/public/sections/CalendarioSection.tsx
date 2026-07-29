@@ -94,7 +94,7 @@ export default function CalendarioSection() {
                                                 </span>
                                             </div>
                                             {event.importante && (
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-danger/10 text-danger">
                                                     ⭐ Importante
                                                 </span>
                                             )}
@@ -134,7 +134,7 @@ export default function CalendarioSection() {
 
                 {/* Download Button */}
                 <div className="mt-12 text-center">
-                    <button className="inline-flex items-center gap-3 px-8 py-4 bg-success hover:bg-green-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200">
+                    <button className="inline-flex items-center gap-3 px-8 py-4 bg-success hover:bg-success text-success-foreground font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200">
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>

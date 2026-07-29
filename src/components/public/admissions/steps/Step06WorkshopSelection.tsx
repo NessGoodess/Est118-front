@@ -25,14 +25,14 @@ const talleres = [
     nombre: "Máquinas, herramientas y sistemas de control",
     descripcion: "Desarrollo de habilidades técnicas en maquinaria y sistemas automatizados",
     icono: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-cog-icon lucide-cog"><path d="M11 10.27 7 3.34" /><path d="m11 13.73-4 6.93" /><path d="M12 22v-2" /><path d="M12 2v2" /><path d="M14 12h8" /><path d="m17 20.66-1-1.73" /><path d="m17 3.34-1 1.73" /><path d="M2 12h2" /><path d="m20.66 17-1.73-1" /><path d="m20.66 7-1.73 1" /><path d="m3.34 17 1.73-1" /><path d="m3.34 7 1.73 1" /><circle cx="12" cy="12" r="2" /><circle cx="12" cy="12" r="8" /></svg>,
-    color: "from-blue-500 to-cyan-600"
+    color: "from-brand-500 to-accent"
   },
   {
     id: "Diseño Industrial",
     nombre: "Diseño Industrial",
     descripcion: "Creatividad y diseño de productos con enfoque industrial y funcional",
     icono: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-factory-icon lucide-factory"><path d="M12 16h.01" /><path d="M16 16h.01" /><path d="M3 19a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5a.5.5 0 0 0-.769-.422l-4.462 2.844A.5.5 0 0 1 15 10.5v-2a.5.5 0 0 0-.769-.422L9.77 10.922A.5.5 0 0 1 9 10.5V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z" /><path d="M8 16h.01" /></svg>,
-    color: "from-purple-500 to-indigo-600"
+    color: "from-brand-500 to-brand-700"
   },
   {
     id: "Informática",
@@ -103,7 +103,7 @@ export default function WorkshopSelection({ nextStep, prevStep }: Props) {
         <h3 className="text-xl font-semibold text-foreground mb-4">
           Taller Favorito
           {errors.workshopFirstChoice && (
-            <span className="text-red-600 text-sm ml-2">{errors.workshopFirstChoice}</span>
+            <span className="text-danger text-sm ml-2">{errors.workshopFirstChoice}</span>
           )}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -117,7 +117,7 @@ export default function WorkshopSelection({ nextStep, prevStep }: Props) {
               className={`relative p-6 rounded-xl border-2 transition-all text-left ${tallerFavorito === taller.id
                 ? "border-primary bg-primary-soft shadow-lg"
                 : errors.workshopFirstChoice
-                  ? "border-red-300 bg-red-50"
+                  ? "border-danger/40 bg-danger/10"
                   : "border-border bg-surface-elevated hover:border-border"
                 }`}
             >
@@ -153,7 +153,7 @@ export default function WorkshopSelection({ nextStep, prevStep }: Props) {
           <h3 className="text-xl font-semibold text-foreground mb-4">
             Segunda Opción
             {errors.workshopSecondChoice && (
-              <span className="text-red-600 text-sm ml-2">{errors.workshopSecondChoice}</span>
+              <span className="text-danger text-sm ml-2">{errors.workshopSecondChoice}</span>
             )}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -165,9 +165,9 @@ export default function WorkshopSelection({ nextStep, prevStep }: Props) {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className={`relative p-6 rounded-xl border-2 transition-all text-left ${segundaOpcion === taller.id
-                  ? "border-green-600 bg-green-50 shadow-lg"
+                  ? "border-success bg-success/10 shadow-lg"
                   : errors.workshopSecondChoice
-                    ? "border-red-300 bg-red-50"
+                    ? "border-danger/40 bg-danger/10"
                     : "border-border bg-surface-elevated hover:border-border"
                   }`}
               >

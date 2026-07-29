@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useRef, useEffect, forwardRef } from 'react';
 
@@ -130,7 +130,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>(({
       <div className="relative">
         {icon && (
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
-            <div className="text-gray-400">
+            <div className="text-fg-muted">
               <div className="h-4 w-4 sm:h-5 sm:w-5">
                 {icon}
               </div>
@@ -146,7 +146,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>(({
           } ${
             isLabelFloating
               ? 'top-0 text-xs text-primary font-semibold bg-surface-elevated px-1.5 -translate-y-1/2 scale-100'
-              : 'top-1/2 -translate-y-1/2 text-sm sm:text-base text-gray-500 scale-100'
+              : 'top-1/2 -translate-y-1/2 text-sm sm:text-base text-fg-muted scale-100'
           } ${isFocused && !isLabelFloating ? 'text-primary' : ''}`}
         >
           {label}
@@ -169,10 +169,10 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>(({
             icon ? 'pl-8 sm:pl-10' : 'pl-3 sm:pl-4'
           } ${
             isLabelFloating ? 'pt-5 sm:pt-6 pb-2 sm:pb-2.5' : 'py-2.5 sm:py-3'
-          } pr-3 sm:pr-4 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-offset-0 focus:border-ring transition-all duration-300 bg-surface-elevated shadow-sm ${
+          } pr-3 sm:pr-4 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-1 focus:ring-ring focus:ring-offset-0 focus:border-ring transition-all duration-300 bg-surface-elevated shadow-sm ${
             error
-              ? 'border-danger/40 focus:ring-red-500 focus:border-danger'
-              : 'border-gray-300'
+              ? 'border-danger/40 focus:ring-danger focus:border-danger'
+              : 'border-border'
           } ${type === 'date' && !isFocused && !hasValue ? 'date-input-empty' : ''}`}
           style={
             type === 'date' && !isFocused && !hasValue
@@ -289,7 +289,7 @@ export const TextAreaField = forwardRef<HTMLTextAreaElement, TextAreaFieldProps>
       <div className="relative">
         {icon && (
           <div className="absolute top-3 left-0 pl-3 flex items-start pointer-events-none z-10">
-            <div className="text-gray-400">
+            <div className="text-fg-muted">
               <div className="h-4 w-4 sm:h-5 sm:w-5">
                 {icon}
               </div>
@@ -305,7 +305,7 @@ export const TextAreaField = forwardRef<HTMLTextAreaElement, TextAreaFieldProps>
           } ${
             isLabelFloating
               ? 'top-0 text-xs text-primary font-semibold bg-surface-elevated px-1.5 -translate-y-1/2 scale-100'
-              : 'top-3 text-sm sm:text-base text-gray-500 scale-100'
+              : 'top-3 text-sm sm:text-base text-fg-muted scale-100'
           } ${isFocused && !isLabelFloating ? 'text-primary' : ''}`}
         >
           {label}
@@ -326,10 +326,10 @@ export const TextAreaField = forwardRef<HTMLTextAreaElement, TextAreaFieldProps>
             icon ? 'pl-8 sm:pl-10' : 'pl-3 sm:pl-4'
           } ${
             isLabelFloating ? 'pt-5 sm:pt-6 pb-2 sm:pb-2.5' : 'pt-3 sm:pt-3.5 pb-2.5 sm:pb-3'
-          } pr-3 sm:pr-4 text-sm sm:text-base border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-ring transition-all duration-300 bg-surface-elevated shadow-sm resize-vertical ${
+          } pr-3 sm:pr-4 text-sm sm:text-base border rounded-lg focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-300 bg-surface-elevated shadow-sm resize-vertical ${
             error
-              ? 'border-danger/40 focus:ring-red-500 focus:border-danger'
-              : 'border-gray-300'
+              ? 'border-danger/40 focus:ring-danger focus:border-danger'
+              : 'border-border'
           }`}
         />
       </div>

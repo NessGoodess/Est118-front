@@ -60,10 +60,10 @@ function WizardFormContent() {
   const CurrentStepComponent = steps[currentStep].component;
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <section className="min-h-screen bg-surface-app">
       <HeaderMain />
       {currentStep > 0 && currentStep < 9 && (
-        <div className="bg-primary text-white py-3">
+        <div className="bg-primary text-primary-foreground py-3">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium">
@@ -75,7 +75,7 @@ function WizardFormContent() {
             </div>
             <div className="w-full bg-primary-hover rounded-full h-2">
               <motion.div
-                className="bg-yellow-400 h-2 rounded-full"
+                className="bg-accent-gold h-2 rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: `${(currentStep / (TOTAL_STEPS - 2)) * 100}%` }}
                 transition={{ duration: 0.3 }}
@@ -105,9 +105,9 @@ function WizardFormContent() {
                       disabled={!isCompleted && stepNumber > currentStep}
                       className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all 
                         ${isCurrent
-                          ? "bg-primary text-white font-semibold"
+                          ? "bg-primary text-primary-foreground font-semibold"
                           : isCompleted
-                            ? "bg-green-100 text-green-700 hover:bg-green-200"
+                            ? "bg-success/10 text-success hover:bg-success/15"
                             : "bg-surface-muted text-fg-muted hover:bg-surface-muted"
                         }`}
                     >

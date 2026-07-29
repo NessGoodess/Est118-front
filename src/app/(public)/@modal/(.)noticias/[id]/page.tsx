@@ -48,7 +48,7 @@ export default function NoticiaModal({ params }: { params: Promise<{ id: string 
               </svg>
             </button>
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-              <span className="inline-block bg-primary text-white px-3 py-1 rounded-full text-xs font-semibold mb-2">
+              <span className="inline-block bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-semibold mb-2">
                 {item.categoria}
               </span>
               <h2 className="text-white text-3xl font-bold">{item.titulo}</h2>

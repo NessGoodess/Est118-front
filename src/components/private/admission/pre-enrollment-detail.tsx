@@ -112,7 +112,7 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
   return (
     <div className="mx-auto space-y-6 max-h-[85dvh] overflow-y-auto">
       {/* Header */}
-      <div className="bg-gradient-to-br from-slate-50 to-white rounded-xl border border-border shadow-sm p-6">
+      <div className="bg-surface-elevated rounded-xl border border-border shadow-sm p-6">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
@@ -132,7 +132,7 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
             <button
               type="button"
               onClick={onResentPdf}
-              className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-primary hover:bg-primary-hover rounded-lg shadow-sm transition-colors shrink-0"
+              className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-primary-foreground bg-primary hover:bg-primary-hover rounded-lg shadow-sm transition-colors shrink-0"
             >
 
               Reenviar PDF
@@ -142,7 +142,7 @@ export default function PreEnrollmentDetail({ data, onEdit, showEditButton, show
             <button
               type="button"
               onClick={onEdit}
-              className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-primary hover:bg-primary-hover rounded-lg shadow-sm transition-colors shrink-0"
+              className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-primary-foreground bg-primary hover:bg-primary-hover rounded-lg shadow-sm transition-colors shrink-0"
             >
               <GlobalIcons.edit className="w-4 h-4" />
               Editar

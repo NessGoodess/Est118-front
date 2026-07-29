@@ -5,7 +5,7 @@ import { eventItems } from "@/lib/data/mockData";
 
 export default function EventosSection() {
     return (
-        <section id="eventos" className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-blue-50 py-20">
+        <section id="eventos" className="min-h-screen bg-surface-app py-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
@@ -17,7 +17,7 @@ export default function EventosSection() {
                     <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 font-merriweather">
                         Próximos <span className="text-primary">Eventos</span>
                     </h2>
-                    <div className="w-24 h-1 bg-yellow-400 mx-auto mb-4" />
+                    <div className="w-24 h-1 bg-accent-gold mx-auto mb-4" />
                     <p className="text-lg text-fg-muted max-w-2xl mx-auto">
                         Participa en nuestras actividades y eventos académicos, culturales y deportivos.
                     </p>
@@ -46,7 +46,7 @@ export default function EventosSection() {
                                             </h3>
                                         </div>
                                         <div className="text-right">
-                                            <div className="bg-yellow-400 text-foreground rounded-lg p-3 text-center min-w-[80px]">
+                                            <div className="bg-accent-gold text-foreground rounded-lg p-3 text-center min-w-[80px]">
                                                 <p className="text-xs font-semibold uppercase">Fecha</p>
                                                 <p className="text-lg font-bold">{evento.fecha.split(' ')[0]}</p>
                                                 <p className="text-xs">{evento.fecha.split(' ').slice(1).join(' ')}</p>
@@ -100,7 +100,7 @@ export default function EventosSection() {
                         <motion.div
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-full font-semibold transition-all shadow-lg"
+                            className="bg-primary hover:bg-primary-hover text-primary-foreground px-8 py-4 rounded-full font-semibold transition-all shadow-lg"
                         >
                             Ver Calendario Completo
                         </motion.div>

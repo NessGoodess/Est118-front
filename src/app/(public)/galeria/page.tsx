@@ -25,9 +25,9 @@ export default function GaleriaPage() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-surface-muted via-surface-elevated to-surface-muted">
             {/* Hero header */}
-            <section className="relative h-64 md:h-80 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 overflow-hidden">
+            <section className="relative h-64 md:h-80 bg-gradient-to-r from-brand-900 via-brand-700 to-brand-900 overflow-hidden">
                 <div className="absolute inset-0 bg-[url('/background4.png')] bg-cover bg-center opacity-20" />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 to-blue-700/70" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-900/90 to-brand-700/70" />
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -56,7 +56,7 @@ export default function GaleriaPage() {
                                 whileHover={{ scale: 1.04 }}
                                 whileTap={{ scale: 0.96 }}
                                 className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${selectedCategory === category
-                                        ? "bg-primary text-white shadow-md"
+                                        ? "bg-primary text-primary-foreground shadow-md"
                                         : "bg-surface-muted text-foreground hover:bg-surface-muted"
                                     }`}
                             >
@@ -121,7 +121,7 @@ export default function GaleriaPage() {
                                       group-hover:translate-y-0 group-hover:opacity-100
                                       transition-all duration-300">
                                                 {/* Category pill */}
-                                                <span className="mb-2 w-fit rounded-full bg-yellow-400 px-2.5 py-0.5
+                                                <span className="mb-2 w-fit rounded-full bg-accent-gold px-2.5 py-0.5
                                          text-[11px] font-bold uppercase text-foreground">
                                                     {item.category}
                                                 </span>

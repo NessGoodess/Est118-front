@@ -36,7 +36,7 @@ export default function Loading() {
           <div className="space-y-[clamp(0.5rem,1.5vw,1.5rem)]">
             <div className="relative group">
               <div className="aspect-square md:aspect-3/4 overflow-hidden rounded-2xl shadow-2xl bg-surface-muted animate-pulse">
-                <div className="w-full h-full bg-gradient-to-br from-slate-300 to-slate-400" />
+                <div className="w-full h-full bg-gradient-to-br from-surface-muted to-border" />
               </div>
             </div>
           </div>

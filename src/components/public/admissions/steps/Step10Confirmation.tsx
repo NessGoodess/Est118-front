@@ -60,7 +60,7 @@ export default function Confirmation() {
     <>
       <div className="md:bg-surface-elevated md:rounded-2xl md:shadow-xl p-6 md:p-12">
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="text-center">
-          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, type: "spring", stiffness: 200 }} className="inline-flex items-center justify-center w-24 h-24 bg-green-100 rounded-full mb-6">
+          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, type: "spring", stiffness: 200 }} className="inline-flex items-center justify-center w-24 h-24 bg-success/10 rounded-full mb-6">
             <svg className="w-12 h-12 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
@@ -77,9 +77,9 @@ export default function Confirmation() {
           </motion.div>
 
           {/*  Next steps*/}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg mb-6 text-left max-w-2xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="bg-warning/10 border-l-4 border-warning p-6 rounded-lg mb-6 text-left max-w-2xl mx-auto">
             <h3 className="font-bold text-foreground mb-3 flex items-center gap-2">
-              <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               Próximos Pasos:
@@ -103,7 +103,7 @@ export default function Confirmation() {
               Ver Comprobante
             </motion.button>
             <Link href="/">
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-6 py-3 bg-primary hover:bg-primary-hover text-white rounded-full font-semibold transition-all">
+              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-6 py-3 bg-primary hover:bg-primary-hover text-primary-foreground rounded-full font-semibold transition-all">
                 Volver al Inicio
               </motion.button>
             </Link>
@@ -115,7 +115,7 @@ export default function Confirmation() {
                 <button onClick={handleCloseModal} className="absolute top-3 right-3 z-10 bg-surface-elevated px-3 py-1 rounded">✕</button>
                 {pdfError ? (
                   <div className="flex items-center justify-center h-full text-center p-6">
-                    <p className="text-red-600 font-semibold">{pdfError}</p>
+                    <p className="text-danger font-semibold">{pdfError}</p>
                   </div>
                 ) : (
                   <object data={pdfUrl || undefined} type="application/pdf" className="w-full h-full">

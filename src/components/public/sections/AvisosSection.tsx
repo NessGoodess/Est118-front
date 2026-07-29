@@ -18,9 +18,9 @@ export default function AvisosSection() {
     const getTipoColor = (tipo: Aviso['tipo']) => {
         const colors = {
             'Informativo': 'bg-primary-soft text-primary border-border',
-            'Urgente': 'bg-red-100 text-red-700 border-red-200',
+            'Urgente': 'bg-danger/10 text-danger border-danger/30',
             'Recordatorio': 'bg-yellow-100 text-yellow-700 border-yellow-200',
-            'Tarea': 'bg-green-100 text-green-700 border-green-200'
+            'Tarea': 'bg-success/10 text-success border-success/30'
         };
         return colors[tipo];
     };
@@ -36,7 +36,7 @@ export default function AvisosSection() {
     };
 
     return (
-        <section id="avisos" className="py-16 lg:py-24 bg-gradient-to-br from-cyan-50 to-blue-50">
+        <section id="avisos" className="py-16 lg:py-24 bg-surface-app">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <div className="text-center mb-12">
@@ -124,7 +124,7 @@ export default function AvisosSection() {
                                                     </span>
                                                 )}
                                                 {aviso.importante && (
-                                                    <span className="px-2 py-1 bg-red-100 text-red-700 text-xs font-medium rounded-full">
+                                                    <span className="px-2 py-1 bg-danger/10 text-danger text-xs font-medium rounded-full">
                                                         ⭐ Importante
                                                     </span>
                                                 )}
@@ -184,7 +184,7 @@ export default function AvisosSection() {
                         <div className="text-sm text-fg-muted">Total Avisos</div>
                     </div>
                     <div className="bg-surface-elevated rounded-xl p-6 shadow-lg text-center">
-                        <div className="text-3xl font-bold text-red-600 mb-1">
+                        <div className="text-3xl font-bold text-danger mb-1">
                             {avisos.filter(a => a.importante).length}
                         </div>
                         <div className="text-sm text-fg-muted">Importantes</div>

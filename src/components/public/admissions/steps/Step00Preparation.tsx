@@ -80,14 +80,14 @@ export default function Preparation({ nextStep }: Props) {
             className="bg-primary-soft border-2 border-border rounded-xl p-6 hover:border-primary transition-all"
           >
             <div className="flex items-start gap-4">
-              <div className="text-black flex-shrink-0 mt-1">
+              <div className="text-foreground flex-shrink-0 mt-1">
                 {doc.icon}
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-foreground mb-1">{doc.name}</h3>
                 <p className="text-sm text-fg-muted mb-2">{doc.type}</p>
                 {doc.require && (
-                  <span className="inline-block bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full font-semibold">
+                  <span className="inline-block bg-danger/10 text-danger text-xs px-2 py-1 rounded-full font-semibold">
                     Obligatorio
                   </span>
                 )}
@@ -101,10 +101,10 @@ export default function Preparation({ nextStep }: Props) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.7 }}
-        className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg mb-8"
+        className="bg-warning/10 border-l-4 border-warning p-6 rounded-lg mb-8"
       >
         <h3 className="font-bold text-foreground mb-3 flex items-center gap-2">
-          <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           Notas importantes:
@@ -144,7 +144,7 @@ export default function Preparation({ nextStep }: Props) {
           onClick={nextStep}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="bg-primary hover:bg-primary-hover text-white px-12 py-4 rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-xl w-full md:w-auto"
+          className="bg-primary hover:bg-primary-hover text-primary-foreground px-12 py-4 rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-xl w-full md:w-auto"
         >
           ✓ Tengo todo listo, comenzar
         </motion.button>

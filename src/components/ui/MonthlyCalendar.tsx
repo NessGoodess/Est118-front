@@ -54,12 +54,12 @@ const MonthlyCalendar: FC<CalendarProps> = ({
   };
 
   return (
-    <div className="bg-white text-black w-full max-w-lg mx-auto border border-gray-200 rounded-lg p-4">
+    <div className="bg-surface-elevated text-foreground w-full max-w-lg mx-auto border border-border rounded-lg p-4">
       <div className="flex justify-between items-center mb-4">
         <button
           type="button"
           onClick={handlePrevMonth}
-          className="px-2 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded"
+          className="px-2 py-1 text-sm text-fg-muted hover:bg-surface-muted rounded"
           aria-label="Mes anterior"
         >
           ‹
@@ -70,14 +70,14 @@ const MonthlyCalendar: FC<CalendarProps> = ({
         <button
           type="button"
           onClick={handleNextMonth}
-          className="px-2 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded"
+          className="px-2 py-1 text-sm text-fg-muted hover:bg-surface-muted rounded"
           aria-label="Mes siguiente"
         >
           ›
         </button>
       </div>
 
-      <div className="grid grid-cols-7 text-center font-semibold text-sm text-gray-600">
+      <div className="grid grid-cols-7 text-center font-semibold text-sm text-fg-muted">
         {["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"].map((d: string) => (
           <div key={d}>{d}</div>
         ))}
@@ -103,15 +103,15 @@ const MonthlyCalendar: FC<CalendarProps> = ({
           let dayClass =
             "p-2 m-1 rounded-full cursor-pointer transition-colors text-sm ";
           if (isSelected) {
-            dayClass += "bg-blue-600 text-white font-bold ring-2 ring-blue-300";
+            dayClass += "bg-primary text-primary-foreground font-bold ring-2 ring-ring";
           } else if (isToday) {
-            dayClass += "bg-green-500 text-white font-bold";
+            dayClass += "bg-success text-success-foreground font-bold";
           } else if (isCompleted) {
-            dayClass += "bg-blue-500 text-white hover:bg-blue-600";
+            dayClass += "bg-info text-info-foreground hover:bg-info";
           } else if (isIncomplete) {
-            dayClass += "bg-yellow-500 text-white hover:bg-yellow-600";
+            dayClass += "bg-warning text-warning-foreground hover:bg-warning";
           } else {
-            dayClass += "hover:bg-gray-200";
+            dayClass += "hover:bg-surface-muted";
           }
 
           return (

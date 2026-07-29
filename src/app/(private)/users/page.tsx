@@ -19,7 +19,7 @@ function UsersPage() {
                 <PermissionGuard permission="create users">
                     <Link
                         href="/users/create"
-                        className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover transition-colors font-medium text-sm"
+                        className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary-hover transition-colors font-medium text-sm"
                     >
                         Crear Usuario
                     </Link>

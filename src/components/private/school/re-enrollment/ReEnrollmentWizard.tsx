@@ -131,7 +131,7 @@ export default function ReEnrollmentWizard() {
           href="/re-enrollment"
           className={`px-3 py-2 rounded-lg text-sm border ${
             pathname === '/re-enrollment'
-              ? 'bg-primary text-white border-primary'
+              ? 'bg-primary text-primary-foreground border-primary'
               : 'bg-surface-elevated text-foreground border-border hover:bg-surface-muted'
           }`}
         >
@@ -150,7 +150,7 @@ export default function ReEnrollmentWizard() {
               onClick={(e) => isLocked && e.preventDefault()}
               className={`px-3 py-2 rounded-lg text-sm border transition-colors ${
                 isActive
-                  ? 'bg-primary text-white border-primary'
+                  ? 'bg-primary text-primary-foreground border-primary'
                   : isDone
                     ? 'bg-success/10 text-success border-success/30'
                     : isLocked

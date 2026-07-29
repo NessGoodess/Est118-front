@@ -52,8 +52,8 @@ export default function StepNavigation({
         className={`px-4 py-2 md:px-8 md:py-3 rounded-full font-bold text-sm md:text-lg transition-all flex items-center gap-2 ${isSubmitting
             ? "bg-fg-muted text-fg-muted cursor-not-allowed"
             : isSubmit
-              ? "bg-success hover:bg-green-700 text-white shadow-lg hover:shadow-xl"
-              : "bg-primary hover:bg-primary-hover text-white shadow-lg hover:shadow-xl"
+              ? "bg-success hover:bg-success text-success-foreground shadow-lg hover:shadow-xl"
+              : "bg-primary hover:bg-primary-hover text-primary-foreground shadow-lg hover:shadow-xl"
           }`}
       >
         {isSubmitting ? (

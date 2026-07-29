@@ -8,9 +8,9 @@ export default function NoticiasPage() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-surface-muted to-surface-elevated">
             {/* Header */}
-            <section className="relative h-64 md:h-80 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 overflow-hidden">
+            <section className="relative h-64 md:h-80 bg-gradient-to-r from-brand-900 via-brand-700 to-brand-900 overflow-hidden">
                 <div className="absolute inset-0 bg-[url('/background4.png')] bg-cover bg-center opacity-20" />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 to-blue-700/70" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-900/90 to-brand-700/70" />
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -50,7 +50,7 @@ export default function NoticiasPage() {
                                         className="object-cover transition-transform duration-300 hover:scale-110"
                                     />
                                     <div className="absolute top-4 left-4">
-                                        <span className="bg-primary text-white px-3 py-1 rounded-full text-xs font-semibold">
+                                        <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-semibold">
                                             {noticia.categoria}
                                         </span>
                                     </div>

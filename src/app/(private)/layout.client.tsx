@@ -6,6 +6,7 @@ import ModernSidebar from "@/components/private/sidebar/Sidebar";
 import PrivateGuard from "@/components/guards/PrivateGuard";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { NotificationProvider } from "@/contexts/NotificationContext";
+import { HeaderBreadcrumbs } from "@/components/private/header/HeaderBreadcrumbs";
 
 function LayoutContent({
   children,
@@ -23,7 +24,8 @@ function LayoutContent({
       >
         <main className="flex-1 min-h-0 overflow-y-auto rounded-l-2xl flex flex-col bg-surface-panel text-foreground">
           <WelcomeHeader />
-          <div className="flex-1 p-2 md:p-6 min-w-0">{children}</div>
+          <HeaderBreadcrumbs />
+          <div className="flex-1 px-2 2xl:px-6 min-w-0">{children}</div>
         </main>
       </div>
     </div>

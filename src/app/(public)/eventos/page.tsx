@@ -5,11 +5,11 @@ import { eventItems } from "@/lib/data/mockData";
 
 export default function EventosPage() {
     return (
-        <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-blue-50">
+        <div className="min-h-screen bg-surface-app">
             {/* Header */}
-            <section className="relative h-64 md:h-80 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 overflow-hidden">
+            <section className="relative h-64 md:h-80 bg-gradient-to-r from-brand-900 via-brand-700 to-brand-900 overflow-hidden">
                 <div className="absolute inset-0 bg-[url('/background4.png')] bg-cover bg-center opacity-20" />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 to-blue-700/70" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-900/90 to-brand-700/70" />
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -52,7 +52,7 @@ export default function EventosPage() {
                                             </h3>
                                         </div>
                                         <div className="text-right">
-                                            <div className="bg-yellow-400 text-foreground rounded-lg p-3 text-center min-w-[80px]">
+                                            <div className="bg-accent-gold text-foreground rounded-lg p-3 text-center min-w-[80px]">
                                                 <p className="text-xs font-semibold uppercase">Fecha</p>
                                                 <p className="text-lg font-bold">{evento.fecha.split(' ')[0]}</p>
                                                 <p className="text-xs">{evento.fecha.split(' ').slice(1).join(' ')}</p>

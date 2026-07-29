@@ -15,11 +15,11 @@ export default function EventoPage({ params }: { params: Promise<{ id: string }>
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div className="min-h-screen bg-surface-app">
       {/* Header */}
-      <section className="relative h-96 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 overflow-hidden">
+      <section className="relative h-96 bg-gradient-to-r from-brand-900 via-brand-700 to-brand-900 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/background4.png')] bg-cover bg-center opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 to-blue-700/70" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-900/90 to-brand-700/70" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -30,7 +30,7 @@ export default function EventoPage({ params }: { params: Promise<{ id: string }>
             <Link href="/eventos" className="text-white/80 hover:text-white mb-4 inline-block">
               ← Volver a Eventos
             </Link>
-            <span className="inline-block bg-yellow-400 text-foreground px-3 py-1 rounded-full text-sm font-semibold mb-4">
+            <span className="inline-block bg-accent-gold text-foreground px-3 py-1 rounded-full text-sm font-semibold mb-4">
               {item.tipo}
             </span>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 font-merriweather">

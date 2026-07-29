@@ -12,20 +12,20 @@ export default function FormatosSection() {
 
     const getCategoryColor = (categoria: Formato['categoria']) => {
         const colors = {
-            'Académico': 'from-blue-500 to-indigo-600',
-            'Administrativo': 'from-purple-500 to-pink-600',
-            'Justificante': 'from-yellow-500 to-orange-600',
-            'Solicitud': 'from-green-500 to-teal-600'
+            'Académico': 'from-brand-500 to-brand-700',
+            'Administrativo': 'from-info to-accent',
+            'Justificante': 'from-warning to-accent-gold',
+            'Solicitud': 'from-success to-accent'
         };
         return colors[categoria];
     };
 
     return (
-        <section id="formatos" className="py-16 lg:py-24 bg-gradient-to-br from-orange-50 to-red-50">
+        <section id="formatos" className="py-16 lg:py-24 bg-surface-app">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-600 rounded-2xl mb-4">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-warning rounded-2xl mb-4">
                         <span className="text-3xl">📥</span>
                     </div>
                     <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
@@ -43,7 +43,7 @@ export default function FormatosSection() {
                             key={category}
                             onClick={() => setSelectedCategory(category)}
                             className={`px-6 py-2.5 rounded-full font-medium transition-all duration-200 ${selectedCategory === category
-                                    ? 'bg-orange-600 text-white shadow-lg shadow-orange-600/30'
+                                    ? 'bg-warning text-warning-foreground shadow-lg shadow-warning/30'
                                     : 'bg-surface-elevated text-foreground hover:bg-surface-muted border border-border'
                                 }`}
                         >
@@ -117,10 +117,10 @@ export default function FormatosSection() {
                 )}
 
                 {/* Help Box */}
-                <div className="mt-12 bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-200 rounded-2xl p-6">
+                <div className="mt-12 bg-warning/10 border border-warning/30 rounded-2xl p-6">
                     <div className="flex items-start gap-4">
                         <div className="flex-shrink-0">
-                            <div className="w-12 h-12 bg-orange-600 rounded-xl flex items-center justify-center">
+                            <div className="w-12 h-12 bg-warning rounded-xl flex items-center justify-center">
                                 <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>

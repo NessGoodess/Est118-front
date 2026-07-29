@@ -301,7 +301,7 @@ export default function PrivatePreEnrollmentTabs() {
                         </h3>
                         <p className="text-center text-sm text-fg-muted mb-6">{successResult.message}</p>
 
-                        <div className="bg-surface-elevated rounded-lg p-4 mb-6 text-center mx-auto max-w-sm shadow-sm border border-blue-100">
+                        <div className="bg-surface-elevated rounded-lg p-4 mb-6 text-center mx-auto max-w-sm shadow-sm border border-border">
                             <p className="text-sm text-fg-muted mb-1">Folio de Preinscripción</p>
                             <p className="text-3xl font-bold text-primary font-mono tracking-wider">{successResult.folio}</p>
                         </div>

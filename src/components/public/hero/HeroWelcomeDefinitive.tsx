@@ -8,7 +8,7 @@ export default function HeroWelcome() {
         <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden">
             {/* Background con gradiente */}
             <div 
-                className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-700 to-blue-500"
+                className="absolute inset-0 bg-gradient-to-br from-brand-900 via-brand-700 to-brand-500"
                 style={{
                     backgroundImage: `url("/background4.png")`,
                     backgroundSize: "cover",
@@ -141,7 +141,7 @@ export default function HeroWelcome() {
                                 fill
                                 className="object-cover"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-brand-900/50 to-transparent" />
                         </div>
                         {/* Decoración */}
                         <motion.div

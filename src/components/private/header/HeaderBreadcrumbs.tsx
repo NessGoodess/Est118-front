@@ -61,8 +61,8 @@ export function HeaderBreadcrumbs() {
   }
 
   return (
-    <nav className="hidden md:flex items-center space-x-2 text-sm" aria-label="Breadcrumb">
-      <ol className="flex items-center space-x-2">
+    <nav className="hidden md:flex items-center space-x-2 text-[10px] text-fg-muted mx-2 py-1" aria-label="Breadcrumb">
+      <ol className="flex items-center">
         {breadcrumbs.map((crumb, index) => {
           const isLast = index === breadcrumbs.length - 1;
 
@@ -70,7 +70,7 @@ export function HeaderBreadcrumbs() {
             <li key={crumb.href} className="flex items-center">
               {index > 0 && (
                 <svg
-                  className="w-4 h-4 text-fg-muted mx-2"
+                  className="w-2 h-2 text-fg-muted mx-1"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

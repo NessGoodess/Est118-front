@@ -11,12 +11,12 @@ import { IconByName } from '@/components/ui/icons/attendenceCard.icons';
 import { Button } from '@/components/ui/Button';
 
 const STATUS_STYLES = {
-  waiting: 'border-border bg-gradient-to-br from-surface-muted to-surface-muted text-fg-muted',
-  scanning: 'border-primary bg-gradient-to-br from-primary-soft to-primary-soft text-primary',
-  success: 'border-success bg-gradient-to-br from-success/10 to-success/15 text-success',
-  info: 'border-info bg-gradient-to-br from-info/10 to-primary-soft text-info',
-  warning: 'border-warning bg-gradient-to-br from-warning/10 to-warning/15 text-warning-foreground',
-  error: 'border-danger bg-gradient-to-br from-danger/10 to-danger/15 text-danger',
+  waiting: 'border-border',
+  scanning: 'border-primary',
+  success: 'border-success',
+  info: 'border-info',
+  warning: 'border-warning',
+  error: 'border-danger',
 } as const;
 
 interface ReaderPanelProps {
@@ -124,17 +124,17 @@ export default function ReaderPanel({
 
   return (
     <article
-      className={`relative flex h-full flex-col overflow-hidden rounded-2xl border-4 shadow-lg transition-all duration-500 ${statusClass} ${pulse ? 'animate-pulse' : ''} ${compact ? 'min-h-[280px]' : 'min-h-[320px]'}`}
+      className={`relative flex h-full flex-col overflow-hidden rounded-2xl border-4 bg-nfc-panel shadow-lg transition-all duration-500 ${statusClass} ${pulse ? 'animate-pulse' : ''} ${compact ? 'min-h-[280px]' : 'min-h-[320px]'}`}
     >
-      <header className="flex items-center justify-between gap-2 border-b border-white/60 bg-primary px-4 py-3 text-white">
+      <header className="flex items-center justify-between gap-2 border-b border-nfc-panel-title-fg/20 bg-nfc-panel-title px-4 py-3 text-nfc-panel-title-fg">
         <div className="min-w-0">
           <h3 className="font-bold text-sm sm:text-base truncate">{slot.label}</h3>
-          <p className="text-xs text-brand-100">
+          <p className="text-xs text-nfc-panel-title-muted">
             {slot.audience === 'boys' ? 'Niños' : slot.audience === 'girls' ? 'Niñas' : 'Mixto'}
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <span className="flex items-center gap-1.5 text-xs">
+          <span className="flex items-center gap-1.5 text-xs text-nfc-panel-title-fg">
             <span className={`h-2.5 w-2.5 rounded-full ${connected ? 'bg-success animate-pulse' : 'bg-danger'}`} />
             {!connected ? 'Sin lector' : armed ? 'Activo' : 'Pausado'}
           </span>
@@ -142,7 +142,7 @@ export default function ReaderPanel({
             <button
               type="button"
               onClick={() => onRequestFullscreen(slot.code)}
-              className="rounded p-1 hover:bg-surface-elevated/10"
+              className="rounded p-1 text-nfc-panel-title-fg hover:bg-nfc-panel-title-fg/10"
               title="Pantalla completa"
               aria-label={`Pantalla completa ${slot.label}`}
             >
@@ -193,7 +193,7 @@ export default function ReaderPanel({
         )}
       </div>
 
-      <footer className="border-t border-white/50 bg-surface-elevated/40 px-4 py-2 flex justify-end">
+      <footer className="border-t border-border bg-nfc-panel-footer px-4 py-2 flex justify-end">
         <Button
           size="sm"
           variant={armed ? 'secondary' : 'primary'}

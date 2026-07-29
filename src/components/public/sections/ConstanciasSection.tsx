@@ -17,20 +17,20 @@ export default function ConstanciasSection() {
 
     const getTypeColor = (tipo: Constancia['tipo']) => {
         const colors = {
-            'Estudios': 'from-blue-500 to-cyan-600',
-            'Conducta': 'from-green-500 to-emerald-600',
-            'Calificaciones': 'from-purple-500 to-pink-600',
-            'Inscripción': 'from-orange-500 to-red-600'
+            'Estudios': 'from-brand-500 to-accent',
+            'Conducta': 'from-success to-success',
+            'Calificaciones': 'from-info to-accent',
+            'Inscripción': 'from-warning to-danger'
         };
         return colors[tipo];
     };
 
     return (
-        <section id="constancias" className="py-16 lg:py-24 bg-gradient-to-br from-purple-50 to-pink-50">
+        <section id="constancias" className="py-16 lg:py-24 bg-surface-app">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-600 rounded-2xl mb-4">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-4">
                         <span className="text-3xl">🧾</span>
                     </div>
                     <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
@@ -103,7 +103,7 @@ export default function ConstanciasSection() {
                                     <ul className="space-y-3">
                                         {selectedConstancia.requisitos.map((req, idx) => (
                                             <li key={idx} className="flex items-start gap-3">
-                                                <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <svg className="w-5 h-5 text-success flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                                 </svg>
                                                 <span className="text-foreground">{req}</span>
@@ -135,7 +135,7 @@ export default function ConstanciasSection() {
 
                             {/* Info Cards */}
                             <div className="grid md:grid-cols-2 gap-4 mt-8">
-                                <div className="bg-purple-50 rounded-xl p-4 border border-purple-200">
+                                <div className="bg-primary-soft rounded-xl p-4 border border-border">
                                     <div className="flex items-center gap-3">
                                         <svg className="w-8 h-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -146,7 +146,7 @@ export default function ConstanciasSection() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="bg-green-50 rounded-xl p-4 border border-green-200">
+                                <div className="bg-success/10 rounded-xl p-4 border border-success/30">
                                     <div className="flex items-center gap-3">
                                         <svg className="w-8 h-8 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

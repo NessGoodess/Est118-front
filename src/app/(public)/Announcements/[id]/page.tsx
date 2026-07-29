@@ -27,10 +27,10 @@ export default async function AnnouncementDetailPage({ params }: PageProps) {
           <p className="font-sans text-[11px] font-bold uppercase tracking-[0.07em] text-primary">
             {Announcement.header}
           </p>
-          <h1 className="mt-1 font-[Syne,sans-serif] text-[clamp(26px,3.5vw,42px)] font-extrabold leading-tight tracking-tight text-[#0d1117]">
+          <h1 className="mt-1 font-merriweather text-[clamp(26px,3.5vw,42px)] font-extrabold leading-tight tracking-tight text-foreground">
             {Announcement.title}
           </h1>
-          <span className="mt-3 block h-[3px] w-12 rounded-full bg-red-500" />
+          <span className="mt-3 block h-[3px] w-12 rounded-full bg-danger" />
         </div>
       </section>
       <AnnouncementDetailContent Announcement={Announcement} />

@@ -44,13 +44,13 @@ function PulseBadge({ label }: { label: string }) {
             variants={fadeUp}
             transition={{ duration: 0.35, delay: 0.05 }}
             className="mb-5 inline-flex w-fit items-center gap-2 rounded-full
-                 border border-red-400/25 bg-red-500/8 px-3 py-1.5"
+                 border border-danger/30 bg-danger/10 px-3 py-1.5"
         >
             <span className="relative flex h-2.5 w-2.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-60" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-danger opacity-60" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-danger" />
             </span>
-            <span className="font-sans text-[11px] font-semibold uppercase tracking-widest text-red-500">
+            <span className="font-sans text-[11px] font-semibold uppercase tracking-widest text-danger">
                 {label}
             </span>
         </motion.div>
@@ -91,7 +91,7 @@ export default function FeaturedAnnouncements({ data }: { data: AnnouncementCard
                 </motion.p>
                 <motion.h2
                     variants={fadeUp}
-                    className="mb-4 font-[Syne,sans-serif] text-[clamp(26px,3.5vw,48px)] font-extrabold leading-[1.1] tracking-tight text-[#0d1117]"
+                    className="mb-4 font-merriweather text-[clamp(26px,3.5vw,48px)] font-extrabold leading-[1.1] tracking-tight text-foreground"
                 >
                     {title}
                 </motion.h2>
@@ -99,7 +99,7 @@ export default function FeaturedAnnouncements({ data }: { data: AnnouncementCard
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ delay: 0.3, duration: 0.4, ease: "easeOut" }}
-                    className="mb-5 block h-[3px] w-9 origin-left rounded-full bg-red-500"
+                    className="mb-5 block h-[3px] w-9 origin-left rounded-full bg-danger"
                 />
                 {content.type === "text" && content.text && (
                     <motion.p
@@ -115,7 +115,7 @@ export default function FeaturedAnnouncements({ data }: { data: AnnouncementCard
                             <motion.li
                                 key={i}
                                 variants={listItem}
-                                className="flex items-center gap-2.5 text-[clamp(14px,1.1vw,16px)] text-[#0d1117]"
+                                className="flex items-center gap-2.5 text-[clamp(14px,1.1vw,16px)] text-foreground"
                             >
                                 <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                                     <IconByName name="Check" />
@@ -133,7 +133,7 @@ export default function FeaturedAnnouncements({ data }: { data: AnnouncementCard
                             transition={{ duration: 0.18 }}
                             className="inline-flex cursor-pointer items-center gap-2 rounded-md
                                        bg-primary px-6 py-3.5 font-sans text-[15px] font-medium
-                                       text-white transition-colors hover:bg-primary-hover"
+                                       text-primary-foreground transition-colors hover:bg-primary-hover"
                         >
                             Leer más
                             <IconByName name="rightArrowLink" />
@@ -142,7 +142,7 @@ export default function FeaturedAnnouncements({ data }: { data: AnnouncementCard
                     {secondaryButton?.enabled && (
                         <Link href={secondaryButton.href} className="inline-flex items-center gap-1.5 border-b border-transparent
                          pb-0.5 font-sans text-sm text-fg-muted transition-colors
-                         hover:border-[#0d1117] hover:text-[#0d1117]"
+                         hover:border-foreground hover:text-foreground"
                         >
                             {secondaryButton.label}
                             <IconByName name="rightArrowLink" />
