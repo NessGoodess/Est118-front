@@ -194,6 +194,11 @@
   }
 }
 
+/* Manual override: force light while OS is dark */
+html.light {
+  color-scheme: light;
+}
+
 /* Manual override: <html class="dark"> (wins over system light) */
 html.dark {
   color-scheme: dark;

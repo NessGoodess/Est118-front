@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getHeaderIcon } from "./header.icons";
+import { IconByName } from "@/components/ui/icons";
 import { useNotifications } from "@/contexts/NotificationContext";
 import { useAuth } from "@/contexts/AuthContext";
 import type { AppNotification } from "@/lib/types/notification";
@@ -52,7 +52,6 @@ export function HeaderNotifications() {
   const { notifications, unreadCount, loading, markAsRead, markAllAsRead, refresh } =
     useNotifications();
   const router = useRouter();
-  const NotificationIcon = getHeaderIcon("notifications");
 
   if (!hasPermission("view pre-enrollments")) {
     return null;
@@ -79,7 +78,7 @@ export function HeaderNotifications() {
         className="relative rounded-lg px-3 py-2 text-sm font-medium text-fg-muted transition-colors duration-200 hover:bg-surface-muted hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         aria-label="Notificaciones"
       >
-        <NotificationIcon className="mr-2 inline h-4 w-4" />
+        <IconByName name="bell" className="mr-2 inline h-4 w-4" />
         {unreadCount > 0 && (
           <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-danger text-xs font-bold text-danger-foreground">
             {unreadCount > 9 ? "9+" : unreadCount}

@@ -1,8 +1,11 @@
 import { Geist, Geist_Mono, Nunito_Sans, Montserrat, Merriweather } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { ScrollProvider } from "@/contexts/ScrollProvider";
 import { ConfirmProviderWrapper } from "@/components/ui/confirm/ConfirmProviderWrapper";
-import { Metadata } from "next"
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import { themeInitScript } from "@/lib/theme";
+import { Metadata } from "next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,7 +54,7 @@ export default function RootLayout({
   }
 >) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body
         className={`
           ${geistSans.variable} 
@@ -61,11 +64,16 @@ export default function RootLayout({
           ${merriweather.variable} 
           antialiased`}
       >
-        <ConfirmProviderWrapper>
-          <ScrollProvider>
-            {children}
-          </ScrollProvider>
-        </ConfirmProviderWrapper>
+        <Script id="est118-theme" strategy="beforeInteractive">
+          {themeInitScript}
+        </Script>
+        <ThemeProvider>
+          <ConfirmProviderWrapper>
+            <ScrollProvider>
+              {children}
+            </ScrollProvider>
+          </ConfirmProviderWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );
