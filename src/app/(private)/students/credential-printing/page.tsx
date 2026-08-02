@@ -3,8 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import GenericHeader from "@/components/ui/GenericHeader";
-import GradeLevelsCard from "@/components/private/students/gradeLevelsCard";
-import useGrades from "@/hooks/students/useGrades";
+import { useGrades, GradeLevelsCard } from "@/features/students";
 import { globalToast } from "@/lib/toast";
 import { handleApiError } from "@/lib/api";
 import type {
@@ -20,6 +19,8 @@ import {
   fetchCredentialRows,
   patchCredentialTracking,
 } from "@/lib/services/credential-printing.service";
+import { withPagePermission } from "@/components/guards/withPagePermission";
+import { useStudentCapabilities } from "@/features/students";
 
 function BoolCell({
   checked,
@@ -41,7 +42,8 @@ function BoolCell({
   );
 }
 
-export default function CredentialPrintingPage() {
+function CredentialPrintingPage() {
+  const { canEdit } = useStudentCapabilities();
   const { grades, isLoading: gradesLoading, error: gradesError } = useGrades();
   const [selectedGrade, setSelectedGrade] = useState<number | null>(null);
   const [classGroups, setClassGroups] = useState<ClassGroupOption[]>([]);
@@ -304,7 +306,7 @@ export default function CredentialPrintingPage() {
                       <CredentialTableRow
                         key={row.student_id}
                         row={row}
-                        disabled={patchingId === row.student_id}
+                        disabled={patchingId === row.student_id || !canEdit}
                         onPatch={(patch) => applyTrackingPatch(row.student_id, patch)}
                       />
                     ))}
@@ -400,3 +402,5 @@ function CredentialTableRow({
     </tr>
   );
 }
+
+export default withPagePermission(CredentialPrintingPage);

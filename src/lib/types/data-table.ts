@@ -16,7 +16,9 @@ export interface TableAction<T = unknown> {
   href?: (row: T) => string;
   variant?: 'primary' | 'secondary' | 'danger';
   show?: (row: T) => boolean;
+  permission?: string;
 }
+
 
 export interface TableConfig<T = unknown> {
   columns: TableColumn<T>[];

@@ -21,8 +21,7 @@ function GeneralAttendanceContent() {
 
   return (
     <section className="space-y-6">
-      <GenericHeader title="Asistencia General" description="" />
-      <CycleHint />
+      <GenericHeader title="Asistencia General" description=""  bottomContent={<CycleHint />} />
       <div className="rounded-lg">
         <div className="border-b border-border">
           <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-6 pb-1">

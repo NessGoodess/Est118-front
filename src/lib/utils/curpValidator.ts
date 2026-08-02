@@ -1,15 +1,24 @@
-// CURP validation and data extraction
+/**
+ * Shared CURP helpers (public admissions + private forms).
+ * Format: 18 chars — AAAA + YYMMDD + H|M + state + consonants + homoclave + check digit
+ */
+export const CURP_REGEX = /^[A-Z]{4}[0-9]{6}[HM][A-Z]{5}[0-9A-Z][0-9]$/;
+
+export const CURP_LENGTH = 18;
+
 export interface CURPData {
-  birthDate: string; // format YYYY-MM-DD
+  birthDate: string; // YYYY-MM-DD
   age: number;
-  gender: string; // 'MASCULINO' or 'FEMENINO'
+  gender: string; // 'MASCULINO' | 'FEMENINO'
   placeOfBirth: string;
 }
 
+export function normalizeCURP(curp: string): string {
+  return curp.trim().toUpperCase();
+}
+
 export function validateCURP(curp: string): boolean {
-  // Basic CURP format: 18 alphanumeric characters
-  const curpRegex = /^[A-Z]{4}[0-9]{6}[HM][A-Z]{5}[0-9A-Z][0-9]$/;
-  return curpRegex.test(curp.toUpperCase());
+  return CURP_REGEX.test(normalizeCURP(curp));
 }
 
 export function extractDataFromCURP(curp: string): CURPData | null {
@@ -17,51 +26,35 @@ export function extractDataFromCURP(curp: string): CURPData | null {
     return null;
   }
 
-  const curpUpper = curp.toUpperCase();
+  const curpUpper = normalizeCURP(curp);
 
-  // Extract year (positions 4-5)
   const year = curpUpper.substring(4, 6);
-  // Extract month (positions 6-7)
   const month = curpUpper.substring(6, 8);
-  // Extract day (positions 8-9)
   const day = curpUpper.substring(8, 10);
 
-  // Determine century based on realistic age range
-  // If year is greater than current year's last 2 digits, it's from previous century
   const currentYear = new Date().getFullYear();
   const currentYearLastTwo = currentYear % 100;
-  const yearNum = parseInt(year);
+  const yearNum = parseInt(year, 10);
 
-  // Determine century: if year > current year's last 2 digits, it's 1900s, otherwise 2000s
-  // But also validate that the resulting age is realistic (between 4 and 100 years)
-  let fullYear: number;
   const year2000 = 2000 + yearNum;
   const year1900 = 1900 + yearNum;
-
-  // Calculate ages for both possibilities
   const age2000 = currentYear - year2000;
   const age1900 = currentYear - year1900;
 
-  // Choose the century that results in a realistic age (between 4 and 100 years)
+  let fullYear: number;
   if (age2000 >= 4 && age2000 <= 100) {
     fullYear = year2000;
   } else if (age1900 >= 4 && age1900 <= 100) {
     fullYear = year1900;
   } else {
-    // Default: if year > current year's last 2 digits, use 1900s, otherwise 2000s
     fullYear = yearNum > currentYearLastTwo ? year1900 : year2000;
   }
 
-  // Extract gender (position 10)
   const genderChar = curpUpper.charAt(10);
-  const gender = genderChar === 'H' ? 'MASCULINO' : 'FEMENINO';
+  const gender = genderChar === "H" ? "MASCULINO" : "FEMENINO";
+  const placeOfBirth = getStateFromCode(curpUpper.substring(11, 13));
 
-  // Extract place of birth (positions 11-12)
-  const stateCode = curpUpper.substring(11, 13);
-  const placeOfBirth = getStateFromCode(stateCode);
-
-  // Calculate age
-  const birthDate = new Date(fullYear, parseInt(month) - 1, parseInt(day));
+  const birthDate = new Date(fullYear, parseInt(month, 10) - 1, parseInt(day, 10));
   const today = new Date();
   let age = today.getFullYear() - birthDate.getFullYear();
   const monthDiff = today.getMonth() - birthDate.getMonth();
@@ -69,39 +62,51 @@ export function extractDataFromCURP(curp: string): CURPData | null {
     age--;
   }
 
-  // Format date as YYYY-MM-DD
-  const birthDateStr = `${fullYear}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  const birthDateStr = `${fullYear}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
 
   return {
     birthDate: birthDateStr,
     age,
     gender,
-    placeOfBirth
+    placeOfBirth,
   };
 }
 
 function getStateFromCode(code: string): string {
-  // Simplified mapping of state codes in CURP
-  const states: { [key: string]: string } = {
-    'AS': 'Aguascalientes',
-    'BS': 'Baja California Sur',
-    'CL': 'Coahuila',
-    'CS': 'Chiapas',
-    'DF': 'Ciudad de México',
-    'GT': 'Guanajuato',
-    'HG': 'Hidalgo',
-    'MC': 'México',
-    'NL': 'Nuevo León',
-    'PL': 'Puebla',
-    'QR': 'Quintana Roo',
-    'SL': 'San Luis Potosí',
-    'TC': 'Tabasco',
-    'TL': 'TLAXCALA',
-    'YN': 'Yucatán',
-    'NE': 'Nacido en el extranjero',
-    'OC': 'Oaxaca',
+  const states: Record<string, string> = {
+    AS: "Aguascalientes",
+    BC: "Baja California",
+    BS: "Baja California Sur",
+    CC: "Campeche",
+    CL: "Coahuila",
+    CM: "Colima",
+    CS: "Chiapas",
+    CH: "Chihuahua",
+    DF: "Ciudad de México",
+    DG: "Durango",
+    GT: "Guanajuato",
+    GR: "Guerrero",
+    HG: "Hidalgo",
+    JC: "Jalisco",
+    MC: "México",
+    MN: "Michoacán",
+    MS: "Morelos",
+    NT: "Nayarit",
+    NL: "Nuevo León",
+    OC: "Oaxaca",
+    PL: "Puebla",
+    QT: "Querétaro",
+    QR: "Quintana Roo",
+    SP: "San Luis Potosí",
+    SL: "San Luis Potosí",
+    TC: "Tabasco",
+    TS: "Tamaulipas",
+    TL: "Tlaxcala",
+    VZ: "Veracruz",
+    YN: "Yucatán",
+    ZS: "Zacatecas",
+    NE: "Nacido en el extranjero",
   };
 
-  return states[code] || 'Oaxaca';
+  return states[code] || "Desconocido";
 }
-

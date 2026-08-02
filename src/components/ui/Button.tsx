@@ -8,21 +8,13 @@ type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
 type ButtonSize    = "sm" | "md" | "lg";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Texto o nodo dentro del botón */
   children: ReactNode;
-  /** Estilo visual del botón */
   variant?: ButtonVariant;
-  /** Tamaño del botón */
   size?: ButtonSize;
-  /** Muestra spinner y bloquea interacción */
   loading?: boolean;
-  /** Texto que aparece junto al spinner (default: "Cargando…") */
   loadingText?: string;
-  /** Ícono a la izquierda del texto (ReactNode) */
   leftIcon?: ReactNode;
-  /** Ícono a la derecha del texto (ReactNode) */
   rightIcon?: ReactNode;
-  /** Ocupa el 100% del ancho del contenedor */
   fullWidth?: boolean;
 }
 
@@ -122,7 +114,7 @@ export function Button({
       aria-disabled={isDisabled}
       className={[
         // Base
-        "relative inline-flex items-center justify-center rounded-lg font-medium",
+        "inline-flex items-center justify-center rounded-lg font-medium",
         "transition-all duration-150 ease-in-out",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-app",
         "disabled:cursor-not-allowed",

@@ -20,8 +20,8 @@ export const routePermissionMap = {
     '/settings': 'manage settings',
 
     '/students': 'view students',
-    '/students/add-students': 'create students',
-    '/students/list-students': 'view students',
+    '/students/[id]': 'view students',
+    '/students/credential-printing': 'view students',
 
     '/attendance': 'view attendance',
     '/asistencia-general': 'view general attendance',

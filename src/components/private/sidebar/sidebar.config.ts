@@ -44,45 +44,26 @@ export const menuItems: MenuItem[] = [
     order: 22,
   },
 
-  // ── Estudiantes ─────────────────────────────────────────
-  // Futuro: Incidencias, Calificaciones
+  // ── Students ─────────────────────────────────────────
   {
-    name: 'Estudiantes',
+    name: 'Directorio',
+    href: '/students',
     icon: 'students',
     permission: 'view students',
     section: 'estudiantes',
     order: 30,
-    children: [
-      {
-        name: 'Directorio',
-        href: '/students/all-students',
-        icon: 'list',
-        permission: 'view students',
-        activeMatch: 'prefix',
-      },
-      {
-        name: 'Lista por grado',
-        href: '/students/list-students',
-        icon: 'list',
-        permission: 'view students',
-        activeMatch: 'prefix',
-      },
-      {
-        name: 'Agregar estudiante',
-        href: '/students/add-students',
-        icon: 'add',
-        permission: 'create students',
-        activeMatch: 'prefix',
-      },
-      {
-        name: 'Credenciales',
-        href: '/students/credential-printing',
-        icon: 'print',
-        permission: 'view students',
-        activeMatch: 'prefix',
-      },
-    ],
+    activeMatch: 'prefix',
   },
+  {
+    name: 'Credenciales',
+    href: '/students/credential-printing',
+    icon: 'print',
+    permission: 'view students',
+    section: 'estudiantes',
+    order: 30,
+    activeMatch: 'prefix',
+  },
+
 
   // ── Comunidad (futuro: Padres, Maestros, Trabajadores) ──
   {
