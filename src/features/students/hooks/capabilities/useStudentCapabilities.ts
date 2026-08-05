@@ -20,7 +20,7 @@ export type StudentCapabilities = {
 };
 
 /**
- * UI capabilities for the students feature.
+ * UI capabilities for the students admin feature.
  */
 export function useStudentCapabilities(): StudentCapabilities {
   const { hasPermission } = useAuth();

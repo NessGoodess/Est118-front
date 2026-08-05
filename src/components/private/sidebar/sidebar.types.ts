@@ -2,7 +2,7 @@ export type MenuSection =
   | 'inicio'
   | 'asistencia'
   | 'estudiantes'
-  | 'comunidad'
+  | 'usuarios'
   | 'estructura'
   | 'admision'
   | 'comunicacion'
@@ -30,7 +30,7 @@ export const MENU_SECTION_LABELS: Record<MenuSection, string> = {
   inicio: 'Inicio',
   asistencia: 'Asistencia',
   estudiantes: 'Estudiantes',
-  comunidad: 'Comunidad',
+  usuarios: 'Usuarios',
   estructura: 'Estructura escolar',
   admision: 'Admisión',
   comunicacion: 'Comunicación',
@@ -42,7 +42,7 @@ export const MENU_SECTION_ORDER: MenuSection[] = [
   'inicio',
   'asistencia',
   'estudiantes',
-  'comunidad',
+  'usuarios',
   'estructura',
   'admision',
   'comunicacion',

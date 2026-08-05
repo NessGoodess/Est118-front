@@ -39,6 +39,7 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
       value,
       defaultValue,
       children,
+      disabled,
       ...props
     },
     ref
@@ -98,17 +99,24 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
       onChange?.(e);
     };
 
+    const shellBg = disabled
+      ? 'border-border bg-surface-muted'
+      : error
+        ? 'border-danger/40 bg-surface-elevated'
+        : isFocused
+          ? 'border-ring bg-surface-elevated shadow-md shadow-primary-soft'
+          : 'border-border bg-surface-elevated hover:border-fg-muted/50';
+
     return (
-      <div className={`relative mb-4 ${className || ''}`}>
-        <div className="relative">
-          {/* Icono */}
+      <div className={`relative mb-3 ${className || ''}`}>
+        <div className={`relative rounded-xl border-2 transition-all duration-200 ${shellBg}`}>
           {icon && (
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none z-10">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
               <div
                 className={`transition-colors duration-200 ${isFocused ? 'text-primary' : error ? 'text-danger' : 'text-fg-muted'
                   }`}
               >
-                <div className="h-5 w-5">{icon}</div>
+                <div className="h-4 w-4">{icon}</div>
               </div>
             </div>
           )}
@@ -117,12 +125,10 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
             htmlFor={fieldId}
             className={`
               absolute transition-all duration-200 ease-out pointer-events-none z-10
-              ${icon ? 'left-11' : 'left-4'}
+              ${icon ? 'left-9' : 'left-3'}
               ${isFloating
-                ? error
-                  ? 'top-0 text-xs font-semibold bg-gradient-to-t from-danger/5 to-surface-elevated px-2 -translate-y-1/2'
-                  : 'top-0 text-xs font-semibold bg-surface-elevated px-2 -translate-y-1/2'
-                : 'top-1/2 -translate-y-1/2 text-base'
+                ? 'top-0 text-xs font-semibold bg-inherit px-1.5 -translate-y-1/2'
+                : 'top-1/2 -translate-y-1/2 text-sm'
               }
               ${isFocused
                 ? 'text-primary'
@@ -138,7 +144,6 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
             {required && <span className="text-danger ml-1">*</span>}
           </label>
 
-          {/* Select */}
           <select
             ref={setRefs}
             id={fieldId}
@@ -149,21 +154,16 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
             onBlur={handleBlur}
             onChange={handleChange}
             required={required}
+            disabled={disabled}
             {...props}
             className={`
-    w-full rounded-xl border-2 transition-all duration-200 appearance-none
-    ${icon ? 'pl-11' : 'pl-4'}
-    pt-6 pb-2 pr-10
-    focus:outline-none
-    ${error
-                ? 'border-danger/40 bg-danger/5 text-danger focus:border-danger'
-                : isFocused
-                  ? 'border-ring bg-surface-elevated shadow-lg shadow-primary-soft'
-                  : 'border-border bg-surface-elevated hover:border-fg-muted/50'
-              }
-    disabled:bg-surface-muted disabled:text-fg-muted disabled:cursor-not-allowed
-    text-base text-foreground  /* ← Quitamos la condición y siempre usamos text-foreground */
-  `}
+              w-full bg-transparent rounded-xl border-0 appearance-none transition-colors duration-200
+              ${icon ? 'pl-9' : 'pl-3'}
+              pt-4 pb-1.5 pr-9
+              focus:outline-none text-sm text-foreground
+              ${error ? 'text-danger' : ''}
+              disabled:text-fg-muted disabled:cursor-not-allowed
+            `}
           >
             <option value="" disabled hidden>
               {placeholder}
@@ -171,9 +171,9 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
             {children}
           </select>
 
-          <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none">
+          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
             <svg
-              className={`w-5 h-5 transition-transform duration-200 ${isFocused ? 'text-primary rotate-180' : 'text-fg-muted'
+              className={`w-4 h-4 transition-transform duration-200 ${isFocused ? 'text-primary rotate-180' : 'text-fg-muted'
                 }`}
               fill="none"
               stroke="currentColor"
@@ -184,18 +184,17 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
           </div>
         </div>
 
-        {/* Error / Helper */}
-        <div className="mt-2 flex h-6 items-start gap-x-0.5">
+        <div className="mt-1.5 flex min-h-4 items-start gap-x-0.5">
           {(error || helperText) && (
             <>
               {error ? (
                 <>
-                  <IconByName name="error" className="w-3.5 h-3.5 text-danger mt-0.5" />
+                  <IconByName name="error" className="w-3 h-3 text-danger mt-0.5" />
                   <p className="text-xs text-danger font-medium">{error}</p>
                 </>
               ) : (
                 <>
-                  <IconByName name="info" className="w-3.5 h-3.5 text-fg-muted mt-0.5" />
+                  <IconByName name="info" className="w-3 h-3 text-fg-muted mt-0.5" />
                   <p className="text-xs text-fg-muted">{helperText}</p>
                 </>
               )}

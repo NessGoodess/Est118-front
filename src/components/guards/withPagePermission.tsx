@@ -1,71 +1,52 @@
-'use client';
+"use client";
 
-import { useRoutePermission } from '@/hooks/useRoutePermission';
-import { ComponentType } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useRoutePermission } from "@/hooks/useRoutePermission";
+import { ComponentType, ReactNode } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface WithPermissionOptions {
-    fallback?: string;
-    requireAll?: string[];
-    loadingComponent?: React.ReactNode;
+  fallback?: string;
+  requireAll?: string[];
+  loadingComponent?: ReactNode;
 }
 
+const DefaultPageLoading = (
+  <div className="flex min-h-screen items-center justify-center">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+  </div>
+);
+
 /**
- * Higher-Order Component para proteger páginas con permisos basados en rutas
- * 
- * @param WrappedComponent - Componente de página a proteger
- * @param options - Opciones de configuración
- * @returns Componente envuelto con verificación de permisos
- * 
+ * HOC that protects an entire page via `useRoutePermission` (route → Spatie permission).
+ * Use for page defaults only — UI actions use feature capabilities (`canCreate`, etc.).
+ *
  * @example
- * ```tsx
- * function UsersPage() {
- *   return <div>Users List</div>;
- * }
- * 
- * export default withPagePermission(UsersPage);
- * ```
- * 
- * @example
- * // Con opciones personalizadas
- * export default withPagePermission(AdminPage, {
- *   fallback: '/unauthorized',
- *   requireAll: ['admin', 'super-admin'],
- *   loadingComponent: <CustomLoader />
+ * import Loading from "./loading";
+ * export default withPagePermission(UsersPage, {
+ *   loadingComponent: <Loading />,
  * });
  */
 export function withPagePermission<P extends object>(
-    WrappedComponent: ComponentType<P>,
-    options: WithPermissionOptions = {}
+  WrappedComponent: ComponentType<P>,
+  options: WithPermissionOptions = {}
 ) {
-    const {
-        fallback = '/dashboard',
-        requireAll = [],
-        loadingComponent = (
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-            </div>
-        )
-    } = options;
+  const {
+    fallback = "/dashboard",
+    requireAll = [],
+    loadingComponent = DefaultPageLoading,
+  } = options;
 
-    return function PermissionGuardWrapper(props: P) {
-        const { loading: authLoading } = useAuth();
-        const { isLoading, isAuthorized } = useRoutePermission({
-            fallback,
-            requireAll
-        });
+  return function PagePermissionGuard(props: P) {
+    const { loading: authLoading } = useAuth();
+    const { isLoading, isAuthorized } = useRoutePermission({
+      fallback,
+      requireAll,
+    });
 
-        // Mostrar loading mientras se verifica autenticación o permisos
-        if (authLoading || isLoading) {
-            return <>{loadingComponent}</>;
-        }
+    if (authLoading || isLoading || !isAuthorized) {
+      return <>{loadingComponent}</>;
+    }
 
-        // Si no está autorizado, no renderizar nada (el hook ya redirigió)
-        if (!isAuthorized) {
-            return null;
-        }
-
-        // Usuario autorizado, renderizar el componente
-        return <WrappedComponent {...props} />;
-    };
+    return <WrappedComponent {...props} />;
+  };
 }

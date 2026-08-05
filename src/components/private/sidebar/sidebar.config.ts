@@ -1,4 +1,6 @@
 import { MenuItem } from './sidebar.types';
+import { USER_PERMISSIONS } from '@/features/users/permissions';
+import { STUDENT_PERMISSIONS } from '@/features/students/permissions';
 
 /**
  * Private sidebar navigation — grouped by domain for growth
@@ -49,7 +51,7 @@ export const menuItems: MenuItem[] = [
     name: 'Directorio',
     href: '/students',
     icon: 'students',
-    permission: 'view students',
+    permission: STUDENT_PERMISSIONS.view,
     section: 'estudiantes',
     order: 30,
     activeMatch: 'prefix',
@@ -58,7 +60,7 @@ export const menuItems: MenuItem[] = [
     name: 'Credenciales',
     href: '/students/credential-printing',
     icon: 'print',
-    permission: 'view students',
+    permission: STUDENT_PERMISSIONS.view,
     section: 'estudiantes',
     order: 30,
     activeMatch: 'prefix',
@@ -67,26 +69,23 @@ export const menuItems: MenuItem[] = [
 
   // ── Comunidad (futuro: Padres, Maestros, Trabajadores) ──
   {
-    name: 'Usuarios del sistema',
-    icon: 'users',
-    permission: 'view users',
-    section: 'comunidad',
+
+    name: 'Lista',
+    href: '/users',
+    icon: 'list',
+    section: 'usuarios',
     order: 40,
-    children: [
-      {
-        name: 'Lista de usuarios',
-        href: '/users',
-        icon: 'list',
-        permission: 'view users',
-        activeMatch: 'exact',
-      },
-      {
-        name: 'Agregar usuario',
-        href: '/users/create',
-        icon: 'add',
-        permission: 'create users',
-      },
-    ],
+    permission: USER_PERMISSIONS.view,
+    activeMatch: 'exact',
+  },
+  {
+    name: 'Agregar',
+    href: '/users/create',
+    icon: 'add',
+    section: 'usuarios',
+    order: 40,
+    permission: USER_PERMISSIONS.create,
+    activeMatch: 'exact',
   },
 
   // ── Estructura escolar ──────────────────────────────────

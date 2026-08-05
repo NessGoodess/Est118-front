@@ -40,19 +40,19 @@ export default function GenericHeader({
         bottomContentLoadingComponent ?? loadingComponent ?? <DefaultBottomContentComponent />;
 
     return (
-        <header className={`mb-2 2xl:mb-4 ${className}`}>
-            <div className="mb-1 flex flex-col gap-3 2xl:mb-3 md:flex-row md:items-center md:gap-4">
+        <header className={`${className}`}>
+            <div className="mb-1 flex flex-wrap justify-between gap-3 2xl:mb-3 md:items-center md:gap-4">
                 {icon && (
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-fg-muted md:h-12 md:w-12">
                         <Icon name={icon} />
                     </div>
                 )}
-                <div className="min-w-0 md:max-w-[36%] md:shrink-0 lg:max-w-[40%]">
+                <div className="min-w-0 md:shrink-0 lg:max-w-[40%]">
                     <h1 className="text-xl font-bold text-brand-strong md:text-2xl">{title}</h1>
                     {subtitle || <p className="text-xs text-fg-muted md:text-sm">{description}</p>}
                 </div>
                 {children != null && (
-                    <div className="flex min-w-0 w-full flex-1 items-center gap-2 md:w-auto md:justify-end">
+                    <div className="flex min-w-0 w-fit flex-wrap items-center gap-2 md:w-auto justify-end">
                         {childrenLoading ? childrenFallback : children}
                     </div>
                 )}

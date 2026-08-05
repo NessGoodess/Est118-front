@@ -1,34 +1,51 @@
-//app/(private)/usuarios/page.tsx
-'use client';
+"use client";
 
-import UsersTable from '@/components/private/users/UsersTable';
-import GenericHeader from '@/components/ui/GenericHeader';
-import { PermissionGuard } from '@/components/guards/PermissionGuard';
-import { withPagePermission } from '@/components/guards/withPagePermission';
-import Link from 'next/link';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  UsersTable,
+  UsersFilters,
+  useUserCapabilities,
+  type UsersListFilters,
+} from "@/features/users";
+import GenericHeader from "@/components/ui/GenericHeader";
+import { withPagePermission } from "@/components/guards/withPagePermission";
+import { Button } from "@/components/ui/Button";
+import UsersLoading from "./loading";
 
 function UsersPage() {
-    return (
-        <div className="container mx-auto py-8 px-4">
-            <div className="flex justify-between items-center mb-6">
-                <GenericHeader
-                    title="Gestión de Usuarios"
-                    description="Administra los usuarios del sistema"
-                />
+  const router = useRouter();
+  const { canCreate } = useUserCapabilities();
+  const [filters, setFilters] = useState<UsersListFilters>({
+    role: "",
+    verified: undefined,
+  });
 
-                <PermissionGuard permission="create users">
-                    <Link
-                        href="/users/create"
-                        className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary-hover transition-colors font-medium text-sm"
-                    >
-                        Crear Usuario
-                    </Link>
-                </PermissionGuard>
-            </div>
+  return (
+    <div className="space-y-4">
+      <GenericHeader
+        title="Gestión de usuarios"
+        description="Administra los usuarios del sistema"
+      >
+        {canCreate ? (
+          <Button
+            type="button"
+            variant="primary"
+            size="sm"
+            className="shrink-0"
+            onClick={() => router.push("/users/create")}
+          >
+            Crear usuario
+          </Button>
+        ) : null}
+      </GenericHeader>
+      <UsersFilters filters={filters} onChange={setFilters} />
 
-            <UsersTable />
-        </div>
-    );
+      <UsersTable filters={filters} />
+    </div>
+  );
 }
 
-export default withPagePermission(UsersPage);
+export default withPagePermission(UsersPage, {
+  loadingComponent: <UsersLoading />,
+});

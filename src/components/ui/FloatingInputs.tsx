@@ -120,6 +120,7 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
     className,
     value,
     defaultValue,
+    disabled,
     ...props
   }, ref) => {
     const internalRef = useRef<HTMLInputElement>(null);
@@ -174,41 +175,46 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
     // Para inputs tipo date, ocultar placeholder cuando no está flotando
     const shouldHideDatePlaceholder = type === 'date' && !isFocused && !hasValue;
 
+    const shellBg = disabled
+      ? 'border-border bg-surface-muted'
+      : error
+        ? 'border-danger/40 bg-surface-elevated'
+        : isFocused
+          ? 'border-ring bg-surface-elevated shadow-md shadow-primary-soft'
+          : 'border-border bg-surface-elevated hover:border-fg-muted/50';
+
     return (
-      <div className={`relative mb-4 ${className || ''}`}>
-        <div className="relative">
+      <div className={`relative mb-3 ${className || ''}`}>
+        {/* Shell: border + bg viven aquí para que el label herede el mismo fondo */}
+        <div className={`relative rounded-xl border-2 transition-all duration-200 ${shellBg}`}>
           {/* Icono */}
           {icon && (
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none z-10">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
               <div className={`transition-colors duration-200 ${isFocused
                 ? 'text-primary'
                 : error
                   ? 'text-danger'
                   : 'text-fg-muted'
                 }`}>
-                <div className="h-5 w-5">
+                <div className="h-4 w-4">
                   {icon}
                 </div>
               </div>
             </div>
           )}
 
-          {/* Label Flotante */}
+          {/* Label Flotante — bg-inherit corta el borde sin color fijo */}
           <label
             htmlFor={fieldId}
             className={`
               absolute transition-all duration-200 ease-out pointer-events-none z-10
-              ${icon ? 'left-11' : 'left-4'}
-              
+              ${icon ? 'left-9' : 'left-3'}
               ${isFloating
-                ? error
-                  ? 'top-0 text-xs font-semibold bg-gradient-to-t from-danger/5 to-surface-elevated px-2 -translate-y-1/2'
-                  : 'top-0 text-xs font-semibold bg-surface-elevated px-2 -translate-y-1/2'
-                : 'top-1/2 -translate-y-1/2 text-base'
+                ? 'top-0 text-xs font-semibold bg-inherit px-1.5 -translate-y-1/2'
+                : 'top-1/2 -translate-y-1/2 text-sm'
               }
-
               ${isFocused
-                ? 'text-primary '
+                ? 'text-primary'
                 : error
                   ? 'text-danger'
                   : isFloating
@@ -229,6 +235,7 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
             name={name}
             placeholder={isFloating ? placeholder : undefined}
             required={required}
+            disabled={disabled}
             value={value}
             defaultValue={defaultValue}
             onFocus={handleFocus}
@@ -236,18 +243,12 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
             onChange={handleChange}
             {...props}
             className={`
-              w-full rounded-xl border-2 transition-all duration-200 text-foreground
-              ${icon ? 'pl-11' : 'pl-4'}
-              pt-6 pb-2
-              pr-4 
+              w-full bg-transparent rounded-xl border-0 transition-colors duration-200 text-sm text-foreground
+              ${icon ? 'pl-9' : 'pl-3'}
+              pt-4 pb-1.5 pr-3
               focus:outline-none
-              ${error
-                ? 'border-danger/40 bg-danger/5 text-danger placeholder:text-danger/50 focus:border-danger'
-                : isFocused
-                  ? 'border-ring bg-surface-elevated shadow-lg shadow-primary-soft '
-                  : 'border-border bg-surface-elevated hover:border-fg-muted/50'
-              }
-              disabled:bg-surface-muted disabled:text-fg-muted disabled:cursor-not-allowed
+              ${error ? 'text-danger placeholder:text-danger/50' : ''}
+              disabled:text-fg-muted disabled:cursor-not-allowed
               ${shouldHideDatePlaceholder ? 'date-input-empty' : ''}
             `}
             style={shouldHideDatePlaceholder ? { color: 'transparent' } : undefined}
@@ -255,7 +256,7 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
         </div>
 
         {/* Error or Helper Text */}
-        <div className="mt-2 flex h-2">
+        <div className="mt-1.5 flex min-h-4">
           {(error || helperText) && (
             <div className="flex items-start gap-x-0.5">
               {error ? (
@@ -264,34 +265,14 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
                   <p className="text-xs text-danger font-medium">{error}</p>
                 </>
               ) : (
-                <> <IconByName name="info" className="w-3 h-3 text-fg-muted flex-shrink-0 mt-0.5" />
+                <>
+                  <IconByName name="info" className="w-3 h-3 text-fg-muted flex-shrink-0 mt-0.5" />
                   <p className="text-xs text-fg-muted">{helperText}</p>
                 </>
               )}
             </div>
           )}
         </div>
-        {/* Error o Helper Text 
-        {(error || helperText) && (
-          <div className="mt-2 flex items-start gap-1.5">
-            {error ? (
-              <>
-                <svg className="w-3 h-3 text-danger flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                </svg>
-                <p className="text-xs text-danger font-medium">{error}</p>
-              </>
-            ) : (
-              <>
-                <svg className="w-3 h-3 text-fg-muted flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                </svg>
-                <p className="text-xs text-fg-muted">{helperText}</p>
-              </>
-            )}
-          </div>
-        )}
-        */}
       </div>
     );
   }
@@ -320,6 +301,7 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
     className,
     value,
     defaultValue,
+    disabled,
     ...props
   }, ref) => {
     const internalRef = useRef<HTMLTextAreaElement>(null);
@@ -327,7 +309,6 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
 
     const fieldId = id || name || `floating-textarea-${Math.random().toString(36).substr(2, 9)}`;
 
-    // Combinar refs de manera segura
     const setRefs = useCallback(
       (node: HTMLTextAreaElement | null) => {
         internalRef.current = node;
@@ -341,7 +322,6 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
       [ref]
     );
 
-    // Sincronizar el valor externo (de react-hook-form) con el estado interno
     useEffect(() => {
       if (internalRef.current && value !== undefined) {
         const hasExternalValue = value.toString().length > 0;
@@ -359,44 +339,48 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
       if (internalRef.current) {
         setHasValue(internalRef.current.value.length > 0);
       }
-      // Llamar al onBlur de react-hook-form si existe
       onBlur?.(e);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setHasValue(e.target.value.length > 0);
-      // Llamar al onChange de react-hook-form si existe
       onChange?.(e);
     };
 
+    const shellBg = disabled
+      ? 'border-border bg-surface-muted'
+      : error
+        ? 'border-danger/40 bg-surface-elevated'
+        : isFocused
+          ? 'border-ring bg-surface-elevated shadow-md shadow-primary-soft'
+          : 'border-border bg-surface-elevated hover:border-fg-muted/50';
+
     return (
-      <div className={`relative ${className || ''}`}>
-        <div className="relative">
-          {/* Icono */}
+      <div className={`relative mb-3 ${className || ''}`}>
+        <div className={`relative rounded-xl border-2 transition-all duration-200 ${shellBg}`}>
           {icon && (
-            <div className="absolute top-3.5 left-0 pl-3.5 flex items-start pointer-events-none z-10">
+            <div className="absolute top-3 left-0 pl-3 flex items-start pointer-events-none z-10">
               <div className={`transition-colors duration-200 ${isFocused
                 ? 'text-primary'
                 : error
                   ? 'text-danger'
                   : 'text-fg-muted'
                 }`}>
-                <div className="h-5 w-5">
+                <div className="h-4 w-4">
                   {icon}
                 </div>
               </div>
             </div>
           )}
 
-          {/* Label Flotante */}
           <label
             htmlFor={fieldId}
             className={`
               absolute transition-all duration-200 ease-out pointer-events-none z-10
-              ${icon ? 'left-11' : 'left-4'}
+              ${icon ? 'left-9' : 'left-3'}
               ${isFloating
-                ? 'top-0 text-xs font-semibold bg-surface-elevated px-2 -translate-y-1/2'
-                : 'top-3.5 text-base'
+                ? 'top-0 text-xs font-semibold bg-inherit px-1.5 -translate-y-1/2'
+                : 'top-3 text-sm'
               }
               ${isFocused
                 ? 'text-primary'
@@ -412,13 +396,13 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
             {required && <span className="text-danger ml-1">*</span>}
           </label>
 
-          {/* Textarea */}
           <textarea
             ref={setRefs}
             id={fieldId}
             name={name}
             placeholder={isFloating ? placeholder : undefined}
             required={required}
+            disabled={disabled}
             rows={rows}
             value={value}
             defaultValue={defaultValue}
@@ -427,38 +411,33 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
             onChange={handleChange}
             {...props}
             className={`
-              w-full rounded-xl border-2 transition-all duration-200 resize-vertical
-              ${icon ? 'pl-11' : 'pl-4'}
-              pt-6 pb-2
-              pr-4 text-base
+              w-full bg-transparent rounded-xl border-0 transition-colors duration-200 resize-vertical text-sm text-foreground
+              ${icon ? 'pl-9' : 'pl-3'}
+              pt-4 pb-1.5 pr-3
               focus:outline-none
-              ${error
-                ? 'border-danger/40 bg-danger/5 text-danger placeholder:text-danger/50 focus:border-danger'
-                : isFocused
-                  ? 'border-ring bg-surface-elevated shadow-lg shadow-primary-soft'
-                  : 'border-border bg-surface-elevated hover:border-fg-muted/50'
-              }
-              disabled:bg-surface-muted disabled:text-fg-muted disabled:cursor-not-allowed
+              ${error ? 'text-danger placeholder:text-danger/50' : ''}
+              disabled:text-fg-muted disabled:cursor-not-allowed
             `}
           />
         </div>
 
-        {/* Error o Helper Text */}
-        {(error || helperText) && (
-          <div className="mt-2 flex items-start gap-1.5">
-            {error ? (
-              <>
-                <IconByName name="error" className="w-4 h-4 text-danger flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-danger font-medium">{error}</p>
-              </>
-            ) : (
-              <>
-                <IconByName name="info" className="w-4 h-4 text-fg-muted flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-fg-muted">{helperText}</p>
-              </>
-            )}
-          </div>
-        )}
+        <div className="mt-1.5 flex min-h-4">
+          {(error || helperText) && (
+            <div className="flex items-start gap-x-0.5">
+              {error ? (
+                <>
+                  <IconByName name="error" className="w-3 h-3 text-danger flex-shrink-0 mt-0.5" />
+                  <p className="text-xs text-danger font-medium">{error}</p>
+                </>
+              ) : (
+                <>
+                  <IconByName name="info" className="w-3 h-3 text-fg-muted flex-shrink-0 mt-0.5" />
+                  <p className="text-xs text-fg-muted">{helperText}</p>
+                </>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     );
   }
@@ -499,13 +478,14 @@ export const FloatingPassword = forwardRef<HTMLInputElement, FloatingInputProps>
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-fg-muted hover:text-foreground transition-colors p-1 z-20"
+          className="absolute right-2.5 top-5 -translate-y-1/2 text-fg-muted hover:text-foreground transition-colors p-1 z-20"
           tabIndex={-1}
+          aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
         >
           {showPassword ? (
-            <IconByName name="eyeOpen" className="w-5 h-5" />
+            <IconByName name="eyeOpen" className="w-4 h-4" />
           ) : (
-            <IconByName name="eyeClosed" className="w-5 h-5" />
+            <IconByName name="eyeClosed" className="w-4 h-4" />
           )}
         </button>
       </div>

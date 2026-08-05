@@ -24,7 +24,7 @@ export default function GenericHeaderSkeleton({
           <div className="h-3 w-72 max-w-full rounded bg-surface-muted/80" />
         </div>
         {showChildren ? (
-          <div className="flex min-w-0 w-full flex-1 items-center gap-2 md:w-auto md:justify-end">
+          <div className="flex min-w-0 w-full flex-1 items-center gap-2 md:w-auto justify-end">
             <div className="h-9 w-40 rounded-lg border border-border bg-surface-elevated" />
           </div>
         ) : null}

@@ -1,9 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { updateUser, getRoles, Role } from '@/lib/services/users.service';
+import {
+    updateUser,
+    getRoles,
+    PermissionSelector,
+    labelRole,
+    type Role,
+} from '@/features/users';
 import { SubmitButton } from '@/components/ui/SubmitButton';
-import PermissionSelector from '@/components/private/users/PermissionSelector';
+import { FloatingSelect } from '@/components/ui/FloatingSelect';
+import { IconByName } from '@/components/ui/icons';
 import { globalToast } from '@/lib/toast';
 
 interface CreateProfileSectionProps {
@@ -22,7 +29,9 @@ export default function CreateProfileSection({
     const [assignNow, setAssignNow] = useState(false);
     const [roles, setRoles] = useState<Role[]>([]);
     const [loadingRoles, setLoadingRoles] = useState(true);
-    const [selectedRoles, setSelectedRoles] = useState<string[]>(currentRoleNames);
+    const [selectedRoles, setSelectedRoles] = useState<string[]>(
+        currentRoleNames[0] ? [currentRoleNames[0]] : []
+    );
     const [selectedPermissions, setSelectedPermissions] = useState<string[]>(currentPermissionNames);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -73,41 +82,21 @@ export default function CreateProfileSection({
 
             {assignNow && (
                 <>
-                    <div>
-                        <label className="block text-sm font-semibold text-foreground mb-2">Roles</label>
-                        {loadingRoles ? (
-                            <div className="flex justify-center py-4">
-                                <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-                            </div>
-                        ) : (
-                            <div className="space-y-2">
-                                {roles.map((role) => (
-                                    <label
-                                        key={role.id}
-                                        className={`flex items-center gap-2 p-2 rounded-md cursor-pointer transition-colors border ${
-                                            selectedRoles.includes(role.name)
-                                                ? 'bg-primary-soft border-border'
-                                                : 'border-transparent hover:bg-surface-muted'
-                                        }`}
-                                    >
-                                        <input
-                                            type="checkbox"
-                                            checked={selectedRoles.includes(role.name)}
-                                            onChange={(e) => {
-                                                if (e.target.checked) {
-                                                    setSelectedRoles([...selectedRoles, role.name]);
-                                                } else {
-                                                    setSelectedRoles(selectedRoles.filter((r) => r !== role.name));
-                                                }
-                                            }}
-                                            className="h-4 w-4 rounded border-border text-primary focus:ring-ring"
-                                        />
-                                        <span className="text-sm text-foreground capitalize">{role.name}</span>
-                                    </label>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                    <FloatingSelect
+                        label="Rol"
+                        value={selectedRoles[0] ?? ''}
+                        onChange={(e) =>
+                            setSelectedRoles(e.target.value ? [e.target.value] : [])
+                        }
+                        disabled={loadingRoles}
+                        icon={<IconByName name="users" className="h-5 w-5" />}
+                    >
+                        {roles.map((role) => (
+                            <option key={role.id} value={role.name}>
+                                {labelRole(role.name)}
+                            </option>
+                        ))}
+                    </FloatingSelect>
 
                     <div>
                         <label className="block text-sm font-semibold text-foreground mb-2">Permisos</label>

@@ -1,94 +1,80 @@
-//app/(private)/users/@modal/(.id)/page.tsx
-'use client';
+"use client";
 
-import { use } from 'react';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { getUser } from '@/lib/services/users.service';
-import { UserDetail } from '@/lib/types/user';
-import Modal from '@/components/ui/Modal';
-import UserDetailView from '@/components/private/users/UserDetailView';
-import { globalToast } from '@/lib/toast';
-import { ApiError } from 'next/dist/server/api-utils';
-import { formatError } from '@/lib/api';
+import { use, useEffect } from "react";
+import {
+  RegisterUserForm,
+  UserDetailView,
+  useUserDetail,
+} from "@/features/users";
+import UsersRouteModal, {
+  useCancelUsersModal,
+  useCloseUsersModal,
+  useCloseUsersModalAndRefreshList,
+} from "@/features/users/components/modal/UsersRouteModal";
+import UserDetailSkeleton from "@/features/users/components/detail/UserDetailSkeleton";
+import { globalToast } from "@/lib/toast";
 
-export default function UserDetailModal({
+/**
+ * Soft-nav a /users/[id].
+ * Nota: a veces Next matchea "create" aquí en vez de (.)create → fallback a crear.
+ */
+export default function ViewUserModalPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const resolvedParams = use(params);
-  const router = useRouter();
-  const [user, setUser] = useState<UserDetail | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { id } = use(params);
+  const close = useCloseUsersModal();
+  const closeAndRefresh = useCloseUsersModalAndRefreshList();
+  const cancel = useCancelUsersModal();
+  const isCreate = id === "create";
+  const numericId = Number.parseInt(id, 10);
+  const isNumericId = !Number.isNaN(numericId);
+
+  const { user, isLoading, error } = useUserDetail(
+    isCreate || !isNumericId ? null : id
+  );
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
+    if (isCreate || !isNumericId) return;
+    if (!error) return;
+    globalToast.error(error.message);
+    close();
+  }, [error, close, isCreate, isNumericId]);
 
-        //const data = await getUser(parseInt(resolvedParams.id));
-        const userId = parseInt(resolvedParams.id);
-        if (isNaN(userId) ||  resolvedParams.id === 'create') {
-          router.back();
-          return;
-        }
+  if (isCreate) {
+    return (
+      <UsersRouteModal title="Crear usuario" maxWidth="6xl" reopenKey="create">
+        <RegisterUserForm onSuccess={closeAndRefresh} onCancel={cancel} />
+      </UsersRouteModal>
+    );
+  }
 
-        const data = await getUser(userId);
-
-        setUser(data);
-        console.log(data);
-      } catch (error) {
-        const apiError = error as ApiError;
-        const message = formatError(apiError);
-        globalToast.error(message);
-        router.back();
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [resolvedParams.id, router]);
-
-  const handleClose = () => {
-    router.back();
-  };
-
-  const handleUpdate = async () => {
-    try {
-      const data = await getUser(parseInt(resolvedParams.id));
-      setUser(data);
-    } catch (error) {
-      const apiError = error as ApiError;
-      const message = formatError(apiError);
-      globalToast.error(message);
-    }
-  };
-
-  const handleDelete = () => {
-    router.push('/users');
-  };
+  if (!isNumericId) {
+    return (
+      <UsersRouteModal
+        title="Usuario"
+        maxWidth="6xl"
+        reopenKey={`invalid-${id}`}
+      >
+        <p className="py-12 text-center text-fg-muted">Usuario no encontrado</p>
+      </UsersRouteModal>
+    );
+  }
 
   return (
-    <Modal
-      isOpen={true}
-      onClose={handleClose}
-      title="Detalles del Usuario"
-      maxWidth="2xl"
-    >
-      {loading ? (
-        <div className="flex items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-        </div>
+    <UsersRouteModal
+      title="Detalles del usuario"
+      maxWidth="6xl"
+      reopenKey={`view-${id}`}
+    > 
+      {isLoading && !user ? (
+        <UserDetailSkeleton label="Cargando usuario" />
       ) : user ? (
-        <UserDetailView user={user} onUpdate={handleUpdate} onDelete={handleDelete} />
+        <UserDetailView user={user} onDelete={closeAndRefresh} />
       ) : (
-        <div className="text-center py-12 text-fg-muted">
-          Usuario no encontrado
-        </div>
+        <p className="py-12 text-center text-fg-muted">Usuario no encontrado</p>
       )}
-    </Modal>
+    </UsersRouteModal>
   );
 }
-

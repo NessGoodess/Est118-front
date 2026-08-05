@@ -3,13 +3,15 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState, useRef } from 'react';
+import { USER_PERMISSIONS } from '@/features/users/permissions';
+import { STUDENT_PERMISSIONS } from '@/features/students/permissions';
 
 // Settings for route permissions
 export const routePermissionMap = {
-    '/users': 'view users',
-    '/users/create': 'create users',
-    '/users/[id]': 'view users',
-    '/users/[id]/edit': 'edit users',
+    '/users': USER_PERMISSIONS.view,
+    '/users/create': USER_PERMISSIONS.create,
+    '/users/[id]': USER_PERMISSIONS.view,
+    '/users/[id]/edit': USER_PERMISSIONS.edit,
 
     '/dashboard': null,
 
@@ -19,9 +21,9 @@ export const routePermissionMap = {
     '/configuracion': 'manage settings',
     '/settings': 'manage settings',
 
-    '/students': 'view students',
-    '/students/[id]': 'view students',
-    '/students/credential-printing': 'view students',
+    '/students': STUDENT_PERMISSIONS.view,
+    '/students/[id]': STUDENT_PERMISSIONS.view,
+    '/students/credential-printing': STUDENT_PERMISSIONS.view,
 
     '/attendance': 'view attendance',
     '/asistencia-general': 'view general attendance',

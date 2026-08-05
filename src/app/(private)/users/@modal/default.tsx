@@ -1,4 +1,3 @@
-//app/(private)/users/@modal/default.tsx
-export default function Default() {
+export default function UsersModalDefault() {
   return null;
 }

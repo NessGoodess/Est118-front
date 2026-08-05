@@ -69,7 +69,7 @@
   --success: hsl(145, 60%, 40%);
   --success-foreground: #ffffff;
   --warning: hsl(45, 90%, 50%);
-  --warning-foreground: hsl(40, 90%, 12%);
+  --warning-foreground: hsl(40, 67%, 35%);
   --danger: hsl(0, 80%, 55%);
   --danger-foreground: #ffffff;
   --info: hsl(200, 70%, 45%);
@@ -152,7 +152,7 @@
     --success: hsl(145, 50%, 55%);
     --success-foreground: #05140c;
     --warning: hsl(45, 80%, 60%);
-    --warning-foreground: hsl(40, 90%, 12%);
+    --warning-foreground: hsl(0, 0%, 100%);
     --danger: hsl(0, 65%, 62%);
     --danger-foreground: #1a0505;
     --info: hsl(200, 60%, 62%);
@@ -225,7 +225,7 @@ html.dark {
   --success: hsl(145, 50%, 55%);
   --success-foreground: #05140c;
   --warning: hsl(45, 80%, 60%);
-  --warning-foreground: hsl(40, 90%, 12%);
+  --warning-foreground: hsl(0, 0%, 100%);
   --danger: hsl(0, 65%, 62%);
   --danger-foreground: #1a0505;
   --info: hsl(200, 60%, 62%);

@@ -1,6 +1,6 @@
-//app/(private)/users/layout.tsx
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from "react";
 
+/** Layout de /users con slot paralelo para intercepting modals (create / ver / edit / password). */
 export default function UsersLayout({
   children,
   modal,
@@ -11,8 +11,7 @@ export default function UsersLayout({
   return (
     <>
       {children}
-      {modal}
+      <Suspense fallback={null}>{modal}</Suspense>
     </>
   );
 }
-
