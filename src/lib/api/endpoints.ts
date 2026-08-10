@@ -34,6 +34,7 @@ export const API_ENDPOINTS = {
     RECENT_READINGS: api('/attendance/recent-readings'),
     DAILY: api('/attendance/daily'),
     DAILY_STATUSES: api('/attendance/daily-statuses'),
+    SETTINGS: api('/attendance/settings'),
   },
   READER: {
     STATUS: api('/reader/status'),

@@ -66,6 +66,14 @@ export class DateFormatter {
         return new Date(cleanDate.replace(' ', 'T') + 'Z');
       }
 
+      // Solo fecha (input type="date" / API day key): "2024-01-20"
+      // new Date("YYYY-MM-DD") es UTC midnight y en México/LATAM muestra el día anterior.
+      // Usamos mediodía UTC para que el día civil se mantenga al formatear con America/Mexico_City.
+      if (/^\d{4}-\d{2}-\d{2}$/.test(cleanDate)) {
+        const [year, month, day] = cleanDate.split('-').map(Number);
+        return new Date(Date.UTC(year, month - 1, day, 12, 0, 0));
+      }
+
       // Intentar parsear como ISO 8601 o cualquier formato estándar
       const parsedDate = new Date(cleanDate);
       

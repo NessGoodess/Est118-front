@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import React, { useState, useRef, useEffect, forwardRef, useCallback } from 'react';
+import React, { useState, useRef, useEffect, forwardRef, useCallback, useId } from 'react';
 import { IconByName } from './icons/global.icons';
 
 // ============================================================================
@@ -83,6 +83,8 @@ interface BaseFloatingInputProps {
   icon?: React.ReactNode;
   error?: string;
   helperText?: string;
+  /** When true, skips the reserved error/helper slot under the field. */
+  hideMessage?: boolean;
   required?: boolean;
   className?: string;
   // Props específicas para react-hook-form
@@ -111,6 +113,7 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
     icon,
     error,
     helperText,
+    hideMessage = false,
     required = false,
     placeholder,
     id,
@@ -125,10 +128,11 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
   }, ref) => {
     const internalRef = useRef<HTMLInputElement>(null);
     const { isFocused, hasValue, isFloating, setIsFocused, setHasValue } = useFloatingLabel(internalRef as React.RefObject<HTMLInputElement>);
+    const reactId = useId();
 
     useDateInputStyles(type);
 
-    const fieldId = id || name || `floating-input-${Math.random().toString(36).substr(2, 9)}`;
+    const fieldId = id || name || reactId;
 
     // Combinar refs de manera segura
     const setRefs = useCallback(
@@ -184,7 +188,7 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
           : 'border-border bg-surface-elevated hover:border-fg-muted/50';
 
     return (
-      <div className={`relative mb-3 ${className || ''}`}>
+      <div className={`relative ${hideMessage ? 'mb-0' : 'mb-3'} ${className || ''}`}>
         {/* Shell: border + bg viven aquí para que el label herede el mismo fondo */}
         <div className={`relative rounded-xl border-2 transition-all duration-200 ${shellBg}`}>
           {/* Icono */}
@@ -236,12 +240,11 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
             placeholder={isFloating ? placeholder : undefined}
             required={required}
             disabled={disabled}
-            value={value}
-            defaultValue={defaultValue}
+            {...props}
+            {...(value !== undefined ? { value } : { defaultValue })}
             onFocus={handleFocus}
             onBlur={handleBlur}
             onChange={handleChange}
-            {...props}
             className={`
               w-full bg-transparent rounded-xl border-0 transition-colors duration-200 text-sm text-foreground
               ${icon ? 'pl-9' : 'pl-3'}
@@ -255,24 +258,25 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
           />
         </div>
 
-        {/* Error or Helper Text */}
-        <div className="mt-1.5 flex min-h-4">
-          {(error || helperText) && (
-            <div className="flex items-start gap-x-0.5">
-              {error ? (
-                <>
-                  <IconByName name="error" className="w-3 h-3 text-danger flex-shrink-0 mt-0.5" />
-                  <p className="text-xs text-danger font-medium">{error}</p>
-                </>
-              ) : (
-                <>
-                  <IconByName name="info" className="w-3 h-3 text-fg-muted flex-shrink-0 mt-0.5" />
-                  <p className="text-xs text-fg-muted">{helperText}</p>
-                </>
-              )}
-            </div>
-          )}
-        </div>
+        {!hideMessage && (
+          <div className="mt-1.5 flex min-h-4">
+            {(error || helperText) && (
+              <div className="flex items-start gap-x-0.5">
+                {error ? (
+                  <>
+                    <IconByName name="error" className="w-3 h-3 text-danger flex-shrink-0 mt-0.5" />
+                    <p className="text-xs text-danger font-medium">{error}</p>
+                  </>
+                ) : (
+                  <>
+                    <IconByName name="info" className="w-3 h-3 text-fg-muted flex-shrink-0 mt-0.5" />
+                    <p className="text-xs text-fg-muted">{helperText}</p>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     );
   }
@@ -291,6 +295,7 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
     icon,
     error,
     helperText,
+    hideMessage = false,
     required = false,
     placeholder,
     id,
@@ -306,8 +311,9 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
   }, ref) => {
     const internalRef = useRef<HTMLTextAreaElement>(null);
     const { isFocused, isFloating, setIsFocused, setHasValue } = useFloatingLabel(internalRef as React.RefObject<HTMLTextAreaElement>);
+    const reactId = useId();
 
-    const fieldId = id || name || `floating-textarea-${Math.random().toString(36).substr(2, 9)}`;
+    const fieldId = id || name || reactId;
 
     const setRefs = useCallback(
       (node: HTMLTextAreaElement | null) => {
@@ -356,7 +362,7 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
           : 'border-border bg-surface-elevated hover:border-fg-muted/50';
 
     return (
-      <div className={`relative mb-3 ${className || ''}`}>
+      <div className={`relative ${hideMessage ? 'mb-0' : 'mb-3'} ${className || ''}`}>
         <div className={`relative rounded-xl border-2 transition-all duration-200 ${shellBg}`}>
           {icon && (
             <div className="absolute top-3 left-0 pl-3 flex items-start pointer-events-none z-10">
@@ -404,12 +410,11 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
             required={required}
             disabled={disabled}
             rows={rows}
-            value={value}
-            defaultValue={defaultValue}
+            {...props}
+            {...(value !== undefined ? { value } : { defaultValue })}
             onFocus={handleFocus}
             onBlur={handleBlur}
             onChange={handleChange}
-            {...props}
             className={`
               w-full bg-transparent rounded-xl border-0 transition-colors duration-200 resize-vertical text-sm text-foreground
               ${icon ? 'pl-9' : 'pl-3'}
@@ -421,23 +426,25 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
           />
         </div>
 
-        <div className="mt-1.5 flex min-h-4">
-          {(error || helperText) && (
-            <div className="flex items-start gap-x-0.5">
-              {error ? (
-                <>
-                  <IconByName name="error" className="w-3 h-3 text-danger flex-shrink-0 mt-0.5" />
-                  <p className="text-xs text-danger font-medium">{error}</p>
-                </>
-              ) : (
-                <>
-                  <IconByName name="info" className="w-3 h-3 text-fg-muted flex-shrink-0 mt-0.5" />
-                  <p className="text-xs text-fg-muted">{helperText}</p>
-                </>
-              )}
-            </div>
-          )}
-        </div>
+        {!hideMessage && (
+          <div className="mt-1.5 flex min-h-4">
+            {(error || helperText) && (
+              <div className="flex items-start gap-x-0.5">
+                {error ? (
+                  <>
+                    <IconByName name="error" className="w-3 h-3 text-danger flex-shrink-0 mt-0.5" />
+                    <p className="text-xs text-danger font-medium">{error}</p>
+                  </>
+                ) : (
+                  <>
+                    <IconByName name="info" className="w-3 h-3 text-fg-muted flex-shrink-0 mt-0.5" />
+                    <p className="text-xs text-fg-muted">{helperText}</p>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     );
   }

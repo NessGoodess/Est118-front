@@ -1,4 +1,7 @@
-import type { NfcReaderStatusItem, ReaderStatusData as NfcReaderStatusData } from '@/lib/types/nfc-reader';
+import type {
+  NfcReaderStatusItem,
+  ReaderStatusData as NfcReaderStatusData,
+} from '@/features/general-attendance/types/nfc-reader';
 
 export interface CurrentStudent {
   id: number;
@@ -26,7 +29,7 @@ export interface CurrentData {
   timestamp: string;
 }
 
-/** @deprecated Prefer ReaderStatusData from @/lib/types/nfc-reader */
+/** @deprecated Prefer ReaderStatusData from @/features/general-attendance/types/nfc-reader */
 export interface ReaderStatusData {
   event: 'reader_status_changed';
   connected: boolean;

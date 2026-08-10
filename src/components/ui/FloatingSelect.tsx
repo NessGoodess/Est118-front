@@ -1,4 +1,4 @@
-﻿import React, { forwardRef, useState, useRef, useEffect, useCallback } from 'react';
+﻿import React, { forwardRef, useState, useRef, useEffect, useCallback, useId } from 'react';
 import { IconByName } from './icons/global.icons';
 
 interface BaseFloatingInputProps {
@@ -6,6 +6,8 @@ interface BaseFloatingInputProps {
   icon?: React.ReactNode;
   error?: string;
   helperText?: string;
+  /** When true, skips the reserved error/helper slot under the field. */
+  hideMessage?: boolean;
   required?: boolean;
   id?: string;
   className?: string;
@@ -29,6 +31,7 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
       icon,
       error,
       helperText,
+      hideMessage = false,
       required = false,
       placeholder = "Selecciona una opción",
       id,
@@ -47,8 +50,9 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
     const internalRef = useRef<HTMLSelectElement>(null);
     const [isFocused, setIsFocused] = useState(false);
     const [hasValue, setHasValue] = useState(false);
+    const reactId = useId();
 
-    const fieldId = id || name || `floating-select-${Math.random().toString(36).slice(2, 9)}`;
+    const fieldId = id || name || reactId;
 
     const setRefs = useCallback(
       (node: HTMLSelectElement | null) => {
@@ -108,7 +112,7 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
           : 'border-border bg-surface-elevated hover:border-fg-muted/50';
 
     return (
-      <div className={`relative mb-3 ${className || ''}`}>
+      <div className={`relative ${hideMessage ? 'mb-0' : 'mb-3'} ${className || ''}`}>
         <div className={`relative rounded-xl border-2 transition-all duration-200 ${shellBg}`}>
           {icon && (
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
@@ -184,23 +188,25 @@ export const FloatingSelect = forwardRef<HTMLSelectElement, FloatingSelectProps>
           </div>
         </div>
 
-        <div className="mt-1.5 flex min-h-4 items-start gap-x-0.5">
-          {(error || helperText) && (
-            <>
-              {error ? (
-                <>
-                  <IconByName name="error" className="w-3 h-3 text-danger mt-0.5" />
-                  <p className="text-xs text-danger font-medium">{error}</p>
-                </>
-              ) : (
-                <>
-                  <IconByName name="info" className="w-3 h-3 text-fg-muted mt-0.5" />
-                  <p className="text-xs text-fg-muted">{helperText}</p>
-                </>
-              )}
-            </>
-          )}
-        </div>
+        {!hideMessage && (
+          <div className="mt-1.5 flex min-h-4 items-start gap-x-0.5">
+            {(error || helperText) && (
+              <>
+                {error ? (
+                  <>
+                    <IconByName name="error" className="w-3 h-3 text-danger mt-0.5" />
+                    <p className="text-xs text-danger font-medium">{error}</p>
+                  </>
+                ) : (
+                  <>
+                    <IconByName name="info" className="w-3 h-3 text-fg-muted mt-0.5" />
+                    <p className="text-xs text-fg-muted">{helperText}</p>
+                  </>
+                )}
+              </>
+            )}
+          </div>
+        )}
       </div>
     );
   }

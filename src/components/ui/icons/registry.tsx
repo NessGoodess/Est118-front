@@ -191,6 +191,32 @@ export const AppIcons = {
       <path d="m6 6 12 12" />
     </Icon>
   ),
+  clock: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </Icon>
+  ),
+  calendar: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+    </Icon>
+  ),
+  globe: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <circle cx="12" cy="12" r="10" />
+      <line x1="2" y1="12" x2="22" y2="12" />
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+    </Icon>
+  ),
+  timer: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </Icon>
+  ),
 } as const satisfies Record<string, SvgIcon>;
 
 export type AppIconName = keyof typeof AppIcons;

@@ -1,5 +1,4 @@
 import { SkeletonBone, SkeletonCard } from "@/components/ui/skeleton/SectionSkeleton";
-import { DataTableSkeleton } from "@/components/ui/DataTable/DataTableSkeleton";
 /** Skeleton de /users: header + filtros + tabla. */
 export default function UsersLoading() {
   return (

@@ -21,6 +21,7 @@ const protectedPrefixes = [
   '/admissions',
   '/students',
   '/attendance',
+  '/general-attendance',
   '/asistencia-general',
   '/groups',
   '/profile',

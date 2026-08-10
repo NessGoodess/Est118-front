@@ -17,7 +17,7 @@ function LayoutContent({
   const { isCollapsed, isMobile } = useSidebar();
 
   return (
-    <div className="flex h-dvh bg-surface-app text-foreground overflow-x-hidden min-w-0">
+    <div className="font-geist-sans flex h-dvh min-w-0 overflow-x-hidden bg-surface-app text-foreground">
       <ModernSidebar />
       <div
         className={`flex-1 flex flex-col min-w-0 min-h-0 transition-all duration-400 ease-in-out rounded-l-2xl rounded-r-none shadow-card bg-surface-panel border border-border border-r-0

@@ -5,6 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState, useRef } from 'react';
 import { USER_PERMISSIONS } from '@/features/users/permissions';
 import { STUDENT_PERMISSIONS } from '@/features/students/permissions';
+import { GENERAL_ATTENDANCE_PERMISSIONS } from '@/features/general-attendance/permissions';
 
 // Settings for route permissions
 export const routePermissionMap = {
@@ -26,7 +27,8 @@ export const routePermissionMap = {
     '/students/credential-printing': STUDENT_PERMISSIONS.view,
 
     '/attendance': 'view attendance',
-    '/asistencia-general': 'view general attendance',
+    '/general-attendance': GENERAL_ATTENDANCE_PERMISSIONS.view,
+    '/asistencia-general': GENERAL_ATTENDANCE_PERMISSIONS.view,
 
     '/groups': 'view groups',
 

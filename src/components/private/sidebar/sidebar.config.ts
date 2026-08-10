@@ -1,6 +1,7 @@
 import { MenuItem } from './sidebar.types';
 import { USER_PERMISSIONS } from '@/features/users/permissions';
 import { STUDENT_PERMISSIONS } from '@/features/students/permissions';
+import { GENERAL_ATTENDANCE_PERMISSIONS } from '@/features/general-attendance/permissions';
 
 /**
  * Private sidebar navigation — grouped by domain for growth
@@ -20,10 +21,10 @@ export const menuItems: MenuItem[] = [
   // ── Asistencia ──────────────────────────────────────────
   {
     name: 'Asistencia General',
-    href: '/asistencia-general',
+    href: '/general-attendance',
     icon: 'listCheck',
     badge: 'NFC',
-    permission: 'view general attendance',
+    permission: GENERAL_ATTENDANCE_PERMISSIONS.view,
     section: 'asistencia',
     order: 20,
     activeMatch: 'prefix',

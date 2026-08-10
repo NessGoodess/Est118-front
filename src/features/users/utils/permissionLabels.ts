@@ -20,6 +20,8 @@ const RESOURCES: Record<string, string> = {
   "re-enrollment": "reinscripción",
   announcements: "avisos",
   attendance: "asistencia",
+  "general attendance": "asistencia general",
+  "nfc readings": "lecturas NFC",
   credentials: "credenciales",
   roles: "roles",
   permissions: "permisos",
@@ -39,6 +41,8 @@ const CATEGORY_LABELS: Record<string, string> = {
   "re-enrollment": "Reinscripción",
   announcements: "Avisos",
   attendance: "Asistencia",
+  "general attendance": "Asistencia general",
+  "nfc readings": "Lecturas NFC",
   credentials: "Credenciales",
   photos: "Fotos",
   roles: "Roles",
@@ -55,6 +59,7 @@ const ROLE_LABELS: Record<string, string> = {
   user: "Usuario",
   "pre-enrollment-admin": "Admin. preinscripciones",
   teacher: "Docente",
+  prefectura: "Prefectura",
 };
 
 const PERMISSION_OVERRIDES: Record<string, string> = {
@@ -72,6 +77,10 @@ const PERMISSION_OVERRIDES: Record<string, string> = {
   "edit pre-enrollments": "Editar preinscripciones",
   "manage admission cycles": "Administrar ciclos de admisión",
   "manage re-enrollment": "Administrar reinscripción",
+  "view general attendance": "Ver asistencia general",
+  "manage nfc readings": "Administrar lecturas NFC",
+  "edit general attendance": "Editar asistencia general",
+  "view attendance": "Ver asistencia por clase",
 };
 
 /** Split Spatie name `"view student photos"` → verb + resource. */
