@@ -87,10 +87,10 @@ export async function finalizeReEnrollmentPeriod(
 export async function promoteReEnrollmentPeriod(
   id: number,
   dryRun = false
-): Promise<{ summary: import('@/lib/types/academic-year').PromoteAcademicYearSummary; period: ReEnrollmentPeriod }> {
+): Promise<{ summary: import('@/features/academic-years').PromoteAcademicYearSummary; period: ReEnrollmentPeriod }> {
   const response = await apiClient.post<{
     success: boolean;
-    data: import('@/lib/types/academic-year').PromoteAcademicYearSummary;
+    data: import('@/features/academic-years').PromoteAcademicYearSummary;
     period: ReEnrollmentPeriod;
   }>(API_ENDPOINTS.SCHOOL.RE_ENROLLMENT.PERIOD_PROMOTE(id), { dry_run: dryRun });
 

@@ -95,7 +95,7 @@ export const menuItems: MenuItem[] = [
     name: 'Ciclos escolares',
     href: '/academic-years',
     icon: 'settings',
-    permission: 'manage re-enrollment',
+    permission: 'view academic years',
     section: 'estructura',
     order: 50,
     activeMatch: 'prefix',

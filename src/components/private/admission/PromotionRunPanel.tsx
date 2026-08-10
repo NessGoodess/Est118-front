@@ -4,11 +4,13 @@ import { useEffect, useMemo, useState } from "react";
 import { useToast } from "@/contexts/ToastContext";
 import { useConfirm } from "@/components/ui/confirm";
 import { Button } from "@/components/ui/Button";
-import { useAcademicYears } from "@/hooks/academic-years/useAcademicYears";
+import {
+  useAcademicYears,
+  type PromoteAcademicYearSummary,
+} from "@/features/academic-years";
 import { runAcademicYearPromotion } from "@/lib/services/admissions.service";
 import { ApiError } from "@/lib/types/auth";
 import { handleApiError } from "@/lib/api";
-import { PromoteAcademicYearSummary } from "@/lib/types/academic-year";
 
 function formatSummary(s: PromoteAcademicYearSummary) {
   return `Procesados: ${s.processed}

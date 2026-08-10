@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/contexts/ToastContext";
 import { useConfirm } from "@/components/ui/confirm";
-import { useAcademicYears } from "@/hooks/academic-years/useAcademicYears";
+import { useAcademicYears } from "@/features/academic-years";
 import { assignFirstGradeGroups } from "@/lib/services/admissions.service";
 import { handleApiError } from "@/lib/api";
 import {

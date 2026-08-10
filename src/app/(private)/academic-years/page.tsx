@@ -1,4 +1,4 @@
-import AcademicYearsPanel from '@/components/private/school/academic-years/AcademicYearsPanel';
+import AcademicYearsPanel from "@/features/academic-years/components/AcademicYearsPanel";
 
 export default function AcademicYearsPage() {
   return <AcademicYearsPanel />;

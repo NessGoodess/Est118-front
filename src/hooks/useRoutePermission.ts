@@ -6,6 +6,7 @@ import { useEffect, useState, useRef } from 'react';
 import { USER_PERMISSIONS } from '@/features/users/permissions';
 import { STUDENT_PERMISSIONS } from '@/features/students/permissions';
 import { GENERAL_ATTENDANCE_PERMISSIONS } from '@/features/general-attendance/permissions';
+import { ACADEMIC_YEAR_PERMISSIONS } from '@/features/academic-years/permissions';
 
 // Settings for route permissions
 export const routePermissionMap = {
@@ -29,6 +30,8 @@ export const routePermissionMap = {
     '/attendance': 'view attendance',
     '/general-attendance': GENERAL_ATTENDANCE_PERMISSIONS.view,
     '/asistencia-general': GENERAL_ATTENDANCE_PERMISSIONS.view,
+
+    '/academic-years': ACADEMIC_YEAR_PERMISSIONS.view,
 
     '/groups': 'view groups',
 

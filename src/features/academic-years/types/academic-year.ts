@@ -2,9 +2,20 @@ export interface AcademicYearListItem {
   id: number;
   year_start: string;
   year_end: string;
+  starts_on: string;
+  ends_on: string;
   description: string;
   is_active: boolean;
   class_groups_count?: number;
+}
+
+export interface CreateAcademicYearPayload {
+  starts_on: string;
+  ends_on: string;
+  year_start?: string;
+  year_end?: string;
+  description?: string;
+  generate_class_groups?: boolean;
 }
 
 export interface PromoteAcademicYearSummary {

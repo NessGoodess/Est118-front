@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useState } from 'react';
-import { getAcademicYears } from '@/lib/services/admissions.service';
-import { AcademicYearListItem } from '@/lib/types/academic-year';
-import { ApiError } from '@/lib/types/auth';
-import { handleApiError } from '@/lib/api';
+import { useCallback, useEffect, useState } from "react";
+import { getAcademicYearsList } from "@/features/academic-years/services/academic-years.service";
+import type { AcademicYearListItem } from "@/features/academic-years/types/academic-year";
+import { ApiError } from "@/lib/types/auth";
+import { handleApiError } from "@/lib/api";
 
 export function useAcademicYears() {
   const [data, setData] = useState<AcademicYearListItem[]>([]);
@@ -16,7 +16,7 @@ export function useAcademicYears() {
     setError(null);
 
     try {
-      const years = await getAcademicYears();
+      const years = await getAcademicYearsList();
       setData(years);
     } catch (err) {
       setError(handleApiError(err));
@@ -36,4 +36,3 @@ export function useAcademicYears() {
     refetch: fetchData,
   };
 }
-

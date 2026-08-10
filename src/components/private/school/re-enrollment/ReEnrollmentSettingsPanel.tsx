@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useReEnrollment } from '@/contexts/ReEnrollmentContext';
-import { useAcademicYears } from '@/hooks/academic-years/useAcademicYears';
+import { useAcademicYears } from '@/features/academic-years';
 import { useToast } from '@/contexts/ToastContext';
 import { Button } from '@/components/ui/Button';
 import {

@@ -2,7 +2,11 @@ import apiClient, { API_ENDPOINTS } from '@/lib/api';
 import { PaginatedResponse } from '@/lib/types/paginated-response';
 import { PreEnrollmentListItem, PreEnrollmentApi, AdmissionCycle } from '@/lib/types/admission/preEnrollmentApi';
 import { PendingPromotionDecisionItem, PromotionDecisionApiResponse } from '@/lib/types/admission/promotion';
-import { AcademicYearListItem, PromoteAcademicYearSummary } from '@/lib/types/academic-year';
+import {
+  getAcademicYearsList,
+  type AcademicYearListItem,
+  type PromoteAcademicYearSummary,
+} from '@/features/academic-years';
 import { FirstGradeAssignmentResult, ScoreSource } from '@/lib/types/admission/first-grade-assignment';
 import { AxiosRequestConfig } from 'axios';
 
@@ -152,10 +156,7 @@ export async function updatePromotionDecision(enrollmentId: number, isApproved: 
  * Academic years list
  */
 export async function getAcademicYears(): Promise<AcademicYearListItem[]> {
-        const response = await apiClient.get<{ success: boolean; data: AcademicYearListItem[] }>(
-                API_ENDPOINTS.ACADEMIC_YEARS.LIST
-        );
-        return response.data.data ?? [];
+        return getAcademicYearsList();
 }
 
 /**
