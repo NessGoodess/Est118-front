@@ -18,7 +18,13 @@ export const routePermissionMap = {
     '/dashboard': null,
 
     '/admissions': 'view pre-enrollments',
-    '/admissions/[id]': 'view pre-enrollments',
+    '/admissions/applications': 'view pre-enrollments',
+    '/admissions/applications/create': 'create pre-enrollments',
+    '/admissions/applications/[id]': 'view pre-enrollments',
+    '/admissions/applications/[id]/edit': 'edit pre-enrollments',
+    '/admissions/intake-settings': 'view admission enrollment',
+    '/admissions/first-grade-assignment': 'view admission enrollment',
+    '/admissions/process': 'view pre-enrollments',
 
     '/configuracion': 'manage settings',
     '/settings': 'manage settings',

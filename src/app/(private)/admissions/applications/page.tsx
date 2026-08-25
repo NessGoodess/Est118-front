@@ -1,74 +1,77 @@
-//app/(private)/admissions/page.tsx
+"use client";
 
-"use client"
 import { useEffect } from "react";
-
-import { usePreEnrollments } from "@/hooks/admissions/use-pre-enrollments";
-import { useAdmissionCycles } from "@/hooks/admissions/use-admission-cycles";
-import { CardOption, CardOptionData } from "@/components/ui/CardOption";
-import { formatWithoutYear } from "@/lib/utils/dateFormatter";
+import {
+  AdmissionCycleCard,
+  PreEnrollmentsList,
+  useAdmissionCycles,
+  usePreEnrollments,
+} from "@/features/admissions";
+import { subscribePreEnrollmentsListChanged } from "@/features/admissions/lib/pre-enrollments-list-events";
 import { useToast } from "@/contexts/ToastContext";
-import PreEnrollmentsList from "@/components/private/admission/pre-enrollments-list";
 import GenericHeader from "@/components/ui/GenericHeader";
-import Loading from "./loading";
+import { withPagePermission } from "@/components/guards/withPagePermission";
+import PreEnrollmentsListSkeleton from "@/features/admissions/components/skeletons/pre-enrollments-list-skeleton";
 
+function AdmissionsApplicationsPage() {
+  const { data: cycles } = useAdmissionCycles();
+  const {
+    data,
+    isInitialLoading,
+    isRefetching,
+    error,
+    cycleId,
+    setCycleId,
+    refetch,
+  } = usePreEnrollments();
+  const { showError } = useToast();
 
+  const activeCycleId =
+    cycleId ||
+    cycles.find((c) => c.status === "active")?.id ||
+    cycles[0]?.id;
 
-export default function Admissions() {
-    const { data: cycles } = useAdmissionCycles();
-    const { data, isInitialLoading, isRefetching, error, cycleId, setCycleId, refetch } = usePreEnrollments();
+  useEffect(() => {
+    if (!error) return;
+    showError("Error", error.message || "Error al cargar las preinscripciones");
+  }, [error, showError]);
 
-    const { showError } = useToast();
+  useEffect(() => subscribePreEnrollmentsListChanged(() => {
+    void refetch();
+  }), [refetch]);
 
-    const activeCycleId = cycleId || cycles.find(c => c.status === 'active')?.id || cycles[0]?.id;
+  if (isInitialLoading) return <PreEnrollmentsListSkeleton />;
 
-    useEffect(() => {
-        if (!error) return;
-        showError('Error', error.message || 'Error al cargar las preinscripciones');
-    }, [error, showError]);
+  return (
+    <section>
+      <GenericHeader
+        title="Preinscripciones"
+        description="Gestiona los aspirantes a la Institución"
+      />
 
-    if (isInitialLoading) {
-        return <Loading />;
-    }
-
-    return (
-        <>
-            <div className="space-y-6">
-                <GenericHeader title="Pre-inscripciones" description="Gestiona los aspirantes a la Institución" />
-
-                <div className="w-full">
-                    <div className="max-h-[480px] overflow-y-auto">
-                        <div className="overflow-x-auto">
-                            <div className="flex gap-3 m-2 min-w-max">
-                                {cycles.map(cycle => {
-                                    const cardData: CardOptionData = {
-                                        id: cycle.id,
-                                        title: cycle.name,
-                                        subtitle: cycle.status === 'active' ? "Ciclo Activo" : cycle.status === 'closed' ? "Ciclo Cerrado" : "Borrador",
-                                        status: cycle.status === 'draft' ? "upcoming" : (cycle.status as "active" | "closed"),
-                                        startDate: cycle.start_at ? formatWithoutYear(cycle.start_at) : "—",
-                                        endDate: cycle.end_at ? formatWithoutYear(cycle.end_at) : "—",
-                                        studentCount: cycle.preenrollments_count || 0,
-                                        lastFolio: cycle.last_folio_number ? `${cycle.last_folio_number.toString().padStart(4, '0')}` : "0000"
-                                    };
-                                    return (
-                                        <CardOption
-                                            key={cycle.id}
-                                            data={cardData}
-                                            selected={activeCycleId === cycle.id}
-                                            onClick={(d) => setCycleId(activeCycleId === d.id ? null : Number(d.id))}
-                                        />
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <PreEnrollmentsList data={data} loading={isRefetching} refetch={refetch} />
-            </div>
-        </>
-    );
+      <article className="flex gap-3 overflow-x-auto px-2 py-3">
+        {cycles.map((cycle) => (
+          <AdmissionCycleCard
+            key={cycle.id}
+            cycle={cycle}
+            selected={activeCycleId === cycle.id}
+            onClick={(c) =>
+              setCycleId(activeCycleId === c.id ? null : c.id)
+            }
+          />
+        ))}
+      </article>
+      <article className="">
+        <PreEnrollmentsList
+          data={data}
+          loading={isRefetching}
+          refetch={refetch}
+        />
+      </article>
+    </section>
+  );
 }
 
-
-
+export default withPagePermission(AdmissionsApplicationsPage, {
+  loadingComponent: <PreEnrollmentsListSkeleton />,
+});

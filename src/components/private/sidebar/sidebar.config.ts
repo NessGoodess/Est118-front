@@ -90,7 +90,7 @@ export const menuItems: MenuItem[] = [
   },
 
   // ── Estructura escolar ──────────────────────────────────
-  // Futuro: Grados, Grupos (rutas dedicadas)
+
   {
     name: 'Ciclos escolares',
     href: '/academic-years',
@@ -104,7 +104,7 @@ export const menuItems: MenuItem[] = [
   // ── Admisión ────────────────────────────────────────────
   {
     name: 'Preinscripciones',
-    icon: 'students',
+    icon: 'clipboard',
     permission: 'view pre-enrollments',
     section: 'admision',
     order: 60,
@@ -112,21 +112,35 @@ export const menuItems: MenuItem[] = [
       {
         name: 'Lista de preinscritos',
         href: '/admissions/applications',
-        icon: 'list',
+        icon: 'listCheck',
         permission: 'view pre-enrollments',
         activeMatch: 'prefix',
       },
       {
-        name: 'Crear preinscripción',
-        href: '/admissions/applications/new',
-        icon: 'add',
+        name: 'Nueva preinscripción',
+        href: '/admissions/applications/create',
+        icon: 'plus',
         permission: 'create pre-enrollments',
       },
       {
-        name: 'Proceso de admisión',
+        name: 'Periodos de registro',
         href: '/admissions/process',
-        icon: 'list',
-        permission: 'manage admission cycles',
+        icon: 'calendar',
+        permission: 'view pre-enrollments',
+        activeMatch: 'prefix',
+      },
+      {
+        name: 'Política de ingreso',
+        href: '/admissions/intake-settings',
+        icon: 'settings',
+        permission: 'view admission enrollment',
+        activeMatch: 'prefix',
+      },
+      {
+        name: 'Asignar grupos 1°',
+        href: '/admissions/first-grade-assignment',
+        icon: 'groups',
+        permission: 'view admission enrollment',
         activeMatch: 'prefix',
       },
     ],

@@ -1,118 +1,100 @@
-//app/(private)/admissions/[id]/page.tsx
-// SOLO debe contener esto - ELIMINA el PreEnrollmentsList
+"use client";
 
-"use client"
+import { use, useEffect, useRef } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  PreEnrollmentDetail,
+  resentPDFFolio,
+} from "@/features/admissions";
+import usePreEnrollmentDetail from "@/features/admissions/hooks/use-pre-enrollment-detail";
+import PreEnrollmentDetailSkeleton from "@/features/admissions/components/skeletons/pre-enrollment-detail-skeleton";
+import GenericHeader from "@/components/ui/GenericHeader";
+import { Button } from "@/components/ui/Button";
+import { IconByName } from "@/components/ui/icons";
+import { withPagePermission } from "@/components/guards/withPagePermission";
+import { globalToast } from "@/lib/toast/globalToast";
+import { handleApiError } from "@/lib/api";
 
-import { use } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { getPreEnrollmentById, resentPDFFolio } from '@/lib/services/admissions.service';
-import { useEffect, useState } from 'react';
-import { PreEnrollmentApi } from '@/lib/types/admission/preEnrollmentApi';
-import PreEnrollmentDetail from '@/components/private/admission/pre-enrollment-detail';
-import PreEnrollmentEditForm from '@/components/private/admission/pre-enrollment-edit-form';
-import Loading from './loading';
-import GenericHeader from '@/components/ui/GenericHeader';
-import { handleApiError } from '@/lib/api';
-import { globalToast } from '@/lib/toast/globalToast';
-
-export default function PreEnrollmentPage({
+function PreEnrollmentDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const resolvedParams = use(params);
-  const searchParams = useSearchParams();
+  const { id } = use(params);
   const router = useRouter();
-  const [preEnrollment, setPreEnrollment] = useState<PreEnrollmentApi | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const isEditMode = searchParams.get('edit') === '1';
+  const pathname = usePathname();
+  const { data, setData, isLoading, error, refetch } =
+    usePreEnrollmentDetail(id);
+  const skipPathRefetch = useRef(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const data = await getPreEnrollmentById(parseInt(resolvedParams.id));
-        setPreEnrollment(data);
-      } catch (err) {
-        const apiErr = handleApiError(err);
-        globalToast.error(apiErr.message || 'Error al obtener pre-inscripción');
-        router.back();
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (!error) return;
+    globalToast.error(error.message || "Error al obtener pre-inscripción");
+    router.replace("/admissions/applications");
+  }, [error, router]);
 
-    fetchData();
-  }, [resolvedParams.id, router]);
+  useEffect(() => {
+    if (pathname !== `/admissions/applications/${id}`) return;
+    if (skipPathRefetch.current) {
+      skipPathRefetch.current = false;
+      return;
+    }
+    void refetch();
+  }, [pathname, id, refetch]);
 
   const handleResentPdf = async () => {
     try {
-      const data = await resentPDFFolio(parseInt(resolvedParams.id));
-      if (data.status === 'success') {
-        globalToast.success('PDF reenviado correctamente');
+      const result = await resentPDFFolio(Number.parseInt(id, 10));
+      if (result.status === "success") {
+        globalToast.success("PDF reenviado correctamente");
       }
     } catch (err) {
-      globalToast.error(handleApiError(err).message || 'Error al reenviar PDF');
+      globalToast.error(
+        handleApiError(err).message || "Error al reenviar PDF"
+      );
     }
   };
 
-  const handleSwitchToEdit = () => {
-    router.push(`/admissions/applications/${resolvedParams.id}?edit=1`);
-  };
+  if (isLoading && !data) {
+    return <PreEnrollmentDetailSkeleton showPageHeader />;
+  }
 
-  const handleEditSuccess = (updated: PreEnrollmentApi) => {
-    setPreEnrollment(updated);
-    router.push(`/admissions/applications/${resolvedParams.id}`);
-  };
-
-  const handleEditCancel = () => {
-    router.push(`/admissions/applications/${resolvedParams.id}`);
-  };
-
-  if (loading) {
-    return <Loading />;
+  if (!data) {
+    return (
+      <p className="py-12 text-center text-fg-muted">
+        No se encontró el registro
+      </p>
+    );
   }
 
   return (
-    <>
-      <button
-        type="button"
-        onClick={() => router.push('/admissions/applications')}
-        className="mb-4 text-primary hover:text-primary-hover flex items-center gap-2 cursor-pointer"
+    <div className="space-y-6">
+      <GenericHeader
+        title="Información completa"
+        description="Detalles de la pre-inscripción"
       >
-        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-        </svg>
-        Volver a la lista
-      </button>
-
-      <div>
-        <GenericHeader
-          title={isEditMode ? 'Editar pre-inscripción' : 'Información completa'}
-          description={isEditMode ? 'Modifica los datos del aspirante' : 'Detalles de la pre-inscripción'}
-        />
-        {preEnrollment ? (
-          isEditMode ? (
-            <PreEnrollmentEditForm
-              data={preEnrollment}
-              onSuccess={handleEditSuccess}
-              onCancel={handleEditCancel}
-            />
-          ) : (
-            <PreEnrollmentDetail
-              data={preEnrollment}
-              onEdit={handleSwitchToEdit}
-              showEditButton
-              showResentPdfButton
-              onResentPdf={handleResentPdf}
-              onProcessSaved={(updated) => setPreEnrollment(updated)}
-            />
-          )
-        ) : (
-          <p>No se encontró el registro</p>
-        )}
-      </div>
-    </>
+        <Button
+          variant="ghost"
+          onClick={() => router.push("/admissions/applications")}
+          leftIcon={<IconByName name="chevronLeft" className="h-4 w-4" />}
+        >
+          Volver
+        </Button>
+      </GenericHeader>
+      <PreEnrollmentDetail
+        data={data}
+        onEdit={() =>
+          router.push(`/admissions/applications/${id}/edit`)
+        }
+        showEditButton
+        showResentPdfButton
+        onResentPdf={handleResentPdf}
+        onProcessSaved={(updated) => setData(updated)}
+      />
+    </div>
   );
 }
+
+export default withPagePermission(PreEnrollmentDetailPage, {
+  loadingComponent: <PreEnrollmentDetailSkeleton showPageHeader />,
+});

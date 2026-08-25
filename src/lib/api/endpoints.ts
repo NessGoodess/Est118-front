@@ -80,12 +80,21 @@ export const API_ENDPOINTS = {
     STATUS: api('/admissions/status'),
     PRE_ENROLLMENTS: api('/admissions/pre-enrollments'),
     PRE_ENROLLMENT_EXPORT: api('/admissions/pre-enrollments/export'),
+    PRE_ENROLLMENT_INITIAL_REVIEW: (id: number) =>
+      api(`/admissions/pre-enrollments/${id}/initial-review`),
+    CONVERSION_BATCHES: api('/admissions/conversion-batches'),
+    CONVERSION_BATCH: (id: number) => api(`/admissions/conversion-batches/${id}`),
+    CONVERSION_BATCH_RETRY_FAILED: (id: number) =>
+      api(`/admissions/conversion-batches/${id}/retry-failed`),
     ENROLLMENTS_PENDING_DECISIONS: api('/admissions/enrollments/pending-decisions'),
     ENROLLMENT_PROMOTION_DECISION: (enrollmentId: number) =>
       api(`/admissions/enrollments/${enrollmentId}/promotion-decision`),
     FIRST_GRADE_GROUP_ASSIGNMENT: api(
       '/admissions/enrollments/first-grade-group-assignment'
     ),
+    INTAKE_SETTINGS: api('/admissions/intake-settings'),
+    FIRST_GRADE_GROUPS: (academicYearId: number) =>
+      api(`/admissions/academic-years/${academicYearId}/first-grade-groups`),
   },
   ACADEMIC_YEARS: {
     LIST: api('/academic-years'),

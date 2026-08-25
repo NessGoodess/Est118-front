@@ -6,12 +6,18 @@ import { navLinks, studentServicesLinks } from "./header.config";
 import { IconByName } from "@/components/ui/icons/public/header.icons";
 import TopBar from "./topBar";
 import Link from "next/link";
+import { useAdmissionPublicStatus } from "@/features/admissions/context/admission-public-status-context";
 
 export default function Header() {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [servicesOpen, setServicesOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
+    const { navLabel } = useAdmissionPublicStatus();
+
+    const links = navLinks.map((link) =>
+        link.href === "/inscripciones" ? { ...link, label: navLabel } : link
+    );
 
     useEffect(() => {
         const handleScroll = () => {
@@ -77,7 +83,7 @@ export default function Header() {
 
                     {/* Desktop Navigation */}
                     <nav className="hidden xl:flex items-center gap-1">
-                        {navLinks.map((link) => (
+                        {links.map((link) => (
                             <Link
                                 key={link.href}
                                 href={link.href}
@@ -197,7 +203,7 @@ export default function Header() {
                 <div className={`border-t ${scrolled ? "bg-surface-elevated border-border" : "bg-brand-900/95 border-brand-700/50 backdrop-blur-md"
                     }`}>
                     <nav className="px-4 py-4 space-y-1 max-h-[calc(100vh-200px)] overflow-y-auto">
-                        {navLinks.map((link) => (
+                        {links.map((link) => (
                             <Link
                                 key={link.href}
                                 href={link.href}

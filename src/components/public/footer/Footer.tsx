@@ -1,8 +1,13 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useAdmissionPublicStatus } from "@/features/admissions/context/admission-public-status-context";
 
 export default function Footer() {
+    const { navLabel } = useAdmissionPublicStatus();
+
     return (
         <footer id="contacto" className="bg-surface-dark text-white py-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -85,7 +90,7 @@ export default function Footer() {
                                 </li>
                                 <li>
                                     <Link href="/inscripciones" className="text-gray-300 hover:text-white transition-colors text-sm">
-                                        Inscripciones 2026
+                                        {navLabel}
                                     </Link>
                                 </li>
                                 <li>

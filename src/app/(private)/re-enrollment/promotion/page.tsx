@@ -1,4 +1,4 @@
-import PromotionDecisionsPanel from '@/components/private/admission/PromotionDecisionsPanel';
+import { PromotionDecisionsPanel } from '@/features/admissions';
 import ReEnrollmentPromotionPanel from '@/components/private/school/re-enrollment/ReEnrollmentPromotionPanel';
 import ReEnrollmentStepGate from '@/components/private/school/re-enrollment/ReEnrollmentStepGate';
 

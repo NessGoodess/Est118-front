@@ -33,7 +33,7 @@ export const navLinks:{
         },
         {
             href: "/inscripciones",
-            label: "Preinscripciones 2026",
+            label: "Preinscripciones",
             icon: "admission",
         },
         /*

@@ -20,6 +20,7 @@ import {
   markAllNotificationsAsRead,
   markNotificationAsRead,
 } from "@/lib/services/notifications.service";
+import { randomUuid } from "@/lib/utils/random-uuid";
 
 interface NotificationContextValue {
   notifications: AppNotification[];
@@ -36,7 +37,7 @@ function mapBroadcastPayload(raw: Record<string, unknown>): AppNotification {
   const data = (raw.data as Record<string, unknown> | undefined) ?? raw;
 
   return {
-    id: String(raw.id ?? crypto.randomUUID()),
+    id: String(raw.id ?? randomUuid()),
     type: String(data.type ?? raw.type ?? "unknown"),
     title: String(data.title ?? ""),
     message: String(data.message ?? ""),

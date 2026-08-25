@@ -108,18 +108,19 @@ export class DateFormatter {
   }
 
   /**
-   * Formato sin año con hora: 24 de enero 4:50 PM
+   * Formato sin año con hora: 24 de enero, 4:50 p.m.
+   * Uses formatToParts so Node ICU and browser ICU never disagree on
+   * connectors ("a las" vs ",") — avoids React hydration mismatches.
    */
   withoutYearWithTime(date: Date | string): string {
     const d = this.parseDate(date);
-    return new Intl.DateTimeFormat(this.locale, {
+    return this.formatDateTimeParts(d, {
       day: '2-digit',
       month: 'long',
       hour: '2-digit',
       minute: '2-digit',
       hour12: true,
-      timeZone: this.timezone,
-    }).format(d);
+    });
   }
 
   /**
@@ -136,19 +137,17 @@ export class DateFormatter {
   }
 
   /**
-   * Formato corto con hora: 24/01/2023 4:50 PM
+   * Formato corto con hora: 24/01/2023, 4:50 p.m.
    */
   shortWithTime(date: Date | string): string {
     const d = this.parseDate(date);
-    return new Intl.DateTimeFormat(this.locale, {
+    const datePart = new Intl.DateTimeFormat(this.locale, {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
       timeZone: this.timezone,
     }).format(d);
+    return `${datePart}, ${this.time(d)}`;
   }
 
   /**
@@ -165,27 +164,26 @@ export class DateFormatter {
   }
 
   /**
-   * Formato medio con hora: 24 de enero de 2023, 4:50 PM
+   * Formato medio con hora: 24 de enero de 2023, 4:50 p.m.
    */
   mediumWithTime(date: Date | string): string {
     const d = this.parseDate(date);
-    return new Intl.DateTimeFormat(this.locale, {
+    return this.formatDateTimeParts(d, {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
       hour12: true,
-      timeZone: this.timezone,
-    }).format(d);
+    });
   }
 
   /**
-   * Formato largo con día: Sábado, 20 de enero de 2024, 4:40 PM
+   * Formato largo con día: sábado, 20 de enero de 2024, 4:40 p.m.
    */
   long(date: Date | string): string {
     const d = this.parseDate(date);
-    return new Intl.DateTimeFormat(this.locale, {
+    return this.formatDateTimeParts(d, {
       weekday: 'long',
       day: 'numeric',
       month: 'long',
@@ -193,8 +191,7 @@ export class DateFormatter {
       hour: 'numeric',
       minute: '2-digit',
       hour12: true,
-      timeZone: this.timezone,
-    }).format(d);
+    });
   }
 
   /**
@@ -212,16 +209,57 @@ export class DateFormatter {
   }
 
   /**
-   * Solo hora: 4:50 PM
+   * Solo hora: 4:50 p.m.
    */
   time(date: Date | string): string {
     const d = this.parseDate(date);
-    return new Intl.DateTimeFormat(this.locale, {
+    const parts = new Intl.DateTimeFormat(this.locale, {
       hour: 'numeric',
       minute: '2-digit',
       hour12: true,
       timeZone: this.timezone,
-    }).format(d);
+    }).formatToParts(d);
+
+    const hour = parts.find((p) => p.type === 'hour')?.value ?? '';
+    const minute = parts.find((p) => p.type === 'minute')?.value ?? '';
+    const dayPeriod = parts.find((p) => p.type === 'dayPeriod')?.value ?? '';
+    return `${hour}:${minute} ${dayPeriod}`.replace(/\s+/g, ' ').trim();
+  }
+
+  /**
+   * Build "date, time" with a fixed connector so SSR and client match.
+   */
+  private formatDateTimeParts(
+    date: Date,
+    options: Intl.DateTimeFormatOptions
+  ): string {
+    const parts = new Intl.DateTimeFormat(this.locale, {
+      ...options,
+      timeZone: this.timezone,
+    }).formatToParts(date);
+
+    const get = (type: Intl.DateTimeFormatPartTypes) =>
+      parts.find((p) => p.type === type)?.value ?? '';
+
+    const weekday = get('weekday');
+    const day = get('day');
+    const month = get('month');
+    const year = get('year');
+    const hour = get('hour');
+    const minute = get('minute');
+    const dayPeriod = get('dayPeriod');
+
+    const dateBits: string[] = [];
+    if (weekday) dateBits.push(weekday);
+    if (day && month && year) {
+      dateBits.push(`${day} de ${month} de ${year}`);
+    } else if (day && month) {
+      dateBits.push(`${day} de ${month}`);
+    }
+
+    const time = `${hour}:${minute}${dayPeriod ? ` ${dayPeriod}` : ''}`.trim();
+    const dateLabel = dateBits.join(', ');
+    return time ? `${dateLabel}, ${time}` : dateLabel;
   }
 
   /**

@@ -1,4 +1,5 @@
+import AdmissionCyclesSkeleton from "@/features/admissions/components/skeletons/admission-cycles-skeleton";
 
-export default function Loading() {
-    return <p>Cargando...</p>;
-}   
+export default function AdmissionProcessLoading() {
+  return <AdmissionCyclesSkeleton />;
+}
