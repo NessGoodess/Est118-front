@@ -104,7 +104,7 @@ export default function HeroWelcome() {
                 </motion.button>
               </Link>
               <motion.a
-                href="#noticias"
+                href="#notices"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="border-2 border-white text-white hover:bg-surface-elevated hover:text-primary px-8 py-4 rounded-full font-semibold text-lg transition-all inline-block text-center"

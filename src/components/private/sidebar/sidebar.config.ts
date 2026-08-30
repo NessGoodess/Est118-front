@@ -202,13 +202,14 @@ export const menuItems: MenuItem[] = [
     children: [
       {
         name: 'Lista de avisos',
-        href: '/Announcement/list',
+        href: '/Announcement',
         icon: 'list',
         permission: 'create announcements',
+        activeMatch: 'exact',
       },
       {
         name: 'Crear aviso',
-        href: '/Announcement',
+        href: '/Announcement/create',
         icon: 'add',
         permission: 'create announcements',
         activeMatch: 'exact',

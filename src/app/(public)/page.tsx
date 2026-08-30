@@ -1,20 +1,26 @@
-import HeroWelcome from '@/components/public/hero/HeroWelcomeDefinitive';
-import NoticiasSection from '@/components/public/sections/NoticiasSection';
-import UbicacionSection from '@/components/public/sections/UbicacionSection';
-import AnnouncementsHeroSection from '@/components/public/sections/Announcements/AnnouncementsSection';
-import { getAnnouncementsExtended } from '@/lib/data/announcementsExtended';
+import { Suspense } from "react"
+import type { Metadata } from "next"
+import HeroWelcome from "@/components/public/hero/HeroWelcomeDefinitive"
+import UbicacionSection from "@/components/public/sections/UbicacionSection"
+import HomeAnnouncements from "@/features/announcements/public/HomeAnnouncements"
+import AnnouncementsSectionSkeleton from "@/features/announcements/public/skeletons/AnnouncementsSectionSkeleton"
 
-export default async function Home() {
-  const [announcements] = await Promise.all([
+export const metadata: Metadata = {
+  title: {
+    absolute: "EST 118 | Escuela Secundaria Técnica No. 118",
+  },
+  description:
+    "Bienvenido a la Escuela Secundaria Técnica No. 118. Conoce avisos, ubicación e información oficial de nuestra institución.",
+}
 
-    getAnnouncementsExtended(),
-  ])
+export default function Home() {
   return (
-    <div className=''>
+    <div>
       <HeroWelcome />
-      <AnnouncementsHeroSection Announcements={announcements} />
-      <NoticiasSection />
+      <Suspense fallback={<AnnouncementsSectionSkeleton />}>
+        <HomeAnnouncements />
+      </Suspense>
       <UbicacionSection />
     </div>
-  );
+  )
 }

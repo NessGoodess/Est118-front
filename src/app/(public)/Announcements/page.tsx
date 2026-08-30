@@ -1,23 +1,25 @@
-import { getAnnouncementsExtended } from "@/lib/data/announcementsExtended"
-import AnnouncementsList from "./AnnouncementsList"
-import SectionHeader from "@/components/public/sections/SectionHeader"
+import type { Metadata } from "next"
+import {
+  BrandPageHero,
+  AnnouncementsList,
+  getAnnouncementsExtended,
+} from "@/features/announcements"
 
 export const revalidate = 60
+
+export const metadata: Metadata = {
+  title: "Avisos y noticias",
+  description:
+    "Consulta los avisos y noticias oficiales de la Escuela. Comunicados, fechas y novedades institucionales.",
+}
 
 export default async function AnnouncementsPage() {
   const announcements = await getAnnouncementsExtended()
   return (
-    <div className="min-h-screen bg-[#f5f3ef]">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0
-                   bg-[radial-gradient(circle_at_70%_20%,rgba(232,64,64,0.07)_0%,transparent_50%),
-                       radial-gradient(circle_at_20%_80%,rgba(26,86,219,0.06)_0%,transparent_45%)]"
-      />
-      <SectionHeader 
-        text="Avisos"
-        title="Comunicados y noticias importantes"
-        description="Mantente al día con los avisos oficiales de la institución."
+    <div className="min-h-screen bg-surface-app">
+      <BrandPageHero
+        title="Avisos y noticias"
+        description="Mantente al día con los comunicados oficiales de la institución"
       />
       <AnnouncementsList Announcements={announcements} />
     </div>

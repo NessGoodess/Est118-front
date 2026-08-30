@@ -94,8 +94,8 @@ export default function Footer() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <a href="#noticias" className="text-gray-300 hover:text-white transition-colors text-sm">
-                                        Noticias
+                                    <a href="#notices" className="text-gray-300 hover:text-white transition-colors text-sm">
+                                        Avisos y noticias
                                     </a>
                                 </li>
                                 <li>

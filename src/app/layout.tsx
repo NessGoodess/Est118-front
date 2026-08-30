@@ -39,10 +39,11 @@ const merriweather = Merriweather({
 
 export const metadata: Metadata = {
   title: {
-    default: "Est118",
-    template: "%s | Est118",
+    default: "EST 118 | Escuela Secundaria Técnica No. 118",
+    template: "%s | EST 118",
   },
-  description: "Escuela Secundaria Técnica Número 118",
+  description:
+    "Escuela Secundaria Técnica No. 118. Formación académica y técnica para el futuro de nuestros estudiantes.",
 };
 
 

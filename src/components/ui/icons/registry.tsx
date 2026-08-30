@@ -475,6 +475,93 @@ export const AppIcons = {
       <rect x="4" y="4" width="16" height="16" rx="2" /><rect x="8" y="8" width="8" height="8" rx="1" />
     </Icon>
   ),
+
+  /** Share network (nodes + links) */
+  share: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <circle cx="18" cy="5" r="3" />
+      <circle cx="6" cy="12" r="3" />
+      <circle cx="18" cy="19" r="3" />
+      <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+      <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" />
+    </Icon>
+  ),
+  /** Filled play triangle */
+  play: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className} fill="currentColor" stroke="none">
+      <path d="M8 5v14l11-7z" />
+    </Icon>
+  ),
+  /** Image / photo */
+  image: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+      <circle cx="9" cy="9" r="2" />
+      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+    </Icon>
+  ),
+  /** Megaphone / announcements */
+  megaphone: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <path d="m3 11 18-5v12L3 14v-3z" />
+      <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
+    </Icon>
+  ),
+  /** Facebook brand mark */
+  facebook: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className} fill="currentColor" stroke="none" viewBox="0 0 24 24">
+      <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 23.954V15.542H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953h-1.513c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.412C19.612 23.094 24 18.1 24 12.073z" />
+    </Icon>
+  ),
+  /** Spinner arc (pair with animate-spin) */
+  loader: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+    </Icon>
+  ),
+  /** Upload arrow */
+  upload: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="17 8 12 3 7 8" />
+      <line x1="12" y1="3" x2="12" y2="15" />
+    </Icon>
+  ),
+  /** Arrow pointing right (CTA / leer más) */
+  arrowRight: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <path d="M5 12h14" />
+      <path d="m12 5 7 7-7 7" />
+    </Icon>
+  ),
+  /** Document / file text */
+  fileText: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="16" y1="13" x2="8" y2="13" />
+      <line x1="16" y1="17" x2="8" y2="17" />
+      <line x1="10" y1="9" x2="8" y2="9" />
+    </Icon>
+  ),
+  /** Horizontal list lines */
+  list: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <line x1="8" y1="6" x2="21" y2="6" />
+      <line x1="8" y1="12" x2="21" y2="12" />
+      <line x1="8" y1="18" x2="21" y2="18" />
+      <line x1="3" y1="6" x2="3.01" y2="6" />
+      <line x1="3" y1="12" x2="3.01" y2="12" />
+      <line x1="3" y1="18" x2="3.01" y2="18" />
+    </Icon>
+  ),
+  /** Chain / hyperlink */
+  link: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+    </Icon>
+  ),
 } as const satisfies Record<string, SvgIcon>;
 
 export type AppIconName = keyof typeof AppIcons;

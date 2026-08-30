@@ -12,13 +12,8 @@ export const navLinks:{
             icon:"home",
         },
         {
-            href: "/noticias",
-            label: "Noticias",
-            icon: "news",
-        },
-        {
             href: "/Announcements",
-            label: "Avisos",
+            label: "Avisos y noticias",
             icon: "news",
         },
         {
