@@ -507,6 +507,24 @@ export const AppIcons = {
       <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
     </Icon>
   ),
+  /** Newspaper / announcements listing */
+  news: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <path d="M15 18h-5" />
+      <path d="M18 14h-8" />
+      <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" />
+      <rect width="8" height="4" x="10" y="6" rx="1" />
+    </Icon>
+  ),
+  /** Gallery / overlapping photos */
+  gallery: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <path d="m22 11-1.296-1.296a2.4 2.4 0 0 0-3.408 0L11 16" />
+      <path d="M4 8a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2" />
+      <circle cx="13" cy="7" r="1" fill="currentColor" />
+      <rect x="8" y="2" width="14" height="14" rx="2" />
+    </Icon>
+  ),
   /** Facebook brand mark */
   facebook: ({ className }: Pick<IconProps, "className">) => (
     <Icon className={className} fill="currentColor" stroke="none" viewBox="0 0 24 24">

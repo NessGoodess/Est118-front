@@ -105,12 +105,6 @@ export function admissionNavLabel(status: AdmissionStatusResponse): string {
   if (status.status === "not_started") {
     return "Preinscripciones próximas";
   }
-  if (status.status === "ended") {
-    return "Preinscripciones (cerradas)";
-  }
-  if (status.status === "service_error") {
-    return "Preinscripciones";
-  }
   return "Preinscripciones";
 }
 
@@ -121,11 +115,5 @@ export function admissionHeroCtaLabel(status: AdmissionStatusResponse): string {
   if (status.status === "not_started") {
     return "Ver fechas de preinscripción";
   }
-  if (status.status === "ended") {
-    return "Periodo finalizado";
-  }
-  if (status.status === "service_error") {
-    return "Consultar preinscripciones";
-  }
-  return "Consultar preinscripciones";
+  return "Preinscripciones";
 }

@@ -36,11 +36,11 @@ export function buildAnnouncementFormData(
     fd.append("facebook_post_url", data.facebookPostUrl?.trim() ?? "")
     fd.append("summary", data.summary?.trim() || data.title.trim())
   } else {
-    fd.append("media_alt", data.mediaAlt)
-    fd.append("media_ratio", data.mediaRatio)
-    fd.append("media_position", data.mediaPosition)
+    fd.append("media_alt", data.mediaAlt ?? "")
+    fd.append("media_ratio", data.mediaRatio || "4/3")
+    fd.append("media_position", data.mediaPosition || "right")
     fd.append("facebook_post_url", "")
-    fd.append("summary", data.summary)
+    fd.append("summary", data.summary ?? "")
 
     if (data.mediaType === "youtube" && data.mediaYoutubeId) {
       fd.append("media_youtube_id", data.mediaYoutubeId)

@@ -123,6 +123,14 @@
   --color-modal-overlay: rgba(0, 13, 68, 0.45);
   --color-modal-bg: var(--surface-panel);
   --color-modal-text: var(--foreground);
+
+  /*
+    Header público fixed: topBar (44px) + fila principal (96px) = 140px expandido;
+    al hacer scroll la fila baja a 72px (compacto).
+  */
+  --public-header-h: 140px;
+  --public-header-h-compact: 72px;
+  --public-header-offset: calc(var(--public-header-h) + 1rem);
 }
 
 /* Shared dark token values — applied via system preference and/or .dark */
@@ -410,6 +418,19 @@ input:-webkit-autofill {
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: var(--brand-500) var(--surface-app);
+}
+
+/*public header offset*/
+.public-hero-offset {
+  padding-top: var(--public-header-offset);
+}
+
+/* WelcomeHero */
+.public-home-hero {
+  box-sizing: border-box;
+  height: 100dvh;
+  max-height: 100dvh;
+  padding-top: var(--public-header-offset);
 }
 
 /* Hide scrollbar but keep scroll (sidebar, tables) */

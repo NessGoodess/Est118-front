@@ -2,277 +2,418 @@
 
 import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
-import { navLinks, studentServicesLinks } from "./header.config";
-import { IconByName } from "@/components/ui/icons/public/header.icons";
-import TopBar from "./topBar";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
+import { navLinks, studentServicesLinks } from "./header.config";
+import { IconByName } from "@/components/ui/icons";
+import TopBar from "./topBar";
+import PublicHeaderSearch from "./PublicHeaderSearch";
 import { useAdmissionPublicStatus } from "@/features/admissions/context/admission-public-status-context";
+import { useScroll } from "@/contexts/ScrollProvider";
+
+const navEase = [0.16, 1, 0.3, 1] as const;
+/** Distancia de scroll en px para completar la transición expandido → compacto */
+const HEADER_COMPACT_SCROLL = 72;
+
+const navItemVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.9 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: { duration: 0.6, ease: navEase },
+    },
+};
 
 export default function Header() {
-    const [scrolled, setScrolled] = useState(false);
+    const router = useRouter();
+    const { scrolled, scrollY, visible } = useScroll();
     const [mobileOpen, setMobileOpen] = useState(false);
     const [servicesOpen, setServicesOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
     const { navLabel } = useAdmissionPublicStatus();
 
+    const rawScroll = useMotionValue(0);
+
+    useEffect(() => {
+        rawScroll.set(scrollY);
+    }, [scrollY, rawScroll]);
+
+    const mainHeight = useTransform(
+        rawScroll,
+        [0, HEADER_COMPACT_SCROLL],
+        [96, 72]
+    );
+    const logoSize = useTransform(
+        rawScroll,
+        [0, HEADER_COMPACT_SCROLL],
+        [80, 52]
+    );
+    const topBarHeight = useTransform(rawScroll, [0, 56], [44, 0]);
+    const topBarOpacity = useTransform(rawScroll, [0, 48], [1, 0]);
+    const heroBgOpacity = useTransform(
+        rawScroll,
+        [0, HEADER_COMPACT_SCROLL],
+        [1, 0]
+    );
+    const compactBgOpacity = useTransform(
+        rawScroll,
+        [0, HEADER_COMPACT_SCROLL],
+        [0, 1]
+    );
+    const headerShadow = useTransform(
+        rawScroll,
+        [0, HEADER_COMPACT_SCROLL],
+        [0, 0.12]
+    );
+    const headerBoxShadow = useTransform(
+        headerShadow,
+        (value) => `0 16px 40px rgba(0, 0, 0, ${value})`
+    );
+    const logoGlowOpacity = useTransform(
+        rawScroll,
+        [0, HEADER_COMPACT_SCROLL],
+        [0.2, 0.08]
+    );
+
     const links = navLinks.map((link) =>
         link.href === "/inscripciones" ? { ...link, label: navLabel } : link
     );
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    const handleScrollTo = useCallback((href: string) => {
-        if (href.startsWith('#')) {
-            const element = document.querySelector(href);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const handleServiceNavigate = useCallback(
+        (href: string) => {
+            if (href.startsWith("#")) {
+                const element = document.querySelector(href);
+                if (element) {
+                    element.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+            } else {
+                router.push(href);
             }
-        }
-        setMobileOpen(false);
-        setServicesOpen(false);
-    }, []);
+            setMobileOpen(false);
+            setServicesOpen(false);
+        },
+        [router]
+    );
+
+    const navLinkClass = (compact = false) =>
+        `group relative flex items-center gap-2 font-medium transition-[color,background-color,border-color] duration-200 ease-out ${compact ? "px-3 py-1.5 text-sm" : "px-4 py-2.5 text-sm"
+        } ${scrolled
+            ? "text-foreground hover:text-primary hover:bg-primary-soft rounded-lg"
+            : "text-white hover:text-brand-100 hover:bg-surface-elevated/10 rounded-lg"
+        }`;
 
     return (
-        <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-                ? "bg-surface-elevated shadow-lg"
-                : "bg-gradient-to-b from-brand-900/95 via-brand-900/90 to-transparent backdrop-blur-md"
-                }`}
+        <motion.header
+            role="banner"
+            animate={{ y: visible ? 0 : "-100%" }}
+            transition={{ duration: 0.28, ease: navEase }}
+            className="fixed inset-x-0 top-0 z-50 backdrop-blur-md"
+            style={{ boxShadow: headerBoxShadow }}
         >
-            {/* Top Bar - Contact Information */}
-            <TopBar scrolled={scrolled}/>
-            {/* Main Navigation */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className={`flex items-center justify-between transition-all duration-300 ${scrolled ? "h-20" : "h-24"}`}>
-                    {/* Logo and Brand */}
-                    <div className="flex items-center gap-4">
-                        <div className={`relative flex-shrink-0 transition-all duration-300 ${scrolled ? "w-14 h-14" : "w-20 h-20"
-                            }`}>
-                            <div className="absolute inset-0 bg-gradient-to-br from-brand-400 to-brand-600 rounded-xl opacity-20 blur-lg"></div>
+            <motion.div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 "
+                style={{ opacity: heroBgOpacity }}
+            />
+            <motion.div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-surface-elevated"
+                style={{ opacity: compactBgOpacity }}
+            />
+
+            <motion.div
+                className="relative overflow-hidden"
+                style={{ height: topBarHeight, opacity: topBarOpacity }}
+            >
+                <TopBar />
+            </motion.div>
+
+            <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <motion.div
+                    className="flex items-center justify-between"
+                    style={{ height: mainHeight }}
+                >
+                    <div className="flex items-center gap-4 py-1">
+                        <motion.div
+                            className="relative shrink-0 group"
+                            style={{ width: logoSize, height: logoSize }}
+                        >
+                            <motion.div
+                                className="absolute inset-0 rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 blur-lg"
+                                style={{ opacity: logoGlowOpacity }}
+                            />
                             <Image
                                 src="/Logo_EST118.png"
                                 alt="Logo EST 118"
-                                width={scrolled ? 56 : 80}
-                                height={scrolled ? 56 : 80}
-                                className="relative w-full h-full object-contain rounded-xl shadow-lg"
+                                fill
+                                sizes="80px"
+                                className="relative rounded-xl object-contain shadow-lg transition-[filter] duration-500 group-hover:drop-shadow-[0_0_8px_rgb(255,255,255,0.35)]"
+                                priority
                             />
-                        </div>
-                        {/*}
-                        <div className="flex flex-col">
-                            <h1 className={`font-bold tracking-tight transition-all duration-300 ${scrolled
-                                ? "text-foreground "
-                                : "text-white text-sm drop-shadow-lg"
-                                }`}>
-                                EST
-                            </h1>
-                            <p className={`font-medium tracking-wide transition-all duration-300 ${scrolled
-                                ? "text-fg-muted text-sm"
-                                : "text-brand-100 text-sm lg:text-base drop-shadow-md"
-                                }`}>
-                                118
-                            </p>
-                        </div>
-                        */}
+                        </motion.div>
                     </div>
 
-                    {/* Desktop Navigation */}
-                    <nav className="hidden xl:flex items-center gap-1">
-                        {links.map((link) => (
-                            <Link
-                                key={link.href}
-                                href={link.href}
-                                className={`group relative flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 ${scrolled
-                                    ? "text-foreground hover:text-primary hover:bg-primary-soft"
-                                    : "text-white hover:text-brand-100 hover:bg-surface-elevated/10"
-                                    }`}
-                            >
-                                {IconByName({name:link.icon, className:"w-4 h-4 transition-transform group-hover:scale-110"})}
-                                <span>{link.label}</span>
-                                <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-brand-400 to-brand-500 group-hover:w-3/4 transition-all duration-300`}></div>
-                            </Link>
-                        ))}
-
-                        {/* Services Dropdown */}
-                        <div
-                            className="relative"
-                            onMouseEnter={() => setServicesOpen(true)}
-                            onMouseLeave={() => setServicesOpen(false)}
+                    <nav
+                        className="hidden xl:flex items-center gap-1"
+                        role="navigation"
+                        aria-label="Navegación principal"
+                    >
+                        <motion.ul
+                            className="flex items-center gap-1"
+                            initial="hidden"
+                            animate="visible"
+                            variants={{
+                                visible: {
+                                    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+                                },
+                            }}
                         >
-                            <Link
-                                href="#"
-                                className={`group relative flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 ${scrolled
-                                    ? "text-foreground hover:text-primary hover:bg-primary-soft"
-                                    : "text-white hover:text-brand-100 hover:bg-surface-elevated/10"
-                                    }`}
-                            >
-                                
-                                {IconByName({name:"admission", className:"w-4 h-4 transition-transform group-hover:scale-110"})}
-                                <span>Servicios</span>
-                                <svg
-                                    className={`w-4 h-4 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`}
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
+                            {links.map((link) => (
+                                <motion.li
+                                    key={link.href}
+                                    variants={navItemVariants}
+                                    whileHover={{ scale: 1.05, y: -2 }}
+                                    whileTap={{ scale: 0.95 }}
                                 >
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </Link>
+                                    <Link href={link.href} className={navLinkClass(scrolled)}>
+                                        <IconByName
+                                            name={link.icon}
+                                            className={`${scrolled ? "w-4 h-4" : "w-5 h-5"} transition-transform group-hover:scale-110`}
+                                        />
+                                        <span>{link.label}</span>
+                                        <motion.span
+                                            className={`absolute bottom-0 left-0 right-0 h-0.5 ${scrolled ? "bg-primary" : "bg-white/80"
+                                                }`}
+                                            initial={{ scaleX: 0 }}
+                                            whileHover={{ scaleX: 1 }}
+                                            transition={{ duration: 0.3 }}
+                                        />
+                                    </Link>
+                                </motion.li>
+                            ))}
 
-                            {/* Dropdown Menu */}
-                            <div className={`absolute top-full right-0 mt-3 w-80 transition-all duration-200 ${servicesOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'
-                                }`}>
-                                <div className="bg-surface-elevated rounded-2xl shadow-2xl overflow-hidden border border-border">
-                                    <div className="bg-gradient-to-r from-brand-600 via-brand-700 to-brand-600 p-4">
-                                        <h3 className="font-bold text-white text-lg">Servicios Estudiantiles</h3>
-                                        <p className="text-brand-100 text-sm mt-1">Plataforma de recursos académicos</p>
-                                    </div>
-                                    <div className="py-2">
-                                        {studentServicesLinks.map((service) => (
-                                            <button
-                                                key={service.href}
-                                                onClick={() => handleScrollTo(service.href)}
-                                                className="w-full px-4 py-3 flex items-start gap-3 hover:bg-primary-soft transition-all duration-150 text-left group"
-                                            >
-                                                <span className="text-2xl flex-shrink-0 group-hover:scale-110 transition-transform">{service.icon}</span>
-                                                <div className="flex-1 min-w-0">
-                                                    <div className="font-semibold text-foreground text-sm group-hover:text-primary transition-colors">
-                                                        {service.label}
+                            <motion.li
+                                variants={navItemVariants}
+                                className="relative"
+                                onMouseEnter={() => setServicesOpen(true)}
+                                onMouseLeave={() => setServicesOpen(false)}
+                            >
+                                <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>
+                                    <Link href="#" className={navLinkClass(scrolled)} onClick={(e) => e.preventDefault()}>
+                                        <IconByName
+                                            name="users"
+                                            className={`${scrolled ? "w-4 h-4" : "w-5 h-5"} transition-transform group-hover:scale-110`}
+                                        />
+                                        <span>Servicios</span>
+                                        <IconByName
+                                            name="chevronDown"
+                                            className={`w-4 h-4 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}
+                                        />
+                                    </Link>
+                                </motion.div>
+
+                                <div
+                                    className={`absolute top-full right-0 z-50 w-80 pt-3 transition-opacity duration-200 ${servicesOpen
+                                        ? "pointer-events-auto opacity-100"
+                                        : "pointer-events-none opacity-0"
+                                        }`}
+                                >
+                                    <div className="overflow-hidden rounded-2xl border border-border bg-surface-elevated shadow-2xl">
+                                        <div className="bg-gradient-to-r from-brand-600 via-brand-700 to-brand-600 p-4">
+                                            <h3 className="text-lg font-bold text-white">Servicios</h3>
+                                            <p className="mt-1 text-sm text-brand-100">Recursos académicos</p>
+                                        </div>
+                                        <div className="py-2">
+                                            {studentServicesLinks.map((service) => (
+                                                <button
+                                                    key={service.href}
+                                                    type="button"
+                                                    onClick={() => handleServiceNavigate(service.href)}
+                                                    className="group flex w-full items-start gap-3 px-4 py-3 text-left transition-all duration-150 hover:bg-primary-soft"
+                                                >
+                                                    <IconByName
+                                                        name={service.icon}
+                                                        className="mt-0.5 h-4 w-4 shrink-0 text-primary transition-transform group-hover:scale-110"
+                                                    />
+                                                    <div className="min-w-0 flex-1">
+                                                        <div className="text-sm font-semibold text-foreground transition-colors group-hover:text-primary">
+                                                            {service.label}
+                                                        </div>
+                                                        <div className="mt-0.5 text-xs text-fg-muted">{service.description}</div>
                                                     </div>
-                                                    <div className="text-xs text-fg-muted mt-0.5">
-                                                        {service.description}
-                                                    </div>
-                                                </div>
-                                                <svg className="w-4 h-4 text-fg-muted group-hover:text-primary group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                </svg>
-                                            </button>
-                                        ))}
+                                                    <IconByName
+                                                        name="chevronRight"
+                                                        className="h-4 w-4 text-fg-muted transition-all group-hover:translate-x-1 group-hover:text-primary"
+                                                    />
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </motion.li>
+                        </motion.ul>
                     </nav>
 
-                    {/* Action Buttons */}
                     <div className="flex items-center gap-3">
-                        {/* Search Button */}
-                        <button
-                            onClick={() => setSearchOpen(!searchOpen)}
-                            className={`hidden lg:flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 ${scrolled
-                                ? "text-foreground hover:text-primary hover:bg-primary-soft border border-border"
-                                : "text-white hover:bg-surface-elevated/10 border border-white/20"
+                        <motion.button
+                            type="button"
+                            onClick={() => setSearchOpen(true)}
+                            aria-label="Buscar en el sitio"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-[color,background-color,border-color] duration-200 ease-out ${scrolled
+                                ? "border-border text-foreground hover:bg-primary-soft hover:text-primary"
+                                : "border-white/20 text-white hover:bg-surface-elevated/10"
                                 }`}
                         >
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                            <span>Buscar</span>
-                        </button>
+                            <IconByName name="search" className="h-4 w-4" />
+                            <span className="hidden sm:inline">Buscar</span>
+                        </motion.button>
 
-                        {/* Mobile Menu Button */}
-                        <Link
-                            href=""
+                        <motion.button
+                            type="button"
                             onClick={() => setMobileOpen(!mobileOpen)}
                             aria-label="Menú principal"
-                            className={`xl:hidden p-2.5 rounded-lg transition-all duration-200 ${scrolled
+                            aria-expanded={mobileOpen}
+                            whileTap={{ scale: 0.9 }}
+                            className={`rounded-lg p-2.5 transition-all duration-300 xl:hidden ${scrolled
                                 ? "text-foreground hover:bg-surface-muted"
                                 : "text-white hover:bg-surface-elevated/20"
                                 }`}
                         >
-                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                {mobileOpen ? (
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                ) : (
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                                )}
-                            </svg>
-                        </Link>
+                            <motion.div
+                                animate={{ rotate: mobileOpen ? 90 : 0 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <IconByName name={mobileOpen ? "x" : "menu"} className="h-6 w-6" />
+                            </motion.div>
+                        </motion.button>
                     </div>
-                </div>
+                </motion.div>
             </div>
 
-            {/* Mobile Menu */}
-            <div className={`xl:hidden transition-all duration-300 overflow-hidden ${mobileOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
-                }`}>
-                <div className={`border-t ${scrolled ? "bg-surface-elevated border-border" : "bg-brand-900/95 border-brand-700/50 backdrop-blur-md"
-                    }`}>
-                    <nav className="px-4 py-4 space-y-1 max-h-[calc(100vh-200px)] overflow-y-auto">
-                        {links.map((link) => (
-                            <Link
-                                key={link.href}
-                                href={link.href}
-                                onClick={() => {
-                                    if (link.href.startsWith('#')) {
-                                        handleScrollTo(link.href);
-                                    } else {
-                                        window.location.href = link.href;
-                                    }
-                                }}
-                                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 text-left ${scrolled
-                                    ? "text-foreground hover:bg-primary-soft hover:text-primary"
-                                    : "text-white hover:bg-surface-elevated/10"
-                                    }`}
-                            >
-                                {IconByName({name:link.icon, className:"w-4 h-4 transition-transform group-hover:scale-110"})}
-                                <span>{link.label}</span>
-                            </Link>
-                        ))}
-
-                        {/* Mobile Services Section */}
-                        <div className={`pt-2 mt-2 border-t ${scrolled ? "border-border" : "border-brand-700/50"}`}>
-                            <button
-                                onClick={() => setServicesOpen(!servicesOpen)}
-                                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl font-medium transition-all duration-200 ${scrolled
-                                    ? "text-foreground hover:bg-primary-soft"
-                                    : "text-white hover:bg-surface-elevated/10"
-                                    }`}
-                            >
-                                <div className="flex items-center gap-3">
-                                    <span className="text-xl">🎓</span>
-                                    <span>Servicios Estudiantiles</span>
-                                </div>
-                                <svg
-                                    className={`w-5 h-5 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`}
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </button>
-
-                            {servicesOpen && (
-                                <div className="mt-2 space-y-1 ml-2">
-                                    {studentServicesLinks.map((service) => (
-                                        <button
-                                            key={service.href}
-                                            onClick={() => handleScrollTo(service.href)}
-                                            className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all duration-200 text-left ${scrolled
-                                                ? "text-foreground hover:bg-surface-muted hover:text-primary"
-                                                : "text-white/90 hover:bg-surface-elevated/10"
+            <AnimatePresence>
+                {mobileOpen && (
+                    <motion.nav
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden xl:hidden"
+                        role="navigation"
+                        aria-label="Menú móvil"
+                    >
+                        <div
+                            className={`border-t ${scrolled
+                                ? "border-border bg-surface-elevated"
+                                : "border-brand-700/50 bg-brand-900/95 backdrop-blur-md"
+                                }`}
+                        >
+                            <div className="max-h-[calc(100vh-200px)] space-y-1 overflow-y-auto px-4 py-4">
+                                {links.map((link, index) => (
+                                    <motion.div
+                                        key={link.href}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: index * 0.05, type: "spring", stiffness: 300 }}
+                                    >
+                                        <Link
+                                            href={link.href}
+                                            onClick={() => {
+                                                setMobileOpen(false);
+                                            }}
+                                            className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-all duration-200 ${scrolled
+                                                ? "text-foreground hover:bg-primary-soft hover:text-primary"
+                                                : "text-white hover:bg-surface-elevated/10"
                                                 }`}
                                         >
-                                            <span className="text-lg">{service.icon}</span>
-                                            <div className="flex-1">
-                                                <div className="font-medium">{service.label}</div>
-                                                <div className={`text-xs mt-0.5 ${scrolled ? "text-fg-muted" : "text-white/60"}`}>
-                                                    {service.description}
-                                                </div>
-                                            </div>
-                                        </button>
-                                    ))}
+                                            <IconByName name={link.icon} className="h-4 w-4" />
+                                            <span>{link.label}</span>
+                                        </Link>
+                                    </motion.div>
+                                ))}
+
+                                <div className={`mt-2 border-t pt-2 ${scrolled ? "border-border" : "border-brand-700/50"}`}>
+                                    <motion.button
+                                        type="button"
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: links.length * 0.05, type: "spring", stiffness: 300 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        onClick={() => {
+                                            setMobileOpen(false);
+                                            setSearchOpen(true);
+                                        }}
+                                        className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-all duration-200 ${scrolled
+                                            ? "text-foreground hover:bg-primary-soft hover:text-primary"
+                                            : "text-white hover:bg-surface-elevated/10"
+                                            }`}
+                                    >
+                                        <IconByName name="search" className="h-4 w-4" />
+                                        <span>Buscar en el sitio</span>
+                                    </motion.button>
                                 </div>
-                            )}
+
+                                <div className={`mt-2 border-t pt-2 ${scrolled ? "border-border" : "border-brand-700/50"}`}>
+                                    <button
+                                        type="button"
+                                        onClick={() => setServicesOpen(!servicesOpen)}
+                                        className={`flex w-full items-center justify-between rounded-xl px-4 py-3 font-medium transition-all duration-200 ${scrolled
+                                            ? "text-foreground hover:bg-primary-soft"
+                                            : "text-white hover:bg-surface-elevated/10"
+                                            }`}
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-xl">🎓</span>
+                                            <span>Servicios Estudiantiles</span>
+                                        </div>
+                                        <IconByName
+                                            name="chevronDown"
+                                            className={`h-5 w-5 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}
+                                        />
+                                    </button>
+
+                                    <AnimatePresence>
+                                        {servicesOpen && (
+                                            <motion.div
+                                                initial={{ opacity: 0, height: 0 }}
+                                                animate={{ opacity: 1, height: "auto" }}
+                                                exit={{ opacity: 0, height: 0 }}
+                                                transition={{ duration: 0.25 }}
+                                                className="ml-2 mt-2 space-y-1 overflow-hidden"
+                                            >
+                                                {studentServicesLinks.map((service) => (
+                                                    <button
+                                                        key={service.href}
+                                                        type="button"
+                                                        onClick={() => handleServiceNavigate(service.href)}
+                                                        className={`flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-left text-sm transition-all duration-200 ${scrolled
+                                                            ? "text-foreground hover:bg-surface-muted hover:text-primary"
+                                                            : "text-white/90 hover:bg-surface-elevated/10"
+                                                            }`}
+                                                    >
+                                                        <IconByName name={service.icon} className="h-5 w-5 shrink-0" />
+                                                        <div className="flex-1">
+                                                            <div className="font-medium">{service.label}</div>
+                                                            <div className={`mt-0.5 text-xs ${scrolled ? "text-fg-muted" : "text-white/60"}`}>
+                                                                {service.description}
+                                                            </div>
+                                                        </div>
+                                                    </button>
+                                                ))}
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+                            </div>
                         </div>
-                    </nav>
-                </div>
-            </div>
-        </header>
+                    </motion.nav>
+                )}
+            </AnimatePresence>
+
+            <PublicHeaderSearch scrolled={scrolled} open={searchOpen} onOpenChange={setSearchOpen} />
+        </motion.header>
     );
 }

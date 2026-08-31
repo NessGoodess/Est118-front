@@ -15,6 +15,8 @@ export { default as AdmissionCyclesSkeleton } from "./components/skeletons/admis
 // Components — create
 export { default as PrivatePreEnrollmentTabs } from "./components/applications/add/private-pre-enrollment-tabs";
 
+export { default as AdmissionsPublicPageSkeleton } from "./public/skeletons/admissions-public-page-skeleton";
+
 // Components — public portal
 export { default as AdmissionsOpenFlow } from "./public/AdmissionsOpenFlow";
 export { default as WizardForm } from "./public/WizardForm";

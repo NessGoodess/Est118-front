@@ -17,10 +17,10 @@ export default function EventoPage({ params }: { params: Promise<{ id: string }>
   return (
     <div className="min-h-screen bg-surface-app">
       {/* Header */}
-      <section className="relative h-96 bg-gradient-to-r from-brand-900 via-brand-700 to-brand-900 overflow-hidden">
+      <section className="public-hero-offset relative bg-linear-to-r from-brand-900 via-brand-700 to-brand-900 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/background4.png')] bg-cover bg-center opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-900/90 to-brand-700/70" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+        <div className="absolute inset-0 bg-linear-to-t from-brand-900/90 to-brand-700/70" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-56 flex items-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

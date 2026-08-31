@@ -15,8 +15,8 @@ interface BrandPageHeroProps {
 }
 
 const SIZE_CLASS: Record<BrandPageHeroSize, string> = {
-  lg: "h-64 md:h-80",
-  md: "h-52 md:h-64",
+  lg: "min-h-48 md:min-h-56",
+  md: "min-h-36 md:min-h-44",
 }
 
 /** Dark brand band used across public CMS pages (avisos, eventos, galería). */
@@ -29,17 +29,19 @@ export default function BrandPageHero({
 }: BrandPageHeroProps) {
   return (
     <header
-      className={`relative overflow-hidden bg-gradient-to-r from-brand-900 via-brand-700 to-brand-900 ${SIZE_CLASS[size]}`}
+      className="public-hero-offset relative overflow-hidden bg-linear-to-r from-brand-900 via-brand-700 to-brand-900"
     >
       <div
         className="absolute inset-0 bg-[url('/background4.png')] bg-cover bg-center opacity-20"
         aria-hidden
       />
       <div
-        className="absolute inset-0 bg-gradient-to-t from-brand-900/90 to-brand-700/70"
+        className="absolute inset-0 bg-linear-to-t from-brand-900/90 to-brand-700/70"
         aria-hidden
       />
-      <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+      <div
+        className={`relative z-10 mx-auto flex max-w-7xl items-center px-4 py-10 sm:px-6 lg:px-8 ${SIZE_CLASS[size]}`}
+      >
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

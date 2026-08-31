@@ -5,7 +5,7 @@ export default function UbicacionSection() {
     const mapsUrl = "https://maps.app.goo.gl/K1ca1DwxrsoBiZLL6";
 
     return (
-        <section id="ubicacion" className="min-h-screen bg-surface-dark py-20 relative overflow-hidden">
+        <section id="ubicacion" className="relative overflow-hidden bg-surface-dark py-16 md:py-20">
             {/* Patrón de fondo */}
             <div className="absolute inset-0 opacity-10">
                 <div className="absolute inset-0" style={{
@@ -20,7 +20,7 @@ export default function UbicacionSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
-                    className="text-center mb-16"
+                    className="mb-10 text-center md:mb-12"
                 >
                     <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 font-merriweather">
                         ¿Dónde <span className="text-yellow-400">Nos Ubicamos?</span>
@@ -31,7 +31,7 @@ export default function UbicacionSection() {
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-12">
                     {/* Información de contacto */}
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
@@ -123,7 +123,7 @@ export default function UbicacionSection() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
-                        className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl"
+                        className="relative h-[min(420px,50vh)] min-h-72 rounded-2xl overflow-hidden shadow-2xl lg:h-[480px]"
                     >
                         <iframe
                             /*src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2346.370876886765!2d-96.70160691843421!3d17.08322606249327!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c723d5e7803005%3A0xb366df0e04bf4c44!2sEscuela%20Secundaria%20T%C3%A9cnica%20118!5e1!3m2!1ses-419!2smx!4v1768110829182!5m2!1ses-419!2smx"

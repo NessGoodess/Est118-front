@@ -17,7 +17,7 @@ export default async function PublicLayout({
   return (
     <AdmissionPublicStatusProvider status={admissionStatus}>
       <Header />
-      <main className="bg-public-background pt-25">{children}</main>
+      <main className="bg-public-background">{children}</main>
       <Footer />
       {modal}
     </AdmissionPublicStatusProvider>

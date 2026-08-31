@@ -1,43 +1,34 @@
+import { IconByName, type AppIconName } from "@/components/ui/icons";
 
-import { IconByName } from "@/components/ui/icons/public/header.icons";
-import { HeaderIconName } from "@/components/ui/icons/public/header.icons";
-
-interface TopBarProps {
-    scrolled: boolean;
-}
 type BarLink = {
     href: string;
-    icon: HeaderIconName;
+    icon: AppIconName;
     name: string;
     external?: boolean;
 };
-
 
 export const BarLinks: readonly BarLink[] = [
     {
         href: "mailto:est.118.oax@gmail.com",
         icon: "mail",
-        name: "est.118.oax@gmail.com"
+        name: "est.118.oax@gmail.com",
     },
     {
         href: "tel:+529515134204",
         icon: "phone",
-        name: "+52 951 513 4204"
+        name: "+52 951 513 4204",
     },
     {
         href: "https://maps.app.goo.gl/K1ca1DwxrsoBiZLL6",
-        icon: "location",
+        icon: "mapPin",
         name: "Los Rios, Oaxaca",
         external: true,
-    }
+    },
 ] as const;
 
-export default function TopBar({ scrolled }: TopBarProps) {
+export default function TopBar() {
     return (
-        <div
-            className={`hidden lg:block transition-all duration-300 overflow-hidden ${scrolled ? "max-h-0 opacity-0" : "max-h-20 opacity-100"
-                }`}
-        >
+        <div className="hidden lg:block">
             <div className="bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900 border-b border-brand-700/30">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-wrap items-center justify-between py-2.5">

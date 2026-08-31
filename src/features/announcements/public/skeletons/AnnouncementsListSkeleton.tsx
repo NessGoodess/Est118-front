@@ -8,8 +8,8 @@ export default function AnnouncementsListSkeleton({ cards = 6 }: { cards?: numbe
       aria-busy="true"
       aria-label="Cargando avisos y noticias"
     >
-      <header className="relative h-64 overflow-hidden bg-gradient-to-r from-brand-900 via-brand-700 to-brand-900 md:h-80">
-        <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+      <header className="public-hero-offset relative overflow-hidden bg-linear-to-r from-brand-900 via-brand-700 to-brand-900">
+        <div className="relative z-10 mx-auto flex min-h-48 max-w-7xl items-center px-4 py-10 sm:px-6 md:min-h-56 lg:px-8">
           <div className="w-full max-w-2xl space-y-4">
             <SkeletonBone className="h-10 w-64 max-w-full bg-white/20 md:h-12" />
             <SkeletonBone className="h-6 w-full max-w-xl bg-white/15" />

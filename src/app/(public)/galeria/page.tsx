@@ -25,10 +25,10 @@ export default function GaleriaPage() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-surface-muted via-surface-elevated to-surface-muted">
             {/* Hero header */}
-            <section className="relative h-64 md:h-80 bg-gradient-to-r from-brand-900 via-brand-700 to-brand-900 overflow-hidden">
+            <section className="public-hero-offset relative bg-linear-to-r from-brand-900 via-brand-700 to-brand-900 overflow-hidden">
                 <div className="absolute inset-0 bg-[url('/background4.png')] bg-cover bg-center opacity-20" />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-900/90 to-brand-700/70" />
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+                <div className="absolute inset-0 bg-linear-to-t from-brand-900/90 to-brand-700/70" />
+                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-48 md:min-h-56 flex items-center">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -46,7 +46,7 @@ export default function GaleriaPage() {
             </section>
 
             {/* Category filters */}
-            <section className="sticky top-0 z-40 bg-surface-elevated/95 backdrop-blur-md shadow-sm border-b border-border">
+            <section className="sticky top-[var(--public-header-h-compact)] z-40 bg-surface-elevated/95 backdrop-blur-md shadow-sm border-b border-border">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex flex-wrap gap-2 justify-center">
                         {categories.map((category) => (

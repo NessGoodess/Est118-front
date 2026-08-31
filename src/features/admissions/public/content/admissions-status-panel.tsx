@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import AdmissionsCountdown from "./admissions-countdown";
 import type { AdmissionStatusResponse } from "../../types/admission-cycles";
@@ -7,6 +10,10 @@ import {
   formatTime24,
   formatLongWithoutTime,
 } from "@/lib/utils/dateFormatter";
+import {
+  admissionsFadeUp,
+  admissionsStaggerContainer,
+} from "../lib/motion-presets";
 
 type Props = {
   status: AdmissionStatusResponse;
@@ -196,8 +203,13 @@ export default function AdmissionsStatusPanel({
         className="border-b border-border bg-surface-app"
       >
         <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={admissionsStaggerContainer}
+            className="flex flex-wrap items-center justify-between gap-4"
+          >
+            <motion.div variants={admissionsFadeUp}>
               <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-success">
                 Convocatoria abierta
               </p>
@@ -215,15 +227,8 @@ export default function AdmissionsStatusPanel({
                   </span>
                 </p>
               )}
-            </div>
-            {/*<a
-              href="#admissions-prep"
-              className="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90"
-            >
-              Ver requisitos
-            </a>
-            */}
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
     );
@@ -235,24 +240,39 @@ export default function AdmissionsStatusPanel({
       className="bg-surface-app px-4 py-10 sm:px-6 sm:py-14 lg:px-8"
     >
       <div className="mx-auto max-w-4xl space-y-10">
-        <div className="max-w-2xl">
-          <p className="mb-4 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.16em] text-primary">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={admissionsStaggerContainer}
+          className="max-w-2xl"
+        >
+          <motion.p
+            variants={admissionsFadeUp}
+            className="mb-4 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.16em] text-primary"
+          >
             <span className="inline-block h-px w-5 bg-primary" aria-hidden />
             Estado del periodo
-          </p>
+          </motion.p>
 
-          <h2
+          <motion.h2
+            variants={admissionsFadeUp}
             id="admissions-status-title"
             className="font-merriweather text-[clamp(1.5rem,3.5vw,2.25rem)] font-medium leading-snug text-foreground"
           >
             {copy.headline}
-          </h2>
+          </motion.h2>
 
-          <p className="mt-4 max-w-prose text-base leading-relaxed text-fg-muted">
+          <motion.p
+            variants={admissionsFadeUp}
+            className="mt-4 max-w-prose text-base leading-relaxed text-fg-muted"
+          >
             {copy.body}
-          </p>
+          </motion.p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-8">
+          <motion.div
+            variants={admissionsFadeUp}
+            className="mt-8 flex flex-wrap items-center gap-8"
+          >
             <StatusStamp stamp={copy.stamp} />
             {copy.dateLabel && copy.dateValue && (
               <div>
@@ -264,10 +284,15 @@ export default function AdmissionsStatusPanel({
                 </span>
               </div>
             )}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div className="border border-border bg-surface-elevated p-6 sm:p-8">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="border border-border bg-surface-elevated p-6 sm:p-8"
+        >
           <div className="mb-6 flex flex-wrap items-baseline justify-between gap-3 border-b border-border pb-4">
             <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-fg-muted">
               {folio}
@@ -310,7 +335,7 @@ export default function AdmissionsStatusPanel({
               {copy.footnote}
             </p>
           )}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

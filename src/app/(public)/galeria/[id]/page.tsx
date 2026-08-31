@@ -26,10 +26,10 @@ export default function GaleriaItemPage({ params }: { params: Promise<{ id: stri
   return (
     <div className="min-h-screen bg-gradient-to-b from-surface-muted to-surface-elevated">
       {/* Slim top header */}
-      <section className="relative h-40 md:h-52 bg-gradient-to-r from-brand-900 via-brand-700 to-brand-900 overflow-hidden">
+      <section className="public-hero-offset relative bg-linear-to-r from-brand-900 via-brand-700 to-brand-900 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/background4.png')] bg-cover bg-center opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-900/90 to-brand-700/70" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-6">
+        <div className="absolute inset-0 bg-linear-to-t from-brand-900/90 to-brand-700/70" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-32 md:min-h-40 flex items-end pb-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
