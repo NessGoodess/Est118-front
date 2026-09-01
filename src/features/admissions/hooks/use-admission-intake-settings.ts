@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
+import useSWR from "swr";
 import {
   getAdmissionIntakeSettings,
   updateAdmissionIntakeSettings,
@@ -9,46 +10,44 @@ import type {
   AdmissionIntakeSettings,
   AdmissionIntakeSettingsPayload,
 } from "@/features/admissions/types/intake-settings";
-import { handleApiError } from "@/lib/api";
 import { ApiError } from "@/lib/types/auth";
+import { SWR_PREFIX } from "@/lib/swr";
+
+export const intakeSettingsKey = () => [SWR_PREFIX.intakeSettings] as const;
 
 export function useAdmissionIntakeSettings(options?: { enabled?: boolean }) {
   const enabled = options?.enabled ?? true;
-  const [data, setData] = useState<AdmissionIntakeSettings | null>(null);
-  const [loading, setLoading] = useState(enabled);
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<ApiError | null>(null);
+
+  const { data, error, isLoading, mutate } = useSWR<AdmissionIntakeSettings, ApiError>(
+    enabled ? intakeSettingsKey() : null,
+    getAdmissionIntakeSettings
+  );
 
   const reload = useCallback(async () => {
-    if (!enabled) {
-      setLoading(false);
-      return;
-    }
-    setLoading(true);
-    setError(null);
-    try {
-      setData(await getAdmissionIntakeSettings());
-    } catch (err) {
-      setError(handleApiError(err));
-    } finally {
-      setLoading(false);
-    }
-  }, [enabled]);
+    await mutate();
+  }, [mutate]);
 
-  useEffect(() => {
-    reload();
-  }, [reload]);
+  const save = useCallback(
+    async (payload: AdmissionIntakeSettingsPayload) => {
+      setSaving(true);
+      try {
+        const next = await updateAdmissionIntakeSettings(payload);
+        await mutate(next, { revalidate: false });
+        return next;
+      } finally {
+        setSaving(false);
+      }
+    },
+    [mutate]
+  );
 
-  const save = useCallback(async (payload: AdmissionIntakeSettingsPayload) => {
-    setSaving(true);
-    try {
-      const next = await updateAdmissionIntakeSettings(payload);
-      setData(next);
-      return next;
-    } finally {
-      setSaving(false);
-    }
-  }, []);
-
-  return { data, loading, saving, error, reload, save };
+  return {
+    data: data ?? null,
+    loading: isLoading,
+    saving,
+    error: error ?? null,
+    reload,
+    save,
+  };
 }

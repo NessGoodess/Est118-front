@@ -1,8 +1,10 @@
+import useSWR from "swr";
 import { getGrades } from "@/features/students/services/students.service";
-import { useEffect, useState } from "react";
 import { Grade, Totals } from "@/features/students/types/students";
-import { handleApiError } from "@/lib/api";
 import { ApiError } from "@/lib/types/auth";
+import { SWR_PREFIX } from "@/lib/swr";
+
+const EMPTY_GRADES: Grade[] = [];
 
 const EMPTY_TOTALS: Totals = {
   total_grades: 0,
@@ -10,45 +12,18 @@ const EMPTY_TOTALS: Totals = {
   total_groups: 0,
 };
 
+export const gradesKey = () => [SWR_PREFIX.grades] as const;
+
 export default function useGrades(enabled = true) {
-  const [grades, setGrades] = useState<Grade[]>([]);
-  const [totals, setTotals] = useState<Totals>(EMPTY_TOTALS);
-  const [isLoading, setIsLoading] = useState(enabled);
-  const [error, setError] = useState<ApiError | null>(null);
-
-  useEffect(() => {
-    if (!enabled) {
-      setIsLoading(false);
-      return;
-    }
-
-    let cancelled = false;
-    setIsLoading(true);
-    setError(null);
-
-    getGrades()
-      .then((response) => {
-        if (cancelled) return;
-        setGrades(response.data.grades);
-        setTotals(response.data.totals);
-      })
-      .catch((err) => {
-        if (cancelled) return;
-        setError(handleApiError(err));
-      })
-      .finally(() => {
-        if (!cancelled) setIsLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [enabled]);
+  const { data, error, isLoading } = useSWR<{ grades: Grade[]; totals: Totals }, ApiError>(
+    enabled ? gradesKey() : null,
+    async () => (await getGrades()).data
+  );
 
   return {
-    grades,
-    totals,
+    grades: data?.grades ?? EMPTY_GRADES,
+    totals: data?.totals ?? EMPTY_TOTALS,
     isLoading,
-    error,
+    error: error ?? null,
   };
 }

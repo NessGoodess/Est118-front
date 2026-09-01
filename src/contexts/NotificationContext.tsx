@@ -7,9 +7,9 @@ import {
   useEffect,
   useMemo,
   useRef,
-  useState,
   type ReactNode,
 } from "react";
+import useSWR from "swr";
 import { useAuth } from "@/contexts/AuthContext";
 import { getEcho } from "@/lib/realtime";
 import { handleApiError } from "@/lib/api";
@@ -21,6 +21,16 @@ import {
   markNotificationAsRead,
 } from "@/lib/services/notifications.service";
 import { randomUuid } from "@/lib/utils/random-uuid";
+import { SWR_PREFIX } from "@/lib/swr";
+
+const MAX_FEED_ITEMS = 30;
+
+interface NotificationFeed {
+  items: AppNotification[];
+  unreadCount: number;
+}
+
+const EMPTY_FEED: NotificationFeed = { items: [], unreadCount: 0 };
 
 interface NotificationContextValue {
   notifications: AppNotification[];
@@ -32,6 +42,16 @@ interface NotificationContextValue {
 }
 
 const NotificationContext = createContext<NotificationContextValue | undefined>(undefined);
+
+export const notificationsKey = () => [SWR_PREFIX.notifications] as const;
+
+async function fetchFeed(): Promise<NotificationFeed> {
+  const [list, unreadCount] = await Promise.all([
+    fetchNotifications(),
+    fetchUnreadCount(),
+  ]);
+  return { items: list.data, unreadCount };
+}
 
 function mapBroadcastPayload(raw: Record<string, unknown>): AppNotification {
   const data = (raw.data as Record<string, unknown> | undefined) ?? raw;
@@ -52,33 +72,31 @@ function mapBroadcastPayload(raw: Record<string, unknown>): AppNotification {
 
 export function NotificationProvider({ children }: { children: ReactNode }) {
   const { user, authenticated, hasPermission } = useAuth();
-  const [notifications, setNotifications] = useState<AppNotification[]>([]);
-  const [unreadCount, setUnreadCount] = useState(0);
-  const [loading, setLoading] = useState(false);
   const canReceive = authenticated && hasPermission("view pre-enrollments");
   const subscribedRef = useRef(false);
 
-  const refresh = useCallback(async () => {
-    if (!canReceive) {
-      setNotifications([]);
-      setUnreadCount(0);
-      return;
+  const { data, isLoading, mutate } = useSWR<NotificationFeed>(
+    canReceive ? notificationsKey() : null,
+    fetchFeed,
+    {
+      onError: (err) => {
+        console.error("Error cargando notificaciones:", handleApiError(err).message);
+      },
     }
-    try {
-      setLoading(true);
-      const [list, count] = await Promise.all([fetchNotifications(), fetchUnreadCount()]);
-      setNotifications(list.data);
-      setUnreadCount(count);
-    } catch (err) {
-      console.error("Error cargando notificaciones:", handleApiError(err).message);
-    } finally {
-      setLoading(false);
-    }
-  }, [canReceive]);
+  );
 
-  useEffect(() => {
-    refresh();
-  }, [refresh]);
+  const feed = data ?? EMPTY_FEED;
+
+  /** Applies a local patch to the cached feed without hitting the API. */
+  const patchFeed = useCallback(
+    (patch: (current: NotificationFeed) => NotificationFeed) =>
+      mutate((current) => patch(current ?? EMPTY_FEED), { revalidate: false }),
+    [mutate]
+  );
+
+  const refresh = useCallback(async () => {
+    await mutate();
+  }, [mutate]);
 
   useEffect(() => {
     if (!canReceive || !user?.id) return;
@@ -91,11 +109,13 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
 
     const onNotification = (payload: Record<string, unknown>) => {
       const incoming = mapBroadcastPayload(payload);
-      setNotifications((prev) => {
-        if (prev.some((n) => n.id === incoming.id)) return prev;
-        return [incoming, ...prev].slice(0, 30);
+      void patchFeed((current) => {
+        if (current.items.some((n) => n.id === incoming.id)) return current;
+        return {
+          items: [incoming, ...current.items].slice(0, MAX_FEED_ITEMS),
+          unreadCount: current.unreadCount + 1,
+        };
       });
-      setUnreadCount((c) => c + 1);
     };
 
     channel.notification(onNotification);
@@ -105,42 +125,50 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       echo.leave(channelName);
       subscribedRef.current = false;
     };
-  }, [canReceive, user?.id]);
+  }, [canReceive, user?.id, patchFeed]);
 
-  const markAsRead = useCallback(async (id: string) => {
-    try {
-      const updated = await markNotificationAsRead(id);
-      setNotifications((prev) =>
-        prev.map((n) => (n.id === id ? { ...n, ...updated, read_at: updated.read_at } : n))
-      );
-      setUnreadCount((c) => Math.max(0, c - 1));
-    } catch (err) {
-      console.error(handleApiError(err).message);
-    }
-  }, []);
+  const markAsRead = useCallback(
+    async (id: string) => {
+      try {
+        const updated = await markNotificationAsRead(id);
+        await patchFeed((current) => ({
+          items: current.items.map((n) =>
+            n.id === id ? { ...n, ...updated, read_at: updated.read_at } : n
+          ),
+          unreadCount: Math.max(0, current.unreadCount - 1),
+        }));
+      } catch (err) {
+        console.error(handleApiError(err).message);
+      }
+    },
+    [patchFeed]
+  );
 
   const markAllAsRead = useCallback(async () => {
     try {
       await markAllNotificationsAsRead();
-      setNotifications((prev) =>
-        prev.map((n) => ({ ...n, read_at: n.read_at ?? new Date().toISOString() }))
-      );
-      setUnreadCount(0);
+      await patchFeed((current) => ({
+        items: current.items.map((n) => ({
+          ...n,
+          read_at: n.read_at ?? new Date().toISOString(),
+        })),
+        unreadCount: 0,
+      }));
     } catch (err) {
       console.error(handleApiError(err).message);
     }
-  }, []);
+  }, [patchFeed]);
 
   const value = useMemo(
     () => ({
-      notifications,
-      unreadCount,
-      loading,
+      notifications: feed.items,
+      unreadCount: feed.unreadCount,
+      loading: isLoading,
       refresh,
       markAsRead,
       markAllAsRead,
     }),
-    [notifications, unreadCount, loading, refresh, markAsRead, markAllAsRead]
+    [feed, isLoading, refresh, markAsRead, markAllAsRead]
   );
 
   return (

@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
+import useSWR from 'swr';
 import { handleApiError } from '@/lib/api';
 import { ApiError } from '@/lib/types/auth';
 import { PendingPromotionDecisionItem } from '@/features/admissions/types/promotion';
@@ -8,45 +9,57 @@ import {
   getPendingPromotionDecisions,
   updatePromotionDecision,
 } from '@/features/admissions/services/admissions.service';
+import { SWR_PREFIX } from '@/lib/swr';
+
+export const promotionDecisionsKey = () => [SWR_PREFIX.promotionDecisions] as const;
 
 export function usePromotionDecisions() {
-  const [items, setItems] = useState<PendingPromotionDecisionItem[]>([]);
-  const [loading, setLoading] = useState(true);
   const [savingId, setSavingId] = useState<number | null>(null);
   const [bulkLoading, setBulkLoading] = useState(false);
-  const [error, setError] = useState<ApiError | null>(null);
+  const [mutationError, setMutationError] = useState<ApiError | null>(null);
 
-  const fetchPending = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+  const {
+    data,
+    error: fetchError,
+    isLoading,
+    mutate,
+  } = useSWR<PendingPromotionDecisionItem[], ApiError>(
+    promotionDecisionsKey(),
+    getPendingPromotionDecisions
+  );
 
-    try {
-      const rows = await getPendingPromotionDecisions();
-      setItems(rows);
-    } catch (err) {
-      setError(handleApiError(err));
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  /** Drops resolved rows from the cache without refetching the list. */
+  const dropResolved = useCallback(
+    (resolvedIds: Set<number>) =>
+      mutate(
+        (prev) => (prev ?? []).filter((item) => !resolvedIds.has(item.enrollment_id)),
+        { revalidate: false }
+      ),
+    [mutate]
+  );
+
+  const refetch = useCallback(async () => {
+    setMutationError(null);
+    await mutate();
+  }, [mutate]);
 
   const setDecision = useCallback(
     async (enrollmentId: number, isApproved: boolean): Promise<boolean> => {
       setSavingId(enrollmentId);
-      setError(null);
+      setMutationError(null);
 
       try {
         await updatePromotionDecision(enrollmentId, isApproved);
-        setItems((prev) => prev.filter((item) => item.enrollment_id !== enrollmentId));
+        await dropResolved(new Set([enrollmentId]));
         return true;
       } catch (err) {
-        setError(handleApiError(err));
+        setMutationError(handleApiError(err));
         return false;
       } finally {
         setSavingId(null);
       }
     },
-    []
+    [dropResolved]
   );
 
   const bulkSetDecision = useCallback(
@@ -57,7 +70,7 @@ export function usePromotionDecisions() {
       if (enrollmentIds.length === 0) return { ok: 0, failed: 0 };
 
       setBulkLoading(true);
-      setError(null);
+      setMutationError(null);
 
       const okIds = new Set<number>();
       const failedIds = new Set<number>();
@@ -77,26 +90,22 @@ export function usePromotionDecisions() {
       }
 
       if (okIds.size > 0) {
-        setItems((prev) => prev.filter((item) => !okIds.has(item.enrollment_id)));
+        await dropResolved(okIds);
       }
 
       return { ok: okIds.size, failed: failedIds.size };
     },
-    []
+    [dropResolved]
   );
 
-  useEffect(() => {
-    fetchPending();
-  }, [fetchPending]);
-
   return {
-    items,
-    loading,
+    items: data ?? [],
+    loading: isLoading,
     savingId,
     bulkLoading,
-    error,
+    error: mutationError ?? fetchError ?? null,
     setDecision,
     bulkSetDecision,
-    refetch: fetchPending,
+    refetch,
   };
 }

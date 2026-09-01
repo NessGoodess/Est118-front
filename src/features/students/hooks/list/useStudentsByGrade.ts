@@ -1,63 +1,41 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
+import useSWR, { mutate as globalMutate } from "swr";
 import { Student } from "@/features/students/types/students";
 import { ApiError } from "@/lib/types/auth";
-import { handleApiError } from "@/lib/api";
 import { getStudentsByGrade } from "@/features/students/services/students.service";
+import { SWR_PREFIX, keyPrefixFilter } from "@/lib/swr";
 
-/** In-memory list cache keyed by grade (lives for the SPA session). */
-const studentsByGradeCache = new Map<number, Student[]>();
+const EMPTY_STUDENTS: Student[] = [];
 
+export const studentsByGradeKey = (gradeId: number) =>
+  [SWR_PREFIX.studentsByGrade, gradeId] as const;
+
+/**
+ * Revalidates the cached student lists. Callable outside React because
+ * `SWRProvider` uses the default (global) cache.
+ */
 export function invalidateStudentsByGradeCache(gradeId?: number) {
   if (gradeId != null) {
-    studentsByGradeCache.delete(gradeId);
+    void globalMutate(studentsByGradeKey(gradeId));
     return;
   }
-  studentsByGradeCache.clear();
+  void globalMutate(keyPrefixFilter(SWR_PREFIX.studentsByGrade));
 }
 
 export default function useStudentsByGrade(grade_id: number | null) {
-  const [students, setStudents] = useState<Student[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<ApiError | null>(null);
-
-  const fetchStudents = useCallback(
-    async (options?: { force?: boolean }) => {
-      if (!grade_id) return;
-
-      const force = options?.force === true;
-      if (!force && studentsByGradeCache.has(grade_id)) {
-        setStudents(studentsByGradeCache.get(grade_id)!);
-        setError(null);
-        setIsLoading(false);
-        return;
-      }
-
-      try {
-        setIsLoading(true);
-        setError(null);
-        const response = await getStudentsByGrade(grade_id);
-        const rows = response.data ?? [];
-        studentsByGradeCache.set(grade_id, rows);
-        setStudents(rows);
-      } catch (err) {
-        setError(handleApiError(err));
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [grade_id]
+  const { data, error, isLoading, mutate } = useSWR<Student[], ApiError>(
+    grade_id ? studentsByGradeKey(grade_id) : null,
+    async () => (await getStudentsByGrade(grade_id!)).data ?? EMPTY_STUDENTS
   );
 
-  useEffect(() => {
-    void fetchStudents();
-  }, [fetchStudents]);
-
-  const refetch = useCallback(() => fetchStudents({ force: true }), [fetchStudents]);
+  const refetch = useCallback(async () => {
+    await mutate();
+  }, [mutate]);
 
   return {
-    students,
+    students: data ?? EMPTY_STUDENTS,
     isLoading,
-    error,
+    error: error ?? null,
     refetch,
     invalidateCache: invalidateStudentsByGradeCache,
   };

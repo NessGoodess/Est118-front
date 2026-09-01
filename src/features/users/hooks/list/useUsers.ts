@@ -3,6 +3,7 @@ import useSWR from "swr";
 import { getUsers } from "@/features/users/services/users.service";
 import type { UserListItem } from "@/features/users/types/users";
 import type { ApiError } from "@/lib/types/auth";
+import { SWR_PREFIX } from "@/lib/swr";
 
 export type UsersListFilters = {
   role: string;
@@ -11,7 +12,7 @@ export type UsersListFilters = {
 
 /** Cache key per filter combination, so switching filters back reuses data. */
 export const usersListKey = (filters: UsersListFilters) =>
-  ["users:list", filters.role, filters.verified] as const;
+  [SWR_PREFIX.usersList, filters.role, filters.verified] as const;
 
 async function fetchAllUsers(filters: UsersListFilters): Promise<UserListItem[]> {
   const all: UserListItem[] = [];

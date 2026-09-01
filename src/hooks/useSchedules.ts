@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useCallback } from "react";
+import useSWR from "swr";
 import { Schedule } from "@/lib/types/attendance";
-import apiClient, { API_ENDPOINTS } from "@/lib/api";
+import apiClient, { API_ENDPOINTS, handleApiError } from "@/lib/api";
+import { SWR_PREFIX } from "@/lib/swr";
 
 interface UseSchedulesResult {
   schedules: Schedule[];
@@ -9,44 +11,31 @@ interface UseSchedulesResult {
   refetch: () => Promise<void>;
 }
 
+const EMPTY_SCHEDULES: Schedule[] = [];
+
+export const schedulesKey = () => [SWR_PREFIX.schedules] as const;
+
+async function fetchSchedules(): Promise<Schedule[]> {
+  const response = await apiClient.get<{ schedules?: Schedule[] }>(
+    API_ENDPOINTS.SCHEDULES
+  );
+  return response.data.schedules ?? EMPTY_SCHEDULES;
+}
+
 export function useSchedules(): UseSchedulesResult {
-  const [schedules, setSchedules] = useState<Schedule[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const { data, error, isLoading, mutate } = useSWR<Schedule[]>(
+    schedulesKey(),
+    fetchSchedules
+  );
 
-  const fetchSchedules = async (): Promise<void> => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await apiClient.get(API_ENDPOINTS.SCHEDULES);
-      const data = response.data;
-      setSchedules(data.schedules || []);
-    } catch (err: unknown) {
-      let errorMessage = "Error al cargar horarios";
-      if (err && typeof err === 'object') {
-        if ('response' in err && err.response && typeof err.response === 'object' && 'data' in err.response && err.response.data && typeof err.response.data === 'object' && 'message' in err.response.data) {
-          errorMessage = String(err.response.data.message);
-        } else if ('message' in err) {
-          errorMessage = String(err.message);
-        }
-      }
-      setError(errorMessage);
-      console.error("Error loading schedules:", err);
-      setSchedules([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchSchedules();
-  }, []);
+  const refetch = useCallback(async () => {
+    await mutate();
+  }, [mutate]);
 
   return {
-    schedules,
-    loading,
-    error,
-    refetch: fetchSchedules,
+    schedules: data ?? EMPTY_SCHEDULES,
+    loading: isLoading,
+    error: error ? handleApiError(error).message : null,
+    refetch,
   };
 }

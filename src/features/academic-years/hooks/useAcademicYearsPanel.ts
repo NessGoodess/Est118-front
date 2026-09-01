@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useToast } from "@/contexts/ToastContext";
 import { useConfirm } from "@/components/ui/confirm";
 import {
@@ -8,10 +8,10 @@ import {
   createAcademicYear,
   deleteAcademicYear,
   generateAcademicYearGroups,
-  getAcademicYearsList,
 } from "@/features/academic-years/services/academic-years.service";
 import type { AcademicYearListItem } from "@/features/academic-years/types/academic-year";
 import { handleApiError } from "@/lib/api";
+import { useAcademicYears } from "@/features/academic-years/hooks/useAcademicYears";
 
 export type AcademicYearCreateFormState = {
   starts_on: string;
@@ -28,8 +28,9 @@ const emptyForm: AcademicYearCreateFormState = {
 export function useAcademicYearsPanel() {
   const { showError, showSuccess } = useToast();
   const { confirm } = useConfirm();
-  const [years, setYears] = useState<AcademicYearListItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Shares the cache with every other `useAcademicYears` consumer, so writes
+  // here refresh the selectors in re-enrollment and admissions too.
+  const { data: years, loading, error, refetch: load } = useAcademicYears();
   const [saving, setSaving] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
   const [form, setForm] = useState<AcademicYearCreateFormState>(emptyForm);
@@ -41,20 +42,17 @@ export function useAcademicYearsPanel() {
     return `Año escolar ${startYear}-${endYear}`;
   }, [form.starts_on, form.ends_on]);
 
-  const load = useCallback(async () => {
-    setLoading(true);
-    try {
-      setYears(await getAcademicYearsList());
-    } catch (err) {
-      showError("Error", handleApiError(err).message);
-    } finally {
-      setLoading(false);
-    }
-  }, [showError]);
-
+  // SWR retries transient failures; only the first message of a streak is shown.
+  const lastToastedError = useRef<string | null>(null);
   useEffect(() => {
-    load();
-  }, [load]);
+    if (!error) {
+      lastToastedError.current = null;
+      return;
+    }
+    if (lastToastedError.current === error.message) return;
+    lastToastedError.current = error.message;
+    showError("Error", error.message);
+  }, [error, showError]);
 
   const toggleCreate = useCallback(() => {
     setShowCreate((open) => {

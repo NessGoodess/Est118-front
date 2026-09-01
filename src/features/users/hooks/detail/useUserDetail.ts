@@ -1,49 +1,35 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
+import useSWR from "swr";
 import { getUser } from "@/features/users/services/users.service";
 import type { UserDetail } from "@/features/users/types/users";
-import { handleApiError } from "@/lib/api";
 import type { ApiError } from "@/lib/types/auth";
+import { SWR_PREFIX } from "@/lib/swr";
+
+export const userDetailKey = (id: number) => [SWR_PREFIX.userDetail, id] as const;
+
+function toNumericId(id: string | number | null): number {
+  if (id == null || id === "") return NaN;
+  return typeof id === "number" ? id : parseInt(id, 10);
+}
 
 export default function useUserDetail(id: string | number | null) {
-  const [user, setUser] = useState<UserDetail | null>(null);
-  const [isLoading, setIsLoading] = useState(() => {
-    if (id == null || id === "") return false;
-    const n = typeof id === "number" ? id : parseInt(id, 10);
-    return !Number.isNaN(n);
-  });
-  const [error, setError] = useState<ApiError | null>(null);
+  const numericId = toNumericId(id);
+  const hasId = !Number.isNaN(numericId);
 
-  const numericId =
-    id == null || id === ""
-      ? NaN
-      : typeof id === "number"
-        ? id
-        : parseInt(id, 10);
+  const { data, error, isLoading, mutate } = useSWR<UserDetail, ApiError>(
+    hasId ? userDetailKey(numericId) : null,
+    () => getUser(numericId)
+  );
 
   const refetch = useCallback(async () => {
-    if (Number.isNaN(numericId)) {
-      setUser(null);
-      setError(null);
-      setIsLoading(false);
-      return;
-    }
+    await mutate();
+  }, [mutate]);
 
-    setIsLoading(true);
-    setError(null);
-    try {
-      const data = await getUser(numericId);
-      setUser(data);
-    } catch (err) {
-      setError(handleApiError(err));
-      setUser(null);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [numericId]);
-
-  useEffect(() => {
-    void refetch();
-  }, [refetch]);
-
-  return { user, isLoading, error, refetch, userId: numericId };
+  return {
+    user: data ?? null,
+    isLoading,
+    error: error ?? null,
+    refetch,
+    userId: numericId,
+  };
 }
