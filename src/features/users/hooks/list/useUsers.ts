@@ -1,13 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
+import useSWR from "swr";
 import { getUsers } from "@/features/users/services/users.service";
 import type { UserListItem } from "@/features/users/types/users";
-import { handleApiError } from "@/lib/api";
 import type { ApiError } from "@/lib/types/auth";
 
 export type UsersListFilters = {
   role: string;
   verified: boolean | undefined;
 };
+
+/** Cache key per filter combination, so switching filters back reuses data. */
+export const usersListKey = (filters: UsersListFilters) =>
+  ["users:list", filters.role, filters.verified] as const;
 
 async function fetchAllUsers(filters: UsersListFilters): Promise<UserListItem[]> {
   const all: UserListItem[] = [];
@@ -34,30 +38,19 @@ async function fetchAllUsers(filters: UsersListFilters): Promise<UserListItem[]>
 }
 
 export default function useUsers(filters: UsersListFilters) {
-  const [users, setUsers] = useState<UserListItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<ApiError | null>(null);
+  const { data, error, isLoading, mutate } = useSWR<UserListItem[], ApiError>(
+    usersListKey(filters),
+    () => fetchAllUsers(filters)
+  );
 
   const refetch = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const data = await fetchAllUsers({
-        role: filters.role,
-        verified: filters.verified,
-      });
-      setUsers(data);
-    } catch (err) {
-      setError(handleApiError(err));
-      setUsers([]);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [filters.role, filters.verified]);
+    await mutate();
+  }, [mutate]);
 
-  useEffect(() => {
-    void refetch();
-  }, [refetch]);
-
-  return { users, isLoading, error, refetch };
+  return {
+    users: data ?? [],
+    isLoading,
+    error: error ?? null,
+    refetch,
+  };
 }

@@ -2,7 +2,6 @@
 
 import { useRoutePermission } from "@/hooks/useRoutePermission";
 import { ComponentType, ReactNode } from "react";
-import { useAuth } from "@/contexts/AuthContext";
 
 interface WithPermissionOptions {
   fallback?: string;
@@ -37,13 +36,13 @@ export function withPagePermission<P extends object>(
   } = options;
 
   return function PagePermissionGuard(props: P) {
-    const { loading: authLoading } = useAuth();
     const { isLoading, isAuthorized } = useRoutePermission({
       fallback,
       requireAll,
     });
 
-    if (authLoading || isLoading || !isAuthorized) {
+    // `isAuthorized === false` keeps the placeholder while the redirect runs.
+    if (isLoading || !isAuthorized) {
       return <>{loadingComponent}</>;
     }
 

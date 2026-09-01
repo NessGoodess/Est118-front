@@ -20,7 +20,8 @@ function LayoutContent({
     <div className="font-geist-sans flex h-dvh min-w-0 overflow-x-hidden bg-surface-app text-foreground">
       <ModernSidebar />
       <div
-        className={`flex-1 flex flex-col min-w-0 min-h-0 transition-all duration-400 ease-in-out rounded-l-2xl rounded-r-none shadow-card bg-surface-panel border border-border border-r-0
+        className={`flex-1 flex flex-col min-w-0 min-h-0 transition-all duration-400 ease-in-out rounded-l-2xl rounded-r-none 
+          shadow-card bg-surface-panel border border-border border-r-0 overflow-hidden
         ${isMobile ? "ml-0 my-1" : isCollapsed ? "md:ml-16 my-4" : "md:ml-64 my-4"}`}
       >
         <OverlayScrollArea

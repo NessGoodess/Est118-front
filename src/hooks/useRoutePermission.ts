@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter, usePathname } from 'next/navigation';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect } from 'react';
 import { USER_PERMISSIONS } from '@/features/users/permissions';
 import { STUDENT_PERMISSIONS } from '@/features/students/permissions';
 import { GENERAL_ATTENDANCE_PERMISSIONS } from '@/features/general-attendance/permissions';
@@ -48,10 +48,15 @@ export const routePermissionMap = {
 
 export type RoutePath = keyof typeof routePermissionMap;
 
-const permissionCache = new Map<string, boolean>();
+/** Patterns compiled once: `[id]` segments match any numeric id. */
+const routeMatchers: Array<{ pattern: RegExp; permission: string | null }> =
+    Object.entries(routePermissionMap).map(([route, permission]) => ({
+        pattern: new RegExp(`^${route.replace(/\[.*?\]/g, '\\d+')}$`),
+        permission,
+    }));
 
-export function clearPermissionCache() {
-    permissionCache.clear();
+function findRoutePermission(pathname: string): string | null {
+    return routeMatchers.find((m) => m.pattern.test(pathname))?.permission ?? null;
 }
 
 interface UseRoutePermissionOptions {
@@ -60,6 +65,16 @@ interface UseRoutePermissionOptions {
     enabled?: boolean;
 }
 
+/**
+ * Resolves a route → Spatie permission decision from the already-loaded user.
+ *
+ * The check is synchronous: once `AuthContext` has a user, the answer is known
+ * on the first render, so guarded pages don't flash a loading state on every
+ * navigation. The effect only handles the redirect side-effect.
+ *
+ * `isAuthorized` is `null` while the decision cannot be made yet (auth still
+ * loading, or no session — `PrivateGuard` owns that redirect).
+ */
 export function useRoutePermission(options: UseRoutePermissionOptions = {}) {
     const {
         fallback = '/dashboard',
@@ -70,73 +85,29 @@ export function useRoutePermission(options: UseRoutePermissionOptions = {}) {
     const { hasPermission, loading, user } = useAuth();
     const router = useRouter();
     const pathname = usePathname();
-    const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
-    const redirectAttempted = useRef(false);
+
+    const requiredPermission = findRoutePermission(pathname);
+
+    let isAuthorized: boolean | null;
+    if (!enabled) {
+        isAuthorized = true;
+    } else if (loading || !user) {
+        isAuthorized = null;
+    } else if (!requireAll.every((permission) => hasPermission(permission))) {
+        isAuthorized = false;
+    } else {
+        isAuthorized = requiredPermission ? hasPermission(requiredPermission) : true;
+    }
 
     useEffect(() => {
-        if (!enabled || loading) return;
-        if (!user) return; 
-
-        const checkPermission = async () => {
-            let requiredPermission: string | null = null;
-
-            for (const [route, permission] of Object.entries(routePermissionMap)) {
-                const pattern = route.replace(/\[.*?\]/g, '\\d+');
-                const regex = new RegExp(`^${pattern}$`);
-
-                if (regex.test(pathname)) {
-                    requiredPermission = permission;
-                    break;
-                }
-            }
-
-            if (requireAll.length > 0) {
-                const hasAllRequired = requireAll.every(p => hasPermission(p));
-                if (!hasAllRequired) {
-                    setIsAuthorized(false);
-                    if (!redirectAttempted.current) {
-                        redirectAttempted.current = true;
-                        router.push(fallback);
-                    }
-                    return;
-                }
-            }
-
-            if (!requiredPermission) {
-                setIsAuthorized(true);
-                return;
-            }
-            const cacheKey = `${pathname}-${user.id}-${requiredPermission}`;
-            if (permissionCache.has(cacheKey)) {
-                const cached = permissionCache.get(cacheKey)!;
-                setIsAuthorized(cached);
-                if (!cached && !redirectAttempted.current) {
-                    redirectAttempted.current = true;
-                    router.push(fallback);
-                }
-                return;
-            }
-
-            const authorized = hasPermission(requiredPermission);
-            permissionCache.set(cacheKey, authorized);
-            setIsAuthorized(authorized);
-
-            if (!authorized && !redirectAttempted.current) {
-                redirectAttempted.current = true;
-                router.push(fallback);
-            }
-        };
-
-        checkPermission();
-    }, [pathname, loading, hasPermission, user, router, fallback, requireAll, enabled]);
-
-    useEffect(() => {
-        redirectAttempted.current = false;
-    }, [pathname]);
+        if (isAuthorized === false) {
+            router.replace(fallback);
+        }
+    }, [isAuthorized, pathname, fallback, router]);
 
     return {
         isLoading: loading,
         isAuthorized,
-        requiredPermission: routePermissionMap[pathname as RoutePath] || null,
+        requiredPermission,
     };
 }

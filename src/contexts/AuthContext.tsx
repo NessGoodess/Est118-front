@@ -9,6 +9,7 @@ import {
   useRef,
   ReactNode,
 } from "react";
+import useSWR from "swr";
 import { useRouter, usePathname } from "next/navigation";
 import {
   login,
@@ -17,17 +18,24 @@ import {
   formatAuthError,
   authEventBus,
   AuthEvent,
+  safeRedirectPath,
+  markHadSession,
+  clearHadSession,
+  hadSessionHint,
 } from "@/lib/auth";
 import { ApiError } from "@/lib/types/auth";
 import { User, LoginCredentials } from "@/lib/types/user";
-import { clearPermissionCache } from "@/hooks/useRoutePermission";
 import { disconnectEcho } from "@/lib/realtime";
-import { globalToast } from "@/lib/toast";
+import { SWR_KEYS, useClearSwrCache } from "@/lib/swr";
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
   authenticated: boolean;
+  /** True when a 401 means the user had a session that is no longer valid. */
+  sessionExpired: boolean;
+  /** The API never answered: the session is unknown, not absent. */
+  connectionError: boolean;
   error: string | null;
   login: (credentials: LoginCredentials) => Promise<void>;
   logout: () => Promise<void>;
@@ -52,90 +60,102 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-function clearLocalSession() {
-  clearPermissionCache();
-  disconnectEcho();
-}
-
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [loggingOut, setLoggingOut] = useState(false);
+  const [sessionExpired, setSessionExpired] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const authenticatedRef = useRef(false);
-  const handlingExpiryRef = useRef(false);
+  const clearSwrCache = useClearSwrCache();
+
+  /**
+   * Single source of truth for the session. The key is shared with the auth
+   * layout, so going from /login to /dashboard reuses the cached user instead
+   * of refetching it.
+   */
+  const {
+    data: user,
+    error: sessionError,
+    isLoading,
+    mutate: mutateUser,
+  } = useSWR<User, ApiError>(SWR_KEYS.currentUser, getCurrentUser, {
+    onSuccess: () => {
+      setError(null);
+      markHadSession();
+    },
+    onError: (err) => {
+      // 401 on bootstrap just means "guest": PrivateGuard owns the redirect.
+      setError(err.status === 401 ? null : formatAuthError(err));
+    },
+  });
+
+  const authenticated = Boolean(user);
+
+  /**
+   * Server down or network lost: a 401 is the only answer that actually means
+   * "no session", so guards must not sign the user out on anything else.
+   */
+  const connectionError =
+    !user && Boolean(sessionError) && sessionError?.status !== 401;
+
+  /**
+   * While there is no cached data SWR raises `isLoading` on every retry, which
+   * would strobe the guards between spinner and login screen. Gating on the
+   * error keeps the spinner for the first attempt only.
+   */
+  const loading = (isLoading && !sessionError) || loggingOut;
 
   useEffect(() => {
     authenticatedRef.current = authenticated;
   }, [authenticated]);
 
-  const loadUser = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const userData = await getCurrentUser();
-      setUser(userData);
-      setAuthenticated(true);
-    } catch (err) {
-      const apiError = err as ApiError;
-      if (apiError.status === 401) {
-        setUser(null);
-        setAuthenticated(false);
-      } else {
-        setError(formatAuthError(apiError));
-      }
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  /** Wipes every client-side trace of the session. */
+  const clearLocalSession = useCallback(async () => {
+    disconnectEcho();
+    clearHadSession();
+    await clearSwrCache();
+  }, [clearSwrCache]);
 
   const handleLogin = useCallback(
     async (credentials: LoginCredentials) => {
       try {
         setError(null);
+        setSessionExpired(false);
         await login(credentials);
-        await loadUser();
-        setAuthenticated(true);
+        await mutateUser();
 
         const params =
           typeof window !== "undefined"
             ? new URLSearchParams(window.location.search)
             : null;
-        const redirectTo = params?.get("redirect");
-        router.replace(
-          redirectTo && redirectTo.startsWith("/") && !redirectTo.startsWith("//")
-            ? redirectTo
-            : "/dashboard"
-        );
+        const redirectTo = safeRedirectPath(params?.get("redirect"));
+        router.replace(redirectTo ?? "/dashboard");
       } catch (err) {
         const apiError = err as ApiError;
         setError(formatAuthError(apiError));
-        setAuthenticated(false);
       }
     },
-    [router, loadUser]
+    [router, mutateUser]
   );
 
   const handleLogout = useCallback(async () => {
     try {
-      setLoading(true);
+      setLoggingOut(true);
+      setSessionExpired(false);
       await logout();
     } catch (err) {
       console.error("Error en logout:", err);
     } finally {
-      setUser(null);
-      setAuthenticated(false);
-      setLoading(false);
-      clearLocalSession();
+      await clearLocalSession();
+      setLoggingOut(false);
       router.replace("/login");
     }
-  }, [router]);
+  }, [router, clearLocalSession]);
 
   const refreshUser = useCallback(async () => {
-    await loadUser();
-  }, [loadUser]);
+    await mutateUser();
+  }, [mutateUser]);
 
   const clearError = useCallback(() => {
     setError(null);
@@ -163,41 +183,24 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   );
 
   useEffect(() => {
-    loadUser();
-  }, [loadUser]);
-
-  useEffect(() => {
-    const onSessionExpired = () => {
-      // Guest bootstrap /api/user 401 — clear quietly, no toast/redirect
-      if (!authenticatedRef.current) {
-        setUser(null);
-        setAuthenticated(false);
+    const onSessionExpired = async () => {
+      // Visiting /login without a session is normal — not an expiry.
+      if (pathname.startsWith("/login")) {
+        await mutateUser(undefined, { revalidate: false });
         return;
       }
 
-      if (handlingExpiryRef.current) return;
-      handlingExpiryRef.current = true;
+      await mutateUser(undefined, { revalidate: false });
 
-      setUser(null);
-      setAuthenticated(false);
-      clearLocalSession();
+      const hadSession = authenticatedRef.current || hadSessionHint();
+      if (!hadSession) return;
 
-      globalToast.warning(
-        "Sesión expirada",
-        "Tu sesión ha caducado. Inicia sesión de nuevo."
-      );
+      setSessionExpired(true);
 
-      const current =
-        typeof window !== "undefined"
-          ? window.location.pathname + window.location.search
-          : pathname || "/dashboard";
-
-      if (!current.startsWith("/login")) {
-        const redirect = encodeURIComponent(current);
-        router.replace(`/login?reason=expired&redirect=${redirect}`);
+      if (authenticatedRef.current) {
+        await clearLocalSession();
       }
-
-      handlingExpiryRef.current = false;
+      // PrivateGuard redirects to /login with reason + redirect.
     };
 
     const onForbidden = (payload?: unknown) => {
@@ -205,13 +208,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
 
     const onLogin = () => {
-      loadUser();
+      void mutateUser();
     };
 
     const onLogout = () => {
-      setUser(null);
-      setAuthenticated(false);
-      clearLocalSession();
+      setSessionExpired(false);
+      void mutateUser(undefined, { revalidate: false });
+      void clearLocalSession();
     };
 
     authEventBus.on(AuthEvent.SESSION_EXPIRED, onSessionExpired);
@@ -225,12 +228,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       authEventBus.off(AuthEvent.LOGIN, onLogin);
       authEventBus.off(AuthEvent.LOGOUT, onLogout);
     };
-  }, [router, loadUser, pathname]);
+  }, [pathname, mutateUser, clearLocalSession]);
 
   const value: AuthContextType = {
-    user,
+    user: user ?? null,
     loading,
     authenticated,
+    sessionExpired,
+    connectionError,
     error,
     login: handleLogin,
     logout: handleLogout,

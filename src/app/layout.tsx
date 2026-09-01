@@ -4,6 +4,7 @@ import "./globals.css";
 import { ScrollProvider } from "@/contexts/ScrollProvider";
 import { ConfirmProviderWrapper } from "@/components/ui/confirm/ConfirmProviderWrapper";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { SWRProvider } from "@/lib/swr";
 import { themeInitScript } from "@/lib/theme";
 import { Metadata } from "next";
 
@@ -68,13 +69,15 @@ export default function RootLayout({
         <Script id="est118-theme" strategy="beforeInteractive">
           {themeInitScript}
         </Script>
-        <ThemeProvider>
-          <ConfirmProviderWrapper>
-            <ScrollProvider>
-              {children}
-            </ScrollProvider>
-          </ConfirmProviderWrapper>
-        </ThemeProvider>
+        <SWRProvider>
+          <ThemeProvider>
+            <ConfirmProviderWrapper>
+              <ScrollProvider>
+                {children}
+              </ScrollProvider>
+            </ConfirmProviderWrapper>
+          </ThemeProvider>
+        </SWRProvider>
       </body>
     </html>
   );

@@ -1,9 +1,11 @@
 'use client';
 
 import { useAuth } from '@/contexts/AuthContext';
+import { buildLoginUrl, currentReturnPath } from '@/lib/auth';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import LoadingIcon from '@/components/ui/LoadingIcon';
+import ConnectionErrorScreen from '@/components/guards/ConnectionErrorScreen';
 
 const PERFIL_EDITAR_PATH = '/profile/update';
 
@@ -12,15 +14,22 @@ const PERFIL_EDITAR_PATH = '/profile/update';
  * If user is authenticated but email is not verified, only /profile/update is allowed (and /profile/*).
  */
 export default function PrivateGuard({ children }: { children: React.ReactNode }) {
-    const { authenticated, loading, user } = useAuth();
+    const { authenticated, loading, connectionError, refreshUser, user, sessionExpired } = useAuth();
     const router = useRouter();
     const pathname = usePathname();
 
     useEffect(() => {
-        if (loading) return;
+        if (loading || connectionError) return;
 
         if (!authenticated) {
-            router.replace('/login');
+            const search =
+                typeof window !== 'undefined' ? window.location.search : '';
+            router.replace(
+                buildLoginUrl({
+                    reason: sessionExpired ? 'expired' : undefined,
+                    redirect: currentReturnPath(pathname, search),
+                })
+            );
             return;
         }
 
@@ -31,13 +40,18 @@ export default function PrivateGuard({ children }: { children: React.ReactNode }
                 router.replace(PERFIL_EDITAR_PATH);
             }
         }
-    }, [loading, authenticated, user, pathname, router]);
+    }, [loading, authenticated, connectionError, sessionExpired, user, pathname, router]);
 
     // Show loading spinner while checking authentication
     if (loading) {
         return (
             <LoadingIcon size="lg" />
         );
+    }
+
+    // The API is unreachable: don't sign the user out, offer a retry instead.
+    if (connectionError) {
+        return <ConnectionErrorScreen onRetry={refreshUser} />;
     }
 
     // Show nothing if not authenticated (redirect is in progress)

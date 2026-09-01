@@ -12,3 +12,13 @@ export {
 
 export { AuthEvent } from './events';
 export { authEventBus } from './event-bus';
+export {
+  buildLoginUrl,
+  safeRedirectPath,
+  currentReturnPath,
+} from './login-redirect';
+export {
+  markHadSession,
+  clearHadSession,
+  hadSessionHint,
+} from './session-hint';
