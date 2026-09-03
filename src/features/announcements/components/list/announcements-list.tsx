@@ -10,7 +10,6 @@ import { AnnouncementRawItem, deleteAnnouncement } from '@/features/announcement
 import { globalToast } from '@/lib/toast';
 import { handleApiError } from '@/lib/api';
 import { useConfirm } from '@/components/ui/confirm';
-import { IconByName } from '@/components/ui/icons';
 import { Button } from '@/components/ui/Button';
 import GenericHeader from '@/components/ui/GenericHeader';
 

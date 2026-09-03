@@ -3,11 +3,11 @@
  */
 
 const DEFAULT_CONFIG = {
-  API_BASE_URL: 'http://api.est118.test:8000',
+  API_BASE_URL: 'http://localhost:8000',
   API_BASE_PATH: '/api',
   TIMEOUT: 10000,
   APP_ENV: 'development',
-  APP_NAME: 'EST_118',
+  APP_NAME: 'Example',
 } as const;
 
 export function getApiConfig() {

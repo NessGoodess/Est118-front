@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { IconByName } from "@/components/ui/icons";
 import { formatos, type Formato } from "@/lib/data/mockData";
 import PublicPageHero from "./PublicPageHero";
+import Link from "next/link";
 
 const CATEGORIES = ["Todos", "Académico", "Administrativo", "Justificante", "Solicitud"] as const;
 
@@ -138,13 +139,13 @@ export default function FormatsSection() {
                 Si tienes dudas sobre cómo llenar algún formato, acude a servicios escolares de
                 lunes a viernes, 8:00 a 14:00.
               </p>
-              <a
+              <Link
                 href="/#contacto"
                 className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
               >
                 Ver contacto
                 <IconByName name="chevronRight" className="h-4 w-4" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

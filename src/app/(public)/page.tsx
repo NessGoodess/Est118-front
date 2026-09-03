@@ -1,6 +1,6 @@
 import { Suspense } from "react"
 import type { Metadata } from "next"
-import HeroWelcome from "@/components/public/hero/HeroWelcomeDefinitive"
+import HeroWelcome from "@/components/public/hero/HeroWelcome"
 import UbicacionSection from "@/components/public/sections/UbicacionSection"
 import HomeAnnouncements from "@/features/announcements/public/HomeAnnouncements"
 import AnnouncementsSectionSkeleton from "@/features/announcements/public/skeletons/AnnouncementsSectionSkeleton"
