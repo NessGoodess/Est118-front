@@ -9,6 +9,7 @@ import {
   admissionsStaggerContainer,
 } from "../lib/motion-presets";
 import { ADMISSIONS_PREP_ID } from "../lib/scroll-to-id";
+import { Button } from "@/components/ui/Button";
 
 type Props = {
   onStart: () => void;
@@ -51,17 +52,15 @@ export default function AdmissionsPreparationSection({ onStart }: Props) {
           <AdmissionsImportantNotes />
         </motion.div>
 
-        <motion.div variants={admissionsFadeUp} className="pt-2">
-          <motion.button
-            type="button"
+        <motion.div variants={admissionsFadeUp} className="pt-2 flex justify-end">
+          <Button
+            variant="primary"
+            size="lg"
             onClick={onStart}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ duration: 0.2, ease: admissionsEase }}
-            className="w-full rounded-full bg-primary px-8 py-4 text-lg font-bold text-primary-foreground shadow-lg transition hover:bg-primary-hover hover:shadow-xl sm:w-auto"
+            className="rounded-xl"
           >
             Tengo todo listo, comenzar
-          </motion.button>
+          </Button>
         </motion.div>
       </div>
     </motion.section>

@@ -80,7 +80,7 @@ export default function WizardForm({ onBackToPreparation }: Props) {
       className="min-h-screen scroll-mt-28 bg-surface-app"
     >
       {showProgress && (
-        <div className="bg-primary py-3 text-primary-foreground">
+        <div className="bg-brand-900 py-3 text-amber-50">
           <div className={`${FORM_MAX} mx-auto px-4 sm:px-6 lg:px-8`}>
             <div className="mb-2 flex items-center justify-between">
               <span className="text-sm font-medium">
@@ -90,7 +90,7 @@ export default function WizardForm({ onBackToPreparation }: Props) {
                 {Math.round((current.number / LAST_INPUT_STEP) * 100)}% completado
               </span>
             </div>
-            <div className="h-2 w-full rounded-full bg-primary-hover">
+            <div className="h-2 w-full rounded-full bg-brand-700">
               <motion.div
                 className="h-2 rounded-full bg-accent-gold"
                 initial={{ width: 0 }}
@@ -105,7 +105,7 @@ export default function WizardForm({ onBackToPreparation }: Props) {
       )}
 
       {showProgress && (
-        <div className="hidden border-b border-border bg-surface-muted lg:block">
+        <div className="hidden border-b border-border bg-surface-app lg:block">
           <div className={`${FORM_MAX} mx-auto px-4 py-4 sm:px-6 lg:px-8`}>
             <div className="flex items-center justify-between">
               {FORM_STEPS.filter((step) => step.number <= LAST_INPUT_STEP).map(

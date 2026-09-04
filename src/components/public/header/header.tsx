@@ -9,8 +9,8 @@ import { navLinks, studentServicesLinks } from "./header.config";
 import { IconByName } from "@/components/ui/icons";
 import TopBar from "./topBar";
 import PublicHeaderSearch from "./PublicHeaderSearch";
-import { useAdmissionPublicStatus } from "@/features/admissions/context/admission-public-status-context";
 import { useScroll } from "@/contexts/ScrollProvider";
+import ThemeSwitch from "@/components/ui/ThemeSwitch";
 
 const navEase = [0.16, 1, 0.3, 1] as const;
 const HEADER_COMPACT_SCROLL = 72;
@@ -31,7 +31,6 @@ export default function Header() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [servicesOpen, setServicesOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
-    const { navLabel } = useAdmissionPublicStatus();
     const menuOpenScrollY = useRef(0);
 
     const rawScroll = useMotionValue(0);
@@ -98,10 +97,6 @@ export default function Header() {
         [0.2, 0.08]
     );
 
-    const links = navLinks.map((link) =>
-        link.href === "/inscripciones" ? { ...link, label: navLabel } : link
-    );
-
     const handleServiceNavigate = useCallback(
         (href: string) => {
             if (href.startsWith("#")) {
@@ -133,29 +128,30 @@ export default function Header() {
             className="fixed inset-x-0 top-0 z-50 backdrop-blur-md"
             style={{ boxShadow: headerBoxShadow }}
         >
-            <motion.div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 "
-                style={{ opacity: heroBgOpacity }}
-            />
-            <motion.div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 bg-surface-elevated"
-                style={{ opacity: compactBgOpacity }}
-            />
-
-            <motion.div
-                className="relative overflow-hidden max-lg:!h-0 max-lg:!opacity-0 max-lg:!pointer-events-none"
-                style={{ height: topBarHeight, opacity: topBarOpacity }}
-            >
-                <TopBar />
-            </motion.div>
-
-            <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="relative">
                 <motion.div
-                    className="flex items-center justify-between max-lg:!h-16"
-                    style={{ height: mainHeight }}
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0"
+                    style={{ opacity: heroBgOpacity }}
+                />
+                <motion.div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 bg-surface-elevated"
+                    style={{ opacity: compactBgOpacity }}
+                />
+
+                <motion.div
+                    className="relative overflow-hidden max-lg:!h-0 max-lg:!opacity-0 max-lg:!pointer-events-none"
+                    style={{ height: topBarHeight, opacity: topBarOpacity }}
                 >
+                    <TopBar />
+                </motion.div>
+
+                <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <motion.div
+                        className="flex items-center justify-between max-lg:!h-16"
+                        style={{ height: mainHeight }}
+                    >
                     <div className="flex items-center gap-4 py-1">
                         <motion.div
                             className="relative shrink-0 group max-lg:!h-12 max-lg:!w-12"
@@ -191,7 +187,7 @@ export default function Header() {
                                 },
                             }}
                         >
-                            {links.map((link) => (
+                            {navLinks.map((link) => (
                                 <motion.li
                                     key={link.href}
                                     variants={navItemVariants}
@@ -287,7 +283,7 @@ export default function Header() {
                             aria-label="Buscar en el sitio"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-[color,background-color,border-color] duration-200 ease-out ${scrolled
+                            className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-[color,background-color,border-color] duration-200 ease-out cursor-pointer ${scrolled
                                 ? "border-border text-foreground hover:bg-primary-soft hover:text-primary"
                                 : "border-public-glass-border text-public-on-media hover:bg-public-glass"
                                 }`}
@@ -316,6 +312,7 @@ export default function Header() {
                         </motion.button>
                     </div>
                 </motion.div>
+                </div>
             </div>
 
             <AnimatePresence>
@@ -325,7 +322,7 @@ export default function Header() {
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="overflow-hidden xl:hidden"
+                        className="relative z-10 overflow-hidden xl:hidden"
                         role="navigation"
                         aria-label="Menú móvil"
                     >
@@ -336,7 +333,7 @@ export default function Header() {
                                 }`}
                         >
                             <div className="max-h-[min(70dvh,calc(100dvh-5rem))] space-y-1 overflow-y-auto px-4 py-3">
-                                {links.map((link, index) => (
+                                {navLinks.map((link, index) => (
                                     <motion.div
                                         key={link.href}
                                         initial={{ opacity: 0, x: -20 }}
@@ -359,30 +356,32 @@ export default function Header() {
                                     </motion.div>
                                 ))}
 
+                                <div
+                                    className={`mt-2 border-t pt-2 lg:hidden ${scrolled ? "border-border" : "border-brand-700/50"}`}
+                                >
+                                    <motion.div
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: navLinks.length * 0.05, type: "spring", stiffness: 300 }}
+                                        className={`flex items-center justify-between gap-3 rounded-xl px-4 py-2.5 ${scrolled
+                                            ? "text-foreground"
+                                            : "text-public-on-media"
+                                            }`}
+                                    >
+                                        <div className="flex items-center gap-3 font-medium">
+                                            <IconByName name="sun" className="h-4 w-4 shrink-0" />
+                                            <span>Tema</span>
+                                        </div>
+                                        <ThemeSwitch tone={scrolled ? "surface" : "on-media"} />
+                                    </motion.div>
+                                </div>
+
                                 <div className={`mt-2 border-t pt-2 ${scrolled ? "border-border" : "border-brand-700/50"}`}>
                                     <motion.button
                                         type="button"
                                         initial={{ opacity: 0, x: -20 }}
                                         animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: links.length * 0.05, type: "spring", stiffness: 300 }}
-                                        whileTap={{ scale: 0.98 }}
-                                        onClick={() => {
-                                            setMobileOpen(false);
-                                            setSearchOpen(true);
-                                        }}
-                                        className={`flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-left font-medium transition-all duration-200 ${scrolled
-                                            ? "text-foreground hover:bg-primary-soft hover:text-primary"
-                                            : "text-public-on-media hover:bg-public-glass"
-                                            }`}
-                                    >
-                                        <IconByName name="search" className="h-4 w-4" />
-                                        <span>Buscar en el sitio</span>
-                                    </motion.button>
-                                </div>
-
-                                <div className={`mt-2 border-t pt-2 ${scrolled ? "border-border" : "border-brand-700/50"}`}>
-                                    <button
-                                        type="button"
+                                        transition={{ delay: (navLinks.length + 1) * 0.05, type: "spring", stiffness: 300 }}
                                         onClick={() => {
                                             menuOpenScrollY.current = scrollY;
                                             setServicesOpen(!servicesOpen);
@@ -394,13 +393,13 @@ export default function Header() {
                                     >
                                         <div className="flex items-center gap-3">
                                             <IconByName name="users" className="h-4 w-4" />
-                                            <span>Servicios Estudiantiles</span>
+                                            <span>Servicios</span>
                                         </div>
                                         <IconByName
                                             name="chevronDown"
                                             className={`h-5 w-5 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}
                                         />
-                                    </button>
+                                    </motion.button>
 
                                     <AnimatePresence>
                                         {servicesOpen && (

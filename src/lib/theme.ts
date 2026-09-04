@@ -16,7 +16,7 @@ export function applyThemeClass(theme: ThemeMode) {
   if (theme === "dark") root.classList.add("dark");
 }
 
-/** Get the stored theme from the localStorage if it exists, otherwise return "light" */
+/** Stored preference, or light when nothing is saved (ignore OS preference). */
 export function getStoredTheme(): ThemeMode {
   try {
     const raw = localStorage.getItem(THEME_STORAGE_KEY);
@@ -27,5 +27,9 @@ export function getStoredTheme(): ThemeMode {
   return "light";
 }
 
-/** Inline before paint — keep in sync with applyThemeClass / storage key. */
-export const themeInitScript = `(function(){try{var t=localStorage.getItem("${THEME_STORAGE_KEY}");var r=document.documentElement;r.classList.remove("light","dark");if(t==="light")r.classList.add("light");else if(t==="dark")r.classList.add("dark");}catch(e){}})();`;
+/**
+ * Inline before paint — keep in sync with applyThemeClass / storage key.
+ * Default is light (adds html.light) so prefers-color-scheme dark does not win
+ * until the user explicitly chooses dark.
+ */
+export const themeInitScript = `(function(){try{var t=localStorage.getItem("${THEME_STORAGE_KEY}");var r=document.documentElement;r.classList.remove("light","dark");if(t==="dark")r.classList.add("dark");else r.classList.add("light");}catch(e){try{document.documentElement.classList.add("light");}catch(_){}}})();`;
