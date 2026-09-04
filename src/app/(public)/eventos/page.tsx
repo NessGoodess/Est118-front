@@ -15,12 +15,12 @@ export default function EventosPage() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="text-white"
+                        className="text-public-on-media"
                     >
                         <h1 className="text-4xl md:text-5xl font-bold mb-4 font-merriweather">
                             Próximos Eventos
                         </h1>
-                        <p className="text-xl md:text-2xl text-white/90 max-w-3xl">
+                        <p className="text-xl md:text-2xl text-public-on-media/90 max-w-3xl">
                             Participa en nuestras actividades académicas, culturales y deportivas
                         </p>
                     </motion.div>

@@ -1,7 +1,23 @@
 type SkeletonAs = "article" | "section" | "div";
 
-export function SkeletonBone({ className = "" }: { className?: string }) {
-  return <div className={`rounded-md bg-surface-muted ${className}`} aria-hidden />;
+/** surface = cuerpo claro / shell privado; on-media = hero navy / sobre media. */
+export type SkeletonTone = "surface" | "on-media";
+
+const TONE_BG: Record<SkeletonTone, string> = {
+  surface: "bg-surface-muted",
+  "on-media": "bg-public-glass",
+};
+
+export function SkeletonBone({
+  className = "",
+  tone = "surface",
+}: {
+  className?: string;
+  tone?: SkeletonTone;
+}) {
+  return (
+    <div className={`rounded-md ${TONE_BG[tone]} ${className}`} aria-hidden />
+  );
 }
 
 export function SkeletonCard({

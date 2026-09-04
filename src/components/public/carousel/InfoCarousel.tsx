@@ -53,7 +53,7 @@ export default function Carousel() {
                             }}
                             className={`absolute inset-0 flex items-center justify-center `}
                         >
-                            <div className="text-center text-white">
+            <div className="text-center text-public-on-media">
                                 <h3 className="text-3xl font-bold mb-2">
                                     {slides[current].title}
                                 </h3>

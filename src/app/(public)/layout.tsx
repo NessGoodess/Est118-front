@@ -16,10 +16,12 @@ export default async function PublicLayout({
 
   return (
     <AdmissionPublicStatusProvider status={admissionStatus}>
-      <Header />
-      <main className="bg-public-background">{children}</main>
-      <Footer />
-      {modal}
+      <div className="public-shell">
+        <Header />
+        <main className="bg-public-page">{children}</main>
+        <Footer />
+        {modal}
+      </div>
     </AdmissionPublicStatusProvider>
   );
 }

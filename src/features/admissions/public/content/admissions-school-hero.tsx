@@ -21,7 +21,7 @@ export default function AdmissionsSchoolHero({ status }: Props) {
   return (
     <section
       aria-labelledby="admissions-school-hero-title"
-      className="public-hero-offset relative overflow-hidden border-b border-white/10 bg-linear-to-br from-brand-900 via-brand-700 to-brand-500 text-white"
+      className="public-hero-offset relative overflow-hidden border-b border-public-glass bg-linear-to-br from-brand-900 via-brand-700 to-brand-500 text-public-on-media"
     >
       <div
         className="absolute inset-0 bg-[url('/background4.png')] bg-cover bg-center opacity-20"
@@ -42,7 +42,7 @@ export default function AdmissionsSchoolHero({ status }: Props) {
             variants={admissionsFadeUp}
             className="mb-8 flex flex-wrap items-center gap-4 md:gap-6"
           >
-            <div className="flex items-center gap-3 rounded-xl bg-white/10 px-3 py-2 backdrop-blur-sm">
+            <div className="flex items-center gap-3 rounded-xl bg-public-glass px-3 py-2 backdrop-blur-sm">
               <Image
                 src="/Logo_IEEPO.png"
                 alt="IEEPO"
@@ -50,7 +50,7 @@ export default function AdmissionsSchoolHero({ status }: Props) {
                 height={48}
                 className="h-10 w-auto object-contain md:h-12"
               />
-              <div className="h-8 w-px bg-white/25" aria-hidden />
+              <div className="h-8 w-px bg-public-glass-border" aria-hidden />
               <Image
                 src="/Logo_EST118.png"
                 alt="Escuela Secundaria Técnica 118"
@@ -59,34 +59,34 @@ export default function AdmissionsSchoolHero({ status }: Props) {
                 className="h-10 w-auto object-contain md:h-12"
               />
             </div>
-            <div className="hidden h-px flex-1 bg-white/15 sm:block" aria-hidden />
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/70 sm:text-xs">
+            <div className="hidden h-px flex-1 bg-public-glass sm:block" aria-hidden />
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-public-on-media-muted sm:text-xs">
               CCT 09DST0118V · IEEPO
             </p>
           </motion.div>
 
           <motion.p
             variants={admissionsFadeUp}
-            className="mb-5 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.18em] text-accent-gold"
+            className="mb-5 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.18em] text-public-cta"
           >
-            <span className="inline-block h-px w-6 bg-accent-gold" aria-hidden />
+            <span className="inline-block h-px w-6 bg-public-cta" aria-hidden />
             Portal de {cycleLabel}
           </motion.p>
 
           <motion.div variants={admissionsFadeUp} className="max-w-3xl">
             <h1
               id="admissions-school-hero-title"
-              className="font-merriweather text-[clamp(1.75rem,4.5vw,2.75rem)] font-bold leading-tight tracking-tight text-white"
+              className="font-merriweather text-[clamp(1.75rem,4.5vw,2.75rem)] font-bold leading-tight tracking-tight text-public-on-media"
             >
               Escuela Secundaria{" "}
-              <span className="text-accent-gold">Técnica No. 118</span>
+              <span className="text-public-cta">Técnica No. 118</span>
             </h1>
 
-            <p className="mt-5 max-w-[42rem] text-base leading-relaxed text-white/90 md:text-[17px] md:leading-[1.7]">
+            <p className="mt-5 max-w-[42rem] text-base leading-relaxed text-public-on-media/90 md:text-[17px] md:leading-[1.7]">
               {SCHOOL_SLOGAN}
             </p>
 
-            <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.12em] text-white/60">
+            <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.12em] text-public-on-media-muted">
               Registro en línea para aspirantes a primer grado · Oaxaca de Juárez
             </p>
           </motion.div>

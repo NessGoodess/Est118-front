@@ -8,6 +8,7 @@ import {
   admissionsFadeUp,
   admissionsStaggerContainer,
 } from "../lib/motion-presets";
+import { ADMISSIONS_PREP_ID } from "../lib/scroll-to-id";
 
 type Props = {
   onStart: () => void;
@@ -16,23 +17,24 @@ type Props = {
 export default function AdmissionsPreparationSection({ onStart }: Props) {
   return (
     <motion.section
-      id="admissions-prep"
+      id={ADMISSIONS_PREP_ID}
       initial="hidden"
       animate="visible"
       variants={admissionsStaggerContainer}
-      className="scroll-mt-28 bg-surface-app px-4 py-10 sm:px-6 sm:py-14 lg:px-8"
+      className="scroll-mt-28 bg-surface-app px-4 pb-10 pt-0 sm:px-6 sm:pb-14 lg:px-8"
     >
+      <div className="h-px w-full bg-border mb-10"></div>
+
       <div className="mx-auto max-w-5xl space-y-8 md:rounded-2xl md:border md:border-border md:bg-surface-elevated md:p-8 md:shadow-sm lg:p-10">
         <motion.article variants={admissionsFadeUp} className="max-w-4xl">
           <p className="font-mono text-xs uppercase tracking-[0.14em] text-primary">
             Antes de comenzar
           </p>
           <h2 className="mt-3 font-merriweather text-2xl font-bold text-foreground sm:text-3xl">
-            Revise su expediente
+            Preparación para la <span className="text-public-cta"> Preinscripción</span>
           </h2>
           <p className="mt-3 text-base leading-relaxed text-fg-muted">
-            El formulario toma unos 15–20 minutos. Tenga a la mano los datos del
-            aspirante, del tutor y la documentación listada abajo.
+            El formulario toma unos 15–20 minutos. Tenga a la mano los datos del aspirante y la documentación listada abajo.
           </p>
         </motion.article>
 

@@ -4,7 +4,6 @@ import LazyStudentPhoto from "../LazyStudentPhoto";
 
 interface StudentCardProps {
   student: DailyAttendanceStudent;
-  loading: boolean;
 }
 const CREDENTIAL_LABELS: Record<CredentialLifecycleStatus, string> = {
   not_configured: "NFC no configurado",
@@ -47,7 +46,7 @@ const STATUS_STYLES: Record<
   },
 };
 
-export default function StudentCard({ student, loading }: StudentCardProps) {
+export default function StudentCard({ student }: StudentCardProps) {
   const style = STATUS_STYLES[student.status] ?? STATUS_STYLES.pending;
   const entry = student.entry_at ? formatTime(student.entry_at) : null;
   const exit = student.exit_at ? formatTime(student.exit_at) : null;

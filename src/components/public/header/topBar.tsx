@@ -46,7 +46,7 @@ export default function TopBar() {
                                     href={link.href}
                                     target={link.external ? "_blank" : undefined}
                                     rel={link.external ? "noopener noreferrer" : undefined}
-                                    className="flex items-center gap-1.5 text-brand-100 hover:text-white transition-colors text-xs group"
+                                    className="flex items-center gap-1.5 text-brand-100 hover:text-public-on-media transition-colors text-xs group"
                                 >
                                     <IconByName name={link.icon} className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
                                     <span className="font-medium">{link.name}</span>

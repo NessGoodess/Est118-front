@@ -3,7 +3,8 @@
 /*
   Design tokens — Est. 118
   Brand scale is fixed (logo #2d469b). Semantic roles flip in dark.
-  Prefer: bg-surface-*, text-foreground, text-fg-muted, bg-primary, border-border
+  Private shell: bg-surface-*, text-foreground, text-fg-muted, bg-primary, border-border
+  Public (heroes / overlays / dark bands): public-* (fixed on-media/glass/cta)
 */
 
 :root {
@@ -29,35 +30,44 @@
   --accent: #4896b4;
   --accent-gold: #ffbd59;
 
-  /* ── Surfaces ──
+  /* ── Surfaces (private shell) ──
      Hierarchy: app → panel → header → elevated → muted */
   --background: #ffffff;
-  --public-background: linear-gradient(to bottom, var(--brand-50), #ffffff);
   --surface-app: hsl(210, 33%, 97%);
   --surface-panel: #e8eef6;
   --surface-elevated: #ffffff;
   /* Private top chrome — distinct from cards so sticky header reads as shell */
   --surface-header: #ffffff;
   --surface-muted: #f0f4fa;
-  /*
-    Public dark band — origin:
-    Footer.tsx + UbicacionSection.tsx
-    class: bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900
-    Tailwind gray-900 = #111827 | gray-800 = #1f2937
-    Keep this look; do not remap to brand navy.
-  */
-  --surface-dark-900: #111827;
-  --surface-dark-800: #1f2937;
-  --surface-dark-gradient: linear-gradient(to bottom,
-      var(--surface-dark-900),
-      var(--surface-dark-800),
-      var(--surface-dark-900));
   --foreground: hsl(220, 25%, 12%);
   --foreground-app: hsl(220, 25%, 12%);
   --fg-muted: hsl(215, 16%, 47%);
   --border: hsl(214, 20%, 88%);
   --ring: var(--brand-500);
   --shadow-card: 0 8px 24px rgba(0, 13, 68, 0.1);
+
+  /* ── Public ──
+     on-media / glass / cta stay fixed (do not flip with .dark).
+     Page background may follow theme. Band = institutional gray, not brand navy. */
+  --public-on-media: #ffffff;
+  --public-on-media-muted: rgba(255, 255, 255, 0.7);
+  --public-glass: rgba(255, 255, 255, 0.1);
+  --public-glass-border: rgba(255, 255, 255, 0.2);
+  --public-glass-strong: #ffffff;
+  --public-cta: var(--accent-gold);
+  --public-cta-fg: var(--brand-950);
+  --public-band: #111827;
+  --public-band-mid: #1f2937;
+  --public-band-gradient: linear-gradient(to bottom,
+      var(--public-band),
+      var(--public-band-mid),
+      var(--public-band));
+  --public-page: linear-gradient(to bottom, var(--brand-50), #ffffff);
+  /* Legacy aliases */
+  --public-background: var(--public-page);
+  --surface-dark-900: var(--public-band);
+  --surface-dark-800: var(--public-band-mid);
+  --surface-dark-gradient: var(--public-band-gradient);
 
   /* ── Semantic actions ── */
   --primary: var(--brand-900);
@@ -124,13 +134,18 @@
   --color-modal-bg: var(--surface-panel);
   --color-modal-text: var(--foreground);
 
-  /*
-    Header público fixed: topBar (44px) + fila principal (96px) = 140px expandido;
-    al hacer scroll la fila baja a 72px (compacto).
-  */
+  /* Public header chrome sizing */
   --public-header-h: 140px;
   --public-header-h-compact: 72px;
   --public-header-offset: calc(var(--public-header-h) + 1rem);
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --public-header-h: 64px;
+    --public-header-h-compact: 56px;
+    --public-header-offset: calc(var(--public-header-h) + 0.75rem);
+  }
 }
 
 /* Shared dark token values — applied via system preference and/or .dark */
@@ -138,12 +153,13 @@
   :root:not(.light) {
     color-scheme: dark;
     --background: #050a24;
-    --public-background: linear-gradient(to bottom, #050a24, #0a1030);
+    --public-page: linear-gradient(to bottom, #050a24, #0a1030);
+    --public-background: var(--public-page);
     --surface-app: #050a24;
     --surface-panel: #0a0a0a;
     --surface-elevated: #161616;
     --surface-header: #101010;
-    --surface-muted: var(--surface-dark-900);
+    --surface-muted: var(--public-band);
     --foreground: hsl(210, 40%, 96%);
     --foreground-app: hsl(210, 40%, 96%);
     --fg-muted: hsl(215, 20%, 70%);
@@ -211,12 +227,13 @@ html.light {
 html.dark {
   color-scheme: dark;
   --background: #050a24;
-  --public-background: linear-gradient(to bottom, #050a24, #0a1030);
+  --public-page: linear-gradient(to bottom, #050a24, #0a1030);
+  --public-background: var(--public-page);
   --surface-app: #050a24;
   --surface-panel: #0a0a0a;
   --surface-elevated: #161616;
   --surface-header: #101010;
-  --surface-muted: var(--surface-dark-900);
+  --surface-muted: var(--public-band);
   --foreground: hsl(210, 40%, 96%);
   --foreground-app: hsl(210, 40%, 96%);
   --fg-muted: hsl(215, 20%, 70%);
@@ -275,7 +292,9 @@ html.dark {
 
 @theme inline {
   --color-background: var(--background);
-  --background-image-hero-gradient: var(--public-background);
+  --background-image-hero-gradient: var(--public-page);
+  --background-image-public-page: var(--public-page);
+  --background-image-public-background: var(--public-page);
 
   --color-surface-app: var(--surface-app);
   --color-surface-panel: var(--surface-panel);
@@ -285,6 +304,18 @@ html.dark {
   --color-surface-dark-900: var(--surface-dark-900);
   --color-surface-dark-800: var(--surface-dark-800);
   --background-image-surface-dark: var(--surface-dark-gradient);
+
+  /* Public marketing tokens */
+  --color-public-on-media: var(--public-on-media);
+  --color-public-on-media-muted: var(--public-on-media-muted);
+  --color-public-glass: var(--public-glass);
+  --color-public-glass-border: var(--public-glass-border);
+  --color-public-glass-strong: var(--public-glass-strong);
+  --color-public-cta: var(--public-cta);
+  --color-public-cta-fg: var(--public-cta-fg);
+  --color-public-band: var(--public-band);
+  --color-public-band-mid: var(--public-band-mid);
+  --background-image-public-band-gradient: var(--public-band-gradient);
 
   --color-nfc-panel: var(--nfc-panel);
   --color-nfc-panel-footer: var(--nfc-panel-footer);

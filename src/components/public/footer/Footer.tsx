@@ -9,7 +9,7 @@ export default function Footer() {
     const { navLabel } = useAdmissionPublicStatus();
 
     return (
-        <footer id="contacto" className="bg-surface-dark text-white py-16">
+        <footer id="contacto" className="bg-public-band-gradient text-public-on-media py-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
@@ -26,13 +26,13 @@ export default function Footer() {
                                     />
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-xl md:text-2xl font-bold text-white">Técnica 118</span>
-                                    <p className="text-gray-300 text-sm">
+                                    <span className="text-xl md:text-2xl font-bold text-public-on-media">Técnica 118</span>
+                                    <p className="text-public-on-media-muted text-sm">
                                         Escuela Secundaria Técnica
                                     </p>
                                 </div>
                             </div>
-                            <p className="text-gray-300 mb-6 text-sm leading-relaxed">
+                            <p className="text-public-on-media-muted mb-6 text-sm leading-relaxed">
                                 Institución educativa comprometida con la excelencia académica y la formación técnica integral de nuestros estudiantes desde 1984.
                             </p>
                             <div className="flex space-x-4">
@@ -40,7 +40,7 @@ export default function Footer() {
                                     href="https://www.facebook.com/EscSecTecnica118"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-10 h-10 bg-blue-600 hover:bg-blue-700 rounded-lg flex items-center justify-center transition-colors"
+                                    className="w-10 h-10 bg-brand-600 hover:bg-brand-700 rounded-lg flex items-center justify-center transition-colors"
                                     aria-label="Facebook"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -51,7 +51,7 @@ export default function Footer() {
                                     href="https://www.instagram.com/est_118_oax"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-10 h-10 bg-pink-600 hover:bg-pink-700 rounded-lg flex items-center justify-center transition-colors"
+                                    className="w-10 h-10 bg-danger hover:bg-danger/90 rounded-lg flex items-center justify-center transition-colors"
                                     aria-label="Instagram"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -71,35 +71,35 @@ export default function Footer() {
                         </div>
 
                         <div>
-                            <h3 className="text-lg font-semibold mb-4 text-yellow-400">Enlaces Rápidos</h3>
+                            <h3 className="text-lg font-semibold mb-4 text-public-cta">Enlaces Rápidos</h3>
                             <ul className="space-y-2">
                                 <li>
-                                    <a href="#inicio" className="text-gray-300 hover:text-white transition-colors text-sm">
+                                    <a href="#inicio" className="text-public-on-media-muted hover:text-public-on-media transition-colors text-sm">
                                         Inicio
                                     </a>
                                 </li>
                                 <li>
-                                    <Link href="/login" className="text-gray-300 hover:text-white transition-colors text-sm">
+                                    <Link href="/login" className="text-public-on-media-muted hover:text-public-on-media transition-colors text-sm">
                                         Portal Administrativo
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/galeria" className="text-gray-300 hover:text-white transition-colors text-sm">
+                                    <Link href="/galeria" className="text-public-on-media-muted hover:text-public-on-media transition-colors text-sm">
                                         Galería
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/inscripciones" className="text-gray-300 hover:text-white transition-colors text-sm">
+                                    <Link href="/inscripciones" className="text-public-on-media-muted hover:text-public-on-media transition-colors text-sm">
                                         {navLabel}
                                     </Link>
                                 </li>
                                 <li>
-                                    <a href="#notices" className="text-gray-300 hover:text-white transition-colors text-sm">
+                                    <a href="#notices" className="text-public-on-media-muted hover:text-public-on-media transition-colors text-sm">
                                         Avisos y noticias
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#eventos" className="text-gray-300 hover:text-white transition-colors text-sm">
+                                    <a href="#eventos" className="text-public-on-media-muted hover:text-public-on-media transition-colors text-sm">
                                         Eventos
                                     </a>
                                 </li>
@@ -107,46 +107,46 @@ export default function Footer() {
                         </div>
 
                         <div>
-                            <h3 className="text-lg font-semibold mb-4 text-yellow-400">Contacto</h3>
+                            <h3 className="text-lg font-semibold mb-4 text-public-cta">Contacto</h3>
                             <ul className="space-y-3 text-sm">
                                 <li className="flex items-start gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-public-cta flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                     </svg>
-                                    <a href="mailto:est.118.oax@gmail.com" className="text-gray-300 hover:text-white transition-colors">
+                                    <a href="mailto:est.118.oax@gmail.com" className="text-public-on-media-muted hover:text-public-on-media transition-colors">
                                         est.118.oax@gmail.com
                                     </a>
                                 </li>
                                 <li className="flex items-start gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-public-cta flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                     </svg>
-                                    <a href="tel:+529515134204" className="text-gray-300 hover:text-white transition-colors">
+                                    <a href="tel:+529515134204" className="text-public-on-media-muted hover:text-public-on-media transition-colors">
                                         951 513 4204
                                     </a>
                                 </li>
                                 <li className="flex items-start gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-400 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-public-cta flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
                                         <circle cx="12" cy="10" r="3" />
                                     </svg>
-                                    <span className="text-gray-300">
+                                    <span className="text-public-on-media-muted">
                                         Río Tehuantepec 300, Fraccionamiento los Ríos<br />
                                         Oaxaca de Juárez, 68020, Oaxaca
                                     </span>
                                 </li>
                                 <li className="flex items-start gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-400 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-public-cta flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M12 6v6l4 2" /><circle cx="12" cy="12" r="10" />
                                     </svg>
-                                    <span className="text-gray-300">Lun-Vie 7:00-15:00</span>
+                                    <span className="text-public-on-media-muted">Lun-Vie 7:00-15:00</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
 
                     <div className="flex flex-col items-center justify-center">
-                        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-2 border border-white/20">
+                        <div className="bg-public-glass backdrop-blur-sm rounded-2xl p-2 border border-public-glass-border">
                             <div className="flex flex-col md:flex-row items-center">
                                 <div className="flex items-center">
                                     <div className="w-24 h-24 md:w-32 md:h-32 relative mb-4">
@@ -161,15 +161,15 @@ export default function Footer() {
                                         />
                                     </div>
                                     <div className="text-center">
-                                        <p className="text-yellow-400 font-bold text-lg mb-1">IEEPO</p>
-                                        <p className="text-white/80 text-sm">Instituto Estatal de Educación</p>
-                                        <p className="text-white/80 text-sm">Pública de Oaxaca</p>
+                                        <p className="text-public-cta font-bold text-lg mb-1">IEEPO</p>
+                                        <p className="text-public-on-media/80 text-sm">Instituto Estatal de Educación</p>
+                                        <p className="text-public-on-media/80 text-sm">Pública de Oaxaca</p>
                                     </div>
 
 
                                 </div>
                                 <div className="mx-2 md:mx-6 flex-1 md:flex" >
-                                    <p className="text-white/80 text-sm">
+                                    <p className="text-public-on-media/80 text-sm">
                                         La Escuela Secundaria Técnica No. 118 forma parte del Sistema Educativo Nacional y opera bajo los lineamientos del Instituto Estatal de Educación Pública de Oaxaca (IEEPO).
                                     </p>
                                 </div>
@@ -179,20 +179,20 @@ export default function Footer() {
                 </div>
 
                 {/* Línea divisoria y copyright */}
-                <div className="border-t border-gray-700 pt-8 mt-8">
+                <div className="border-t border-public-band-mid pt-8 mt-8">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-gray-400 text-sm text-center md:text-left">
+                        <p className="text-public-on-media-muted/80 text-sm text-center md:text-left">
                             © 2026 Secundaria Técnica No. 118. Todos los derechos reservados.
-                            <span className="block md:inline md:ml-2 text-yellow-400 font-semibold">CCT: 09DST0118V</span>
+                            <span className="block md:inline md:ml-2 text-public-cta font-semibold">CCT: 09DST0118V</span>
                         </p>
                         <div className="flex flex-wrap justify-center gap-4 md:gap-6">
-                            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+                            <a href="#" className="text-public-on-media-muted/80 hover:text-public-on-media text-sm transition-colors">
                                 Aviso de Privacidad
                             </a>
-                            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+                            <a href="#" className="text-public-on-media-muted/80 hover:text-public-on-media text-sm transition-colors">
                                 Reglamento
                             </a>
-                            <a href="https://www.gob.mx/sep" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white text-sm transition-colors">
+                            <a href="https://www.gob.mx/sep" target="_blank" rel="noopener noreferrer" className="text-public-on-media-muted/80 hover:text-public-on-media text-sm transition-colors">
                                 SEP
                             </a>
                         </div>

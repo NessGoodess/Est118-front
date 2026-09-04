@@ -169,7 +169,6 @@ export default function StudentAttendanceList() {
                   <StudentCard
                     key={student.student_id}
                     student={student}
-                    loading={statusesLoading}
                   />
                 ))}
               </div>

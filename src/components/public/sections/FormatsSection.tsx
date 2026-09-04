@@ -75,9 +75,9 @@ export default function FormatsSection() {
                 transition={{ duration: 0.5, delay: index * 0.05 }}
                 className="group overflow-hidden rounded-2xl border border-border bg-surface-elevated shadow-xl transition-shadow hover:shadow-2xl"
               >
-                <div className="border-b border-border bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900 p-6 text-white">
+                <div className="border-b border-border bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900 p-6 text-public-on-media">
                   <div className="mb-3 flex items-start justify-between gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-public-glass">
                       <IconByName name="fileText" className="h-6 w-6" />
                     </div>
                     <span

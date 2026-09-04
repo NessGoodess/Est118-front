@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,6 @@ import { useAdmissionPublicStatus } from "@/features/admissions/context/admissio
 import { useScroll } from "@/contexts/ScrollProvider";
 
 const navEase = [0.16, 1, 0.3, 1] as const;
-/** Distancia de scroll en px para completar la transición expandido → compacto */
 const HEADER_COMPACT_SCROLL = 72;
 
 const navItemVariants = {
@@ -33,12 +32,34 @@ export default function Header() {
     const [servicesOpen, setServicesOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
     const { navLabel } = useAdmissionPublicStatus();
+    const menuOpenScrollY = useRef(0);
 
     const rawScroll = useMotionValue(0);
 
     useEffect(() => {
         rawScroll.set(scrollY);
     }, [scrollY, rawScroll]);
+
+    useEffect(() => {
+        if (!mobileOpen && !servicesOpen) return;
+        if (Math.abs(scrollY - menuOpenScrollY.current) < 10) return;
+        setMobileOpen(false);
+        setServicesOpen(false);
+    }, [scrollY, mobileOpen, servicesOpen]);
+
+    const openMobileMenu = () => {
+        menuOpenScrollY.current = scrollY;
+        setMobileOpen(true);
+    };
+
+    const toggleMobileMenu = () => {
+        if (mobileOpen) {
+            setMobileOpen(false);
+            setServicesOpen(false);
+            return;
+        }
+        openMobileMenu();
+    };
 
     const mainHeight = useTransform(
         rawScroll,
@@ -101,13 +122,13 @@ export default function Header() {
         `group relative flex items-center gap-2 font-medium transition-[color,background-color,border-color] duration-200 ease-out ${compact ? "px-3 py-1.5 text-sm" : "px-4 py-2.5 text-sm"
         } ${scrolled
             ? "text-foreground hover:text-primary hover:bg-primary-soft rounded-lg"
-            : "text-white hover:text-brand-100 hover:bg-surface-elevated/10 rounded-lg"
+            : "text-public-on-media hover:text-brand-100 hover:bg-public-glass rounded-lg"
         }`;
 
     return (
         <motion.header
             role="banner"
-            animate={{ y: visible ? 0 : "-100%" }}
+            animate={{ y: visible || mobileOpen ? 0 : "-100%" }}
             transition={{ duration: 0.28, ease: navEase }}
             className="fixed inset-x-0 top-0 z-50 backdrop-blur-md"
             style={{ boxShadow: headerBoxShadow }}
@@ -124,7 +145,7 @@ export default function Header() {
             />
 
             <motion.div
-                className="relative overflow-hidden"
+                className="relative overflow-hidden max-lg:!h-0 max-lg:!opacity-0 max-lg:!pointer-events-none"
                 style={{ height: topBarHeight, opacity: topBarOpacity }}
             >
                 <TopBar />
@@ -132,12 +153,12 @@ export default function Header() {
 
             <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <motion.div
-                    className="flex items-center justify-between"
+                    className="flex items-center justify-between max-lg:!h-16"
                     style={{ height: mainHeight }}
                 >
                     <div className="flex items-center gap-4 py-1">
                         <motion.div
-                            className="relative shrink-0 group"
+                            className="relative shrink-0 group max-lg:!h-12 max-lg:!w-12"
                             style={{ width: logoSize, height: logoSize }}
                         >
                             <motion.div
@@ -184,7 +205,7 @@ export default function Header() {
                                         />
                                         <span>{link.label}</span>
                                         <motion.span
-                                            className={`absolute bottom-0 left-0 right-0 h-0.5 ${scrolled ? "bg-primary" : "bg-white/80"
+                                            className={`absolute bottom-0 left-0 right-0 h-0.5 ${scrolled ? "bg-primary" : "bg-public-glass-strong/80"
                                                 }`}
                                             initial={{ scaleX: 0 }}
                                             whileHover={{ scaleX: 1 }}
@@ -197,7 +218,10 @@ export default function Header() {
                             <motion.li
                                 variants={navItemVariants}
                                 className="relative"
-                                onMouseEnter={() => setServicesOpen(true)}
+                                onMouseEnter={() => {
+                                    menuOpenScrollY.current = scrollY;
+                                    setServicesOpen(true);
+                                }}
                                 onMouseLeave={() => setServicesOpen(false)}
                             >
                                 <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>
@@ -222,7 +246,7 @@ export default function Header() {
                                 >
                                     <div className="overflow-hidden rounded-2xl border border-border bg-surface-elevated shadow-2xl">
                                         <div className="bg-gradient-to-r from-brand-600 via-brand-700 to-brand-600 p-4">
-                                            <h3 className="text-lg font-bold text-white">Servicios</h3>
+                                            <h3 className="text-lg font-bold text-public-on-media">Servicios</h3>
                                             <p className="mt-1 text-sm text-brand-100">Recursos académicos</p>
                                         </div>
                                         <div className="py-2">
@@ -265,7 +289,7 @@ export default function Header() {
                             whileTap={{ scale: 0.95 }}
                             className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-[color,background-color,border-color] duration-200 ease-out ${scrolled
                                 ? "border-border text-foreground hover:bg-primary-soft hover:text-primary"
-                                : "border-white/20 text-white hover:bg-surface-elevated/10"
+                                : "border-public-glass-border text-public-on-media hover:bg-public-glass"
                                 }`}
                         >
                             <IconByName name="search" className="h-4 w-4" />
@@ -274,13 +298,13 @@ export default function Header() {
 
                         <motion.button
                             type="button"
-                            onClick={() => setMobileOpen(!mobileOpen)}
+                            onClick={toggleMobileMenu}
                             aria-label="Menú principal"
                             aria-expanded={mobileOpen}
                             whileTap={{ scale: 0.9 }}
                             className={`rounded-lg p-2.5 transition-all duration-300 xl:hidden ${scrolled
                                 ? "text-foreground hover:bg-surface-muted"
-                                : "text-white hover:bg-surface-elevated/20"
+                                : "text-public-on-media hover:bg-public-glass"
                                 }`}
                         >
                             <motion.div
@@ -311,7 +335,7 @@ export default function Header() {
                                 : "border-brand-700/50 bg-brand-900/95 backdrop-blur-md"
                                 }`}
                         >
-                            <div className="max-h-[calc(100vh-200px)] space-y-1 overflow-y-auto px-4 py-4">
+                            <div className="max-h-[min(70dvh,calc(100dvh-5rem))] space-y-1 overflow-y-auto px-4 py-3">
                                 {links.map((link, index) => (
                                     <motion.div
                                         key={link.href}
@@ -324,9 +348,9 @@ export default function Header() {
                                             onClick={() => {
                                                 setMobileOpen(false);
                                             }}
-                                            className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-all duration-200 ${scrolled
+                                            className={`flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-left font-medium transition-all duration-200 ${scrolled
                                                 ? "text-foreground hover:bg-primary-soft hover:text-primary"
-                                                : "text-white hover:bg-surface-elevated/10"
+                                                : "text-public-on-media hover:bg-public-glass"
                                                 }`}
                                         >
                                             <IconByName name={link.icon} className="h-4 w-4" />
@@ -346,9 +370,9 @@ export default function Header() {
                                             setMobileOpen(false);
                                             setSearchOpen(true);
                                         }}
-                                        className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-all duration-200 ${scrolled
+                                        className={`flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-left font-medium transition-all duration-200 ${scrolled
                                             ? "text-foreground hover:bg-primary-soft hover:text-primary"
-                                            : "text-white hover:bg-surface-elevated/10"
+                                            : "text-public-on-media hover:bg-public-glass"
                                             }`}
                                     >
                                         <IconByName name="search" className="h-4 w-4" />
@@ -359,14 +383,17 @@ export default function Header() {
                                 <div className={`mt-2 border-t pt-2 ${scrolled ? "border-border" : "border-brand-700/50"}`}>
                                     <button
                                         type="button"
-                                        onClick={() => setServicesOpen(!servicesOpen)}
-                                        className={`flex w-full items-center justify-between rounded-xl px-4 py-3 font-medium transition-all duration-200 ${scrolled
+                                        onClick={() => {
+                                            menuOpenScrollY.current = scrollY;
+                                            setServicesOpen(!servicesOpen);
+                                        }}
+                                        className={`flex w-full items-center justify-between rounded-xl px-4 py-2.5 font-medium transition-all duration-200 ${scrolled
                                             ? "text-foreground hover:bg-primary-soft"
-                                            : "text-white hover:bg-surface-elevated/10"
+                                            : "text-public-on-media hover:bg-public-glass"
                                             }`}
                                     >
                                         <div className="flex items-center gap-3">
-                                            <span className="text-xl">🎓</span>
+                                            <IconByName name="users" className="h-4 w-4" />
                                             <span>Servicios Estudiantiles</span>
                                         </div>
                                         <IconByName
@@ -389,15 +416,15 @@ export default function Header() {
                                                         key={service.href}
                                                         type="button"
                                                         onClick={() => handleServiceNavigate(service.href)}
-                                                        className={`flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-left text-sm transition-all duration-200 ${scrolled
+                                                        className={`flex w-full items-center gap-3 rounded-lg px-4 py-2 text-left text-sm transition-all duration-200 ${scrolled
                                                             ? "text-foreground hover:bg-surface-muted hover:text-primary"
-                                                            : "text-white/90 hover:bg-surface-elevated/10"
+                                                            : "text-public-on-media/90 hover:bg-public-glass"
                                                             }`}
                                                     >
                                                         <IconByName name={service.icon} className="h-5 w-5 shrink-0" />
                                                         <div className="flex-1">
                                                             <div className="font-medium">{service.label}</div>
-                                                            <div className={`mt-0.5 text-xs ${scrolled ? "text-fg-muted" : "text-white/60"}`}>
+                                                            <div className={`mt-0.5 text-xs ${scrolled ? "text-fg-muted" : "text-public-on-media-muted"}`}>
                                                                 {service.description}
                                                             </div>
                                                         </div>

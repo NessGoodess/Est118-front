@@ -25,18 +25,18 @@ export default function EventoPage({ params }: { params: Promise<{ id: string }>
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-white"
+            className="text-public-on-media"
           >
-            <Link href="/eventos" className="text-white/80 hover:text-white mb-4 inline-block">
+            <Link href="/eventos" className="text-public-on-media/80 hover:text-public-on-media mb-4 inline-block">
               ← Volver a Eventos
             </Link>
-            <span className="inline-block bg-accent-gold text-foreground px-3 py-1 rounded-full text-sm font-semibold mb-4">
+            <span className="inline-block bg-public-cta text-public-cta-fg px-3 py-1 rounded-full text-sm font-semibold mb-4">
               {item.tipo}
             </span>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 font-merriweather">
               {item.titulo}
             </h1>
-            <div className="flex items-center gap-4 text-white/90">
+            <div className="flex items-center gap-4 text-public-on-media/90">
               <span>{item.fecha}</span>
               <span>•</span>
               <span>{item.hora}</span>

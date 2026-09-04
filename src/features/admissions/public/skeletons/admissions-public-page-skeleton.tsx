@@ -4,7 +4,7 @@ import { SkeletonBone, SkeletonCard } from "@/components/ui/skeleton/SectionSkel
 export default function AdmissionsPublicPageSkeleton() {
   return (
     <div
-      className="min-h-screen animate-pulse bg-surface-app"
+      className="min-h-screen animate-pulse"
       aria-busy="true"
       aria-label="Cargando preinscripciones"
     >
@@ -13,22 +13,22 @@ export default function AdmissionsPublicPageSkeleton() {
       >
         <div className="relative z-10 mx-auto max-w-5xl px-4 pb-12 sm:px-6 md:pb-16 lg:px-8">
           <div className="mb-8 flex flex-wrap items-center gap-4 md:gap-6">
-            <SkeletonBone className="h-14 w-44 bg-white/20" />
-            <div className="hidden h-px flex-1 bg-white/10 sm:block" aria-hidden />
-            <SkeletonBone className="h-3 w-32 bg-white/15" />
+            <SkeletonBone tone="on-media" className="h-14 w-44" />
+            <div className="hidden h-px flex-1 bg-public-glass sm:block" aria-hidden />
+            <SkeletonBone tone="on-media" className="h-3 w-32" />
           </div>
-          <SkeletonBone className="mb-5 h-3 w-56 bg-white/15" />
+          <SkeletonBone tone="on-media" className="mb-5 h-3 w-56" />
           <div className="max-w-3xl space-y-4">
-            <SkeletonBone className="h-10 w-full max-w-xl bg-white/25" />
-            <SkeletonBone className="h-10 w-4/5 max-w-md bg-white/20" />
-            <SkeletonBone className="h-4 w-full max-w-2xl bg-white/15" />
-            <SkeletonBone className="h-4 w-5/6 max-w-xl bg-white/15" />
-            <SkeletonBone className="h-3 w-64 bg-white/10" />
+            <SkeletonBone tone="on-media" className="h-10 w-full max-w-xl" />
+            <SkeletonBone tone="on-media" className="h-10 w-4/5 max-w-md" />
+            <SkeletonBone tone="on-media" className="h-4 w-full max-w-2xl" />
+            <SkeletonBone tone="on-media" className="h-4 w-5/6 max-w-xl" />
+            <SkeletonBone tone="on-media" className="h-3 w-64" />
           </div>
         </div>
       </header>
 
-      <section className="bg-surface-app px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+      <section className="px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
         <div className="mx-auto max-w-4xl space-y-10">
           <div className="max-w-2xl space-y-4">
             <SkeletonBone className="h-3 w-40" />

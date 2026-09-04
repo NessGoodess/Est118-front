@@ -46,10 +46,10 @@ export default function BrandPageHero({
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-white"
+          className="text-public-on-media"
         >
           {eyebrow ? (
-            <p className="mb-2 font-sans text-[11px] font-bold uppercase tracking-[0.07em] text-white/80">
+            <p className="mb-2 font-sans text-[11px] font-bold uppercase tracking-[0.07em] text-public-on-media/80">
               {eyebrow}
             </p>
           ) : null}
@@ -65,7 +65,7 @@ export default function BrandPageHero({
           {meta ? <div className="mb-1">{meta}</div> : null}
           {description ? (
             <p
-              className={`max-w-3xl text-white/90 ${
+              className={`max-w-3xl text-public-on-media/90 ${
                 size === "lg" ? "text-xl md:text-2xl" : "text-base md:text-lg"
               }`}
             >

@@ -34,9 +34,9 @@ export default function GaleriaItemPage({ params }: { params: Promise<{ id: stri
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-white"
+            className="text-public-on-media"
           >
-            <Link href="/galeria" className="text-white/70 hover:text-white text-sm mb-2 inline-flex items-center gap-1">
+            <Link href="/galeria" className="text-public-on-media-muted hover:text-public-on-media text-sm mb-2 inline-flex items-center gap-1">
               ← Back to Gallery
             </Link>
             <div className="flex items-center gap-3 mt-1">

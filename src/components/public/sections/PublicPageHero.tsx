@@ -17,10 +17,10 @@ export default function PublicPageHero({ title, description }: PublicPageHeroPro
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-white"
+          className="text-public-on-media"
         >
           <h1 className="mb-4 font-merriweather text-4xl font-bold md:text-5xl">{title}</h1>
-          <p className="max-w-3xl text-xl text-white/90 md:text-2xl">{description}</p>
+          <p className="max-w-3xl text-xl text-public-on-media/90 md:text-2xl">{description}</p>
         </motion.div>
       </div>
     </section>

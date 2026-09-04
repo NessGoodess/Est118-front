@@ -55,7 +55,7 @@ export default function EventoModal({ params }: { params: Promise<{ id: string }
               <span className="inline-block bg-yellow-400 text-foreground px-3 py-1 rounded-full text-xs font-semibold mb-2">
                 {item.tipo}
               </span>
-              <h2 className="text-white text-3xl font-bold">{item.titulo}</h2>
+              <h2 className="text-public-on-media text-3xl font-bold">{item.titulo}</h2>
             </div>
           </div>
 

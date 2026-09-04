@@ -7,7 +7,7 @@ export default function AnnouncementsSectionSkeleton() {
   return (
     <section
       id="notices"
-      className="relative animate-pulse overflow-hidden bg-surface-app py-16 md:py-20"
+      className="relative animate-pulse overflow-hidden py-16 md:py-20"
       aria-busy="true"
       aria-label="Cargando avisos"
     >

@@ -20,7 +20,7 @@ type Props = {
 };
 
 export default function AdmissionsRequirementsSection({
-  title = "Mientras tanto, prepara tu expediente",
+  title = "Documentos necesarios para comprobacion de la identidad del aspirante",
   subtitle,
   documents = ADMISSION_REQUIRED_DOCUMENTS,
   className = "",

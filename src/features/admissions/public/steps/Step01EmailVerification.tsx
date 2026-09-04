@@ -70,7 +70,7 @@ export default function EmailVerification({ nextStep, prevStep }: Props) {
 
   return (
     <div className="md:bg-surface-elevated md:rounded-2xl md:shadow-xl p-6 md:p-12">
-      <Header icon={<IconByName name="mail" className="h-5 w-5" />}
+      <Header
         title="Correo Electrónico"
         description="Por favor, antes de continuar valide que el correo electrónico que ha escrito esté correctamente y que se tenga acceso a él, ya que en él se enviará el folio de preinscripción."
       />

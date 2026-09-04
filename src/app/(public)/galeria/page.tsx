@@ -33,12 +33,12 @@ export default function GaleriaPage() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="text-white"
+                        className="text-public-on-media"
                     >
                         <h1 className="text-4xl md:text-5xl font-bold mb-4 font-merriweather">
                             Visual Gallery
                         </h1>
-                        <p className="text-xl md:text-2xl text-white/90 max-w-3xl">
+                        <p className="text-xl md:text-2xl text-public-on-media/90 max-w-3xl">
                             Outstanding moments from our school community
                         </p>
                     </motion.div>
@@ -125,13 +125,13 @@ export default function GaleriaPage() {
                                          text-[11px] font-bold uppercase text-foreground">
                                                     {item.category}
                                                 </span>
-                                                <h3 className="text-white text-base font-bold leading-snug line-clamp-2 mb-1">
+                                                <h3 className="text-public-on-media text-base font-bold leading-snug line-clamp-2 mb-1">
                                                     {item.title}
                                                 </h3>
-                                                <p className="text-white/85 text-xs leading-relaxed line-clamp-3 mb-2">
+                                                <p className="text-public-on-media/85 text-xs leading-relaxed line-clamp-3 mb-2">
                                                     {item.description}
                                                 </p>
-                                                <div className="flex items-center justify-between text-white/60 text-[11px]">
+                                                <div className="flex items-center justify-between text-public-on-media-muted text-[11px]">
                                                     <span>{item.date}</span>
                                                     {item.author && <span className="truncate ml-2">{item.author}</span>}
                                                 </div>

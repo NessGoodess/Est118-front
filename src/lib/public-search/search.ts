@@ -56,7 +56,8 @@ function scoreItem(item: PublicSearchItem, tokens: string[]): number {
 }
 
 function toResult(item: PublicSearchItem): PublicSearchResult {
-  const { searchText: _searchText, ...result } = item;
+  const { searchText, ...result } = item;
+  void searchText;
   return result;
 }
 

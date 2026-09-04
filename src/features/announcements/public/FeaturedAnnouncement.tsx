@@ -19,14 +19,16 @@ const fadeUp: Variants = {
 }
 
 const slideIn = (direction: "left" | "right"): Variants => ({
-  hidden: { opacity: 0, x: direction === "right" ? 48 : -48, scale: 0.96 },
+  hidden: { opacity: 0, x: direction === "right" ? 40 : -40, scale: 0.98 },
   show: {
     opacity: 1,
     x: 0,
     scale: 1,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.1 },
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.08 },
   },
 })
+
+const inView = { once: true, amount: 0.2 } as const
 
 function PulseBadge({ label }: { label: string }) {
   return (
@@ -49,18 +51,23 @@ function PulseBadge({ label }: { label: string }) {
 
 /** Featured notice — text ~40% / media ~60% (home). */
 export default function FeaturedAnnouncements({ data }: { data: AnnouncementCardData }) {
-  const { headerAlert, header, title, resumen, secondaryButton, media } = data
+  const { headerAlert, header, title, secondaryButton, media } = data
   const ratioClass = RATIO_CLASS[media.ratio ?? "4/3"]
   const layout = splitLayoutOrder(media.position ?? "right")
   const summaryText = cardDisplayText(data)
+  const mediaFrom = media.position === "left" ? "left" : "right"
 
   return (
     <article className="grid h-full w-full grid-cols-1 items-center gap-[clamp(24px,4vw,40px)] lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
       <motion.div
         className={`flex flex-col lg:pr-2 ${layout.text}`}
         initial="hidden"
-        animate="show"
-        variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12, delayChildren: 0 } } }}
+        whileInView="show"
+        viewport={inView}
+        variants={{
+          hidden: {},
+          show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+        }}
       >
         <header>
           {headerAlert?.enabled && (
@@ -79,9 +86,13 @@ export default function FeaturedAnnouncements({ data }: { data: AnnouncementCard
             {title}
           </motion.h3>
           <motion.span
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ delay: 0.3, duration: 0.4, ease: "easeOut" }}
+            variants={{
+              hidden: { scaleX: 0 },
+              show: {
+                scaleX: 1,
+                transition: { duration: 0.4, ease: "easeOut" },
+              },
+            }}
             className="mb-5 block h-[3px] w-9 origin-left rounded-full bg-danger"
             aria-hidden
           />
@@ -96,7 +107,7 @@ export default function FeaturedAnnouncements({ data }: { data: AnnouncementCard
           </motion.p>
         )}
 
-        <p className="flex flex-wrap items-center gap-3">
+        <motion.p variants={fadeUp} className="flex flex-wrap items-center gap-3">
           <Link
             href={`/Announcements/${data.slug || data.id}`}
             className="inline-flex cursor-pointer items-center gap-2 rounded-md bg-primary px-6 py-3.5
@@ -117,14 +128,15 @@ export default function FeaturedAnnouncements({ data }: { data: AnnouncementCard
               <IconByName name="arrowRight" className="h-4 w-4" aria-hidden />
             </Link>
           )}
-        </p>
+        </motion.p>
       </motion.div>
 
       <motion.figure
         className={`relative w-full ${layout.media}`}
         initial="hidden"
-        animate="show"
-        variants={slideIn("right")}
+        whileInView="show"
+        viewport={inView}
+        variants={slideIn(mediaFrom)}
       >
         <div
           className={`relative w-full max-h-[min(56vh,580px)] overflow-hidden rounded-2xl shadow-[0_20px_60px_rgba(13,17,23,0.12)] ${ratioClass}`}

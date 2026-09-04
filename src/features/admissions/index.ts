@@ -19,6 +19,7 @@ export { default as AdmissionsPublicPageSkeleton } from "./public/skeletons/admi
 
 // Components — public portal
 export { default as AdmissionsOpenFlow } from "./public/AdmissionsOpenFlow";
+export { default as AdmissionsClosedView } from "./public/AdmissionsClosedView";
 export { default as WizardForm } from "./public/WizardForm";
 export { default as AdmissionsSchoolHero } from "./public/content/admissions-school-hero";
 export { default as AdmissionsStatusPanel } from "./public/content/admissions-status-panel";

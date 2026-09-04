@@ -4,7 +4,7 @@ import { ButtonHTMLAttributes, ReactNode } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
+type ButtonVariant = "primary" | "secondary" | "ghost" | "danger" | "success";
 type ButtonSize    = "sm" | "md" | "lg";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -79,6 +79,15 @@ const variantClasses: Record<ButtonVariant, string> = {
     "hover:opacity-90",
     "active:scale-[0.97]",
     "focus-visible:ring-danger",
+    "disabled:opacity-50",
+    "cursor-pointer",
+  ].join(" "),
+
+  success: [
+    "bg-success text-success-foreground",
+    "hover:opacity-90",
+    "active:scale-[0.97]",
+    "focus-visible:ring-success",
     "disabled:opacity-50",
     "cursor-pointer",
   ].join(" "),

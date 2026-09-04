@@ -59,5 +59,11 @@ export const studentServicesLinks: StudentServiceLink[] = [
         icon: "fileText",
         description: "Descargas administrativas",
     },
+    {
+        href: "/schedules",
+        label: "Horarios por grupo",
+        icon: "calendarTime",
+        description: "todos los horarios de clases por grupo",
+    },
     */
 ];

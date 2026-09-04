@@ -221,14 +221,14 @@ function DetailPreview({ data }: { data: AnnouncementExtended }) {
 
   return (
     <div className="space-y-6">
-      <div className="overflow-hidden rounded-xl bg-gradient-to-r from-brand-900 via-brand-700 to-brand-900 px-4 py-5 text-white md:px-6">
-        <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-white/80">
+      <div className="overflow-hidden rounded-xl bg-gradient-to-r from-brand-900 via-brand-700 to-brand-900 px-4 py-5 text-public-on-media md:px-6">
+        <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-public-on-media/80">
           {data.header}
         </p>
         <h3 className="font-merriweather text-lg font-bold leading-snug md:text-xl">{data.title}</h3>
         <div className="mt-2 flex flex-wrap gap-1.5">
           {data.type ? (
-            <span className="rounded-full border border-white/25 bg-white/10 px-2 py-0.5 text-[10px] font-semibold uppercase">
+            <span className="rounded-full border border-public-glass-border bg-public-glass px-2 py-0.5 text-[10px] font-semibold uppercase">
               {data.type}
             </span>
           ) : null}
@@ -238,7 +238,7 @@ function DetailPreview({ data }: { data: AnnouncementExtended }) {
             </span>
           ) : null}
         </div>
-        {data.autor ? <p className="mt-2 text-xs text-white/75">{data.autor}</p> : null}
+        {data.autor ? <p className="mt-2 text-xs text-public-on-media-muted">{data.autor}</p> : null}
       </div>
 
       {hasMedia ? (
@@ -358,7 +358,7 @@ function PreviewMedia({
       <div className={`relative w-full overflow-hidden rounded-2xl ${ratioClass}`}>
         <FacebookMediaPlaceholder className="absolute inset-0" />
         {media.facebookPostUrl ? (
-          <p className="absolute bottom-2 left-2 right-2 truncate rounded bg-black/60 px-2 py-1 text-[10px] text-white">
+          <p className="absolute bottom-2 left-2 right-2 truncate rounded bg-black/60 px-2 py-1 text-[10px] text-public-on-media">
             {media.facebookPostUrl}
           </p>
         ) : null}

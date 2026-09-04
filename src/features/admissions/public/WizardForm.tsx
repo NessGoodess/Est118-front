@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import EmailVerification from "./steps/Step01EmailVerification";
 import ApplicantInfo from "./steps/Step02ApplicantInfo";
@@ -11,9 +12,8 @@ import TuitionVoucher from "./steps/Step07TuitionVoucher";
 import Review from "./steps/Step09Review";
 import Confirmation from "./steps/Step10Confirmation";
 import UbicacionSection from "@/components/public/sections/UbicacionSection";
-import { AdmissionsFormProvider } from "./context/AdmissionsFormContext";
 import { useAdmissionsForm } from "./context/AdmissionsFormContext";
-import type { AdmissionStatusResponse } from "../types/admission-cycles";
+import { ADMISSIONS_FORM_ID, scrollToId } from "./lib/scroll-to-id";
 
 const FORM_MAX = "max-w-5xl";
 
@@ -32,28 +32,30 @@ const FORM_STEPS = [
 const LAST_INPUT_STEP = 8;
 
 type Props = {
-  admissionStatus?: AdmissionStatusResponse;
   onBackToPreparation?: () => void;
-  /** When true, skip wrapping a second provider (OpenFlow already provides it). */
-  nested?: boolean;
 };
 
-function WizardFormContent({
-  onBackToPreparation,
-}: {
-  onBackToPreparation?: () => void;
-}) {
+/** Requiere `AdmissionsFormProvider` en un ancestro (OpenFlow). */
+export default function WizardForm({ onBackToPreparation }: Props) {
   const [stepIndex, setStepIndex] = useState(0);
+  const skipScrollOnMount = useRef(true);
   const { completeSteps } = useAdmissionsForm();
   const current = FORM_STEPS[stepIndex];
   const CurrentStepComponent = current.component;
   const isConfirmation = current.number === 9;
   const showProgress = current.number <= LAST_INPUT_STEP;
 
+  useEffect(() => {
+    if (skipScrollOnMount.current) {
+      skipScrollOnMount.current = false;
+      return;
+    }
+    scrollToId(ADMISSIONS_FORM_ID);
+  }, [stepIndex]);
+
   const nextStep = () => {
     if (stepIndex < FORM_STEPS.length - 1) {
       setStepIndex((prev) => prev + 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -63,19 +65,20 @@ function WizardFormContent({
       return;
     }
     setStepIndex((prev) => prev - 1);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const goToStepNumber = (stepNumber: number) => {
     const nextIndex = FORM_STEPS.findIndex((step) => step.number === stepNumber);
     if (nextIndex >= 0) {
       setStepIndex(nextIndex);
-      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
   return (
-    <section id="admissions-form" className="min-h-screen scroll-mt-28 bg-surface-app">
+    <section
+      id={ADMISSIONS_FORM_ID}
+      className="min-h-screen scroll-mt-28 bg-surface-app"
+    >
       {showProgress && (
         <div className="bg-primary py-3 text-primary-foreground">
           <div className={`${FORM_MAX} mx-auto px-4 sm:px-6 lg:px-8`}>
@@ -133,7 +136,7 @@ function WizardFormContent({
                             isCurrent
                               ? "bg-surface-elevated text-primary"
                               : isCompleted
-                                ? "bg-success text-white"
+                                ? "bg-success text-success-foreground"
                                 : "bg-surface-muted text-fg-muted"
                           }`}
                         >
@@ -178,25 +181,5 @@ function WizardFormContent({
       </article>
       {isConfirmation && <UbicacionSection />}
     </section>
-  );
-}
-
-export default function WizardForm({
-  admissionStatus,
-  onBackToPreparation,
-  nested = false,
-}: Props) {
-  const content = (
-    <WizardFormContent onBackToPreparation={onBackToPreparation} />
-  );
-
-  if (nested) {
-    return content;
-  }
-
-  return (
-    <AdmissionsFormProvider admissionStatus={admissionStatus}>
-      {content}
-    </AdmissionsFormProvider>
   );
 }

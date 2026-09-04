@@ -62,7 +62,7 @@ export default function StudentPhotoLightbox({ isOpen, imageUrl, alt, onClose }:
       <button
         type="button"
         onClick={onClose}
-        className={`absolute top-4 right-4 z-10 rounded-full bg-surface-elevated/10 px-4 py-2 text-sm font-medium text-white hover:bg-surface-elevated/20 border border-white/20 transition-opacity duration-300 ${
+        className={`absolute top-4 right-4 z-10 rounded-full bg-public-glass px-4 py-2 text-sm font-medium text-public-on-media hover:bg-public-glass-strong/20 border border-public-glass-border transition-opacity duration-300 ${
           visible ? "opacity-100" : "opacity-0"
         }`}
       >
@@ -75,7 +75,7 @@ export default function StudentPhotoLightbox({ isOpen, imageUrl, alt, onClose }:
       >
         {!imageLoaded && (
           <div
-            className="absolute inset-0 m-auto h-48 w-48 max-w-[70vw] rounded-lg bg-white/10 animate-pulse"
+            className="absolute inset-0 m-auto h-48 w-48 max-w-[70vw] rounded-lg bg-public-glass animate-pulse"
             aria-hidden
           />
         )}
@@ -93,7 +93,7 @@ export default function StudentPhotoLightbox({ isOpen, imageUrl, alt, onClose }:
       </div>
 
       <p
-        className={`mt-3 text-center text-xs text-white/70 max-w-lg transition-opacity duration-300 ${
+        className={`mt-3 text-center text-xs text-public-on-media-muted max-w-lg transition-opacity duration-300 ${
           visible && imageLoaded ? "opacity-100" : "opacity-0"
         }`}
       >

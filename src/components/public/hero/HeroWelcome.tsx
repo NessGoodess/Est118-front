@@ -39,18 +39,18 @@ export default function HeroWelcome() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease }}
-          className="max-w-3xl text-white"
+          className="max-w-3xl text-public-on-media"
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm">
+          <span className="inline-flex items-center gap-2 rounded-full border border-public-glass-border bg-public-glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-public-on-media/90 backdrop-blur-sm">
             IEEPO · Oaxaca
           </span>
 
           <h1 className="mt-4 font-merriweather text-[clamp(1.75rem,5vw,3.75rem)] font-bold leading-[1.1] drop-shadow-lg sm:mt-6">
             Escuela Secundaria
-            <span className="mt-1 block text-accent-gold">Técnica No. 118</span>
+            <span className="mt-1 block text-public-cta">Técnica No. 118</span>
           </h1>
 
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-white/85 drop-shadow sm:mt-6 sm:text-lg lg:text-xl">
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-public-on-media/85 drop-shadow sm:mt-6 sm:text-lg lg:text-xl">
             Formación técnica y académica para las nuevas generaciones de la
             ciudad de Oaxaca.
           </p>
@@ -60,7 +60,7 @@ export default function HeroWelcome() {
               <motion.span
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="flex items-center justify-center gap-2 rounded-full bg-accent-gold px-7 py-3.5 text-base font-bold text-brand-950 shadow-lg transition-colors hover:brightness-95 sm:px-8 sm:py-4"
+                className="flex items-center justify-center gap-2 rounded-full bg-public-cta px-7 py-3.5 text-base font-bold text-public-cta-fg shadow-lg transition-colors hover:brightness-95 sm:px-8 sm:py-4"
               >
                 {heroCtaLabel}
                 {formOpen ? <IconByName name="arrowRight" className="h-5 w-5" /> : null}
@@ -71,17 +71,17 @@ export default function HeroWelcome() {
               href="#notices"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="flex items-center justify-center gap-2 rounded-full border-2 border-white/70 px-7 py-3.5 text-base font-semibold text-white transition-colors hover:bg-white hover:text-brand-900 sm:px-8 sm:py-4"
+              className="flex items-center justify-center gap-2 rounded-full border-2 border-public-glass-strong/70 px-7 py-3.5 text-base font-semibold text-public-on-media transition-colors hover:bg-public-glass-strong hover:text-brand-900 sm:px-8 sm:py-4"
             >
               <IconByName name="megaphone" className="h-5 w-5" />
               Avisos y noticias
             </motion.a>
           </div>
 
-          <ul className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-white/70 sm:mt-8">
+          <ul className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-public-on-media-muted sm:mt-8">
             {FACTS.map((fact) => (
               <li key={fact} className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent-gold" />
+                <span className="h-1.5 w-1.5 rounded-full bg-public-cta" />
                 {fact}
               </li>
             ))}
@@ -92,7 +92,7 @@ export default function HeroWelcome() {
       <motion.a
         href="#notices"
         aria-label="Desplazarse a avisos"
-        className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 text-white/80 transition-colors hover:text-white sm:bottom-6"
+        className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 text-public-on-media/80 transition-colors hover:text-public-on-media sm:bottom-6"
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
       >

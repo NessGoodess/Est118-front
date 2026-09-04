@@ -2,12 +2,12 @@ import type { AnnouncementExtended } from "@/features/announcements/types/announ
 import BrandPageHero from "@/features/announcements/shared/BrandPageHero"
 
 const TYPE_COLORS: Record<string, string> = {
-  Informativo: "border-white/25 bg-white/10 text-white",
-  Urgente: "border-danger/40 bg-danger/20 text-white",
-  Recordatorio: "border-amber-300/40 bg-amber-500/20 text-white",
-  Tarea: "border-info/40 bg-info/20 text-white",
-  General: "border-white/20 bg-white/10 text-white/90",
-  Noticia: "border-accent/40 bg-accent/20 text-white",
+  Informativo: "border-public-glass-border bg-public-glass text-public-on-media",
+  Urgente: "border-danger/40 bg-danger/20 text-public-on-media",
+  Recordatorio: "border-amber-300/40 bg-amber-500/20 text-public-on-media",
+  Tarea: "border-info/40 bg-info/20 text-public-on-media",
+  General: "border-public-glass-border bg-public-glass text-public-on-media/90",
+  Noticia: "border-accent/40 bg-accent/20 text-public-on-media",
 }
 
 /** Detail page band: title + meta once; summary lives in the article body. */
@@ -38,7 +38,7 @@ export default function AnnouncementDetailHero({
             {announcement.importante ? (
               <li>
                 <span
-                  className="rounded-full border border-danger/40 bg-danger/25 px-2.5 py-0.5 font-sans text-[11px] font-semibold uppercase text-white"
+                  className="rounded-full border border-danger/40 bg-danger/25 px-2.5 py-0.5 font-sans text-[11px] font-semibold uppercase text-public-on-media"
                   role="status"
                 >
                   Importante
@@ -47,7 +47,7 @@ export default function AnnouncementDetailHero({
             ) : null}
             {announcement.headerAlert?.enabled ? (
               <li>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-danger/40 bg-danger/20 px-2.5 py-0.5 font-sans text-[11px] font-semibold uppercase text-white">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-danger/40 bg-danger/20 px-2.5 py-0.5 font-sans text-[11px] font-semibold uppercase text-public-on-media">
                   <span className="relative flex h-2 w-2" aria-hidden>
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-danger opacity-60" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-danger" />
@@ -59,7 +59,7 @@ export default function AnnouncementDetailHero({
           </ul>
 
           {(announcement.fecha || announcement.autor) && (
-            <p className="flex flex-wrap items-center gap-1.5 font-sans text-sm text-white/75">
+            <p className="flex flex-wrap items-center gap-1.5 font-sans text-sm text-public-on-media-muted">
               {announcement.fecha ? (
                 <time dateTime={announcement.fecha}>{announcement.fecha}</time>
               ) : null}

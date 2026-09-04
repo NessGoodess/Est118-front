@@ -5,7 +5,6 @@ export default function GradeLevelsCard({
   grade_name,
   total_students,
   total_groups,
-  is_active,
   isSelected,
 }: Grade & { isSelected: boolean }) {
   return (

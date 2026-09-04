@@ -8,7 +8,6 @@ import {
   type ChangePasswordFormData,
 } from "@/features/users/schemas/user.schemas";
 import { changePassword } from "@/features/users/services/users.service";
-import { SubmitButton } from "@/components/ui/SubmitButton";
 import { FloatingPassword } from "@/components/ui/FloatingInputs";
 import { IconByName } from "@/components/ui/icons";
 import { globalToast } from "@/lib/toast";

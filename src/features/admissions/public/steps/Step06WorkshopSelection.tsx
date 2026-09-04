@@ -133,7 +133,7 @@ export default function WorkshopSelection({ nextStep, prevStep }: Props) {
                 {tallerFavorito === taller.id && (
                   <div className="absolute top-4 right-4">
                     <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
-                      <IconByName name="check" className="w-4 h-4 text-white" />
+                      <IconByName name="check" className="w-4 h-4 text-primary-foreground" />
                     </div>
                   </div>
                 )}
@@ -181,7 +181,7 @@ export default function WorkshopSelection({ nextStep, prevStep }: Props) {
                   {segundaOpcion === taller.id && (
                     <div className="absolute top-4 right-4">
                       <div className="w-6 h-6 bg-success rounded-full flex items-center justify-center">
-                        <IconByName name="check" className="w-4 h-4 text-white" />
+                        <IconByName name="check" className="w-4 h-4 text-primary-foreground" />
                       </div>
                     </div>
                   )}

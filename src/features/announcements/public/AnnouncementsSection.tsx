@@ -71,7 +71,7 @@ export default function AnnouncementsSection({ Announcements }: AnnouncementsSec
           aria-live="polite"
           aria-atomic="true"
         >
-          <FeaturedAnnouncements data={featured} />
+          <FeaturedAnnouncements key={featured.id} data={featured} />
         </div>
 
         <nav

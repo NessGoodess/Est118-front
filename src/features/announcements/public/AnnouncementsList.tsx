@@ -47,10 +47,10 @@ function MediaThumb({ media }: { media: AnnouncementMedia }) {
         <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" aria-hidden />
         <div className="absolute inset-0 flex items-center justify-center" aria-hidden>
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-danger/90 shadow-lg backdrop-blur-sm transition-transform duration-200 group-hover:scale-110">
-            <IconByName name="play" className="h-5 w-5 translate-x-0.5 text-white" />
+            <IconByName name="play" className="h-5 w-5 translate-x-0.5 text-public-on-media" />
           </span>
         </div>
-        <figcaption className="absolute bottom-2 right-2 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur-sm">
+        <figcaption className="absolute bottom-2 right-2 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold text-public-on-media backdrop-blur-sm">
           YouTube
         </figcaption>
       </figure>
