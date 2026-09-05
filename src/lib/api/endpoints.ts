@@ -137,11 +137,29 @@ export const API_ENDPOINTS = {
   },
   ROLES: api('/roles'),
   PERMISSIONS: api('/permissions'),
+  CONTENT: {
+    /** Batch image upload shared by announcements, galleries and events */
+    MEDIA: api('/content/media'),
+  },
   ANNOUNCEMENTS: {
     GET_ALL: api('/announcements'),
     GET_ONE: (id: string | number) => api(`/announcements/${id}`),
     CREATE: api('/announcements'),
     UPDATE: (id: string | number) => api(`/announcements/${id}`),
     DELETE: (id: string | number) => api(`/announcements/${id}`),
+  },
+  EVENTS: {
+    GET_ALL: api('/events'),
+    GET_ONE: (id: string | number) => api(`/events/${id}`),
+    CREATE: api('/events'),
+    UPDATE: (id: string | number) => api(`/events/${id}`),
+    DELETE: (id: string | number) => api(`/events/${id}`),
+  },
+  GALLERIES: {
+    GET_ALL: api('/galleries'),
+    GET_ONE: (id: string | number) => api(`/galleries/${id}`),
+    CREATE: api('/galleries'),
+    UPDATE: (id: string | number) => api(`/galleries/${id}`),
+    DELETE: (id: string | number) => api(`/galleries/${id}`),
   },
 } as const;

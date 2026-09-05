@@ -30,6 +30,9 @@ export const SidebarIcons: Record<string, React.FC<IconProps>> = {
   chevronDown: AppIcons.chevronDown,
   logout: AppIcons.logOut,
   nfc: AppIcons.tag,
+  megaphone: AppIcons.megaphone,
+  gallery: AppIcons.gallery,
+  event: AppIcons.calendarDays,
 };
 
 export const getIcon = (iconName: string): React.FC<IconProps> => {

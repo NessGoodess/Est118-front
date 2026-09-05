@@ -21,6 +21,8 @@ const RESOURCES: Record<string, string> = {
   "academic years": "ciclos escolares",
   "re-enrollment": "reinscripción",
   announcements: "avisos",
+  galleries: "galerías",
+  events: "eventos",
   attendance: "asistencia",
   "general attendance": "asistencia general",
   "nfc readings": "lecturas NFC",
@@ -44,6 +46,8 @@ const CATEGORY_LABELS: Record<string, string> = {
   cycles: "Ciclos",
   "re-enrollment": "Reinscripción",
   announcements: "Avisos",
+  galleries: "Galerías",
+  events: "Eventos",
   attendance: "Asistencia",
   "general attendance": "Asistencia general",
   "nfc readings": "Lecturas NFC",
@@ -91,6 +95,9 @@ const PERMISSION_OVERRIDES: Record<string, string> = {
   "view general attendance": "Ver asistencia general",
   "manage nfc readings": "Administrar lecturas NFC",
   "edit general attendance": "Editar asistencia general",
+  "create announcements": "Crear avisos",
+  "create galleries": "Crear galerías",
+  "create events": "Crear eventos",
   "view attendance": "Ver asistencia por clase",
 };
 

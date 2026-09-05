@@ -1,123 +1,74 @@
-"use client";
-import { use } from "react";
-import { notFound } from "next/navigation";
-import { motion } from "framer-motion";
-import { galleryItems } from "@/lib/data/mockData";
-import Link from "next/link";
-import Image from "next/image";
+import type { Metadata } from "next"
+import { notFound } from "next/navigation"
+import { BrandPageHero } from "@/features/announcements"
+import { GalleryAlbumDetail, getGalleryAlbum } from "@/features/gallery"
+import { getSiteUrl } from "@/lib/site"
 
-const RATIO_CLASS: Record<string, string> = {
-  "4/3": "aspect-[4/3]",
-  "3/4": "aspect-[3/4]",
-  "1/1": "aspect-square",
-  "16/9": "aspect-video",
-};
+export const revalidate = 60
 
-export default function GaleriaItemPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
-  const item = galleryItems.find(i => i.id === id);
+interface PageProps {
+  params: Promise<{ id: string }>
+}
 
-  if (!item) {
-    notFound();
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params
+  const album = await getGalleryAlbum(id)
+  if (!album) {
+    return { title: "Álbum no encontrado" }
   }
 
-  const ratioClass = RATIO_CLASS[item.ratio ?? "4/3"];
+  const description =
+    album.description ||
+    `${album.photosCount} fotografías de ${album.category.toLowerCase()} en la EST 118.`
+  const url = `${getSiteUrl()}/galeria/${album.slug || album.id}`
+  const image = album.cover ?? `${getSiteUrl()}/background4.png`
+
+  return {
+    title: album.title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      title: album.title,
+      description,
+      siteName: "EST 118",
+      locale: "es_MX",
+      images: [{ url: image, alt: album.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: album.title,
+      description,
+      images: [image],
+    },
+  }
+}
+
+export default async function GaleriaAlbumPage({ params }: PageProps) {
+  const { id } = await params
+  const album = await getGalleryAlbum(id)
+  if (!album) notFound()
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-surface-muted to-surface-elevated">
-      {/* Slim top header */}
-      <section className="public-hero-offset relative bg-linear-to-r from-brand-900 via-brand-700 to-brand-900 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/background4.png')] bg-cover bg-center opacity-20" />
-        <div className="absolute inset-0 bg-linear-to-t from-brand-900/90 to-brand-700/70" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-32 md:min-h-40 flex items-end pb-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-public-on-media"
-          >
-            <Link href="/galeria" className="text-public-on-media-muted hover:text-public-on-media text-sm mb-2 inline-flex items-center gap-1">
-              ← Back to Gallery
-            </Link>
-            <div className="flex items-center gap-3 mt-1">
-              <span className="inline-block bg-accent-gold text-foreground px-3 py-1 rounded-full text-xs font-bold">
-                {item.category}
-              </span>
-              <h1 className="text-2xl md:text-3xl font-bold font-merriweather line-clamp-2">
-                {item.title}
-              </h1>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* 2-col content: image LEFT, description RIGHT */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex flex-col gap-8 md:flex-row md:items-start md:gap-10"
-        >
-          {/* LEFT — main image, adopts its natural ratio */}
-          <div className={`w-full md:w-[55%] md:shrink-0 overflow-hidden rounded-2xl shadow-xl relative ${ratioClass}`}>
-            <Image
-              src={item.image}
-              alt={item.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 55vw"
-              priority
-            />
+    <div className="min-h-screen bg-surface-app">
+      <BrandPageHero
+        size="md"
+        eyebrow="Galería"
+        title={album.title}
+        meta={
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-full border border-public-glass-border bg-public-glass px-2.5 py-0.5 font-sans text-[11px] font-semibold uppercase text-public-on-media">
+              {album.category}
+            </span>
+            <span className="font-mono text-[11px] text-public-on-media/80">
+              {album.photosCount} {album.photosCount === 1 ? "foto" : "fotos"}
+              {album.date ? ` · ${album.date}` : ""}
+            </span>
           </div>
-
-          {/* RIGHT — description panel */}
-          <div className="flex flex-1 flex-col gap-5">
-            {/* Meta */}
-            <div className="flex flex-wrap items-center gap-2 text-sm text-fg-muted">
-              <span>{item.date}</span>
-              {item.author && (
-                <>
-                  <span aria-hidden>·</span>
-                  <span>{item.author}</span>
-                </>
-              )}
-            </div>
-
-            {/* Decorative rule */}
-            <div className="h-[3px] w-10 rounded-full bg-accent-gold" />
-
-            {/* Description */}
-            <p className="text-base leading-relaxed text-foreground">
-              {item.description}
-            </p>
-
-            {/* Tags */}
-            {item.tags && item.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 pt-2">
-                {item.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full bg-primary-soft border border-border px-3 py-1 text-xs font-medium text-primary"
-                  >
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {/* Back link */}
-            <div className="mt-auto pt-6 border-t border-border">
-              <Link
-                href="/galeria"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-hover"
-              >
-                ← View more in gallery
-              </Link>
-            </div>
-          </div>
-        </motion.div>
-      </section>
+        }
+      />
+      <GalleryAlbumDetail album={album} />
     </div>
-  );
+  )
 }

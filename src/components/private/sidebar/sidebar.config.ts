@@ -195,29 +195,30 @@ export const menuItems: MenuItem[] = [
   // ── Comunicación ────────────────────────────────────────
   {
     name: 'Avisos',
-    icon: 'reports',
+    href: '/Announcement',
+    icon: 'megaphone',
     permission: 'create announcements',
     section: 'comunicacion',
     order: 70,
-    children: [
-      {
-        name: 'Lista de avisos',
-        href: '/Announcement',
-        icon: 'list',
-        permission: 'create announcements',
-        activeMatch: 'exact',
-      },
-      {
-        name: 'Crear aviso',
-        href: '/Announcement/create',
-        icon: 'add',
-        permission: 'create announcements',
-        activeMatch: 'exact',
-      },
-    ],
+    activeMatch: 'prefix',
+  },
+  {
+    name: 'Galerías',
+    href: '/Gallery',
+    icon: 'gallery',
+    permission: 'create galleries',
+    section: 'comunicacion',
+    order: 71,
+    activeMatch: 'prefix',
+  },
+  {
+    name: 'Eventos',
+    href: '/Event',
+    icon: 'calendarTime',
+    permission: 'create events',
+    section: 'comunicacion',
+    order: 72,
+    activeMatch: 'prefix',
   },
 
-  // ── Sistema ─────────────────────────────────────────────
-  // Futuro: Configuración (/configuracion), roles/permisos.
-  // Usuarios del sistema viven en sección Comunidad por ahora.
 ];
