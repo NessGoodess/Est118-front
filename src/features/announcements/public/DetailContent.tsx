@@ -1,117 +1,20 @@
 "use client"
 
 import { motion } from "framer-motion"
-import type {
-  AnnouncementExtended,
-  AnnouncementContentBlock,
-} from "@/features/announcements/types/announcement"
+import type { AnnouncementExtended } from "@/features/announcements/types/announcement"
 import Link from "next/link"
 import FacebookShareButton from "@/features/announcements/shared/FacebookShareButton"
 import FacebookComments from "@/features/announcements/public/FacebookComments"
 import FacebookPostEmbed from "@/features/announcements/public/FacebookPostEmbed"
+import ContentBlocks from "@/features/announcements/public/ContentBlocks"
 import { AnnouncementMediaImageDetail } from "@/features/announcements/shared/AnnouncementMediaImage"
 import { cardDisplayText } from "@/features/announcements/lib/announcement-display"
-import { IconByName } from "@/components/ui/icons"
 
 const RATIO_CLASS: Record<string, string> = {
   "4/3": "aspect-[4/3]",
   "3/4": "aspect-[3/4]",
   "4/4": "aspect-square",
   "16/9": "aspect-video",
-}
-
-function BlockParagraph({ block }: { block: Extract<AnnouncementContentBlock, { type: "paragraph" }> }) {
-  return (
-    <p className="text-[clamp(15px,1.3vw,17px)] font-light leading-relaxed text-fg-muted">
-      {block.text}
-    </p>
-  )
-}
-
-function BlockList({ block }: { block: Extract<AnnouncementContentBlock, { type: "list" }> }) {
-  return (
-    <ul className="flex flex-col gap-2">
-      {block.items.map((item, i) => (
-        <li
-          key={i}
-          className="flex items-center gap-2.5 text-[clamp(14px,1.2vw,16px)] text-foreground"
-        >
-          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <IconByName name="check" className="h-3 w-3" />
-          </span>
-          {item}
-        </li>
-      ))}
-    </ul>
-  )
-}
-
-function BlockImage({ block }: { block: Extract<AnnouncementContentBlock, { type: "image" }> }) {
-  const imgClass =
-    "h-auto max-h-[min(70vh,720px)] w-auto max-w-full rounded-2xl object-contain drop-shadow-[0_20px_60px_rgba(13,17,23,0.12)]"
-
-  return (
-    <figure className="my-6 flex flex-col items-center">
-      <AnnouncementMediaImageDetail src={block.src} alt={block.alt} className={imgClass} />
-      {block.caption && (
-        <figcaption className="mt-2 text-center font-sans text-sm text-fg-muted">
-          {block.caption}
-        </figcaption>
-      )}
-    </figure>
-  )
-}
-
-function BlockVideo({ block }: { block: Extract<AnnouncementContentBlock, { type: "video" }> }) {
-  return (
-    <figure className="my-6 overflow-hidden rounded-2xl shadow-[0_20px_60px_rgba(13,17,23,0.12)]">
-      <div className="relative aspect-video w-full">
-        <video src={block.src} controls className="h-full w-full object-contain" />
-      </div>
-      {block.caption && (
-        <figcaption className="mt-2 text-center font-sans text-sm text-fg-muted">
-          {block.caption}
-        </figcaption>
-      )}
-    </figure>
-  )
-}
-
-function BlockYoutube({ block }: { block: Extract<AnnouncementContentBlock, { type: "youtube" }> }) {
-  return (
-    <figure className="my-6 overflow-hidden rounded-2xl shadow-[0_20px_60px_rgba(13,17,23,0.12)]">
-      <div className="relative aspect-video w-full">
-        <iframe
-          title="Video de YouTube"
-          src={`https://www.youtube.com/embed/${block.youtubeId}`}
-          className="absolute inset-0 h-full w-full"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
-      {block.caption && (
-        <figcaption className="mt-2 text-center font-sans text-sm text-fg-muted">
-          {block.caption}
-        </figcaption>
-      )}
-    </figure>
-  )
-}
-
-function ContentBlock({ block, index }: { block: AnnouncementContentBlock; index: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.06 }}
-    >
-      {block.type === "paragraph" && <BlockParagraph block={block} />}
-      {block.type === "list" && <BlockList block={block} />}
-      {block.type === "image" && <BlockImage block={block} />}
-      {block.type === "video" && <BlockVideo block={block} />}
-      {block.type === "youtube" && <BlockYoutube block={block} />}
-    </motion.div>
-  )
 }
 
 function HeroMedia({ announcement }: { announcement: AnnouncementExtended }) {
@@ -237,13 +140,7 @@ export default function AnnouncementDetailContent({
                 </p>
               ) : null}
 
-              {blocks.length > 0 ? (
-                <div className="space-y-6">
-                  {blocks.map((block, i) => (
-                    <ContentBlock key={i} block={block} index={i} />
-                  ))}
-                </div>
-              ) : null}
+              <ContentBlocks blocks={blocks} />
             </section>
           ) : null}
 

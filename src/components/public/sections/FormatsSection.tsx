@@ -42,7 +42,7 @@ export default function FormatsSection() {
         description="Descarga formatos y documentos oficiales de la escuela"
       />
 
-      <section className="sticky top-[var(--public-header-h-compact)] z-40 border-b border-border bg-surface-elevated/95 backdrop-blur-md shadow-sm">
+      <section className="sticky top-[var(--public-sticky-top)] z-40 border-b border-border bg-surface-elevated/95 shadow-sm backdrop-blur-md transition-[top] duration-[280ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-2">
             {CATEGORIES.map((category) => (

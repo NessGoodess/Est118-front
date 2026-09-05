@@ -11,6 +11,11 @@ function apiRemotePatterns(): NonNullable<NextConfig["images"]>["remotePatterns"
       hostname: "img.youtube.com",
       pathname: "/**",
     },
+    {
+      protocol: "https",
+      hostname: "images.unsplash.com",
+      pathname: "/**",
+    },
   ];
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL;

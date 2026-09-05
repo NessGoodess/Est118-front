@@ -320,6 +320,58 @@ function PreviewContentBlock({ block }: { block: AnnouncementContentBlock }) {
     )
   }
 
+  if (block.type === "gallery") {
+    const images = block.images.filter((image) => image.src.trim())
+    if (!images.length) return null
+    return (
+      <figure className="space-y-2">
+        {block.title ? (
+          <figcaption className="text-xs font-semibold text-foreground">
+            {block.title}
+            <span className="ml-2 font-mono text-[11px] font-normal text-fg-muted">
+              {images.length} {images.length === 1 ? "foto" : "fotos"} ·{" "}
+              {block.layout === "grid" ? "cuadrícula" : "carrusel"}
+            </span>
+          </figcaption>
+        ) : null}
+        <div
+          className={
+            block.layout === "grid"
+              ? "grid grid-cols-3 gap-2"
+              : "flex gap-2 overflow-x-auto pb-1"
+          }
+        >
+          {images.map((image, i) => (
+            /* eslint-disable-next-line @next/next/no-img-element -- arbitrary URLs in admin preview */
+            <img
+              key={i}
+              src={image.src}
+              alt={image.alt || ""}
+              className={`rounded-lg object-cover ${
+                block.layout === "grid" ? "aspect-square w-full" : "h-24 w-36 shrink-0"
+              }`}
+            />
+          ))}
+        </div>
+        {block.caption ? (
+          <p className="text-center text-xs text-fg-muted">{block.caption}</p>
+        ) : null}
+      </figure>
+    )
+  }
+
+  if (block.type === "gallery_ref") {
+    if (!block.galleryId) return null
+    return (
+      <p className="flex items-center gap-2 rounded-lg border border-dashed border-border px-3 py-3 text-xs text-fg-muted">
+        <IconByName name="gallery" className="h-4 w-4 shrink-0 text-primary" />
+        Se insertará el álbum vinculado
+        {block.title ? ` como «${block.title}»` : ""} en{" "}
+        {block.layout === "grid" ? "cuadrícula" : "carrusel"}.
+      </p>
+    )
+  }
+
   if (block.type === "youtube" && block.youtubeId.trim()) {
     return (
       <figure className="overflow-hidden rounded-xl border border-border">

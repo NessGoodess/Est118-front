@@ -5,13 +5,14 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { IconByName } from "@/components/ui/icons";
 import { useAdmissionPublicStatus } from "@/features/admissions/context/admission-public-status-context";
+import { PUBLIC_WORKSHOPS } from "@/features/school";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
 const FACTS = [
   "Fundada en 1984",
-  "Educación pública",
-  "Oaxaca de Juárez",
+  "4 talleres técnicos",
+  "Los Ríos, Oaxaca",
 ];
 
 export default function HeroWelcome() {
@@ -41,9 +42,28 @@ export default function HeroWelcome() {
           transition={{ duration: 0.7, ease }}
           className="max-w-3xl text-public-on-media"
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-public-glass-border bg-public-glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-public-on-media/90 backdrop-blur-sm">
-            IEEPO · Oaxaca
-          </span>
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="inline-flex items-center gap-2 rounded-full border border-public-glass-border bg-public-glass px-2.5 py-1 backdrop-blur-sm">
+              <Image
+                src="/Logo_IEEPO.png"
+                alt="IEEPO"
+                width={28}
+                height={28}
+                className="h-7 w-auto object-contain"
+              />
+              <span className="h-5 w-px bg-public-glass-border" aria-hidden />
+              <Image
+                src="/Logo_EST118.png"
+                alt="EST 118"
+                width={28}
+                height={28}
+                className="h-7 w-auto object-contain"
+              />
+            </div>
+            <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-public-on-media/80 sm:text-xs">
+              CCT 09DST0118V · IEEPO
+            </span>
+          </div>
 
           <h1 className="mt-4 font-merriweather text-[clamp(1.75rem,5vw,3.75rem)] font-bold leading-[1.1] drop-shadow-lg sm:mt-6">
             Escuela Secundaria
@@ -51,9 +71,23 @@ export default function HeroWelcome() {
           </h1>
 
           <p className="mt-4 max-w-xl text-base leading-relaxed text-public-on-media/85 drop-shadow sm:mt-6 sm:text-lg lg:text-xl">
-            Formación técnica y académica para las nuevas generaciones de la
-            ciudad de Oaxaca.
+            Secundaria pública con cuatro talleres de formación técnica en
+            Fraccionamiento los Ríos, Oaxaca de Juárez.
           </p>
+
+          <ul className="mt-4 flex flex-wrap gap-2">
+            {PUBLIC_WORKSHOPS.map((workshop) => (
+              <li key={workshop.id}>
+                <a
+                  href="#talleres"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-public-glass-border bg-public-glass px-3 py-1 text-xs font-semibold text-public-on-media/90 backdrop-blur-sm transition-colors hover:border-public-cta hover:text-public-cta"
+                >
+                  <IconByName name={workshop.icon} className="h-3.5 w-3.5" />
+                  {workshop.shortName}
+                </a>
+              </li>
+            ))}
+          </ul>
 
           <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:items-center">
             <Link href="/inscripciones" className="sm:w-auto">
@@ -78,7 +112,7 @@ export default function HeroWelcome() {
             </motion.a>
           </div>
 
-          <ul className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-public-on-media-muted sm:mt-8">
+          <ul className="mt-6 hidden flex-wrap items-center gap-x-6 gap-y-2 text-sm text-public-on-media-muted sm:mt-8 sm:flex">
             {FACTS.map((fact) => (
               <li key={fact} className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-public-cta" />
@@ -90,8 +124,8 @@ export default function HeroWelcome() {
       </div>
 
       <motion.a
-        href="#notices"
-        aria-label="Desplazarse a avisos"
+        href="#identidad"
+        aria-label="Desplazarse a identidad estudiantil"
         className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 text-public-on-media/80 transition-colors hover:text-public-on-media sm:bottom-6"
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}

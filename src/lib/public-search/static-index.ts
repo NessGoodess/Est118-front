@@ -6,7 +6,7 @@ import {
   ADMISSION_FACEBOOK_URL,
   ADMISSION_REQUIRED_DOCUMENTS,
 } from "@/features/admissions/public/content/admission-requirements";
-import { eventItems, galleryItems } from "@/lib/data/mockData";
+import { PUBLIC_WORKSHOPS } from "@/features/school";
 import type { PublicSearchItem } from "./types";
 
 const EXCLUDED_HREFS = new Set(["/login", "/verificar-email"]);
@@ -53,11 +53,32 @@ export function buildStaticPublicSearchIndex(): PublicSearchItem[] {
       keywords: "escuela secundaria técnica 118 oaxaca bienvenida hero",
     },
     {
+      id: "section-identidad",
+      label: "Identidad estudiantil",
+      href: "/#identidad",
+      description: "Banners de la comunidad, los talleres y el plantel de la Técnica 118",
+      keywords: "identidad estudiantil banners comunidad talleres plantel",
+    },
+    {
       id: "section-notices",
       label: "Avisos y noticias",
       href: "/#notices",
       description: "Comunicados, avisos y noticias recientes de la escuela",
       keywords: "avisos noticias comunicados anuncios",
+    },
+    {
+      id: "section-talleres",
+      label: "Talleres de la Técnica 118",
+      href: "/#talleres",
+      description: "Informática, diseño industrial, confección del vestido y máquinas y control",
+      keywords: "talleres técnica especialidades informática diseño confección máquinas",
+    },
+    {
+      id: "section-vida",
+      label: "Vida en la técnica",
+      href: "/#vida",
+      description: "Fotos de talleres y próximas actividades escolares",
+      keywords: "galería vida técnica talleres eventos fotos",
     },
     {
       id: "section-ubicacion",
@@ -80,6 +101,19 @@ export function buildStaticPublicSearchIndex(): PublicSearchItem[] {
       item({
         ...section,
         type: "section",
+      })
+    );
+  }
+
+  for (const workshop of PUBLIC_WORKSHOPS) {
+    results.push(
+      item({
+        id: `workshop-${workshop.id}`,
+        label: workshop.name,
+        href: "/#talleres",
+        type: "page",
+        description: workshop.description,
+        keywords: `${workshop.shortName} taller especialidad técnica`,
       })
     );
   }
@@ -138,19 +172,6 @@ export function buildStaticPublicSearchIndex(): PublicSearchItem[] {
     );
   }
 
-  for (const gallery of galleryItems) {
-    results.push(
-      item({
-        id: `gallery-${gallery.id}`,
-        label: gallery.title,
-        href: `/galeria/${gallery.id}`,
-        type: "gallery",
-        description: gallery.description,
-        keywords: [gallery.category, gallery.author, ...(gallery.tags ?? [])].join(" "),
-      })
-    );
-  }
-
   results.push(
     item({
       id: "page-galeria",
@@ -161,19 +182,6 @@ export function buildStaticPublicSearchIndex(): PublicSearchItem[] {
       keywords: "galería fotos imágenes",
     })
   );
-
-  for (const evento of eventItems) {
-    results.push(
-      item({
-        id: `event-${evento.id}`,
-        label: evento.titulo,
-        href: `/eventos/${evento.id}`,
-        type: "event",
-        description: evento.descripcion,
-        keywords: [evento.tipo, evento.lugar, evento.fecha, evento.hora].join(" "),
-      })
-    );
-  }
 
   results.push(
     item({

@@ -52,7 +52,14 @@ export interface AnnouncementCardData {
 }
 
 /** Extended content blocks for the detail page */
-export type AnnouncementContentBlockType = "paragraph" | "list" | "image" | "video" | "youtube"
+export type AnnouncementContentBlockType =
+  | "paragraph"
+  | "list"
+  | "image"
+  | "video"
+  | "youtube"
+  | "gallery"
+  | "gallery_ref"
 
 export interface AnnouncementContentBlockParagraph {
   type: "paragraph"
@@ -83,12 +90,44 @@ export interface AnnouncementContentBlockYoutube {
   caption?: string
 }
 
+/** Layout used to render a set of photos inside a notice */
+export type AnnouncementGalleryLayout = "carousel" | "grid"
+
+export interface AnnouncementGalleryImage {
+  src: string
+  alt: string
+  caption?: string
+}
+
+export interface AnnouncementContentBlockGallery {
+  type: "gallery"
+  images: AnnouncementGalleryImage[]
+  layout: AnnouncementGalleryLayout
+  title?: string
+  caption?: string
+  /** Set when the block was hydrated from a linked album */
+  albumHref?: string
+}
+
+/**
+ * Reference to an existing album. Hydrated into a `gallery` block server-side
+ * so the public detail always renders real photos.
+ */
+export interface AnnouncementContentBlockGalleryRef {
+  type: "gallery_ref"
+  galleryId: number
+  layout: AnnouncementGalleryLayout
+  title?: string
+}
+
 export type AnnouncementContentBlock =
   | AnnouncementContentBlockParagraph
   | AnnouncementContentBlockList
   | AnnouncementContentBlockImage
   | AnnouncementContentBlockVideo
   | AnnouncementContentBlockYoutube
+  | AnnouncementContentBlockGallery
+  | AnnouncementContentBlockGalleryRef
 
 /** Extended notice for the detail page */
 export interface AnnouncementExtended extends AnnouncementCardData {

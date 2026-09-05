@@ -138,6 +138,8 @@
   --public-header-h: 140px;
   --public-header-h-compact: 72px;
   --public-header-offset: calc(var(--public-header-h) + 1rem);
+  /* Sticky toolbars: under compact header, or 0 when header hides (ScrollProvider). */
+  --public-sticky-top: var(--public-header-h-compact);
 }
 
 @media (max-width: 1023px) {

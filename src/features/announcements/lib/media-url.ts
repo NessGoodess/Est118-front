@@ -24,7 +24,14 @@ export function isTrustedAnnouncementMediaUrl(src: string | undefined | null): b
 
     if (trustedHost && host === trustedHost) return true
     if (LOCAL_API_HOSTS.has(host)) return true
-    if (url.pathname.includes("/storage/announcements/")) return true
+    if (host === "images.unsplash.com") return true
+    if (
+      url.pathname.includes("/storage/announcements/") ||
+      url.pathname.includes("/storage/galleries/") ||
+      url.pathname.includes("/storage/events/")
+    ) {
+      return true
+    }
 
     return false
   } catch {

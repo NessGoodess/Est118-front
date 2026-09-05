@@ -19,7 +19,7 @@ interface PublicHeaderSearchProps {
 async function fetchSearchResults(query: string): Promise<PublicSearchResult[]> {
   const response = await fetch(`/api/public-search?q=${encodeURIComponent(query)}`);
   if (!response.ok) {
-    return searchPublicContent(query, []);
+    return searchPublicContent(query);
   }
   const data = (await response.json()) as { results: PublicSearchResult[] };
   return data.results;

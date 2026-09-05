@@ -68,6 +68,18 @@ export function buildAnnouncementFormData(
           items: block.items.map((i) => i.trim()).filter(Boolean),
         }
       }
+      if (block.type === "gallery") {
+        return {
+          ...block,
+          images: block.images
+            .filter((image) => image.src.trim())
+            .map((image) => ({
+              src: image.src.trim(),
+              alt: image.alt.trim() || "Fotografía del aviso",
+              caption: image.caption?.trim() || undefined,
+            })),
+        }
+      }
       return block
     })
     .filter((block) => {
@@ -76,6 +88,8 @@ export function buildAnnouncementFormData(
       if (block.type === "image") return Boolean(block.src.trim() && block.alt.trim())
       if (block.type === "youtube") return Boolean(block.youtubeId.trim())
       if (block.type === "video") return Boolean(block.src.trim())
+      if (block.type === "gallery") return block.images.length > 0
+      if (block.type === "gallery_ref") return block.galleryId > 0
       return false
     })
 

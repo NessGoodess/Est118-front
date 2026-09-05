@@ -74,9 +74,9 @@ export default function Footer() {
                             <h3 className="text-lg font-semibold mb-4 text-public-cta">Enlaces Rápidos</h3>
                             <ul className="space-y-2">
                                 <li>
-                                    <a href="#inicio" className="text-public-on-media-muted hover:text-public-on-media transition-colors text-sm">
+                                    <Link href="#inicio" className="text-public-on-media-muted hover:text-public-on-media transition-colors text-sm">
                                         Inicio
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
                                     <Link href="/login" className="text-public-on-media-muted hover:text-public-on-media transition-colors text-sm">
@@ -94,14 +94,19 @@ export default function Footer() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <a href="#notices" className="text-public-on-media-muted hover:text-public-on-media transition-colors text-sm">
+                                    <Link href="#notices" className="text-public-on-media-muted hover:text-public-on-media transition-colors text-sm">
                                         Avisos y noticias
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="#eventos" className="text-public-on-media-muted hover:text-public-on-media transition-colors text-sm">
+                                    <Link href="/#talleres" className="text-public-on-media-muted hover:text-public-on-media transition-colors text-sm">
+                                        Talleres
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href="/eventos" className="text-public-on-media-muted hover:text-public-on-media transition-colors text-sm">
                                         Eventos
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>

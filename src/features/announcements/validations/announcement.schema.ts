@@ -37,6 +37,26 @@ const contentBlockSchema = z.discriminatedUnion("type", [
     youtubeId: z.string(),
     caption: z.string().optional(),
   }),
+  z.object({
+    type: z.literal("gallery"),
+    images: z.array(
+      z.object({
+        src: z.string(),
+        alt: z.string(),
+        caption: z.string().optional(),
+      })
+    ),
+    layout: z.enum(["carousel", "grid"]),
+    title: z.string().optional(),
+    caption: z.string().optional(),
+    albumHref: z.string().optional(),
+  }),
+  z.object({
+    type: z.literal("gallery_ref"),
+    galleryId: z.number(),
+    layout: z.enum(["carousel", "grid"]),
+    title: z.string().optional(),
+  }),
 ])
 
 // ─────────────────────────────────────────────

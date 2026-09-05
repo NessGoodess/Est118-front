@@ -500,6 +500,32 @@ export const AppIcons = {
       <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
     </Icon>
   ),
+  /** Expand to fullscreen / lightbox */
+  expand: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <path d="M15 3h6v6" />
+      <path d="M9 21H3v-6" />
+      <path d="M21 3l-7 7" />
+      <path d="M3 21l7-7" />
+    </Icon>
+  ),
+  /** Grid layout */
+  grid: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <rect width="7" height="7" x="3" y="3" rx="1" />
+      <rect width="7" height="7" x="14" y="3" rx="1" />
+      <rect width="7" height="7" x="14" y="14" rx="1" />
+      <rect width="7" height="7" x="3" y="14" rx="1" />
+    </Icon>
+  ),
+  /** Carousel / slides */
+  carousel: ({ className }: Pick<IconProps, "className">) => (
+    <Icon className={className}>
+      <rect width="10" height="14" x="7" y="5" rx="1.5" />
+      <path d="M3 7v10" />
+      <path d="M21 7v10" />
+    </Icon>
+  ),
   /** Megaphone / announcements */
   megaphone: ({ className }: Pick<IconProps, "className">) => (
     <Icon className={className}>

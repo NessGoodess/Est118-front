@@ -1,5 +1,7 @@
 import { getAnnouncementPublicPath } from "@/features/announcements/lib/urls";
 import type { AnnouncementRawItem } from "@/features/announcements/services/announcements.service";
+import type { GalleryRawItem } from "@/features/gallery/types/gallery";
+import type { EventRawItem } from "@/features/events/types/event";
 import { normalizeSearchText } from "./normalize";
 import { buildStaticPublicSearchIndex } from "./static-index";
 import type { PublicSearchItem, PublicSearchResult } from "./types";
@@ -39,6 +41,51 @@ function announcementToItem(announcement: AnnouncementRawItem): PublicSearchItem
   };
 }
 
+function galleryToItem(gallery: GalleryRawItem): PublicSearchItem {
+  const slugOrId = gallery.slug?.trim() || String(gallery.id)
+  const searchText = [
+    gallery.title,
+    gallery.category,
+    gallery.description,
+    "galería álbum fotos",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return {
+    id: `gallery-${gallery.id}`,
+    label: gallery.title,
+    href: `/galeria/${slugOrId}`,
+    type: "gallery",
+    description:
+      gallery.description ??
+      `${gallery.items_count ?? 0} fotos · ${gallery.category}`,
+    searchText,
+  };
+}
+
+function eventToItem(event: EventRawItem): PublicSearchItem {
+  const slugOrId = event.slug?.trim() || String(event.id)
+  const searchText = [
+    event.title,
+    event.type,
+    event.summary,
+    event.location,
+    "evento calendario actividad",
+  ]
+    .filter(Boolean)
+    .join(" ")
+
+  return {
+    id: `event-${event.id}`,
+    label: event.title,
+    href: `/eventos/${slugOrId}`,
+    type: "event",
+    description: event.summary ?? `${event.type}${event.location ? ` · ${event.location}` : ""}`,
+    searchText,
+  }
+}
+
 function scoreItem(item: PublicSearchItem, tokens: string[]): number {
   const haystack = normalizeSearchText(item.searchText);
   const label = normalizeSearchText(item.label);
@@ -65,9 +112,16 @@ export function getPublicSearchTypeLabel(type: PublicSearchResult["type"]): stri
   return TYPE_LABELS[type];
 }
 
+/** CMS content pulled from the API at request time. */
+export interface PublicSearchSources {
+  announcements?: AnnouncementRawItem[];
+  galleries?: GalleryRawItem[];
+  events?: EventRawItem[];
+}
+
 export function searchPublicContent(
   query: string,
-  announcements: AnnouncementRawItem[] = [],
+  sources: PublicSearchSources = {},
   limit = 12
 ): PublicSearchResult[] {
   const normalizedQuery = normalizeSearchText(query);
@@ -76,9 +130,12 @@ export function searchPublicContent(
   const tokens = normalizedQuery.split(/\s+/).filter(Boolean);
   if (tokens.length === 0) return [];
 
-  const staticItems = buildStaticPublicSearchIndex();
-  const announcementItems = announcements.map(announcementToItem);
-  const allItems = [...staticItems, ...announcementItems];
+  const allItems = [
+    ...buildStaticPublicSearchIndex(),
+    ...(sources.announcements ?? []).map(announcementToItem),
+    ...(sources.galleries ?? []).map(galleryToItem),
+    ...(sources.events ?? []).map(eventToItem),
+  ];
 
   const ranked = allItems
     .map((item) => ({ item, score: scoreItem(item, tokens) }))

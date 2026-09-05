@@ -1,10 +1,15 @@
 ﻿"use client";
 
 import type { AnnouncementContentBlock } from "@/features/announcements/types/announcement";
+import type { MediaCollection } from "@/features/media";
+import GalleryBlockEditor from "./GalleryBlockEditor";
+import GalleryRefBlockEditor from "./GalleryRefBlockEditor";
 
 type Props = {
   value: AnnouncementContentBlock[];
   onChange: (blocks: AnnouncementContentBlock[]) => void;
+  /** Storage folder for photos uploaded in gallery blocks. */
+  mediaCollection?: MediaCollection;
 };
 
 const emptyParagraph = (): AnnouncementContentBlock => ({
@@ -30,7 +35,26 @@ const emptyImage = (): AnnouncementContentBlock => ({
   caption: "",
 });
 
-export default function ContentBlocksEditor({ value, onChange }: Props) {
+const emptyGallery = (): AnnouncementContentBlock => ({
+  type: "gallery",
+  images: [],
+  layout: "carousel",
+  title: "",
+  caption: "",
+});
+
+const emptyGalleryRef = (): AnnouncementContentBlock => ({
+  type: "gallery_ref",
+  galleryId: 0,
+  layout: "carousel",
+  title: "",
+});
+
+export default function ContentBlocksEditor({
+  value,
+  onChange,
+  mediaCollection = "announcements",
+}: Props) {
   const blocks = value ?? [];
 
   const updateAt = (index: number, next: AnnouncementContentBlock) => {
@@ -79,6 +103,20 @@ export default function ContentBlocksEditor({ value, onChange }: Props) {
         </button>
         <button
           type="button"
+          onClick={() => onChange([...blocks, emptyGallery()])}
+          className="rounded-full border border-border bg-surface-elevated px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-primary-soft"
+        >
+          + Galería de fotos
+        </button>
+        <button
+          type="button"
+          onClick={() => onChange([...blocks, emptyGalleryRef()])}
+          className="rounded-full border border-border bg-surface-elevated px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-primary-soft"
+        >
+          + Vincular álbum
+        </button>
+        <button
+          type="button"
           onClick={() => onChange([...blocks, emptyYoutube()])}
           className="rounded-full border border-border bg-surface-elevated px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-primary-soft"
         >
@@ -105,6 +143,11 @@ export default function ContentBlocksEditor({ value, onChange }: Props) {
               {block.type === "image" && "Imagen"}
               {block.type === "youtube" && "YouTube"}
               {block.type === "video" && "Video"}
+              {block.type === "gallery" &&
+                `Galería · ${block.images?.length ?? 0} ${
+                  (block.images?.length ?? 0) === 1 ? "foto" : "fotos"
+                }`}
+              {block.type === "gallery_ref" && "Álbum vinculado"}
             </span>
             <div className="flex gap-1">
               <button
@@ -209,6 +252,21 @@ export default function ContentBlocksEditor({ value, onChange }: Props) {
                 placeholder="Leyenda (opcional)"
               />
             </div>
+          )}
+
+          {block.type === "gallery" && (
+            <GalleryBlockEditor
+              block={block}
+              collection={mediaCollection}
+              onChange={(next) => updateAt(index, next)}
+            />
+          )}
+
+          {block.type === "gallery_ref" && (
+            <GalleryRefBlockEditor
+              block={block}
+              onChange={(next) => updateAt(index, next)}
+            />
           )}
         </div>
       ))}

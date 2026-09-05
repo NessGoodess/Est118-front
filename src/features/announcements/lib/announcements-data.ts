@@ -1,6 +1,5 @@
-﻿import type {
-  AnnouncementExtended,
-} from "@/features/announcements/types/announcement"
+﻿import type { AnnouncementExtended } from "@/features/announcements/types/announcement"
+import { hydrateGalleryRefs } from "@/features/gallery/lib/hydrate-gallery-refs"
 import type { AnnouncementFormValues } from "@/features/announcements/validations/announcement.schema"
 import {
   headerFromType,
@@ -100,5 +99,11 @@ export async function getAnnouncementExtendedByIdOrSlug(
   idOrSlug: string
 ): Promise<AnnouncementExtended | null> {
   const all = await getAnnouncementsExtended()
-  return all.find((a) => a.id === idOrSlug || a.slug === idOrSlug) ?? null
+  const announcement = all.find((a) => a.id === idOrSlug || a.slug === idOrSlug)
+  if (!announcement) return null
+
+  return {
+    ...announcement,
+    contentBlocks: await hydrateGalleryRefs(announcement.contentBlocks),
+  }
 }
